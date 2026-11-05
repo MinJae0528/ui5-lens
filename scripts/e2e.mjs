@@ -25,7 +25,7 @@ async function type(page, text) {
   await page.fill('#q', text);
   // 디바운스가 끝나 검색어가 확정(URL 반영)되고 "검색 중…" 이 사라질 때까지 대기
   await page.waitForFunction((t) => new URLSearchParams(location.hash.replace(/^#\??/, '')).get('q') === t && !document.querySelector('.search-status')?.textContent.includes('검색 중'), text, { timeout: 5000 });
-  await page.waitForSelector('#cands .card, .empty', { timeout: 5000 });
+  await page.waitForSelector('#cands .card, .empty, .rec-list .rec', { timeout: 5000 });
 }
 async function inl(page, text) {
   await page.fill('.inline-search', text);
@@ -34,7 +34,7 @@ async function inl(page, text) {
 
 // ---- 1. 검색 전 상태
 let page = await fresh();
-check('검색 전: 안내와 한국어 지원 범위 표시', (await page.textContent('.intro')).includes('한국어 상세 설명이 준비된 API'));
+check('검색 전: 안내와 한국어 지원 범위 표시', (await page.textContent('.detail-empty .landing')).includes('한국어 설명이 준비된 API'));
 check('범위 칩에 버전·개수 표시', /1\.154/.test(await page.textContent('.scope-chip')));
 check('버전 선택: 호스팅된 31개 버전', (await page.$$eval('#ver option', (o) => o.length)) === 31);
 await shot(page, '01-initial');
@@ -68,7 +68,7 @@ check('짧은 이름 Dialog → sap.m.Dialog 상단', list.slice(0, 3).includes(
 
 // ---- 4. 없는 API
 await type(page, 'ZzzNotAnApi');
-check('결과 없음 상태: 안내 표시, 후보 0개', (await page.textContent('.empty')).includes('지원 범위 안에 없습니다') && (await names(page)).length === 0);
+check('결과 없음 상태: 안내 표시, 후보 0개', (await page.textContent('.empty')).includes('지원 범위 안에 없고') && (await names(page)).length === 0);
 await shot(page, '03-empty');
 
 // ---- 5. 상세: 섞임 없음
@@ -305,13 +305,10 @@ await page.waitForFunction(() => document.querySelector('.scope-chip')?.textCont
 check('1.120 에서는 기준(1.154)과 달라 경고', (await page.textContent('.tab-body')).includes('달라서 재검토가 필요'));
 await page.context().close();
 
-// ---- 17. 기능으로 찾기(추천)
+// ---- 17. 통합 검색: 이름이 없으면 기능 설명으로 해석해 추천
 page = await fresh();
-await page.click('role=tab[name=/^기능으로 찾기/]');
-await page.waitForSelector('#ask');
-check('기능으로 찾기: 모드 전환, URL(mode=ask) 반영', (await page.evaluate(() => location.hash)).includes('mode=ask'));
-await page.fill('#ask', '댓글을 다는 기능을 추가하고 싶어');
-await page.press('#ask', 'Enter');
+check('모드 탭이 없음(검색창 하나로 이름·기능 모두)', (await page.$$('.mode-tabs')).length === 0 && await page.isVisible('#q'));
+await type(page, '댓글을 다는 기능을 추가하고 싶어');
 await page.waitForSelector('.rec-list .rec');
 const recs = await page.$$eval('.rec-list .rec .card-name', (e) => e.map((x) => x.textContent.replace(/^\d+/, '')));
 check('추천: 기본 3개만 표시', recs.length === 3, recs.join(', '));
@@ -319,28 +316,71 @@ check('추천: 댓글 → FeedInput, FeedListItem 계열이 상위', recs.includ
 const why = await page.textContent('.rec-list .rec .reasons');
 check('추천: “왜 추천?” 근거(공식 용어와 위치) 표시', why.includes('왜 추천') && why.includes('이름'));
 check('추천: 질문 해석(댓글 → feed …) 공개', (await page.textContent('.interp')).includes('댓글') && (await page.textContent('.interp')).includes('feed'));
+check('추천: AI 아님·보증 안 함·자체 평가 정확도를 함께 표시', await (async () => { const t = await page.textContent('.rec-sec'); return t.includes('AI 아님') && t.includes('보증하지 않') && /\d+%/.test(t); })());
 check('추천: 더 보기로 8개까지', await (async () => { await page.click('text=더 보기'); return (await page.$$('.rec-list .rec')).length === 8; })());
-check('추천: URL 에 질문 보존', decodeURIComponent(await page.evaluate(() => location.hash)).includes('ask=댓글'));
 await page.click('.rec-list .rec >> nth=0');
 await page.waitForSelector('.api-name');
 check('추천 카드 선택 → 해당 API 상세 열림', (await page.textContent('.api-name')) === recs[0]);
-await shot(page, '15-ask');
-await page.reload();
-await page.waitForSelector('.rec-list .rec');
-check('새로고침 후에도 추천 모드·질문·결과 유지', (await page.$$('.rec-list .rec')).length >= 3 && (await page.inputValue('#ask')).includes('댓글'));
-await page.click('role=tab[name=/^이름으로/]');
-await page.waitForSelector('#q');
-check('이름으로 찾기 복귀', await page.isVisible('#q'));
 await page.context().close();
 
 page = await fresh();
-await page.goto(URL_ + '#?v=1.154&mode=ask&ask=' + encodeURIComponent('ㅁㄴㅇㄹ'));
+await type(page, 'Table');
+check('이름이 정확히 있으면 추천 상자를 띄우지 않음(이름 검색 우선)', (await page.$$('.rec-sec')).length === 0 && (await page.$$('.card')).length > 0);
+await page.context().close();
+
+page = await fresh();
+await type(page, 'ㅁㄴㅇㄹ');
 await page.waitForSelector('.empty');
-check('해석 못 하는 질문: 지어내지 않고 안내', (await page.textContent('.empty')).includes('지어내서 추천하지 않습니다') && (await page.$$('.rec')).length === 0);
-await page.goto(URL_ + '#?v=1.71&mode=ask&ask=' + encodeURIComponent('날짜를 고르고 싶어'));
+check('해석 못 하는 질문: 지어내지 않고 안내', (await page.textContent('.empty')).includes('만들어 보여 주지 않습니다') && (await page.$$('.rec')).length === 0);
+await page.context().close();
+
+page = await fresh();
+await page.goto(URL_ + '#?v=1.71&q=' + encodeURIComponent('날짜를 고르고 싶어'));
 await page.waitForSelector('.rec-list .rec');
 check('다른 버전(1.71)에서도 그 버전 자료로 추천', (await page.textContent('.rec-list')).includes('DatePicker'));
 await page.context().close();
+
+// ---- 18. 첫 화면·한눈에 보기·표기
+page = await fresh();
+check('첫 화면(데스크톱): 오른쪽에 시작 안내와 예시, 소개', await page.isVisible('.detail-empty .landing') && (await page.textContent('.detail-empty .about')).includes('학습자용') && (await page.textContent('.detail-empty .about')).includes('Demo Kit'));
+check('첫 화면: 자체 평가 정확도 공개', /자체 평가에서 새 질문 \d+개 중 \d+%/.test(await page.textContent('.detail-empty .about')));
+await page.click('.detail-empty .chip >> nth=0');
+await page.waitForSelector('.rec-list .rec');
+check('첫 화면 예시 클릭 → 바로 추천 결과', (await page.$$('.rec-list .rec')).length === 3);
+await page.goto(URL_ + '#?v=1.154&q=Table&api=sap.m.Table');
+await page.waitForSelector('.glance');
+const gl = await page.textContent('.glance');
+check('상세 맨 위 한눈에 보기: “1.154 에서 사용 가능”과 31개 점', gl.includes('1.154 에서 사용 가능') && (await page.$$('.glance .dot')).length === 31);
+await page.click('.glance .dot >> nth=3');
+await page.waitForFunction(() => !document.querySelector('.scope-chip')?.textContent.includes('1.154.'));
+check('점을 누르면 그 버전으로 전환', !(await page.textContent('.scope-chip')).includes('1.154.'));
+await page.goto(URL_ + '#?v=1.154&q=Table&api=sap.m.Table&tab=versions');
+await page.waitForSelector('.life-list');
+const vt = await page.textContent('.tab-body');
+check('클래스 버전 탭: 도입 표기(≤ 또는 정확한 도입)와 계산값 고지', (vt.includes('≤') || vt.includes('에서 도입') || vt.includes('사이에 도입')) && vt.includes('Lens 가 버전끼리 비교해 계산'));
+await page.goto(URL_ + '#?v=1.154&q=Table&api=sap.m.Table&tab=property&mq=autoPopinMode');
+await page.waitForSelector('.member-head');
+await page.click('.member-head >> nth=0');
+await page.waitForSelector('.life .life-list');
+const lt = await page.textContent('.life');
+check('멤버: autoPopinMode 는 1.71(없음)·1.84(있음) 사이 도입으로 표기(그 사이 버전은 서버에 없음)', lt.includes('사이에 도입') && lt.includes('1.71') && lt.includes('1.84'), lt.slice(0, 220));
+await page.goto(URL_ + '#?v=1.154&q=Table&api=sap.m.Table&tab=method&mq=enhanceAccessibilityState');
+await page.context().close();
+
+// 모바일: 탭은 한 줄(가로 스크롤), 머리글은 낮게
+{
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 800 } });
+  const mp = await ctx.newPage();
+  await mp.goto(URL_ + '#?v=1.154&q=Table&api=sap.m.Table');
+  await mp.waitForSelector('.glance');
+  const tabsH = await mp.$eval('.tabs', (e) => e.getBoundingClientRect().height);
+  const topH = await mp.$eval('.top', (e) => e.getBoundingClientRect().height);
+  check('모바일: 탭이 한 줄(높이 70px 이하)', tabsH <= 70, `${tabsH}`);
+  check('모바일: 머리글이 낮음(높이 70px 이하)', topH <= 70, `${topH}`);
+  const noScroll = await mp.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
+  check('모바일: 가로 스크롤 없음', noScroll);
+  await ctx.close();
+}
 
 await browser.close();
 const failed = results.filter((r) => !r.ok);

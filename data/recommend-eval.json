@@ -1,0 +1,909 @@
+{
+ "note": "기능 추천 평가 세트. 질문은 점수 규칙·사전을 이 세트에 맞춰 고치기 전에 작성했다. split=dev 는 튜닝에 써도 되고, split=test 는 튜닝에 쓰지 않고 최종 보고에만 쓴다. expect 는 '상위 3개 안에 하나라도 있으면 적중'인 정답 후보(여러 정답 허용, 접두 일치).",
+ "cases": [
+  {
+   "q": "버튼을 만들고 싶어",
+   "expect": [
+    "sap.m.Button"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "글자를 입력받는 칸",
+   "expect": [
+    "sap.m.Input",
+    "sap.m.TextArea"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "비밀번호 입력",
+   "expect": [
+    "sap.m.Input"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "여러 줄 메모 입력",
+   "expect": [
+    "sap.m.TextArea"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "숫자만 입력하게 하고 싶어",
+   "expect": [
+    "sap.m.StepInput",
+    "sap.m.Input"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "날짜 선택 달력 띄우기",
+   "expect": [
+    "sap.m.DatePicker"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "시작일과 종료일 고르기",
+   "expect": [
+    "sap.m.DateRangeSelection"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "시간 입력",
+   "expect": [
+    "sap.m.TimePicker"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "목록에서 하나를 고르는 드롭다운",
+   "expect": [
+    "sap.m.Select",
+    "sap.m.ComboBox"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "여러 개를 동시에 선택",
+   "expect": [
+    "sap.m.MultiComboBox",
+    "sap.m.MultiInput"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "예 아니오 체크하는 상자",
+   "expect": [
+    "sap.m.CheckBox"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "여러 보기 중 하나만 선택하는 동그라미",
+   "expect": [
+    "sap.m.RadioButton",
+    "sap.m.RadioButtonGroup"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "켜고 끄는 스위치",
+   "expect": [
+    "sap.m.Switch"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "값을 막대로 조절",
+   "expect": [
+    "sap.m.Slider"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "표로 데이터 보여주기",
+   "expect": [
+    "sap.m.Table",
+    "sap.ui.table.Table"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "수만 건의 데이터를 스크롤하며 보는 그리드",
+   "expect": [
+    "sap.ui.table.Table"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "모바일에서도 보기 좋은 반응형 테이블",
+   "expect": [
+    "sap.m.Table"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "항목을 나열하는 리스트",
+   "expect": [
+    "sap.m.List"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "계층 구조 폴더처럼 펼치기",
+   "expect": [
+    "sap.m.Tree",
+    "sap.ui.table.TreeTable"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "화면 위쪽에 탭 메뉴",
+   "expect": [
+    "sap.m.IconTabBar",
+    "sap.m.TabContainer"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "다른 화면으로 이동하기",
+   "expect": [
+    "sap.m.NavContainer",
+    "sap.ui.core.routing.Router",
+    "sap.m.App"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "주소 URL에 따라 화면 바꾸기",
+   "expect": [
+    "sap.ui.core.routing.Router",
+    "sap.m.routing.Router"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "팝업 창으로 안내하기",
+   "expect": [
+    "sap.m.Dialog",
+    "sap.m.Popover"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "정말 삭제할까요 확인 대화상자",
+   "expect": [
+    "sap.m.MessageBox"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "작업이 끝났다고 잠깐 알려주기",
+   "expect": [
+    "sap.m.MessageToast",
+    "sap.m.MessageStrip"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "오류 메시지 목록 보여주기",
+   "expect": [
+    "sap.m.MessagePopover",
+    "sap.m.MessageView",
+    "sap.ui.core.message"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "로딩 중 빙글빙글",
+   "expect": [
+    "sap.m.BusyIndicator",
+    "sap.m.BusyDialog"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "진행 퍼센트 막대",
+   "expect": [
+    "sap.m.ProgressIndicator"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "별점 주기",
+   "expect": [
+    "sap.m.RatingIndicator"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "이미지를 보여주기",
+   "expect": [
+    "sap.m.Image"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "사진을 좌우로 넘겨 보기",
+   "expect": [
+    "sap.m.Carousel"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "아이콘 넣기",
+   "expect": [
+    "sap.ui.core.Icon",
+    "sap.ui.core.IconPool"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "프로필 사진 동그랗게",
+   "expect": [
+    "sap.m.Avatar"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "파일을 선택해서 서버로 올리기",
+   "expect": [
+    "sap.ui.unified.FileUploader",
+    "sap.m.upload.UploadSet",
+    "sap.m.UploadCollection"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "검색어를 입력하는 검색창",
+   "expect": [
+    "sap.m.SearchField"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "입력하면 자동완성으로 추천",
+   "expect": [
+    "sap.m.Input",
+    "sap.m.SuggestionItem",
+    "sap.m.SearchField"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "목록을 조건으로 걸러내기",
+   "expect": [
+    "sap.ui.model.Filter",
+    "sap.m.FacetFilter",
+    "sap.m.ViewSettingsDialog"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "오름차순 내림차순 정렬",
+   "expect": [
+    "sap.ui.model.Sorter",
+    "sap.m.ViewSettingsDialog"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "데이터를 화면 컨트롤에 연결",
+   "expect": [
+    "sap.ui.model.json.JSONModel",
+    "sap.ui.model.Model",
+    "sap.ui.model.Binding"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "제이슨 데이터 모델",
+   "expect": [
+    "sap.ui.model.json.JSONModel"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "서버 OData 서비스에서 데이터 읽기",
+   "expect": [
+    "sap.ui.model.odata.v2.ODataModel",
+    "sap.ui.model.odata.v4.ODataModel"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "다국어 문구 파일 사용",
+   "expect": [
+    "sap.ui.model.resource.ResourceModel",
+    "sap.base.i18n.ResourceBundle"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "금액을 통화 형식으로 보여주기",
+   "expect": [
+    "sap.ui.model.type.Currency",
+    "sap.ui.core.format.NumberFormat",
+    "sap.ui.unified.Currency"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "날짜를 원하는 모양으로 포맷",
+   "expect": [
+    "sap.ui.core.format.DateFormat",
+    "sap.ui.model.type.Date"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "입력값이 올바른지 검사",
+   "expect": [
+    "sap.ui.model.type",
+    "sap.ui.core.message",
+    "sap.ui.model.Validator"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "입력 항목들을 폼으로 정리",
+   "expect": [
+    "sap.ui.layout.form.SimpleForm",
+    "sap.ui.layout.form.Form"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "화면을 격자로 배치",
+   "expect": [
+    "sap.ui.layout.Grid",
+    "sap.ui.layout.VerticalLayout",
+    "sap.m.FlexBox"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "가로로 나란히 배치",
+   "expect": [
+    "sap.m.HBox",
+    "sap.m.FlexBox",
+    "sap.ui.layout.HorizontalLayout"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "접었다 펼치는 영역",
+   "expect": [
+    "sap.m.Panel",
+    "sap.uxap.ObjectPageSection"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "단계별로 입력하는 마법사",
+   "expect": [
+    "sap.m.Wizard"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "상세 화면 헤더와 섹션이 있는 오브젝트 페이지",
+   "expect": [
+    "sap.uxap.ObjectPageLayout"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "왼쪽 목록 오른쪽 상세 분할 화면",
+   "expect": [
+    "sap.m.SplitApp",
+    "sap.f.FlexibleColumnLayout",
+    "sap.m.SplitContainer"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "상단 도구 모음",
+   "expect": [
+    "sap.m.Toolbar",
+    "sap.m.OverflowToolbar",
+    "sap.m.Bar"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "클릭하면 나오는 메뉴",
+   "expect": [
+    "sap.m.Menu",
+    "sap.m.MenuButton"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "마우스 올리면 설명 말풍선",
+   "expect": [
+    "sap.ui.core.TooltipBase",
+    "sap.ui.commons.RichTooltip",
+    "sap.m.Popover"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "링크 걸기",
+   "expect": [
+    "sap.m.Link"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "카드 형태로 정보 보여주기",
+   "expect": [
+    "sap.f.Card",
+    "sap.ui.integration.widgets.Card"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "대시보드 타일",
+   "expect": [
+    "sap.m.GenericTile",
+    "sap.m.TileContent"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "막대 그래프 차트",
+   "expect": [
+    "sap.viz.ui5.controls.VizFrame",
+    "sap.chart.Chart",
+    "sap.suite.ui.microchart"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "댓글과 답글 달기",
+   "expect": [
+    "sap.m.FeedInput",
+    "sap.m.FeedListItem"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "시간 순서로 이력 보여주기",
+   "expect": [
+    "sap.suite.ui.commons.Timeline",
+    "sap.m.Timeline",
+    "sap.ui.webc.fiori.Timeline"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "아래로 당겨서 새로고침",
+   "expect": [
+    "sap.m.PullToRefresh"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "목록을 더 보기 버튼으로 이어서 불러오기",
+   "expect": [
+    "sap.m.List",
+    "sap.m.Table",
+    "sap.m.GrowingEnablement"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "dialog with buttons",
+   "expect": [
+    "sap.m.Dialog"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "date picker",
+   "expect": [
+    "sap.m.DatePicker"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "file upload",
+   "expect": [
+    "sap.ui.unified.FileUploader",
+    "sap.m.upload.UploadSet"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "message toast",
+   "expect": [
+    "sap.m.MessageToast"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "router navigation between views",
+   "expect": [
+    "sap.ui.core.routing.Router",
+    "sap.m.routing.Router",
+    "sap.m.NavContainer"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "busy indicator while loading",
+   "expect": [
+    "sap.m.BusyIndicator",
+    "sap.m.BusyDialog"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "responsive table with columns",
+   "expect": [
+    "sap.m.Table"
+   ],
+   "split": "test"
+  },
+  {
+   "q": "로그인 화면에서 아이디 쓰는 곳",
+   "expect": [
+    "sap.m.Input"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "생년월일 입력받기",
+   "expect": [
+    "sap.m.DatePicker"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "약관에 동의하는 체크",
+   "expect": [
+    "sap.m.CheckBox"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "성별 중에 고르기",
+   "expect": [
+    "sap.m.RadioButton",
+    "sap.m.RadioButtonGroup",
+    "sap.m.Select",
+    "sap.m.SegmentedButton",
+    "sap.m.ComboBox"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "주문 수량 늘리고 줄이기",
+   "expect": [
+    "sap.m.StepInput"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "회원 목록을 한 줄씩 보여주기",
+   "expect": [
+    "sap.m.List",
+    "sap.m.Table"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "상품 목록 표",
+   "expect": [
+    "sap.m.Table",
+    "sap.ui.table.Table"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "게시판에 글 올리고 댓글 보기",
+   "expect": [
+    "sap.m.FeedInput",
+    "sap.m.FeedListItem"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "메뉴 클릭하면 아래로 펼쳐지는 목록",
+   "expect": [
+    "sap.m.Menu",
+    "sap.m.MenuButton",
+    "sap.m.Select",
+    "sap.m.ComboBox"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "상단에 로고와 제목이 있는 바",
+   "expect": [
+    "sap.m.Bar",
+    "sap.tnt.ToolHeader",
+    "sap.f.ShellBar",
+    "sap.m.Toolbar",
+    "sap.m.Page"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "저장 버튼을 눌렀을 때 저장됐다고 보여주기",
+   "expect": [
+    "sap.m.MessageToast",
+    "sap.m.MessageStrip",
+    "sap.m.Button"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "서버에 요청하는 동안 화면 막기",
+   "expect": [
+    "sap.m.BusyDialog",
+    "sap.m.BusyIndicator",
+    "sap.ui.core.BusyIndicator"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "엑셀 파일 올리기",
+   "expect": [
+    "sap.ui.unified.FileUploader",
+    "sap.m.upload.UploadSet",
+    "sap.m.UploadCollection"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "한국어 영어 언어 바꾸기",
+   "expect": [
+    "sap.ui.model.resource.ResourceModel",
+    "sap.base.i18n.ResourceBundle",
+    "sap.ui.core.Locale",
+    "sap.base.i18n.Localization"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "월별 매출 그래프",
+   "expect": [
+    "sap.viz.ui5.controls.VizFrame",
+    "sap.chart.Chart",
+    "sap.suite.ui.microchart"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "한 화면에서 위 아래로 스크롤",
+   "expect": [
+    "sap.m.ScrollContainer",
+    "sap.m.Page",
+    "sap.ui.core.delegate.ScrollEnablement"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "현재 페이지 번호 이동",
+   "expect": [
+    "sap.m.Paginator",
+    "sap.m.PagingButton",
+    "sap.ui.commons.Paginator",
+    "sap.ui.unified.Pagination"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "사진 크게 보기 갤러리",
+   "expect": [
+    "sap.m.Carousel",
+    "sap.m.Image",
+    "sap.m.LightBox"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "이름 옆에 작은 상태 표시 뱃지",
+   "expect": [
+    "sap.m.ObjectStatus",
+    "sap.m.ObjectNumber",
+    "sap.m.ObjectAttribute",
+    "sap.m.ObjectMarker",
+    "sap.m.Tokenizer",
+    "sap.m.Token"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "로그아웃 같은 사용자 메뉴",
+   "expect": [
+    "sap.m.Menu",
+    "sap.m.Popover",
+    "sap.f.ShellBar",
+    "sap.m.ActionSheet"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "카드 여러 개를 격자로 놓기",
+   "expect": [
+    "sap.f.GridContainer",
+    "sap.f.Card",
+    "sap.ui.layout.Grid",
+    "sap.f.GridList"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "상세 정보를 오른쪽에서 슬라이드로",
+   "expect": [
+    "sap.f.FlexibleColumnLayout",
+    "sap.m.SplitApp",
+    "sap.m.Popover",
+    "sap.m.Dialog"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "제품 이름으로 검색 필터",
+   "expect": [
+    "sap.m.SearchField",
+    "sap.ui.model.Filter",
+    "sap.m.FacetFilter"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "글자 크기 굵게 같은 서식 있는 편집",
+   "expect": [
+    "sap.ui.richtexteditor.RichTextEditor",
+    "sap.m.FormattedText",
+    "sap.ui.codeeditor.CodeEditor"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "자바스크립트 코드 입력 편집기",
+   "expect": [
+    "sap.ui.codeeditor.CodeEditor"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "지도 위에 위치 표시",
+   "expect": [
+    "sap.ui.vbm.GeoMap",
+    "sap.ui.vbm.AnalyticMap",
+    "sap.ui.vbm.VBI",
+    "sap.ui.vbm.GeoMap"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "바코드 스캔",
+   "expect": [
+    "sap.ndc.BarcodeScannerButton",
+    "sap.ndc.BarcodeScanner"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "서명 그리기",
+   "expect": [
+    "sap.ui.richtexteditor",
+    "sap.m.SignaturePad"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "달력에서 일정 관리",
+   "expect": [
+    "sap.m.PlanningCalendar",
+    "sap.m.SinglePlanningCalendar",
+    "sap.ui.unified.Calendar"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "항목을 끌어서 순서 바꾸기",
+   "expect": [
+    "sap.ui.core.dnd",
+    "sap.ui.core.dnd.DragDropInfo",
+    "sap.m.List"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "오류가 났을 때 입력칸을 빨갛게",
+   "expect": [
+    "sap.m.Input",
+    "sap.ui.core.ValueState",
+    "sap.m.InputBase"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "모바일 화면 하단 탭 이동",
+   "expect": [
+    "sap.m.IconTabBar",
+    "sap.tnt.NavigationList",
+    "sap.m.TabContainer",
+    "sap.m.Page"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "단축키 지정",
+   "expect": [
+    "sap.ui.core.CommandExecution",
+    "sap.ui.core.Shortcut",
+    "sap.ui.core.Command"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "버튼에 아이콘 넣기",
+   "expect": [
+    "sap.m.Button",
+    "sap.ui.core.Icon"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "화면 크기가 바뀔 때 감지",
+   "expect": [
+    "sap.ui.Device",
+    "sap.ui.core.ResizeHandler",
+    "sap.ui.Device.resize"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "테마를 어둡게 바꾸기",
+   "expect": [
+    "sap.ui.core.Theming",
+    "sap.ui.core.Configuration"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "컨트롤에 css 클래스 추가",
+   "expect": [
+    "sap.ui.core.Control",
+    "sap.ui.core.Element",
+    "sap.ui.base.ManagedObject"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "Ajax로 서버에 데이터 보내기",
+   "expect": [
+    "sap.ui.model.odata.v2.ODataModel",
+    "sap.ui.model.json.JSONModel",
+    "jQuery"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "xml 뷰 만들기",
+   "expect": [
+    "sap.ui.core.mvc.XMLView",
+    "sap.ui.core.mvc.View"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "컨트롤러에서 이벤트 처리",
+   "expect": [
+    "sap.ui.core.mvc.Controller"
+   ],
+   "split": "fresh"
+  }
+ ]
+}

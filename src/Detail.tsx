@@ -76,6 +76,7 @@ export function Detail(p: Props) {
           <CopyButton text={doc.name} label="이름 복사" />
           <a className="btn small" href={doc.sourceUrl} target="_blank" rel="noreferrer noopener">공식 원문 ↗</a>
         </div>
+        <VersionGlance name={doc.name} g={p.g} current={p.vd.meta.minor} deprecated={doc.deprecated} since={doc.since} onVersion={p.onVersion} onMore={() => goTab('versions')} />
         {others.length > 0 && (
           <div className="siblings" aria-label="같은 검색어의 다른 후보">
             <span className="muted small">다른 후보:</span>
@@ -89,7 +90,7 @@ export function Detail(p: Props) {
         <TabBtn id="overview" cur={tab} onClick={goTab}>개요·구조</TabBtn>
         {MEMBER_TABS.map((k) => {
           const c = counts(k);
-          return <TabBtn key={k.id} id={k.id} cur={tab} onClick={goTab}>{k.label} <small>{k.en} · {c.own}{c.merged > c.own ? `+${c.merged - c.own}` : ''}</small></TabBtn>;
+          return <TabBtn key={k.id} id={k.id} cur={tab} onClick={goTab}>{k.label} <small><span className="en">{k.en} · </span>{c.own}{c.merged > c.own ? `+${c.merged - c.own}` : ''}</small></TabBtn>;
         })}
         <TabBtn id="inheritance" cur={tab} onClick={goTab}>상속</TabBtn>
         <TabBtn id="usage" cur={tab} onClick={goTab}>사용 조건·흐름</TabBtn>
@@ -340,15 +341,42 @@ function MemberBody({ kind, it, doc, koText, onApi, known, g, minor, onVersion }
   );
 }
 
+/**
+ * 버전별 칸(0 없음/1 있음/2 deprecated, 최신→과거)을 읽어 도입·deprecated·제거 시점을 설명한다.
+ * 서버에 없는 마이너 버전(예: 1.78)은 비교할 수 없으므로, 인접한 받아 둔 버전이 연속 마이너가 아니면
+ * 정확한 시점이 아니라 “두 버전 사이”로, 가장 오래된 받아 둔 버전에서 이미 있으면 “≤”로 표기한다.
+ * 이 값은 공식 api.json 을 Lens 가 비교해 계산한 파생 판단이다(공식이 명시한 값이 아님).
+ */
+const minorNum = (m: string) => { const [a, b] = m.split('.').map(Number); return a * 1000 + b; };
+export function describeLife(row: string, g: Global) {
+  const order = g.availability.versions; // 최신 → 과거
+  const cells = order.map((m, i) => { const v = g.versions.versions.find((x) => x.minor === m); return { m, st: row[i] ?? '0', v, info: v }; }).filter((c) => c.v);
+  const idx = (pred: (c: (typeof cells)[number]) => boolean) => cells.findIndex(pred);
+  const lastPresent = cells.length - 1 - [...cells].reverse().findIndex((c) => c.st !== '0'); // 가장 과거 존재
+  const firstPresent = idx((c) => c.st !== '0'); // 가장 최신 존재
+  if (firstPresent < 0) return { none: true as const, cells };
+  const oldest = cells[lastPresent], newest = cells[firstPresent];
+  const older = cells[lastPresent + 1]; // 그 직전(더 과거) 받아 둔 버전
+  const newer = firstPresent > 0 ? cells[firstPresent - 1] : null;
+  const adjacent = (a: string, b: string) => Math.abs(minorNum(a) - minorNum(b)) === 1;
+  let intro: string, introExact = false;
+  if (!older) intro = `≤ ${oldest.v!.version.replace(/\.\d+$/, '')} — 받아 둔 가장 오래된 버전부터 있어, 그 이전 도입 여부는 확인할 수 없음`;
+  else if (adjacent(older.m, oldest.m)) { intro = `${oldest.m} 에서 도입된 것으로 확인`; introExact = true; }
+  else intro = `${older.m}(없음)과 ${oldest.m}(있음) 사이에 도입 — 그 사이 마이너 버전은 서버에 없어 정확한 시점은 알 수 없음`;
+  let removed: string | null = null;
+  if (newer) removed = adjacent(newer.m, newest.m) ? `${newest.m} 까지 있고 ${newer.m} 부터 없음` : `${newest.m}(있음)과 ${newer.m}(없음) 사이에 사라짐 — 정확한 시점은 알 수 없음`;
+  // deprecated: 가장 과거의 deprecated 칸
+  const depIdx = cells.length - 1 - [...cells].reverse().findIndex((c) => c.st === '2');
+  let dep: string | null = null;
+  if (cells.some((c) => c.st === '2')) {
+    const d = cells[depIdx], before = cells[depIdx + 1];
+    dep = !before || before.st === '2' ? `${d.m} 이(가) 받아 둔 버전 중 처음 deprecated 로 표시됨` : adjacent(before.m, d.m) ? `${d.m} 에서 deprecated 로 표시되기 시작` : `${before.m} 과 ${d.m} 사이에 deprecated 표시 시작`;
+  }
+  return { none: false as const, cells, oldest, newest, intro, introExact, removed, dep, presentCount: cells.filter((c) => c.st !== '0').length };
+}
+
 const KEYCHAR: Record<MemberKind, string> = { property: 'p', aggregation: 'a', association: 's', event: 'e', method: 'm' };
 
-function summarize(row: string, g: Global) {
-  const order = g.availability.versions;
-  const cells = order.map((m, i) => ({ m, st: row[i] ?? '0', info: g.versions.versions.find((v) => v.minor === m) })).filter((c) => c.info);
-  const present = cells.filter((c) => c.st !== '0');
-  const firstDep = [...cells].reverse().find((c) => c.st === '2');
-  return { cells, present, firstDep, oldest: present[present.length - 1], newest: present[0], latest: cells[0] };
-}
 /** 한 줄 판정 + 버전 칸. 멤버를 선언한 심볼(definedIn)의 공식 api.json 을 버전마다 비교한 결과. */
 function MemberLifeView({ symbol, memberKey, since, g, minor, onVersion }: { symbol: string; memberKey: string; since: string | null; g: Global; minor: string; onVersion: (m: string) => void }) {
   const [life, setLife] = useState<MemberLife | null | 'err' | undefined>(undefined);
@@ -357,21 +385,25 @@ function MemberLifeView({ symbol, memberKey, since, g, minor, onVersion }: { sym
   if (life === 'err') return <p className="muted small">버전별 비교 자료를 불러오지 못했습니다.</p>;
   const row = life?.[memberKey];
   if (!row) return <p className="muted small">이 항목의 버전별 비교 자료가 없습니다(미확인).</p>;
-  const { cells, present, firstDep, oldest, newest, latest } = summarize(row, g);
+  const d = describeLife(row, g);
+  const cells = d.cells;
   const cur = cells.find((c) => c.m === minor);
   return (
     <div className="life">
-      <h5>버전별 사용 가능 여부 <small className="muted">(공식 api.json 비교 · 받아 둔 {cells.length}개 버전)</small></h5>
+      <h5>버전별 사용 가능 여부 <small className="muted">(공식 api.json 을 Lens 가 비교해 계산 · 받아 둔 {cells.length}개 버전)</small></h5>
       <p>
         {cur && (cur.st === '0' ? <b className="life-no">지금 보는 {cur.info!.version}: 사용 불가(이 버전 자료에 없음). </b>
           : cur.st === '2' ? <b className="life-dep">지금 보는 {cur.info!.version}: 존재하지만 deprecated 표시. </b>
           : <b className="life-ok">지금 보는 {cur.info!.version}: 사용 가능. </b>)}
-        {present.length > 0 && <>받아 둔 버전 중 가장 오래된 존재 <b>{oldest.info!.version}</b>{oldest.m === cells[cells.length - 1].m ? ' (받아 둔 가장 오래된 버전부터 있음)' : ' (그보다 오래된 받아 둔 버전에는 없음)'}, 가장 최신 존재 <b>{newest.info!.version}</b>.</>}
-        {firstDep && <> <b>{firstDep.info!.version}</b> 에서 처음 deprecated 표시.</>}
-        {present.length > 0 && latest.st === '0' && <> 최신 {latest.info!.version} 에는 <b>없음</b>(사유는 자료에 없음).</>}
-        {since && <> 공식 since: <b>{since}</b>.</>}
-        {since && oldest && (() => { const n = (x: string) => x.split('.').slice(0, 2).map(Number).reduce((q, w) => q * 1000 + w); return n(oldest.m) < n(since); })() && <span className="muted small"> ⚠ 공식 since 보다 이른 버전({oldest.info!.version})의 자료에도 있어 공식 표기와 실제가 다를 수 있습니다(둘 다 그대로 표시).</span>}
       </p>
+      {!d.none && (
+        <ul className="life-list">
+          <li><b>도입</b> {d.intro}{since && <> · 공식 since <b>{since}</b></>}</li>
+          {d.dep && <li><b>deprecated</b> {d.dep}</li>}
+          {d.removed && <li><b>제거</b> {d.removed}</li>}
+          {since && d.oldest && minorNum(d.oldest.m) < minorNum(since.split('.').slice(0, 2).join('.')) && <li className="muted small">⚠ 공식 since({since})보다 이른 {d.oldest.v!.version} 자료에도 있어 공식 표기와 실제가 다를 수 있습니다(둘 다 그대로 표시).</li>}
+        </ul>
+      )}
       <div className="avail" role="group" aria-label="버전별 사용 가능 여부">
         {[...cells].reverse().map((c) => (
           <button key={c.m} className={`av av-${c.st} ${c.m === minor ? 'cur' : ''}`} onClick={() => onVersion(c.m)}
@@ -541,6 +573,32 @@ function Versions({ chain, ko, koStatus, p }: { chain: ApiDoc[]; ko: KoDoc | nul
   );
 }
 
+/** 상세 맨 위: “내 버전에서 쓸 수 있나?”를 한눈에. 31개 버전 점 + 한 줄 판정. */
+function VersionGlance({ name, g, current, deprecated, since, onVersion, onMore }: { name: string; g: Global; current: string; deprecated: { since: string | null } | null; since: string | null; onVersion: (m: string) => void; onMore: () => void }) {
+  const row = g.availability.symbols[name];
+  if (!row) return null;
+  const d = describeLife(row, g);
+  if (d.none) return null;
+  const cur = d.cells.find((c) => c.m === current);
+  return (
+    <div className="glance" aria-label="버전별 사용 가능 여부 요약">
+      <div className="glance-line">
+        {cur?.st === '0' ? <b className="life-no">지금 보는 {current} 에는 없음</b>
+          : cur?.st === '2' ? <b className="life-dep">{current} 에서 사용 가능하지만 deprecated{deprecated?.since ? ` (${deprecated.since})` : ''}</b>
+          : <b className="life-ok">{current} 에서 사용 가능</b>}
+        <span className="muted small"> · {d.intro.startsWith('≤') ? `도입 ${d.intro.split(' — ')[0]}` : d.introExact ? `도입 ${d.oldest!.m}` : '도입 시점은 “버전” 탭 참고'}{d.removed ? ' · 이후 사라짐' : ''}{since ? ` · 공식 since ${since}` : ''}</span>
+        <button className="link small" onClick={onMore}>자세히</button>
+      </div>
+      <div className="dots" role="group" aria-label="버전별 존재 여부(오래된 버전 → 최신)">
+        {[...d.cells].reverse().map((c) => (
+          <button key={c.m} className={`dot av-${c.st} ${c.m === current ? 'cur' : ''}`} onClick={() => onVersion(c.m)}
+            title={`${c.v!.version}: ${c.st === '0' ? '없음' : c.st === '2' ? 'deprecated' : '있음'}`} aria-label={`${c.m} ${c.st === '0' ? '없음' : c.st === '2' ? 'deprecated' : '있음'}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /** 심볼 × 버전 가용성: 0 없음 / 1 있음 / 2 deprecated. 칸을 누르면 그 버전으로 전환(같은 API 유지). */
 function Availability({ name, g, current, onVersion }: { name: string; g: Global; current: string; onVersion: (m: string) => void }) {
   const row = g.availability.symbols[name];
@@ -549,11 +607,17 @@ function Availability({ name, g, current, onVersion }: { name: string; g: Global
   const infoOf = (m: string) => g.versions.versions.find((v) => v.minor === m);
   const cells = order.map((m, i) => ({ m, st: row[i] ?? '0', info: infoOf(m) })).filter((c) => c.info);
   const present = cells.filter((c) => c.st !== '0');
-  const oldest = present[present.length - 1], newest = present[0];
-  const firstDep = [...cells].reverse().find((c) => c.st === '2');
+  const d = describeLife(row, g);
   return (
     <div>
-      <p>{present.length === 0 ? '받아 둔 어떤 버전에도 없습니다.' : <>받아 둔 {cells.length}개 버전 중 <b>{present.length}개</b>에 존재 — 가장 오래된 {oldest.info!.version}, 가장 최신 {newest.info!.version}.{firstDep ? <> <b>{firstDep.info!.version}</b> 에서 처음 deprecated 로 표시됨.</> : null}</>}</p>
+      {d.none ? <p>받아 둔 어떤 버전에도 없습니다.</p> : (
+        <ul className="life-list">
+          <li>받아 둔 {cells.length}개 버전 중 <b>{d.presentCount}개</b>에 존재 (가장 오래된 {d.oldest!.v!.version} · 가장 최신 {d.newest!.v!.version})</li>
+          <li><b>도입</b> {d.intro}</li>
+          {d.dep && <li><b>deprecated</b> {d.dep}</li>}
+          {d.removed && <li><b>제거</b> {d.removed}</li>}
+        </ul>
+      )}
       <div className="avail" role="group" aria-label="버전별 존재 여부">
         {[...cells].reverse().map((c) => (
           <button key={c.m} className={`av av-${c.st} ${c.m === current ? 'cur' : ''}`} onClick={() => onVersion(c.m)}
@@ -562,7 +626,7 @@ function Availability({ name, g, current, onVersion }: { name: string; g: Global
           </button>
         ))}
       </div>
-      <p className="muted small">초록=있음 · 주황=deprecated 표시 · 회색=없음. 서버에 호스팅되지 않은 마이너 버전(예: 1.78)은 비교 대상이 아닙니다. 칸을 누르면 같은 API 를 그 버전으로 봅니다.</p>
+      <p className="muted small">초록=있음 · 주황=deprecated 표시 · 회색=없음. 이 표시는 공식 api.json 을 Lens 가 버전끼리 비교해 계산한 값입니다. 서버에 호스팅되지 않은 마이너 버전(예: 1.78)은 비교할 수 없어, 그 사이의 변경은 “사이에”로만 표기합니다. 칸을 누르면 같은 API 를 그 버전으로 봅니다.</p>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 // 한국어 질문은 data/intents.json(한국어→영어 용어 사전)으로 영어 용어에 연결한다.
 // 앱(src)과 Node 테스트(scripts/test-recommend.mjs)가 같은 코드를 쓴다.
 
-const STOP = new Set(['a', 'an', 'the', 'to', 'of', 'in', 'on', 'for', 'and', 'or', 'with', 'how', 'do', 'i', 'want', 'add', 'make', 'create', 'show', 'use', 'can', 'is', 'it', 'my', 'that', 'this', 'when', 'user', 'users', 'which', 'what', 'need', 'api', 'ui5']);
+const STOP = new Set(['a', 'an', 'the', 'to', 'of', 'in', 'on', 'for', 'and', 'or', 'with', 'how', 'do', 'i', 'want', 'add', 'make', 'create', 'show', 'use', 'can', 'is', 'it', 'my', 'that', 'this', 'when', 'user', 'users', 'which', 'what', 'need', 'api', 'ui5', 'not', 'an', 'no', 'be', 'are', 'was', 'you', 'your', 'from', 'but', 'if', 'as', 'at', 'by', 'so', 'any', 'all', 'will', 'should', 'would', 'has', 'have', 'had', 'get', 'put', 'out', 'up', 'on', 'one']);
 
 export const stem = (w) => (w.length > 4 && w.endsWith('ies') ? w.slice(0, -3) + 'y' : w.length > 3 && w.endsWith('s') && !w.endsWith('ss') ? w.slice(0, -1) : w);
 export function tokens(text) {
@@ -64,7 +64,8 @@ export function recommend(index, query, intents, limit = 8) {
       if (d.mem.has(t)) { s += 0.6; why.mem.push(t); }
       if (s) { matched++; score += idf * w * s; }
     }
-    if (!matched) continue;
+    // 사전이 붙인 용어는 서로 대체 가능한 동의어라 하나만 겹쳐도 된다. 사전 해석이 없는 자유 영어 입력(3단어 이상)만 최소 2개 겹침을 요구한다.
+    if (!matched || (used.length === 0 && terms.size >= 3 && matched < 2)) continue;
     score *= 0.5 + 0.5 * (matched / terms.size);
     score *= 1 + 0.6 * (nameHits / terms.size);
     score *= d.c.c === 1 ? 1.25 : d.c.c === 2 || d.c.c === 3 ? 1 : 0.7;

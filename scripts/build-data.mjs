@@ -218,6 +218,7 @@ if (existsSync('data/intents.json') && existsSync(`${OUT}/v/${BASE_MINOR}/intent
   const text = corpus.map((c) => (c.n + ' ' + c.t + ' ' + c.m).toLowerCase()).join('\n');
   for (const e of src.intents) for (const w of e.en) if (!text.includes(w.toLowerCase())) errors.push(`intents: "${e.ko[0]}" 의 영어 용어 "${w}" 가 ${BASE_MINOR} 공식 자료에 한 번도 나오지 않음`);
   writeFileSync(`${OUT}/intents.json`, JSON.stringify(src));
+  if (existsSync('data/recommend-eval-result.json')) writeFileSync(`${OUT}/recommend-eval.json`, readFileSync('data/recommend-eval-result.json'));
 }
 
 // ---------- 버전 목록·별칭 ----------

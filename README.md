@@ -16,8 +16,18 @@ npm run build               # 정적 배포물 dist/ (약 105MB, 서버 없이 �
 원본 캐시는 OneDrive 동기화를 피해 `%LOCALAPPDATA%\ui5-lens-cache` 에 저장된다 (`UI5_LENS_CACHE` 환경변수로 변경).
 일부 버전만 빠르게 빌드: `node scripts/build-data.mjs 1.120 1.71`
 
-기능으로 찾기: 상단 “기능으로 찾기” 탭에서 하고 싶은 일을 적으면 공식 이름·설명과 겹치는 API 3개를 이유와 함께 추천한다(AI 호출 없음).
-품질 점검: `node scripts/test-recommend.mjs [버전]` — 질문 35개 중 기대 API 가 상위 3개에 드는지.
+검색창 하나로 **이름**(`Table`, `sap.m.Table`, 한국어 별칭)과 **하고 싶은 일**(“댓글을 다는 기능”)을 모두 찾는다. 이름이 정확히 일치하는 후보가 없으면 질문을 기능 설명으로 해석해 공식 이름·설명과 겹치는 API 3개를 이유와 함께 추천한다(AI 호출 없음).
+
+추천 정확도 평가 (`data/recommend-eval.json`, 질문 110개):
+
+```bash
+node scripts/eval-recommend.mjs        # dev / test / fresh 별 상위1·상위3·상위8 적중률
+node scripts/eval-recommend.mjs --json data/recommend-eval-result.json   # 앱에 공개하는 수치 갱신 후 npm run build:data
+```
+
+- dev(35): 점수 규칙·사전을 맞추는 데 사용. test(35): 처음엔 튜닝에 안 썼으나 실패 목록을 본 뒤 사전을 고쳐 **오염됨**(외운 결과라 성능 지표로 쓰면 안 됨).
+- **fresh(40): 사전을 고친 뒤 작성해 한 번만 측정 — 상위 3개 적중률 55%** (1위 45%). 앱에 공개하는 수치는 이 값이다. 실패는 사전에 없는 표현과 화면 컨트롤이 아닌 프레임워크 기능(예: 화면 크기 감지)에 몰려 있다.
+- 한국어→영어 용어 사전(`data/intents.json`)은 서비스가 작성한 것이며, 빌드 때 모든 영어 용어가 공식 자료에 실제로 나오는지 검증한다.
 
 검증 (Microsoft Edge + 인터넷 필요):
 
@@ -43,6 +53,7 @@ npm run test:e2e            # (dev 서버를 띄운 상태에서) 사용자 흐�
 | `scripts/build-data.mjs` | 정규화 → `public/data/v/<버전>/…`, 가용성 매트릭스. 한국어 층이 없는 항목을 가리키면 **빌드 실패** |
 | `data/ko/<API>.json` | 한국어 설명 층(출처·AI 여부·검토 상태·예제). 사실(타입·기본값 등)은 담지 않음 |
 | `data/aliases.json` | 검증한 한국어 별칭 사전 |
+| `data/recommend-eval.json` | 추천 평가 질문(dev/test/fresh)과 정답 후보 |
 | `data/intents.json` | 기능 추천용 한국어→영어 용어 사전(빌드 때 영어 용어가 공식 자료에 있는지 검증) |
 | `shared/recommend.mjs` | 추천 점수 계산(앱과 테스트가 공유) |
 | `data/verification.json` | 예제 실행 검증 기록 |

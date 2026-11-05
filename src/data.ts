@@ -104,3 +104,10 @@ export function loadIntents(): Promise<IntentEntry[]> {
   if (!intentsP) { intentsP = getJson<{ intents: IntentEntry[] }>(`${BASE}/intents.json`).then((j) => j!.intents); intentsP.catch(() => { intentsP = null; }); }
   return intentsP;
 }
+
+export interface RecEval { minor: string; at: string; fresh: { n: number; top1: number; top3: number; top8: number } }
+let evalP: Promise<RecEval | null> | null = null;
+export function loadRecEval(): Promise<RecEval | null> {
+  if (!evalP) evalP = getJson<RecEval>(`${BASE}/recommend-eval.json`, true).catch(() => null);
+  return evalP;
+}

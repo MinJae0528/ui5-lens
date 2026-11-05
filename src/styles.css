@@ -130,13 +130,6 @@ tr.cur td { background: var(--accent-bg); }
 @media (max-width: 900px) { .ver-pick select { max-width: 200px; } }
 .life { border-top: 1px dashed var(--line); margin-top: 10px; padding-top: 6px; }
 .life-ok { color: var(--ok); } .life-dep { color: var(--warn); } .life-no { color: #c0392b; }
-.mode-tabs { display: flex; gap: 4px; padding: 10px 14px 0; }
-.mode-tabs button { flex: 1; font: inherit; font-size: .9rem; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--muted); cursor: pointer; }
-.mode-tabs button.on { background: var(--accent-bg); color: var(--ink); border-color: var(--accent); font-weight: 700; }
-.mode-tabs small { font-weight: 400; color: var(--muted); }
-.ask { display: contents; }
-.ask-actions { display: flex; gap: 10px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
-.ask .cands { padding: 8px 14px 14px; overflow: auto; }
 .rec-list { list-style: none; padding: 0; margin: 8px 0; display: grid; gap: 8px; }
 .card.rec { padding: 0; }
 .rec-btn { all: unset; display: block; box-sizing: border-box; width: 100%; padding: 10px 12px; cursor: pointer; }
@@ -144,3 +137,45 @@ tr.cur td { background: var(--accent-bg); }
 .rank { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 8px; border-radius: 50%; background: var(--accent); color: #fff; font: 700 .8rem var(--sans, inherit); }
 .interp { margin: 4px 0 8px; } .pad { padding: 12px 0; }
 [hidden] { display: none !important; }
+
+/* ---- UX 개선: 첫 화면, 한눈에 보기, 한 줄 탭, 좁은 화면 머리글 ---- */
+.only-narrow { display: none; }
+.detail-empty.only-wide { text-align: left; padding: 36px 44px; max-width: 860px; margin: 0 auto; color: var(--ink); }
+.landing h2 { font-size: 1.7rem; margin: 0 0 6px; }
+.landing .lead { font-size: 1.05rem; color: var(--muted); margin: 0 0 18px; max-width: 62ch; }
+.landing .try { margin: 14px 0; } .landing .try h3 { margin: 0 0 6px; font-size: .95rem; }
+.landing h3 { font-size: 1rem; margin: 22px 0 8px; }
+.landing .chip { font-size: .95rem; padding: 7px 14px; }
+.about { margin-top: 26px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+.about h3 { margin-top: 0; } .about ul { margin: 0 0 8px; padding-left: 1.2em; display: grid; gap: 6px; }
+.sec-title { font-size: .9rem; color: var(--muted); margin: 14px 2px 6px; font-weight: 600; }
+.rec-sec { margin: 4px 0 8px; padding: 12px; border: 1px solid var(--accent); border-radius: 12px; background: var(--accent-bg); }
+.rec-title { font-size: 1rem; margin: 0 0 4px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.rec-sec .card.rec { background: var(--panel); }
+.rec-note { margin: 10px 0 0; }
+.rec-list { list-style: none; padding: 0; margin: 8px 0; display: grid; gap: 8px; }
+.card.rec { padding: 0; }
+.rec-btn { all: unset; display: block; box-sizing: border-box; width: 100%; padding: 10px 12px; cursor: pointer; }
+.rec-btn:focus-visible { outline: 2px solid var(--accent); border-radius: 10px; }
+.rank { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 8px; border-radius: 50%; background: var(--accent); color: #fff; font: 700 .8rem inherit; }
+.interp { margin: 4px 0 8px; } .pad { padding: 12px 0; }
+
+.glance { margin: 10px 0 4px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.glance-line { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.dots { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 8px; }
+.dot { width: 14px; height: 14px; border-radius: 4px; border: 0; padding: 0; cursor: pointer; background: var(--line); }
+.dot.av-1 { background: var(--ok); } .dot.av-2 { background: var(--warn); } .dot.av-0 { background: var(--line); }
+.dot.cur { outline: 2px solid var(--accent); outline-offset: 1px; } .dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.life-list { margin: 6px 0 10px; padding-left: 1.2em; display: grid; gap: 3px; }
+
+.tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
+.tab { white-space: nowrap; flex: 0 0 auto; }
+@media (max-width: 900px) {
+  .only-narrow { display: block; } .only-wide { display: none !important; }
+  .top { padding: 8px 12px; gap: 8px; }
+  .brand .tag, .ver-pick label, .chip-extra { display: none; }
+  .ver-pick { flex: 1; min-width: 0; } .ver-pick select { max-width: none; width: 100%; }
+  .scope-chip { margin-left: 0; padding: 6px 10px; } .scope-chip .badge { display: none; }
+  .tab .en { display: none; } .tab { padding: 10px 12px; }
+  .landing h2 { font-size: 1.35rem; }
+}
