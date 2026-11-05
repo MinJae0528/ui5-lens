@@ -1,0 +1,29 @@
+{
+  "name": "ui5-lens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch:api": "node scripts/fetch-api.mjs",
+    "build:data": "node scripts/build-data.mjs",
+    "dev": "npm run build:data && vite",
+    "build": "npm run build:data && tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test:e2e": "node scripts/e2e.mjs",
+    "ko:stamp": "node scripts/ko-stamp.mjs",
+    "verify:examples": "node scripts/verify-examples.mjs",
+    "discover:versions": "node scripts/discover-versions.mjs"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "playwright-core": "^1.64.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  }
+}

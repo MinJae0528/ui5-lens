@@ -1,0 +1,20 @@
+{
+  "note": "검증한 한국어 별칭 사전. 지원 범위에 없는 API 를 가리키면 빌드가 실패한다. 별칭 → API 의 연결은 작성자가 확인한 것만 둔다.",
+  "aliases": [
+    { "term": "표", "apis": ["sap.m.Table", "sap.ui.table.Table"] },
+    { "term": "테이블", "apis": ["sap.m.Table", "sap.ui.table.Table"] },
+    { "term": "팝업", "apis": ["sap.m.Dialog", "sap.m.Popover"] },
+    { "term": "대화상자", "apis": ["sap.m.Dialog"] },
+    { "term": "다이얼로그", "apis": ["sap.m.Dialog"] },
+    { "term": "입력창", "apis": ["sap.m.Input"] },
+    { "term": "입력 필드", "apis": ["sap.m.Input"] },
+    { "term": "버튼", "apis": ["sap.m.Button"] },
+    { "term": "목록", "apis": ["sap.m.List"] },
+    { "term": "리스트", "apis": ["sap.m.List"] },
+    { "term": "드롭다운", "apis": ["sap.m.Select", "sap.m.ComboBox"] },
+    { "term": "콤보박스", "apis": ["sap.m.ComboBox"] },
+    { "term": "메시지 박스", "apis": ["sap.m.MessageBox"] },
+    { "term": "알림창", "apis": ["sap.m.MessageBox"] },
+    { "term": "JSON 모델", "apis": ["sap.ui.model.json.JSONModel"] }
+  ]
+}

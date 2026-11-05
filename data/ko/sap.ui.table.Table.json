@@ -1,0 +1,217 @@
+{
+  "api": "sap.ui.table.Table",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-05",
+    "generator": "AI(Claude) 번역·요약 초안",
+    "ai": true,
+    "review": "draft",
+    "reviewNote": "작성자(사용자)의 검토 전. 공식 원문과 대조해 작성했으나 사람이 확인하지 않음.",
+    "versionNote": "공식 api.json(1.154) 원문과 대조했고 예제는 실제 실행 sap.ui.version 1.154.0 에서 검증. 이전 기준 1.120 에서 바뀐 항목(alternateRowColors, threshold, enableColumnReordering 설명)은 1.154 원문에 맞춰 고침."
+  },
+  "basedOn": {
+    "officialHash": "736eb61ac590",
+    "stampedAt": "2026-11-05"
+  },
+  "overview": {
+    "summary": "많은 양의 데이터를 보여 주고 다루는 기능을 제공하는 그리드형 테이블 (데스크톱·태블릿 대상).",
+    "summaryBasis": "공식 클래스 설명: “comprehensive set of features for displaying and dealing with vast amounts of data … supports desktop PCs and tablet devices”",
+    "whenToUse": [
+      {
+        "text": "행이 매우 많은 데이터를 스크롤하며 보여 줄 때. 행의 DOM 요소를 재사용하므로 많은 데이터를 다룰 수 있습니다.",
+        "kind": "service",
+        "basis": "공식 설명을 바탕으로 한 서비스 작성 요약 — 공식 클래스 설명"
+      },
+      {
+        "text": "열 고정(fixedColumnCount), 열 순서 변경, 열 크기·정렬·필터 등 그리드형 기능이 필요할 때.",
+        "kind": "service",
+        "basis": "공식 설명을 바탕으로 한 서비스 작성 요약 — properties/events 목록(fixedColumnCount, enableColumnReordering, columnResize, sort, filter 등)"
+      }
+    ],
+    "compare": [
+      {
+        "api": "sap.m.Table",
+        "text": "sap.ui.table.Table 은 데이터 바인딩에 전적으로 의존하고, 스크롤할 때 행 컨트롤은 그대로 두고 바인딩 컨텍스트만 바꿔 많은 데이터를 처리합니다. 데스크톱·태블릿이 대상이며, 태블릿에서는 보이는 열·행 수를 신경 써야 합니다. 반면 sap.m.Table 은 반응형 테이블입니다.",
+        "basis": "서비스 작성 요약. 두 클래스의 공식 설명에 적힌 내용만 비교. 그 밖의 차이(기능 범위·성능 수치 등)는 이번 자료로 확인하지 못함.",
+        "kind": "service"
+      }
+    ],
+    "related": [
+      {
+        "api": "sap.ui.table.Column",
+        "role": "columns 집합에 넣는 열 컨트롤 (셀 템플릿을 가짐)"
+      },
+      {
+        "api": "sap.ui.table.rowmodes.Fixed",
+        "role": "rowMode 로 지정하는 행 수 방식(고정)"
+      },
+      {
+        "api": "sap.ui.core.Control",
+        "role": "부모 클래스"
+      },
+      {
+        "api": "sap.m.Table",
+        "role": "이름이 같은 다른 라이브러리의 테이블 (반응형)"
+      }
+    ]
+  },
+  "members": {
+    "property:width": {
+      "text": "테이블의 너비."
+    },
+    "property:columnHeaderVisible": {
+      "text": "열 머리글 표시 여부. 주의: false 로 하면 테이블의 접근성을 100% 보장할 수 없습니다."
+    },
+    "property:firstVisibleRow": {
+      "text": "화면에 처음 보이는 행(인덱스)."
+    },
+    "property:selectionMode": {
+      "text": "행 선택 방식(단일/다중 및 선택 확장 방식). 모드를 바꾸면 현재 선택이 해제됩니다. 주의: 내장 선택 API 는 기능이 제한적(특히 OData 페이징과 함께일 때)이라 선택 플러그인 사용을 권장하며, 플러그인을 쓰면 selectionMode 는 플러그인이 제어합니다."
+    },
+    "property:selectionBehavior": {
+      "text": "행 선택 동작. 행 선택기(row selector)를 표시할지, 행·선택기·둘 다 중 무엇을 클릭해 선택할지 정합니다. 그룹화 기능이 켜져 있으면 RowOnly 여도 행 선택기는 항상 표시됩니다."
+    },
+    "property:threshold": {
+      "text": "부드러운 스크롤을 위해 백엔드에서 미리 가져올 추가(아직 안 보이는) 데이터 개수. 항상 행 수에 더해집니다(예: 10행 + threshold 100 = 최초 110건). 최초 로딩·정렬·필터처럼 바인딩 변경으로 일어나는 요청에 적용되며, 스크롤 중에 적용되는 값은 scrollThreshold 속성으로 따로 정합니다. 스크롤 영역의 행 수보다 작으면 그 행 수가 쓰이고, 0 이면 비활성입니다."
+    },
+    "property:enableColumnReordering": {
+      "text": "열 순서 변경 허용 여부. 주의: 열 순서 변경은 드래그&드롭과 키보드 단축키로 가능하며, 마우스 포인터 하나로 하는 대체 방법은 기본 제공되지 않아 애플리케이션 쪽에서 구현해야 합니다(예: sap.m.p13n.Engine, 공식 샘플 “Personalization for grid table”)."
+    },
+    "property:showNoData": {
+      "text": "테이블이 비었을 때 ‘데이터 없음’ 오버레이를 보일지 여부. false 면 빈 셀 격자만 보입니다."
+    },
+    "property:fixedColumnCount": {
+      "text": "왼쪽에 고정할 열의 개수. 고정되지 않은 열만 가로 스크롤됩니다. 주의: 고정 열은 너비가 정의돼야 하고, 고정 열 너비의 합이 테이블 너비를 넘으면 값이 무시됩니다."
+    },
+    "property:enableSelectAll": {
+      "text": "왼쪽 위에 ‘전체 선택’ 버튼을 보일지 여부. 행 선택기가 보이고 다중 선택 모드일 때만 표시됩니다."
+    },
+    "property:visibleRowCount": {
+      "text": "보이는 행 수 (deprecated, 1.119). 공식 안내: rowMode 집합을 대신 사용."
+    },
+    "aggregation:columns": {
+      "text": "테이블의 열(sap.ui.table.Column) 목록."
+    },
+    "aggregation:rows": {
+      "text": "테이블이 직접 관리하는 행 집합입니다. 데이터 바인딩으로만 쓸 수 있고, 읽기 전용이며 template/factory 를 지원하지 않습니다. 행은 보이는 일부 데이터에 대해서만 만들어져 재사용되므로, 행과 그 자식을 코드로 바꾸거나 속성을 정적 값으로 지정하면 안 됩니다. 셀은 각 열(Column)의 template 로 정의합니다. 주의: 행 바인딩 시 정확한 건수(count)가 필요하며, 요청하지 않으면 스크롤·접근성·키보드 문제가 생길 수 있습니다."
+    },
+    "aggregation:rowMode": {
+      "text": "테이블이 행을 다루는 방식. 기본은 Fixed 모드(sap.ui.table.rowmodes.Type)입니다."
+    },
+    "aggregation:noData": {
+      "text": "데이터가 없을 때 보여 줄 문자열 또는 컨트롤. 문자열이면 기본 ‘데이터 없음’ 텍스트를 대체합니다."
+    },
+    "aggregation:extension": {
+      "text": "테이블 확장 영역. 없으면 영역이 렌더링되지 않습니다. sap.m.Toolbar 를 머리글로 쓰면 CSS 클래스 sapMTBHeader-CTX 를 적용해야 합니다."
+    },
+    "aggregation:footer": {
+      "text": "푸터 영역의 컨트롤 또는 텍스트(없으면 숨김). 문자열(altType)은 1.118 부터 deprecated 이므로 컨트롤을 사용하세요."
+    },
+    "association:ariaLabelledBy": {
+      "text": "이 컨트롤에 레이블을 붙이는 컨트롤/ID (WAI-ARIA aria-labelledby)."
+    },
+    "association:groupBy": {
+      "text": "테이블을 그룹화할 기준 열. enableGrouping 이 true 일 때만 동작합니다. 뷰(XML)에서 지정하면 오류가 나며, 이미 columns 에 포함된 열일 때만 설정할 수 있습니다."
+    },
+    "event:rowSelectionChange": {
+      "text": "행 선택이 바뀌면 발생합니다. 파라미터로 변경 내용을 알 수 있고, 선택된 행은 getSelectedIndices() 로 구하세요. 내장 선택 API 는 제한적이라 선택 플러그인 사용을 권장하며, 플러그인을 쓰면 이 이벤트는 발생하지 않습니다."
+    },
+    "event:sort": {
+      "text": "열에 정렬이 적용되기 직전에 발생합니다(sort() 호출 또는 열 머리글 조작). 바인딩에 직접 적용한 Sorter 는 이 이벤트를 발생시키지 않습니다. preventDefault 로 기본 동작을 막을 수 있습니다."
+    },
+    "event:filter": {
+      "text": "열에 필터가 적용되기 직전에 발생합니다(filter() 호출 또는 열 머리글 조작). 바인딩에 직접 적용한 Filter 는 이 이벤트를 발생시키지 않습니다. preventDefault 로 기본 동작을 막을 수 있습니다."
+    },
+    "event:rowsUpdated": {
+      "text": "렌더링·모델 업데이트·사용자 조작 등으로 행이 갱신된 뒤 발생합니다. 자주 발생하므로 성능이 중요한 작업에 쓰지 마세요."
+    },
+    "event:columnResize": {
+      "text": "열 너비를 바꿀 때 발생합니다. preventDefault 로 기본 동작을 막을 수 있습니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [
+      {
+        "text": "데이터 바인딩이 필수입니다. 테이블은 데이터 바인딩에 전적으로 의존하며, rows 집합은 바인딩으로만 사용할 수 있습니다.",
+        "kind": "official",
+        "basis": "공식 클래스 설명, rows 집합 설명"
+      },
+      {
+        "text": "각 셀은 Column 의 template 로 정의합니다. 행(rows)과 그 자식을 코드로 직접 바꾸거나 속성을 정적 값으로 두면 안 됩니다.",
+        "kind": "official",
+        "basis": "rows 집합 설명"
+      },
+      {
+        "text": "행 바인딩 시 정확한 건수(count)를 요청해야 합니다. 그렇지 않으면 스크롤·접근성·키보드 문제가 생길 수 있습니다.",
+        "kind": "official",
+        "basis": "rows 집합 설명(Note)"
+      },
+      {
+        "text": "열 고정(fixedColumnCount)을 쓰려면 고정 열의 너비가 정의돼 있어야 합니다.",
+        "kind": "official",
+        "basis": "fixedColumnCount 속성 설명"
+      }
+    ],
+    "exampleFlow": [
+      {
+        "step": 1,
+        "text": "모델(JSONModel 등)에 행 데이터 배열을 준비한다.",
+        "kind": "service"
+      },
+      {
+        "step": 2,
+        "text": "Table 을 만들고 columns 에 sap.ui.table.Column(label + template)을 추가한다.",
+        "kind": "service"
+      },
+      {
+        "step": 3,
+        "text": "rowMode 로 보이는 행 수를 정한다 (visibleRowCount 대신, 1.119 이후 공식 안내).",
+        "kind": "service"
+      },
+      {
+        "step": 4,
+        "text": "setModel 후 bindRows(\"/경로\") 로 행을 바인딩한다.",
+        "kind": "service"
+      },
+      {
+        "step": 5,
+        "text": "화면에 배치한 뒤, 선택은 rowSelectionChange + getSelectedIndices() 로 읽는다.",
+        "kind": "service"
+      }
+    ],
+    "recommended": [
+      {
+        "text": "선택은 내장 API 보다 선택 플러그인 사용을 권장합니다.",
+        "kind": "official",
+        "basis": "selectionMode / rowSelectionChange 설명(Note)"
+      },
+      {
+        "text": "표시하는 열 수는 가능한 한 적게 유지하세요 (열 수와 열 템플릿 컨트롤이 성능에 영향).",
+        "kind": "official",
+        "basis": "공식 클래스 설명"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "basic-rowmode-binding",
+      "title": "rowMode(Fixed) 와 bindRows 로 만든 기본 테이블",
+      "kind": "service",
+      "ai": true,
+      "description": "열 2개, 데이터 5건을 3행씩 보여 주는 최소 예제. 행 수는 deprecated 된 visibleRowCount 대신 rowMode 로 지정합니다.",
+      "check": ".sapUiTable",
+      "expectCount": 1,
+      "code": "sap.ui.require([\n  \"sap/ui/table/Table\", \"sap/ui/table/Column\", \"sap/ui/table/rowmodes/Fixed\",\n  \"sap/m/Text\", \"sap/ui/model/json/JSONModel\"\n], function (Table, Column, FixedRowMode, Text, JSONModel) {\n  var oModel = new JSONModel({\n    products: [\n      { name: \"노트북\", price: 1200 }, { name: \"모니터\", price: 300 },\n      { name: \"키보드\", price: 50 },   { name: \"마우스\", price: 30 },\n      { name: \"헤드셋\", price: 80 }\n    ]\n  });\n\n  var oTable = new Table({\n    selectionMode: \"Single\",\n    rowMode: new FixedRowMode({ rowCount: 3 }),\n    columns: [\n      new Column({ label: new Text({ text: \"상품명\" }), template: new Text({ text: \"{name}\", wrapping: false }) }),\n      new Column({ label: new Text({ text: \"가격\" }),   template: new Text({ text: \"{price}\", wrapping: false }) })\n    ]\n  });\n\n  oTable.setModel(oModel);\n  oTable.bindRows(\"/products\");   // rows 는 바인딩으로만 사용\n  oTable.placeAt(\"content\");\n});"
+    },
+    {
+      "id": "selection-event",
+      "title": "행 선택 이벤트 처리",
+      "kind": "service",
+      "ai": true,
+      "description": "rowSelectionChange 에서 getSelectedIndices() 로 선택된 행을 읽습니다.",
+      "check": ".sapUiTable",
+      "expectCount": 1,
+      "code": "sap.ui.require([\n  \"sap/ui/table/Table\", \"sap/ui/table/Column\", \"sap/ui/table/rowmodes/Fixed\",\n  \"sap/m/Text\", \"sap/ui/model/json/JSONModel\"\n], function (Table, Column, FixedRowMode, Text, JSONModel) {\n  var oTable = new Table({\n    selectionMode: \"MultiToggle\",\n    rowMode: new FixedRowMode({ rowCount: 3 }),\n    columns: [ new Column({ label: new Text({ text: \"이름\" }), template: new Text({ text: \"{name}\", wrapping: false }) }) ]\n  });\n  oTable.setModel(new JSONModel({ rows: [ { name: \"가\" }, { name: \"나\" }, { name: \"다\" } ] }));\n  oTable.bindRows(\"/rows\");\n\n  oTable.attachRowSelectionChange(function (oEvent) {\n    var aIdx = oTable.getSelectedIndices();      // 선택된 행의 인덱스 배열\n    console.log(\"선택된 행:\", aIdx, \"변경 행:\", oEvent.getParameter(\"rowIndices\"));\n  });\n\n  oTable.placeAt(\"content\");\n});"
+    }
+  ]
+}

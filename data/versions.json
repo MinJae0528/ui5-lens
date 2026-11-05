@@ -1,0 +1,732 @@
+{
+ "discoveredAt": "2026-11-05T03:55:14.714Z",
+ "versions": [
+  {
+   "minor": "1.154",
+   "hosted": true,
+   "path": "1.154.0",
+   "version": "1.154.0",
+   "support": "Maintenance",
+   "lts": false,
+   "eom": "Q3/2027",
+   "eocp": "Q3/2028",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.154 (2611)"
+  },
+  {
+   "minor": "1.153",
+   "hosted": true,
+   "path": "1.153.0",
+   "version": "1.153.0",
+   "support": "Maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q4/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.153 (2610)"
+  },
+  {
+   "minor": "1.152",
+   "hosted": true,
+   "path": "1.152.1",
+   "version": "1.152.1",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q3/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.152 (2609)"
+  },
+  {
+   "minor": "1.151",
+   "hosted": true,
+   "path": "1.151.1",
+   "version": "1.151.1",
+   "support": "Maintenance",
+   "lts": false,
+   "eom": "Q1/2027",
+   "eocp": "Q1/2028",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.151 (2608)"
+  },
+  {
+   "minor": "1.150",
+   "hosted": true,
+   "path": "1.150.1",
+   "version": "1.150.1",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q3/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.150 (2607)"
+  },
+  {
+   "minor": "1.149",
+   "hosted": true,
+   "path": "1.149.1",
+   "version": "1.149.1",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q3/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.149 (2606)"
+  },
+  {
+   "minor": "1.148",
+   "hosted": true,
+   "path": "1.148",
+   "version": "1.148.13",
+   "support": "Maintenance",
+   "lts": true,
+   "eom": "Long-term Maintenance, Q3/2027",
+   "eocp": "Q3/2028",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.148 (2605)"
+  },
+  {
+   "minor": "1.147",
+   "hosted": true,
+   "path": "1.147.2",
+   "version": "1.147.2",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q2/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.147 (2604)"
+  },
+  {
+   "minor": "1.146",
+   "hosted": true,
+   "path": "1.146.0",
+   "version": "1.146.0",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q2/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.146 (2603)"
+  },
+  {
+   "minor": "1.145",
+   "hosted": true,
+   "path": "1.145.3",
+   "version": "1.145.3",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": "Q3/2026",
+   "eocp": "Q3/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.145 (2602)"
+  },
+  {
+   "minor": "1.144",
+   "hosted": true,
+   "path": "1.144.1",
+   "version": "1.144.1",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q1/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.144 (2601)"
+  },
+  {
+   "minor": "1.143",
+   "hosted": true,
+   "path": "1.143.2",
+   "version": "1.143.2",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q1/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.143 (2512)"
+  },
+  {
+   "minor": "1.142",
+   "hosted": true,
+   "path": "1.142.14",
+   "version": "1.142.14",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": "Q3/2026",
+   "eocp": "Q3/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.142 (2511)"
+  },
+  {
+   "minor": "1.141",
+   "hosted": true,
+   "path": "1.141.4",
+   "version": "1.141.4",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q4/2026",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.141 (2510)"
+  },
+  {
+   "minor": "1.140",
+   "hosted": true,
+   "path": "1.140.0",
+   "version": "1.140.0",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q4/2026",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.140 (2509)"
+  },
+  {
+   "minor": "1.139",
+   "hosted": true,
+   "path": "1.139.4",
+   "version": "1.139.4",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": "Q1/2026",
+   "eocp": "Q1/2027",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.139 (2508)"
+  },
+  {
+   "minor": "1.138",
+   "hosted": false
+  },
+  {
+   "minor": "1.136",
+   "hosted": true,
+   "path": "1.136",
+   "version": "1.136.24",
+   "support": "Out of maintenance",
+   "lts": true,
+   "eom": "Long-term Maintenance, Q4/2032",
+   "eocp": "Q4/2033",
+   "sapuiversion": "8.16",
+   "frontendserver": "SAP FIORI FES 2025 FOR S/4HANA ",
+   "label": "1.136 (2505)"
+  },
+  {
+   "minor": "1.135",
+   "hosted": true,
+   "path": "1.135.0",
+   "version": "1.135.0",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q2/2026",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.135 (2504)"
+  },
+  {
+   "minor": "1.134",
+   "hosted": false
+  },
+  {
+   "minor": "1.133",
+   "hosted": true,
+   "path": "1.133.3",
+   "version": "1.133.3",
+   "support": "Out of Maintenance",
+   "lts": false,
+   "eom": "Q3/2025",
+   "eocp": "Q3/2026",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.133 (2502)"
+  },
+  {
+   "minor": "1.132",
+   "hosted": false
+  },
+  {
+   "minor": "1.131",
+   "hosted": false
+  },
+  {
+   "minor": "1.130",
+   "hosted": true,
+   "path": "1.130.9",
+   "version": "1.130.9",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": "Q3/2025",
+   "eocp": "Q3/2026",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.130 (2412)"
+  },
+  {
+   "minor": "1.129",
+   "hosted": true,
+   "path": "1.129.2",
+   "version": "1.129.2",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": null,
+   "eocp": "Q4/2025",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.129 (2410)"
+  },
+  {
+   "minor": "1.128",
+   "hosted": false
+  },
+  {
+   "minor": "1.127",
+   "hosted": false
+  },
+  {
+   "minor": "1.126",
+   "hosted": false
+  },
+  {
+   "minor": "1.125",
+   "hosted": false
+  },
+  {
+   "minor": "1.124",
+   "hosted": true,
+   "path": "1.124.2",
+   "version": "1.124.2",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": "Q1/2025",
+   "eocp": "Q1/2026",
+   "sapuiversion": "Cloud only",
+   "frontendserver": "Cloud only",
+   "label": "1.124 (2405)"
+  },
+  {
+   "minor": "1.123",
+   "hosted": false
+  },
+  {
+   "minor": "1.122",
+   "hosted": false
+  },
+  {
+   "minor": "1.121",
+   "hosted": false
+  },
+  {
+   "minor": "1.120",
+   "hosted": true,
+   "path": "1.120",
+   "version": "1.120.53",
+   "support": "Maintenance",
+   "lts": true,
+   "eom": "Long-term Maintenance, Q4/2030",
+   "eocp": "Q4/2031",
+   "sapuiversion": "7.58",
+   "frontendserver": "SAP FIORI FES 2023 FOR S/4HANA (SAP Note 3340880)",
+   "label": "1.120 (2311)"
+  },
+  {
+   "minor": "1.119",
+   "hosted": false
+  },
+  {
+   "minor": "1.118",
+   "hosted": false
+  },
+  {
+   "minor": "1.117",
+   "hosted": false
+  },
+  {
+   "minor": "1.116",
+   "hosted": false
+  },
+  {
+   "minor": "1.115",
+   "hosted": false
+  },
+  {
+   "minor": "1.114",
+   "hosted": true,
+   "path": "1.114.10",
+   "version": "1.114.10",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": "Q1/2024",
+   "eocp": "Q1/2025",
+   "sapuiversion": "7.58",
+   "frontendserver": "SAP FIORI FES 2023 FOR S/4HANA (SAP Note 3340880)",
+   "label": "1.114 (2305)"
+  },
+  {
+   "minor": "1.113",
+   "hosted": false
+  },
+  {
+   "minor": "1.112",
+   "hosted": false
+  },
+  {
+   "minor": "1.111",
+   "hosted": false
+  },
+  {
+   "minor": "1.110",
+   "hosted": false
+  },
+  {
+   "minor": "1.109",
+   "hosted": false
+  },
+  {
+   "minor": "1.108",
+   "hosted": true,
+   "path": "1.108",
+   "version": "1.108.57",
+   "support": "Out of maintenance",
+   "lts": true,
+   "eom": "Long-term Maintenance, Q4/2030",
+   "eocp": "Q4/2031",
+   "sapuiversion": "7.57",
+   "frontendserver": "SAP FIORI FES 2022 FOR S/4HANA (SAP Note 3191581)",
+   "label": "1.108 (2211)"
+  },
+  {
+   "minor": "1.107",
+   "hosted": false
+  },
+  {
+   "minor": "1.106",
+   "hosted": false
+  },
+  {
+   "minor": "1.105",
+   "hosted": false
+  },
+  {
+   "minor": "1.104",
+   "hosted": false
+  },
+  {
+   "minor": "1.103",
+   "hosted": false
+  },
+  {
+   "minor": "1.102",
+   "hosted": true,
+   "path": "1.102.2",
+   "version": "1.102.2",
+   "support": "Out of maintenance",
+   "lts": false,
+   "eom": "Q1/2023",
+   "eocp": "Q1/2024",
+   "sapuiversion": "7.57",
+   "frontendserver": "SAP FIORI FES 2022 FOR S/4HANA (SAP Note 3191581)",
+   "label": "1.102(2205)"
+  },
+  {
+   "minor": "1.101",
+   "hosted": false
+  },
+  {
+   "minor": "1.100",
+   "hosted": false
+  },
+  {
+   "minor": "1.99",
+   "hosted": false
+  },
+  {
+   "minor": "1.98",
+   "hosted": false
+  },
+  {
+   "minor": "1.97",
+   "hosted": false
+  },
+  {
+   "minor": "1.96",
+   "hosted": true,
+   "path": "1.96",
+   "version": "1.96.51",
+   "support": "Out of maintenance",
+   "lts": true,
+   "eom": "Long-term Maintenance, Q4/2026",
+   "eocp": "Q4/2027",
+   "sapuiversion": "7.56",
+   "frontendserver": "SAP FIORI FES 2021 FOR S/4HANA (SAP Note 3050199)",
+   "label": "1.96 (2111)"
+  },
+  {
+   "minor": "1.95",
+   "hosted": false
+  },
+  {
+   "minor": "1.94",
+   "hosted": false
+  },
+  {
+   "minor": "1.93",
+   "hosted": false
+  },
+  {
+   "minor": "1.92",
+   "hosted": false
+  },
+  {
+   "minor": "1.91",
+   "hosted": false
+  },
+  {
+   "minor": "1.90",
+   "hosted": false
+  },
+  {
+   "minor": "1.89",
+   "hosted": false
+  },
+  {
+   "minor": "1.88",
+   "hosted": false
+  },
+  {
+   "minor": "1.87",
+   "hosted": false
+  },
+  {
+   "minor": "1.86",
+   "hosted": false
+  },
+  {
+   "minor": "1.85",
+   "hosted": false
+  },
+  {
+   "minor": "1.84",
+   "hosted": true,
+   "path": "1.84",
+   "version": "1.84.62",
+   "support": "Out of maintenance",
+   "lts": true,
+   "eom": "Long-term Maintenance, Q4/2025",
+   "eocp": "Q4/2026",
+   "sapuiversion": "7.55",
+   "frontendserver": "SAP FIORI FES 2020 FOR S/4HANA (SAP Note 2919182)",
+   "label": "1.84 (2011)"
+  },
+  {
+   "minor": "1.82",
+   "hosted": false
+  },
+  {
+   "minor": "1.81",
+   "hosted": false
+  },
+  {
+   "minor": "1.80",
+   "hosted": false
+  },
+  {
+   "minor": "1.79",
+   "hosted": false
+  },
+  {
+   "minor": "1.78",
+   "hosted": false
+  },
+  {
+   "minor": "1.77",
+   "hosted": false
+  },
+  {
+   "minor": "1.76",
+   "hosted": false
+  },
+  {
+   "minor": "1.75",
+   "hosted": false
+  },
+  {
+   "minor": "1.74",
+   "hosted": false
+  },
+  {
+   "minor": "1.73",
+   "hosted": false
+  },
+  {
+   "minor": "1.72",
+   "hosted": false
+  },
+  {
+   "minor": "1.71",
+   "hosted": true,
+   "path": "1.71",
+   "version": "1.71.85",
+   "support": "Out of maintenance",
+   "lts": true,
+   "eom": "Long-term Maintenance, Q4/2030",
+   "eocp": "Q4/2031",
+   "sapuiversion": "7.54",
+   "frontendserver": "SAP Fiori FES 6.0 (SAP Note 2775163)",
+   "label": "1.71 (1910)"
+  },
+  {
+   "minor": "1.70",
+   "hosted": false
+  },
+  {
+   "minor": "1.69",
+   "hosted": false
+  },
+  {
+   "minor": "1.68",
+   "hosted": false
+  },
+  {
+   "minor": "1.67",
+   "hosted": false
+  },
+  {
+   "minor": "1.66",
+   "hosted": false
+  },
+  {
+   "minor": "1.65",
+   "hosted": false
+  },
+  {
+   "minor": "1.64",
+   "hosted": false
+  },
+  {
+   "minor": "1.63",
+   "hosted": false
+  },
+  {
+   "minor": "1.62",
+   "hosted": false
+  },
+  {
+   "minor": "1.61",
+   "hosted": false
+  },
+  {
+   "minor": "1.60",
+   "hosted": false
+  },
+  {
+   "minor": "1.58",
+   "hosted": false
+  },
+  {
+   "minor": "1.56",
+   "hosted": false
+  },
+  {
+   "minor": "1.54",
+   "hosted": false
+  },
+  {
+   "minor": "1.52",
+   "hosted": true,
+   "path": "1.52.51",
+   "version": "1.52.51",
+   "support": "Out of maintenance",
+   "lts": true,
+   "eom": "Long-Term Maintenance, Q4/2020",
+   "eocp": "Q1/2022",
+   "sapuiversion": "7.52",
+   "frontendserver": "SAP Fiori FES 4.0 (SAP Note 2484979)",
+   "label": "1.52"
+  },
+  {
+   "minor": "1.50",
+   "hosted": false
+  },
+  {
+   "minor": "1.48",
+   "hosted": false
+  },
+  {
+   "minor": "1.46",
+   "hosted": false
+  },
+  {
+   "minor": "1.44",
+   "hosted": false
+  },
+  {
+   "minor": "1.42",
+   "hosted": false
+  },
+  {
+   "minor": "1.40",
+   "hosted": false
+  },
+  {
+   "minor": "1.38",
+   "hosted": true,
+   "path": "1.38.70",
+   "version": "1.38.70",
+   "support": "Out of maintenance",
+   "lts": true,
+   "eom": "Long-Term Maintenance, Q4/2027",
+   "eocp": "Q4/2028",
+   "sapuiversion": "Only via UI add-on 2.0",
+   "frontendserver": "n/a (see SAP note 2210123 and SAP note 2972680)",
+   "label": "1.38"
+  },
+  {
+   "minor": "1.36",
+   "hosted": false
+  },
+  {
+   "minor": "1.34",
+   "hosted": false
+  },
+  {
+   "minor": "1.32",
+   "hosted": false
+  },
+  {
+   "minor": "1.30",
+   "hosted": false
+  },
+  {
+   "minor": "1.28",
+   "hosted": false
+  },
+  {
+   "minor": "1.26",
+   "hosted": false
+  },
+  {
+   "minor": "1.24",
+   "hosted": false
+  },
+  {
+   "minor": "1.22",
+   "hosted": false
+  }
+ ]
+}

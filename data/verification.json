@@ -1,0 +1,34 @@
+{
+  "sap.m.Table": {
+    "basic-json-binding": {
+      "status": "passed",
+      "requestedVersion": "1.154.0",
+      "actualVersion": "1.154.0",
+      "ranAt": "2026-11-05T08:59:31.692Z",
+      "check": ".sapMListTbl tbody tr.sapMListTblRow ≥ 3 (실제 3)"
+    },
+    "autopopin-and-selection": {
+      "status": "passed",
+      "requestedVersion": "1.154.0",
+      "actualVersion": "1.154.0",
+      "ranAt": "2026-11-05T08:59:32.677Z",
+      "check": ".sapMListTbl tbody tr.sapMListTblRow ≥ 2 (실제 2)"
+    }
+  },
+  "sap.ui.table.Table": {
+    "basic-rowmode-binding": {
+      "status": "passed",
+      "requestedVersion": "1.154.0",
+      "actualVersion": "1.154.0",
+      "ranAt": "2026-11-05T08:59:34.461Z",
+      "check": ".sapUiTable ≥ 1 (실제 1)"
+    },
+    "selection-event": {
+      "status": "passed",
+      "requestedVersion": "1.154.0",
+      "actualVersion": "1.154.0",
+      "ranAt": "2026-11-05T08:59:35.433Z",
+      "check": ".sapUiTable ≥ 1 (실제 1)"
+    }
+  }
+}
