@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { sanitizeHtml } from './security/sanitize';
 import type { KoStatus } from './types';
 
-/** 공식 자료에서 가져온 HTML(빌드 시 허용 태그만 남김). data-api 링크는 앱 내 이동으로 처리. */
+/** 공식 자료에서 가져온 HTML(빌드 시 + 브라우저에서 이중으로 허용 태그만 남김). data-api 링크는 앱 내 이동으로 처리. */
 export function Html({ html, onApi, known }: { html: string; onApi?: (name: string) => void; known?: Set<string> }) {
+  // 빌드 때 한 번 걸러진 HTML 이지만, 브라우저에서 허용 목록으로 한 번 더 거른다(이중 방어).
+  const safe = useMemo(() => sanitizeHtml(html), [html]);
   return (
     <div
       className="rich"
@@ -10,7 +13,7 @@ export function Html({ html, onApi, known }: { html: string; onApi?: (name: stri
         const a = (e.target as HTMLElement).closest('a[data-api]') as HTMLElement | null;
         if (a) { e.preventDefault(); const n = a.getAttribute('data-api')!; if (!known || known.has(n)) onApi?.(n); }
       }}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: safe }}
     />
   );
 }
@@ -62,5 +65,3 @@ export function Origin({ kind }: { kind?: string }) {
   return <span className="badge b-svc">서비스 작성 (공식 아님)</span>;
 }
 
-export function fmtDate(iso: string) { return iso.slice(0, 10); }
-export const plain = (html: string) => html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();

@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: 타입 검사(앱 + 테스트)
+        run: npm run typecheck
+      - name: 단위 테스트(도메인 로직, 보안 설정 일치)
+        run: npm test
+      - name: 번들 빌드(데이터 없이도 빌드 가능)
+        run: npx vite build
+      - name: 의존성 취약점(높음 이상이면 실패)
+        run: npm audit --audit-level=high

@@ -1,0 +1,26 @@
+# Netlify / Cloudflare Pages 용 보안 헤더. (다른 호스트는 같은 값을 호스트 설정에 옮기면 된다.)
+# 값은 src/security/csp.ts 가 단일 출처이고 test/csp.test.ts 가 일치 여부를 검사한다.
+/
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+
+/index.html
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# 예제 실행 전용 문서: 앱(같은 출처)만 iframe 으로 열 수 있고, UI5 CDN·eval 은 이 문서에서만 허용한다.
+/example-runner.html
+  Content-Security-Policy: default-src 'none'; script-src https://ui5.sap.com 'unsafe-inline' 'unsafe-eval'; style-src https://ui5.sap.com 'unsafe-inline'; img-src https://ui5.sap.com data: blob:; font-src https://ui5.sap.com data:; connect-src https://ui5.sap.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

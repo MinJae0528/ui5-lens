@@ -1,5 +1,5 @@
 // 공식 메타데이터(이름·자료형)로 기계적으로 만든 호출 형태. 실행 검증을 거친 예제가 아니다.
-import type { ApiDoc, Aggr, Assoc, Evt, Meth, Prop } from './types';
+import type { ApiDoc, Aggr, Assoc, Evt, Meth, Prop } from '../types.ts';
 
 const inst = (doc: ApiDoc) => 'o' + doc.basename;
 const cap = (s: string) => s[0].toUpperCase() + s.slice(1);

@@ -2,7 +2,7 @@
 // data/recommend-eval.json 의 질문마다 상위 1/3 안에 정답 후보가 있는지 계산한다. dev/test 를 나눠 보고한다.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
-import { buildIndex, recommend } from '../shared/recommend.mjs';
+import { buildIndex, recommend } from '../src/domain/recommend.ts';
 
 const minor = process.argv.find((a) => /^1\.\d+$/.test(a)) ?? '1.154';
 const verbose = process.argv.includes('-v');

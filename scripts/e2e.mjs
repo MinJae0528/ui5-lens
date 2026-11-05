@@ -11,9 +11,11 @@ const check = (name, ok, extra = '') => { results.push({ name, ok }); console.lo
 const names = (page) => page.$$eval('#cands .card-name', (els) => els.map((e) => e.textContent));
 const shot = async (page, n) => { if (SHOTS) await page.screenshot({ path: `${SHOTS}/${n}.png` }); };
 
+const cspViolations = [];
 async function fresh(viewport = { width: 1400, height: 900 }) {
   const ctx = await browser.newContext({ viewport });
   const page = await ctx.newPage();
+  page.on('console', (m) => { if (m.type() === 'error' && /Content[- ]Security[- ]Policy|Refused to (load|execute|apply|connect|frame)/i.test(m.text())) cspViolations.push(m.text().slice(0, 200)); });
   const errs = [];
   page.on('pageerror', (e) => errs.push(e.message));
   page.errs = errs;
@@ -285,12 +287,18 @@ await page.waitForFunction(() => document.querySelector('.scope-chip')?.textCont
 await page.goto(URL_ + '#?v=1.71&q=Table&api=sap.m.Table&tab=versions');
 await page.waitForSelector('text=지금 버전');
 await page.waitForFunction(() => document.querySelector('.tab-body')?.textContent.includes('autoPopinMode'));
-check('1.71 버전 탭: 다른 버전에만 있는 항목에 autoPopinMode 표시', (await page.textContent('.tab-body')).includes('autoPopinMode'));
+{
+  // 표의 해당 행을 직접 본다(설명 문단에도 같은 문구가 있어 페이지 전체 텍스트로는 검증이 안 된다).
+  const row = page.locator('tr[data-relation]:has(td.mono:text-is("autoPopinMode"))');
+  check('1.71 버전 탭: autoPopinMode 는 “이 버전 이후 버전에서 도입됨”(아직 도입 전)', (await row.getAttribute('data-relation')) === 'not-yet' && (await row.textContent()).includes('이 버전 이후 버전에서 도입됨'));
+}
 // 최신 1.154 에서 사라진 메서드: sap.m.Table.enhanceAccessibilityState (1.52~1.130)
 await page.goto(URL_ + '#?v=1.154&q=Table&api=sap.m.Table&tab=versions');
 await page.waitForFunction(() => document.querySelector('.tab-body')?.textContent.includes('enhanceAccessibilityState'));
-const tb = await page.textContent('.tab-body');
-check('1.154: 사라진 항목(enhanceAccessibilityState)이 “이후 사라짐”으로 표시', tb.includes('enhanceAccessibilityState') && tb.includes('이후 사라짐'));
+{
+  const row = page.locator('tr[data-relation]:has(td.mono:text-is("enhanceAccessibilityState"))');
+  check('1.154: enhanceAccessibilityState 는 “이 버전 이전에 있다가 사라짐”(과거 버전에만 있음)', (await row.getAttribute('data-relation')) === 'removed' && (await row.textContent()).includes('이 버전 이전에 있다가 사라짐'));
+}
 await shot(page, '14-member-life');
 await page.context().close();
 
@@ -367,6 +375,19 @@ check('멤버: autoPopinMode 는 1.71(없음)·1.84(있음) 사이 도입으로 
 await page.goto(URL_ + '#?v=1.154&q=Table&api=sap.m.Table&tab=method&mq=enhanceAccessibilityState');
 await page.context().close();
 
+// ---- 19. 예제 실행(격리된 iframe + 전용 페이지) — 인터넷(UI5 CDN) 필요
+page = await fresh();
+await page.goto(URL_ + '#?v=1.154&q=Table&api=sap.m.Table&tab=examples');
+await page.waitForSelector('.example');
+await page.click('.example >> nth=0 >> text=실행해 보기');
+await page.waitForSelector('iframe.runframe');
+const fe = await page.$eval('iframe.runframe', (f) => ({ sandbox: f.getAttribute('sandbox'), src: f.getAttribute('src') }));
+check('예제 iframe: sandbox 는 allow-scripts 만(allow-same-origin 없음), 전용 페이지를 연다', fe.sandbox === 'allow-scripts' && /example-runner\.html$/.test(fe.src), JSON.stringify(fe));
+const runner = await (async () => { for (let i = 0; i < 60; i++) { const f = page.frames().find((x) => /example-runner\.html/.test(x.url())); if (f) { try { if (await f.locator('.sapMListTbl tbody tr.sapMListTblRow').count() >= 1) return f; } catch {} } await page.waitForTimeout(500); } return null; })();
+check('예제 iframe: 실제로 UI5 테이블이 렌더링됨(postMessage 로 코드 전달)', !!runner);
+check('예제 iframe 안에서 부모 저장소에 접근 불가(opaque origin)', await (async () => { const f = page.frames().find((x) => /example-runner\.html/.test(x.url())); if (!f) return false; return f.evaluate(() => { try { return typeof window.parent.document.body === 'undefined'; } catch { return true; } }); })());
+await page.context().close();
+
 // 모바일: 탭은 한 줄(가로 스크롤), 머리글은 낮게
 {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 800 } });
@@ -380,6 +401,19 @@ await page.context().close();
   const noScroll = await mp.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
   check('모바일: 가로 스크롤 없음', noScroll);
   await ctx.close();
+}
+
+// ---- 20. 보안: CSP 가 적용된 빌드(preview)에서 위반이 없어야 한다
+{
+  const p = await fresh();
+  const hasCsp = !!(await p.$('meta[http-equiv="Content-Security-Policy"]'));
+  console.log(hasCsp ? '(이 서버는 CSP meta 가 적용된 빌드입니다)' : '(이 서버는 개발 모드라 CSP meta 가 없습니다 — 빌드 결과에서 다시 확인하세요)');
+  if (hasCsp) {
+    const csp = await p.$eval('meta[http-equiv="Content-Security-Policy"]', (e) => e.content);
+    check('CSP meta: 인라인 스크립트·eval·외부 출처 없음', !/unsafe-inline|unsafe-eval|https?:/.test(csp) && /default-src 'none'/.test(csp), csp);
+  }
+  check(`전 과정에서 CSP 위반 0건${hasCsp ? '' : ' (개발 모드: 참고용)'}`, cspViolations.length === 0, cspViolations.slice(0, 3).join(' | '));
+  await p.context().close();
 }
 
 await browser.close();

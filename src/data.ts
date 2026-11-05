@@ -1,4 +1,5 @@
-import { buildIndex, type CorpusEntry, type IntentEntry, type RecIndex } from '../shared/recommend.mjs';
+import { buildIndex, type CorpusEntry, type IntentEntry, type RecIndex } from './domain/recommend';
+import type { LifeContext } from './domain/life';
 import type { Alias, ApiDoc, Availability, IndexEntry, KoDoc, Meta, VersionList } from './types';
 
 const BASE = `${import.meta.env.BASE_URL}data`;
@@ -111,3 +112,6 @@ export function loadRecEval(): Promise<RecEval | null> {
   if (!evalP) evalP = getJson<RecEval>(`${BASE}/recommend-eval.json`, true).catch(() => null);
   return evalP;
 }
+
+/** 버전별 존재 여부 해석(domain/life)에 필요한 정보만 뽑아 넘긴다. */
+export const lifeCtx = (g: Global): LifeContext => ({ order: g.availability.versions, versions: g.versions.versions });

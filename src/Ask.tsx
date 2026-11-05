@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { loadIntents, loadRecIndex, loadRecEval, type RecEval } from './data';
-import { recommend, type IntentEntry, type RecIndex, type Rec, type RecResult } from '../shared/recommend.mjs';
+import { loadRecEval, type RecEval } from './data';
+import type { Rec, RecResult } from './domain/recommend';
 import type { IndexEntry } from './types';
 import { DepBadge, KoBadge } from './ui';
 
@@ -12,21 +12,6 @@ function groupUsed(used: { ko: string; en: string[] }[]): string[] {
 }
 
 export const WHERE: Record<string, string> = { name: '이름', desc: '공식 설명', mem: '멤버(속성·메서드 등) 이름' };
-
-/** 질문(q)을 기능 설명으로 보고 추천을 계산한다. enabled 가 false 면 아무것도 하지 않는다. */
-export function useRec(minor: string, q: string, enabled: boolean): { loading: boolean; error: boolean; res: RecResult | null } {
-  const [data, setData] = useState<{ idx: RecIndex; intents: IntentEntry[] } | 'err' | null>(null);
-  const need = enabled && q.trim().length >= 2;
-  useEffect(() => {
-    if (!need) return;
-    let live = true;
-    setData(null);
-    Promise.all([loadRecIndex(minor), loadIntents()]).then(([idx, intents]) => live && setData({ idx, intents })).catch(() => live && setData('err'));
-    return () => { live = false; };
-  }, [minor, need]);
-  const res = useMemo(() => (need && data && data !== 'err' ? recommend(data.idx, q, data.intents, 8) : null), [need, data, q]);
-  return { loading: need && data === null, error: need && data === 'err', res };
-}
 
 export function RecSection({ res, version, index, selected, onPick }: { res: RecResult; version: string; index: IndexEntry[]; selected: string | null; onPick: (name: string) => void }) {
   const [more, setMore] = useState(false);

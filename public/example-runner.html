@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- 이 페이지는 앱 안에서 sandbox="allow-scripts" iframe 으로만 열린다(부모 저장소·쿠키 접근 불가).
+     UI5 가 필요로 하는 CDN·eval 만 이 문서에 한해 허용하고, 그 밖의 모든 출처는 막는다. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://ui5.sap.com 'unsafe-inline' 'unsafe-eval'; style-src https://ui5.sap.com 'unsafe-inline'; img-src https://ui5.sap.com data: blob:; font-src https://ui5.sap.com data:; connect-src https://ui5.sap.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>UI5 Lens example runner</title>
+<style>html,body{margin:0;padding:8px;font-family:system-ui,sans-serif}</style>
+</head>
+<body class="sapUiBody">
+<div id="content"></div>
+<script>
+(function () {
+  var started = false;
+  window.addEventListener('error', function (e) { console.error('[example-error] ' + e.message); });
+  window.addEventListener('message', function (e) {
+    // 우리를 연 부모 창이 보낸 메시지만 받는다.
+    if (e.source !== window.parent || started) return;
+    var d = e.data;
+    if (!d || d.type !== 'run' || typeof d.code !== 'string' || d.code.length > 200000) return;
+    if (!/^1\.\d{1,3}\.\d{1,3}$/.test(String(d.version))) return;
+    started = true;
+    var s = document.createElement('script');
+    s.id = 'sap-ui-bootstrap';
+    s.src = 'https://ui5.sap.com/' + d.version + '/resources/sap-ui-core.js';
+    s.setAttribute('data-sap-ui-theme', 'sap_horizon');
+    s.setAttribute('data-sap-ui-libs', 'sap.m,sap.ui.table');
+    s.setAttribute('data-sap-ui-async', 'true');
+    s.setAttribute('data-sap-ui-compatVersion', 'edge');
+    s.onload = function () {
+      sap.ui.getCore().attachInit(function () {
+        try { (new Function(d.code))(); } catch (err) { console.error('[example-error] ' + err.message); }
+      });
+    };
+    s.onerror = function () { console.error('[example-error] UI5 을 불러오지 못했습니다(인터넷 연결 확인)'); };
+    document.head.appendChild(s);
+  });
+})();
+</script>
+</body>
+</html>

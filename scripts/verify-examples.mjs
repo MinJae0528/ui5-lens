@@ -2,7 +2,10 @@
 // 통과 기준: ① 예제 실행 중 오류(console.error/pageerror) 없음 ② check 셀렉터가 expectCount 개 이상 렌더링됨.
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { chromium } from 'playwright-core';
-import { buildHarness, UI5_VERSION } from '../shared/harness.mjs';
+import { EXAMPLE_UI5_VERSION as UI5_VERSION, runMessage } from '../src/domain/example.ts';
+
+// 앱과 같은 실행 방식: 전용 페이지(public/example-runner.html)를 열고 postMessage 로 코드를 전달한다.
+const RUNNER = readFileSync('public/example-runner.html', 'utf8');
 
 const only = process.argv[2];
 const files = readdirSync('data/ko').filter((f) => f.endsWith('.json'));
@@ -20,8 +23,10 @@ for (const f of files) {
     page.on('console', (m) => { if (m.type() === 'error' && !/favicon|Failed to load resource/.test(m.text())) errors.push('console: ' + m.text()); });
     let status = 'passed', detail = '', actualVersion = null, count = 0;
     try {
-      await page.route('http://ui5-lens.test/**', (route) => route.fulfill({ contentType: 'text/html; charset=utf-8', body: buildHarness(ex.code) }));
-      await page.goto('http://ui5-lens.test/example', { waitUntil: 'load' });
+      await page.route('http://ui5-lens.test/**', (route) => route.fulfill({ contentType: 'text/html; charset=utf-8', body: RUNNER }));
+      await page.goto('http://ui5-lens.test/example-runner.html', { waitUntil: 'load' });
+      // 최상위 문서에서는 window.parent === window 이므로 러너의 발신자 검사를 통과한다.
+      await page.evaluate((m) => window.postMessage(m, '*'), runMessage(ex.code));
       await page.waitForFunction(() => window.sap && sap.ui && sap.ui.version, null, { timeout: 30000 });
       actualVersion = await page.evaluate(() => sap.ui.version);
       await page.waitForSelector(ex.check, { timeout: 20000 });

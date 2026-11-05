@@ -7,18 +7,23 @@
     "fetch:api": "node scripts/fetch-api.mjs",
     "build:data": "node scripts/build-data.mjs",
     "dev": "npm run build:data && vite",
-    "build": "npm run build:data && tsc --noEmit && vite build",
+    "build": "npm run build:data && npm run typecheck && npm test && vite build",
     "preview": "vite preview",
     "test:e2e": "node scripts/e2e.mjs",
     "ko:stamp": "node scripts/ko-stamp.mjs",
     "verify:examples": "node scripts/verify-examples.mjs",
-    "discover:versions": "node scripts/discover-versions.mjs"
+    "discover:versions": "node scripts/discover-versions.mjs",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p test",
+    "test": "node --test \"test/*.test.ts\"",
+    "eval:recommend": "node scripts/eval-recommend.mjs",
+    "app": "vite build && vite preview --open --host 127.0.0.1 --port 4173"
   },
   "dependencies": {
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.2.1",

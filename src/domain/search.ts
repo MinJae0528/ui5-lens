@@ -1,4 +1,4 @@
-import type { Alias, IndexEntry } from './types';
+import type { Alias, IndexEntry } from '../types.ts';
 
 export type MatchTier = 1 | 2 | 3;
 export interface Candidate { entry: IndexEntry; tier: MatchTier; reasons: string[] }

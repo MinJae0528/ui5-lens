@@ -4,14 +4,14 @@
       "status": "passed",
       "requestedVersion": "1.154.0",
       "actualVersion": "1.154.0",
-      "ranAt": "2026-11-05T08:59:31.692Z",
+      "ranAt": "2026-11-05T11:46:51.966Z",
       "check": ".sapMListTbl tbody tr.sapMListTblRow ≥ 3 (실제 3)"
     },
     "autopopin-and-selection": {
       "status": "passed",
       "requestedVersion": "1.154.0",
       "actualVersion": "1.154.0",
-      "ranAt": "2026-11-05T08:59:32.677Z",
+      "ranAt": "2026-11-05T11:46:54.702Z",
       "check": ".sapMListTbl tbody tr.sapMListTblRow ≥ 2 (실제 2)"
     }
   },
@@ -20,14 +20,14 @@
       "status": "passed",
       "requestedVersion": "1.154.0",
       "actualVersion": "1.154.0",
-      "ranAt": "2026-11-05T08:59:34.461Z",
+      "ranAt": "2026-11-05T11:46:58.335Z",
       "check": ".sapUiTable ≥ 1 (실제 1)"
     },
     "selection-event": {
       "status": "passed",
       "requestedVersion": "1.154.0",
       "actualVersion": "1.154.0",
-      "ranAt": "2026-11-05T08:59:35.433Z",
+      "ranAt": "2026-11-05T11:47:01.663Z",
       "check": ".sapUiTable ≥ 1 (실제 1)"
     }
   }
