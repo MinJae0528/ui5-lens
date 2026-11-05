@@ -2,3 +2,12 @@ node_modules
 dist
 data-raw
 public/data
+# 조사 노트·보고서(미검증 서드파티 정보 포함)는 저장소에 올리지 않는다
+research_notes
+reports
+# 비밀 값·OS 파일
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.log

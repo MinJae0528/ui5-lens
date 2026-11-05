@@ -27,7 +27,8 @@ for (const v of targets) {
   await mkdir(dir, { recursive: true });
   const base = `https://ui5.sap.com/${v.path}`;
   const verJson = JSON.parse(await get(`${base}/resources/sap-ui-version.json`));
-  const libs = verJson.libraries.map((l) => l.name);
+  // 원격이 준 라이브러리 이름이 파일 경로로 쓰이므로, 경로 이탈(../)·특수문자가 있는 이름은 거부한다.
+  const libs = verJson.libraries.map((l) => l.name).filter((n) => { const ok = /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(n) && !n.includes('..'); if (!ok) console.warn(`건너뜀: 허용되지 않는 라이브러리 이름 ${JSON.stringify(n)}`); return ok; });
   const manifestPath = join(dir, 'manifest.json');
   const manifest = { minor: v.minor, path: v.path, version: verJson.version, fetchedAt: new Date().toISOString(), libraries: {}, noApiJson: [] };
   if (await exists(manifestPath)) Object.assign(manifest, JSON.parse(await readFile(manifestPath, 'utf8')));
