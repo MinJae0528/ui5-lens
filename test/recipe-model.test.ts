@@ -55,6 +55,6 @@ test('data/recipe-model.json: 형식과 크기(1MB 미만), 모든 레시피 포
   assert.ok(raw.length < 1024 * 1024, `모델 파일 ${raw.length} 바이트`);
   const m = JSON.parse(raw.toString('utf8')) as RecipeModel;
   const ids = (JSON.parse(readFileSync('data/recipes.json', 'utf8')).recipes as { id: string }[]).map((r) => r.id);
-  assert.deepEqual(m.classes.map((c) => c.id).sort(), [...ids].sort());
+  assert.deepEqual(m.classes.map((c) => c.id).filter((id) => id !== '__none__').sort(), [...ids].sort()); // 해당 없음 분류는 있을 수도 없을 수도 있다
   assert.equal(m.vocab.length, m.idf.length);
 });

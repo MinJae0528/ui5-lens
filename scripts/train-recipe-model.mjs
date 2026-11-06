@@ -3,7 +3,9 @@
 // 표현을 늘리는 방법(증강): 유의어 치환. 의미가 같은 흔한 한국어 표현끼리만 바꾼다.
 import { readFileSync, writeFileSync, statSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
-import { train } from '../src/domain/recipeModel.ts';
+import { train, NONE_ID } from '../src/domain/recipeModel.ts';
+import { validateTrain } from '../src/domain/evalSet.ts';
+import { existsSync, readdirSync } from 'node:fs';
 
 const recipes = JSON.parse(readFileSync('data/recipes.json', 'utf8')).recipes;
 const para = JSON.parse(readFileSync('data/recipe-train.json', 'utf8')).paraphrases;
@@ -19,6 +21,20 @@ for (const r of recipes) {
   const base = [...r.ko, ...(para[r.id] ?? [])];
   samples[r.id] = [...new Set(base.flatMap(augment))];
 }
+// 다른 AI 가 만든 학습 표현(data/external/train-*.json)과 “해당 없음” 질문을 합친다.
+let extPara = 0, extNeg = 0;
+const negatives = [];
+if (existsSync('data/external')) {
+  const ids = new Set(recipes.map((r) => r.id));
+  for (const f of readdirSync('data/external').filter((f) => f.startsWith('train-') && f.endsWith('.json'))) {
+    const { train: t, issues } = validateTrain(JSON.parse(readFileSync(`data/external/${f}`, 'utf8')), ids);
+    for (const i of issues) console.warn(`[${f}] ${i}`);
+    for (const [id, list] of Object.entries(t.paraphrases)) { samples[id] = [...new Set([...samples[id], ...list.flatMap(augment)])]; extPara += list.length; }
+    negatives.push(...t.negatives); extNeg += t.negatives.length;
+  }
+}
+if (negatives.length) samples[NONE_ID] = [...new Set(negatives)];
+console.log(`외부 학습 표현 ${extPara}개, 해당 없음 ${extNeg}개 반영`);
 const model = train(samples);
 const json = JSON.stringify({ v: model.v, vocab: model.vocab, idf: model.idf.map((x) => +x.toFixed(3)), classes: model.classes.map((c) => ({ id: c.id, centroid: c.centroid.map(([i, w]) => [i, +w.toFixed(3)]), samples: c.samples.map((s) => s.map(([i, w]) => [i, +w.toFixed(3)])) })) });
 writeFileSync('data/recipe-model.json', json);

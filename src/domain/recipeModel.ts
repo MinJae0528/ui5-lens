@@ -9,6 +9,8 @@ export interface RecipeModel {
   /** 레시피별: id, 중심 벡터(희소), 표현 벡터들(희소) */
   classes: { id: string; centroid: [number, number][]; samples: [number, number][][] }[];
 }
+/** “해당 없음” 학습용 특수 분류. 1등이 이것이면 레시피를 쓰지 않는다(모르는 질문 거절). */
+export const NONE_ID = '__none__';
 export interface ModelScore { id: string; score: number; nearest: number; centroid: number }
 
 const PARTICLES = ['으로', '에서', '에게', '까지', '부터', '이나', '으로써', '을', '를', '이', '가', '은', '는', '에', '로', '의', '도', '만', '과', '와'];
@@ -102,6 +104,7 @@ export function scoreModel(pm: PreparedModel, query: string): ModelScore[] {
 export function decide(scores: ModelScore[], minScore: number, minMargin: number): ModelScore | null {
   if (!scores.length) return null;
   const [a, b] = scores;
+  if (a.id === NONE_ID) return null;
   if (a.score < minScore) return null;
   if (b && a.score - b.score < minMargin) return null;
   return a;
