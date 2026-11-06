@@ -1,0 +1,336 @@
+{
+ "note": "작은 모델 평가(fresh4). 학습 데이터를 만들기 전에 작성했고 모델 확정 후 한 번만 측정한다. fresh3 은 확신도 기준을 정하는 데 사용했다.",
+ "cases": [
+  {
+   "q": "버튼 클릭하면 호출할 함수 등록",
+   "expect": [
+    "Button#press",
+    "Button#attachPress"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "텍스트박스 내용이 달라지면 알려줘",
+   "expect": [
+    "Input#liveChange",
+    "InputBase#change",
+    "Input#change",
+    "liveChange"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "입력 필드의 현재 문자열 얻기",
+   "expect": [
+    "getValue",
+    "InputBase#getValue"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "입력 필드 초기화",
+   "expect": [
+    "setValue"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "필수값 누락 시 입력칸 경고색",
+   "expect": [
+    "setValueState",
+    "valueState"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "버튼 감추기",
+   "expect": [
+    "setVisible",
+    "visible"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "버튼 사용 불가로 만들기",
+   "expect": [
+    "setEnabled",
+    "enabled"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "화면 문자 교체",
+   "expect": [
+    "setText",
+    "text"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "팝업 띄우기",
+   "expect": [
+    "Dialog#open",
+    "sap.m.Dialog"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "팝업 닫아줘",
+   "expect": [
+    "Dialog#close"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "정말 삭제하시겠습니까 창",
+   "expect": [
+    "MessageBox#confirm"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "저장 완료 안내 잠시 표시",
+   "expect": [
+    "MessageToast#show"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "뷰에 JSON 모델 붙이기",
+   "expect": [
+    "setModel"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "모델 데이터 통째로 교체",
+   "expect": [
+    "setData",
+    "JSONModel#setData"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "모델의 특정 경로 값 업데이트",
+   "expect": [
+    "setProperty"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "목록 컨트롤에 items 연결",
+   "expect": [
+    "bindAggregation",
+    "sap.m.List"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "다른 뷰로 넘어가기",
+   "expect": [
+    "navTo",
+    "Router#navTo",
+    "NavContainer#to"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "컨트롤러에서 화면 컨트롤 id로 찾기",
+   "expect": [
+    "byId"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "리스트 행 누르면",
+   "expect": [
+    "itemPress",
+    "ListBase#itemPress",
+    "ListItemBase#press"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "체크된 리스트 항목 목록",
+   "expect": [
+    "getSelectedItems",
+    "getSelectedItem"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "리스트에 아이템 붙이기",
+   "expect": [
+    "addItem"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "리스트 내용 전부 삭제",
+   "expect": [
+    "removeAllItems",
+    "destroyItems"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "테이블 열 만들어 넣기",
+   "expect": [
+    "addColumn"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "특정 조건만 목록에 남기기",
+   "expect": [
+    "filter",
+    "ListBinding#filter",
+    "sap.ui.model.Filter"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "날짜 고르는 입력창",
+   "expect": [
+    "sap.m.DatePicker",
+    "DatePicker"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "체크박스에 체크됐나",
+   "expect": [
+    "getSelected",
+    "CheckBox#getSelected"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "검색 입력 후 엔터",
+   "expect": [
+    "SearchField#search",
+    "search"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "탭 눌러 전환될 때",
+   "expect": [
+    "IconTabBar#select",
+    "select"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "작업 중 로딩 스피너 띄우기",
+   "expect": [
+    "setBusy",
+    "BusyDialog#open"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "OData 서비스에서 엔티티 조회",
+   "expect": [
+    "ODataModel#read",
+    "read"
+   ],
+   "kind": "covered"
+  },
+  {
+   "q": "컨트롤 자식들 목록 얻기",
+   "expect": [
+    "getContent",
+    "getItems",
+    "getAggregation"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "이미지 클릭하면 크게",
+   "expect": [
+    "LightBox",
+    "sap.m.LightBox"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "폰인지 데스크톱인지 구분",
+   "expect": [
+    "Device",
+    "sap.ui.Device"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "스캐너로 코드 읽기",
+   "expect": [
+    "BarcodeScannerButton",
+    "BarcodeScanner"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "글꼴 서식 지정 편집",
+   "expect": [
+    "RichTextEditor",
+    "sap.ui.richtexteditor.RichTextEditor"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "구역별로 묶어 보이는 목록",
+   "expect": [
+    "GroupHeaderListItem",
+    "sap.m.GroupHeaderListItem"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "마우스 올리면 설명 표시",
+   "expect": [
+    "setTooltip",
+    "tooltip"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "페이지 상단 타이틀 바꾸기",
+   "expect": [
+    "setTitle",
+    "title"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "타일 카드 모음 화면",
+   "expect": [
+    "GenericTile",
+    "sap.m.GenericTile"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "상태에 따라 색 다르게 글자",
+   "expect": [
+    "ObjectStatus",
+    "sap.m.ObjectStatus"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "컨트롤 감싸는 부모 얻기",
+   "expect": [
+    "getParent"
+   ],
+   "kind": "uncovered"
+  },
+  {
+   "q": "컨트롤 고유 번호 확인",
+   "expect": [
+    "getId"
+   ],
+   "kind": "uncovered"
+  }
+ ]
+}
