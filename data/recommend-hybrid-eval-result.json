@@ -1,0 +1,16 @@
+{
+ "minor": "1.154",
+ "at": "2026-11-06T00:34:15.655Z",
+ "covered": {
+  "n": 30,
+  "hit": 14,
+  "viaRecipe": 17,
+  "recipeHit": 12
+ },
+ "uncovered": {
+  "n": 12,
+  "hit": 5,
+  "viaRecipe": 4,
+  "recipeHit": 1
+ }
+}

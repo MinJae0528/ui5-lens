@@ -1,0 +1,1566 @@
+{
+ "note": "자주 하는 작업과 정답 API 를 AI 가 작성한 표(사람 검토 전). 정답 API 가 공식 자료에 실제로 있는지는 빌드 때 자동 검증한다. 질문 문구가 표와 비슷할 때만 이 표로 추천한다.",
+ "recipes": [
+  {
+   "id": "button-press",
+   "ko": [
+    "버튼을 눌렀을 때",
+    "버튼 클릭 이벤트",
+    "버튼 클릭 처리",
+    "버튼 누르면 실행"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Button#event:press",
+     "why": "버튼을 눌렀을 때 발생하는 이벤트입니다. 핸들러를 연결합니다."
+    },
+    {
+     "ref": "sap.m.Button#method:attachPress",
+     "why": "press 이벤트에 핸들러 함수를 연결하는 메서드입니다."
+    },
+    {
+     "ref": "sap.m.Button",
+     "why": "버튼 컨트롤 자체입니다."
+    }
+   ]
+  },
+  {
+   "id": "input-change",
+   "ko": [
+    "입력값이 바뀔 때",
+    "입력창 값 변경 이벤트",
+    "입력 변경 감지",
+    "입력할 때마다 알림"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Input#event:liveChange",
+     "why": "글자를 입력할 때마다 발생합니다."
+    },
+    {
+     "ref": "sap.m.InputBase#event:change",
+     "why": "입력을 마치고 확정할 때 발생합니다."
+    },
+    {
+     "ref": "sap.m.Input",
+     "why": "입력창 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "input-get",
+   "ko": [
+    "입력창 값 가져오기",
+    "입력한 값 읽기",
+    "입력 값 얻기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.InputBase#method:getValue",
+     "why": "입력창의 현재 값을 읽습니다."
+    },
+    {
+     "ref": "sap.m.Input",
+     "why": "입력창 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "input-set",
+   "ko": [
+    "입력창 값 바꾸기",
+    "입력 값 지정",
+    "입력창에 값 넣기",
+    "입력창 값 지우기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.InputBase#method:setValue",
+     "why": "입력창 값을 설정합니다. 빈 문자열이면 지웁니다."
+    },
+    {
+     "ref": "sap.m.Input",
+     "why": "입력창 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "input-state",
+   "ko": [
+    "입력값 오류 상태 표시",
+    "입력 검증 실패 표시",
+    "입력창 빨갛게",
+    "입력 경고 표시"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.InputBase#method:setValueState",
+     "why": "입력창 상태(오류·경고·성공)를 지정합니다."
+    },
+    {
+     "ref": "sap.m.InputBase#method:setValueStateText",
+     "why": "상태 설명 문구를 지정합니다."
+    }
+   ]
+  },
+  {
+   "id": "visible",
+   "ko": [
+    "컨트롤 숨기기",
+    "컨트롤 보이게 하기",
+    "화면 요소 감추기",
+    "보이기 숨기기 전환"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.Control#method:setVisible",
+     "why": "컨트롤을 보이거나 숨깁니다."
+    },
+    {
+     "ref": "sap.ui.core.Control#method:getVisible",
+     "why": "현재 보이는 상태를 읽습니다."
+    }
+   ]
+  },
+  {
+   "id": "enabled",
+   "ko": [
+    "버튼 비활성화",
+    "컨트롤 활성화 여부",
+    "누르지 못하게 막기",
+    "입력 못하게 하기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Button#method:setEnabled",
+     "why": "버튼을 활성/비활성으로 바꿉니다."
+    },
+    {
+     "ref": "sap.m.InputBase#method:setEnabled",
+     "why": "입력창을 활성/비활성으로 바꿉니다."
+    }
+   ]
+  },
+  {
+   "id": "text-set",
+   "ko": [
+    "텍스트 설정",
+    "글자 바꾸기",
+    "화면에 글자 보여주기",
+    "버튼 글자 바꾸기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Text#method:setText",
+     "why": "Text 컨트롤의 글자를 바꿉니다."
+    },
+    {
+     "ref": "sap.m.Button#method:setText",
+     "why": "버튼 글자를 바꿉니다."
+    },
+    {
+     "ref": "sap.m.Label#method:setText",
+     "why": "라벨 글자를 바꿉니다."
+    }
+   ]
+  },
+  {
+   "id": "dialog-open",
+   "ko": [
+    "대화상자 열기",
+    "팝업창 열기",
+    "다이얼로그 띄우기",
+    "모달 창 열기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Dialog#method:open",
+     "why": "대화상자를 엽니다."
+    },
+    {
+     "ref": "sap.m.Dialog",
+     "why": "대화상자 컨트롤입니다."
+    },
+    {
+     "ref": "sap.m.Popover#method:openBy",
+     "why": "다른 컨트롤 옆에 작은 팝오버로 엽니다."
+    }
+   ]
+  },
+  {
+   "id": "dialog-close",
+   "ko": [
+    "대화상자 닫기",
+    "팝업창 닫기",
+    "다이얼로그 닫기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Dialog#method:close",
+     "why": "대화상자를 닫습니다."
+    },
+    {
+     "ref": "sap.m.Dialog",
+     "why": "대화상자 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "dialog-button",
+   "ko": [
+    "대화상자에 버튼 추가",
+    "다이얼로그 버튼 달기",
+    "팝업에 확인 버튼"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Dialog#method:addButton",
+     "why": "대화상자 하단에 버튼을 추가합니다."
+    },
+    {
+     "ref": "sap.m.Dialog#method:setBeginButton",
+     "why": "왼쪽(시작) 버튼을 지정합니다."
+    },
+    {
+     "ref": "sap.m.Dialog#method:setEndButton",
+     "why": "오른쪽(끝) 버튼을 지정합니다."
+    }
+   ]
+  },
+  {
+   "id": "dialog-title",
+   "ko": [
+    "대화상자 제목 설정",
+    "팝업 제목 바꾸기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Dialog#method:setTitle",
+     "why": "대화상자 제목을 정합니다."
+    },
+    {
+     "ref": "sap.m.Dialog",
+     "why": "대화상자 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "popover",
+   "ko": [
+    "팝오버 열기",
+    "말풍선 팝업",
+    "버튼 옆에 작은 창"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Popover#method:openBy",
+     "why": "기준 컨트롤 옆에 팝오버를 엽니다."
+    },
+    {
+     "ref": "sap.m.Popover",
+     "why": "팝오버 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "confirm",
+   "ko": [
+    "삭제할 때 확인창",
+    "정말 진행할까요 확인",
+    "예 아니오 확인 대화상자",
+    "확인 취소 물어보기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.MessageBox#method:confirm",
+     "why": "확인/취소를 묻는 상자를 띄웁니다."
+    },
+    {
+     "ref": "sap.m.MessageBox#method:show",
+     "why": "옵션을 직접 지정하는 범용 메시지 상자입니다."
+    }
+   ]
+  },
+  {
+   "id": "alert",
+   "ko": [
+    "알림 상자 띄우기",
+    "경고창 보여주기",
+    "알려주는 팝업",
+    "메시지 박스 안내"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.MessageBox#method:alert",
+     "why": "알림(확인 버튼만 있는) 상자를 띄웁니다."
+    },
+    {
+     "ref": "sap.m.MessageBox#method:warning",
+     "why": "경고 상자를 띄웁니다."
+    },
+    {
+     "ref": "sap.m.MessageBox#method:information",
+     "why": "정보 상자를 띄웁니다."
+    }
+   ]
+  },
+  {
+   "id": "error-box",
+   "ko": [
+    "에러 메시지 상자",
+    "오류 알림창",
+    "실패했다고 알려주기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.MessageBox#method:error",
+     "why": "오류 상자를 띄웁니다."
+    },
+    {
+     "ref": "sap.m.MessageBox#method:show",
+     "why": "범용 메시지 상자입니다."
+    }
+   ]
+  },
+  {
+   "id": "toast",
+   "ko": [
+    "잠깐 알림 메시지",
+    "토스트 메시지",
+    "저장됐다고 잠깐 보여주기",
+    "작업 끝났다는 알림"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.MessageToast#method:show",
+     "why": "잠깐 나타났다 사라지는 알림을 보여줍니다."
+    },
+    {
+     "ref": "sap.m.MessageStrip",
+     "why": "화면에 계속 남는 알림 띠입니다."
+    }
+   ]
+  },
+  {
+   "id": "set-model",
+   "ko": [
+    "모델을 화면에 연결",
+    "데이터 모델 연결",
+    "뷰에 모델 지정",
+    "컨트롤에 모델 붙이기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.base.ManagedObject#method:setModel",
+     "why": "컨트롤(뷰)에 모델을 연결합니다."
+    },
+    {
+     "ref": "sap.ui.model.json.JSONModel",
+     "why": "JSON 객체 데이터를 담는 모델입니다."
+    },
+    {
+     "ref": "sap.ui.base.ManagedObject#method:getModel",
+     "why": "연결된 모델을 가져옵니다."
+    }
+   ]
+  },
+  {
+   "id": "json-set",
+   "ko": [
+    "제이슨 모델에 데이터 넣기",
+    "JSON 데이터 설정",
+    "모델 데이터 한꺼번에 지정"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.json.JSONModel#method:setData",
+     "why": "모델 전체 데이터를 지정합니다."
+    },
+    {
+     "ref": "sap.ui.model.json.JSONModel",
+     "why": "JSON 모델 클래스입니다."
+    }
+   ]
+  },
+  {
+   "id": "json-get",
+   "ko": [
+    "모델 데이터 가져오기",
+    "모델 전체 읽기",
+    "JSON 데이터 얻기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.ClientModel#method:getData",
+     "why": "모델 전체 데이터를 읽습니다."
+    },
+    {
+     "ref": "sap.ui.model.Model#method:getProperty",
+     "why": "경로로 값 하나를 읽습니다."
+    }
+   ]
+  },
+  {
+   "id": "model-get-prop",
+   "ko": [
+    "모델에서 값 읽기",
+    "경로로 값 가져오기",
+    "모델 속성 읽기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.Model#method:getProperty",
+     "why": "경로(예: /user/name)로 값을 읽습니다."
+    },
+    {
+     "ref": "sap.ui.model.json.JSONModel#method:getProperty",
+     "why": "JSON 모델에서 경로로 값을 읽습니다."
+    }
+   ]
+  },
+  {
+   "id": "model-set-prop",
+   "ko": [
+    "모델 값 바꾸기",
+    "경로로 값 수정",
+    "모델 속성 변경"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.json.JSONModel#method:setProperty",
+     "why": "경로로 값 하나를 바꿉니다. 바인딩된 화면이 갱신됩니다."
+    },
+    {
+     "ref": "sap.ui.model.json.JSONModel#method:setData",
+     "why": "전체 데이터를 교체합니다."
+    }
+   ]
+  },
+  {
+   "id": "bind-aggregation",
+   "ko": [
+    "목록에 데이터 바인딩",
+    "리스트에 모델 데이터 표시",
+    "테이블에 데이터 연결",
+    "items 바인딩"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.base.ManagedObject#method:bindAggregation",
+     "why": "자식 목록(items·rows 등)을 모델 경로에 바인딩합니다."
+    },
+    {
+     "ref": "sap.m.List",
+     "why": "목록 컨트롤입니다."
+    },
+    {
+     "ref": "sap.m.Table",
+     "why": "표 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "bind-property",
+   "ko": [
+    "속성 바인딩",
+    "컨트롤 속성을 모델과 연결",
+    "값을 데이터와 묶기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.base.ManagedObject#method:bindProperty",
+     "why": "컨트롤 속성 하나를 모델 경로에 바인딩합니다."
+    },
+    {
+     "ref": "sap.ui.core.Element#method:bindElement",
+     "why": "컨트롤 전체의 바인딩 컨텍스트를 지정합니다."
+    }
+   ]
+  },
+  {
+   "id": "navto",
+   "ko": [
+    "다른 화면으로 이동",
+    "라우터로 화면 이동",
+    "페이지 이동하기",
+    "다음 화면으로 가기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.routing.Router#method:navTo",
+     "why": "이름 붙인 라우트로 이동합니다."
+    },
+    {
+     "ref": "sap.m.NavContainer#method:to",
+     "why": "NavContainer 안에서 페이지를 전환합니다."
+    }
+   ]
+  },
+  {
+   "id": "route-matched",
+   "ko": [
+    "라우트가 일치했을 때",
+    "화면이 열릴 때 파라미터 받기",
+    "주소 패턴 매칭 이벤트"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.routing.Route#method:attachPatternMatched",
+     "why": "라우트 패턴이 맞을 때 실행할 함수를 연결합니다."
+    },
+    {
+     "ref": "sap.ui.core.routing.Route#method:attachMatched",
+     "why": "라우트가 맞을 때(하위 포함) 실행할 함수를 연결합니다."
+    }
+   ]
+  },
+  {
+   "id": "back",
+   "ko": [
+    "뒤로 가기",
+    "이전 화면으로 돌아가기",
+    "이전 페이지 이동"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.routing.History#method:getPreviousHash",
+     "why": "이전 해시가 있는지 확인해 뒤로 갈지 정합니다."
+    },
+    {
+     "ref": "sap.ui.core.routing.Router#method:navTo",
+     "why": "이전 기록이 없으면 지정한 라우트로 이동합니다."
+    }
+   ]
+  },
+  {
+   "id": "by-id",
+   "ko": [
+    "아이디로 컨트롤 찾기",
+    "뷰에서 컨트롤 가져오기",
+    "컨트롤러에서 컨트롤 얻기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.mvc.Controller#method:byId",
+     "why": "컨트롤러가 속한 뷰의 컨트롤을 id 로 찾습니다."
+    },
+    {
+     "ref": "sap.ui.core.mvc.View#method:byId",
+     "why": "뷰 안의 컨트롤을 id 로 찾습니다."
+    }
+   ]
+  },
+  {
+   "id": "get-router",
+   "ko": [
+    "컴포넌트 라우터 가져오기",
+    "라우터 얻기",
+    "컨트롤러에서 라우터 사용"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.UIComponent#method:getRouter",
+     "why": "컴포넌트에 설정된 라우터를 가져옵니다."
+    },
+    {
+     "ref": "sap.ui.core.mvc.Controller#method:getOwnerComponent",
+     "why": "컨트롤러가 속한 컴포넌트를 가져옵니다."
+    }
+   ]
+  },
+  {
+   "id": "view-controller",
+   "ko": [
+    "뷰의 컨트롤러 가져오기",
+    "컨트롤러에서 뷰 가져오기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.mvc.View#method:getController",
+     "why": "뷰에 연결된 컨트롤러를 가져옵니다."
+    },
+    {
+     "ref": "sap.ui.core.mvc.Controller#method:getView",
+     "why": "컨트롤러가 속한 뷰를 가져옵니다."
+    }
+   ]
+  },
+  {
+   "id": "i18n",
+   "ko": [
+    "다국어 문구 가져오기",
+    "번역 텍스트 사용",
+    "언어별 텍스트 읽기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.resource.ResourceModel#method:getResourceBundle",
+     "why": "i18n 문구 묶음을 가져옵니다."
+    },
+    {
+     "ref": "sap.ui.model.resource.ResourceModel",
+     "why": "i18n 파일을 모델로 쓰는 클래스입니다."
+    }
+   ]
+  },
+  {
+   "id": "list-itempress",
+   "ko": [
+    "리스트 항목을 클릭했을 때",
+    "목록 항목 눌렀을 때",
+    "행 클릭 이벤트"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.ListBase#event:itemPress",
+     "why": "목록 항목을 눌렀을 때 발생합니다."
+    },
+    {
+     "ref": "sap.m.ListItemBase#event:press",
+     "why": "항목 하나의 press 이벤트입니다."
+    },
+    {
+     "ref": "sap.m.ListBase#event:selectionChange",
+     "why": "선택이 바뀔 때 발생합니다."
+    }
+   ]
+  },
+  {
+   "id": "list-selected",
+   "ko": [
+    "선택된 항목 가져오기",
+    "리스트에서 고른 항목 읽기",
+    "선택한 행 얻기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.ListBase#method:getSelectedItem",
+     "why": "선택된 항목 하나를 가져옵니다."
+    },
+    {
+     "ref": "sap.m.ListBase#method:getSelectedItems",
+     "why": "선택된 항목 여러 개를 가져옵니다."
+    },
+    {
+     "ref": "sap.ui.table.Table#method:getSelectedIndices",
+     "why": "그리드 테이블에서 선택된 행 번호들입니다."
+    }
+   ]
+  },
+  {
+   "id": "list-add",
+   "ko": [
+    "목록에 항목 추가",
+    "리스트에 아이템 넣기",
+    "항목 하나 더하기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.ListBase#method:addItem",
+     "why": "목록에 항목을 추가합니다."
+    },
+    {
+     "ref": "sap.m.List",
+     "why": "목록 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "list-remove",
+   "ko": [
+    "항목 하나 제거",
+    "리스트에서 항목 삭제",
+    "목록 항목 빼기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.ListBase#method:removeItem",
+     "why": "목록에서 항목 하나를 제거합니다."
+    },
+    {
+     "ref": "sap.m.ListBase#method:removeAllItems",
+     "why": "모든 항목을 제거합니다."
+    }
+   ]
+  },
+  {
+   "id": "list-clear",
+   "ko": [
+    "모든 항목 지우기",
+    "목록 비우기",
+    "리스트 전체 삭제"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.ListBase#method:removeAllItems",
+     "why": "모든 항목을 제거합니다(제거된 항목은 반환됩니다)."
+    },
+    {
+     "ref": "sap.m.ListBase#method:destroyItems",
+     "why": "모든 항목을 제거하고 파괴합니다."
+    }
+   ]
+  },
+  {
+   "id": "list-deselect",
+   "ko": [
+    "선택 해제하기",
+    "선택 모두 취소",
+    "고른 것 초기화"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.ListBase#method:removeSelections",
+     "why": "목록의 선택을 모두 해제합니다."
+    },
+    {
+     "ref": "sap.m.ListBase#method:setMode",
+     "why": "선택 모드(없음·단일·다중)를 정합니다."
+    }
+   ]
+  },
+  {
+   "id": "list-mode",
+   "ko": [
+    "리스트 선택 모드 설정",
+    "다중 선택 목록",
+    "체크박스 선택 목록"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.ListBase#method:setMode",
+     "why": "선택 모드를 정합니다."
+    },
+    {
+     "ref": "sap.m.ListBase#property:mode",
+     "why": "선택 모드 속성입니다."
+    }
+   ]
+  },
+  {
+   "id": "list-updated",
+   "ko": [
+    "목록 데이터가 갱신됐을 때",
+    "리스트 로딩이 끝났을 때",
+    "데이터 불러온 뒤 처리"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.ListBase#event:updateFinished",
+     "why": "목록 갱신이 끝났을 때 발생합니다."
+    },
+    {
+     "ref": "sap.m.ListBase#event:updateStarted",
+     "why": "목록 갱신이 시작될 때 발생합니다."
+    }
+   ]
+  },
+  {
+   "id": "table-column",
+   "ko": [
+    "테이블에 컬럼 추가",
+    "표에 열 추가",
+    "컬럼 만들기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Table#method:addColumn",
+     "why": "반응형 테이블에 열을 추가합니다."
+    },
+    {
+     "ref": "sap.ui.table.Table#method:addColumn",
+     "why": "그리드 테이블에 열을 추가합니다."
+    }
+   ]
+  },
+  {
+   "id": "filter",
+   "ko": [
+    "필터 적용",
+    "목록 걸러내기",
+    "조건으로 거르기",
+    "검색 조건 필터링"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.ListBinding#method:filter",
+     "why": "바인딩에 필터를 적용합니다."
+    },
+    {
+     "ref": "sap.ui.model.Filter",
+     "why": "필터 조건 클래스입니다."
+    }
+   ]
+  },
+  {
+   "id": "sort",
+   "ko": [
+    "정렬하기",
+    "오름차순 내림차순 정렬",
+    "목록 정렬"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.ListBinding#method:sort",
+     "why": "바인딩에 정렬을 적용합니다."
+    },
+    {
+     "ref": "sap.ui.model.Sorter",
+     "why": "정렬 조건 클래스입니다."
+    }
+   ]
+  },
+  {
+   "id": "date-pick",
+   "ko": [
+    "날짜 선택",
+    "날짜를 고르고 싶어",
+    "달력에서 날짜 선택"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.DatePicker",
+     "why": "날짜를 고르는 입력 컨트롤입니다."
+    },
+    {
+     "ref": "sap.m.DatePicker#method:getDateValue",
+     "why": "선택한 날짜(Date)를 읽습니다."
+    },
+    {
+     "ref": "sap.m.DatePicker#event:change",
+     "why": "날짜가 바뀔 때 발생합니다."
+    }
+   ]
+  },
+  {
+   "id": "date-get",
+   "ko": [
+    "날짜 값 읽기",
+    "선택한 날짜 가져오기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.DatePicker#method:getDateValue",
+     "why": "선택한 날짜를 Date 로 읽습니다."
+    },
+    {
+     "ref": "sap.m.DatePicker#method:getValue",
+     "why": "표시 문자열로 읽습니다."
+    }
+   ]
+  },
+  {
+   "id": "date-set",
+   "ko": [
+    "날짜 값 지정",
+    "날짜 미리 채우기",
+    "기본 날짜 설정"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.DateTimeField#method:setDateValue",
+     "why": "Date 객체로 날짜를 지정합니다."
+    },
+    {
+     "ref": "sap.m.DatePicker#method:setValue",
+     "why": "문자열로 날짜를 지정합니다."
+    }
+   ]
+  },
+  {
+   "id": "date-range",
+   "ko": [
+    "시작일 종료일 선택",
+    "기간 선택",
+    "날짜 범위 고르기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.DateRangeSelection",
+     "why": "시작일~종료일을 고르는 컨트롤입니다."
+    },
+    {
+     "ref": "sap.m.DateRangeSelection#method:getDateValue",
+     "why": "시작일을 읽습니다."
+    },
+    {
+     "ref": "sap.m.DateRangeSelection#method:getSecondDateValue",
+     "why": "종료일을 읽습니다."
+    }
+   ]
+  },
+  {
+   "id": "select-key",
+   "ko": [
+    "드롭다운 선택 키 설정",
+    "선택된 키 읽기",
+    "콤보 선택 값 바꾸기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Select#method:setSelectedKey",
+     "why": "선택 키를 지정합니다."
+    },
+    {
+     "ref": "sap.m.Select#method:getSelectedKey",
+     "why": "선택된 키를 읽습니다."
+    },
+    {
+     "ref": "sap.m.ComboBox",
+     "why": "입력도 되는 드롭다운입니다."
+    }
+   ]
+  },
+  {
+   "id": "checkbox",
+   "ko": [
+    "체크박스 선택 상태",
+    "체크 여부 읽기",
+    "체크박스 체크하기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.CheckBox#method:getSelected",
+     "why": "체크 상태를 읽습니다."
+    },
+    {
+     "ref": "sap.m.CheckBox#method:setSelected",
+     "why": "체크 상태를 바꿉니다."
+    },
+    {
+     "ref": "sap.m.CheckBox#event:select",
+     "why": "체크가 바뀔 때 발생합니다."
+    }
+   ]
+  },
+  {
+   "id": "radio",
+   "ko": [
+    "라디오 선택 읽기",
+    "여러 보기 중 하나 선택 상태"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.RadioButtonGroup#method:getSelectedIndex",
+     "why": "선택된 라디오의 번호를 읽습니다."
+    },
+    {
+     "ref": "sap.m.RadioButtonGroup",
+     "why": "라디오 묶음 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "switch",
+   "ko": [
+    "스위치 상태 읽기",
+    "켜고 끄는 값 가져오기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Switch#method:getState",
+     "why": "스위치 켜짐 여부를 읽습니다."
+    },
+    {
+     "ref": "sap.m.Switch#event:change",
+     "why": "켜고 끌 때 발생합니다."
+    }
+   ]
+  },
+  {
+   "id": "search",
+   "ko": [
+    "검색어를 입력했을 때",
+    "검색창 이벤트",
+    "검색 버튼 눌렀을 때"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.SearchField#event:search",
+     "why": "검색을 실행할 때 발생합니다."
+    },
+    {
+     "ref": "sap.m.SearchField#event:liveChange",
+     "why": "입력 중에 발생합니다."
+    },
+    {
+     "ref": "sap.m.SearchField",
+     "why": "검색창 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "tab-select",
+   "ko": [
+    "탭 선택 바꾸기",
+    "탭을 눌렀을 때",
+    "다른 탭으로 전환"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.IconTabBar#method:setSelectedKey",
+     "why": "선택된 탭을 키로 지정합니다."
+    },
+    {
+     "ref": "sap.m.IconTabBar#event:select",
+     "why": "탭이 선택될 때 발생합니다."
+    },
+    {
+     "ref": "sap.m.IconTabBar",
+     "why": "탭 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "page-add",
+   "ko": [
+    "페이지에 내용 추가",
+    "컨테이너에 자식 컨트롤 넣기",
+    "화면에 컨트롤 붙이기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Page#method:addContent",
+     "why": "페이지 본문에 컨트롤을 추가합니다."
+    },
+    {
+     "ref": "sap.m.FlexBox#method:addItem",
+     "why": "세로·가로 배치 상자(VBox·HBox)가 공통으로 쓰는 FlexBox 의 addItem 으로 자식을 추가합니다."
+    },
+    {
+     "ref": "sap.m.HBox",
+     "why": "자식 컨트롤을 가로로 배치하는 상자입니다."
+    }
+   ]
+  },
+  {
+   "id": "style-class",
+   "ko": [
+    "스타일 클래스 추가",
+    "css 클래스 붙이기",
+    "컨트롤에 클래스 지정"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.Control#method:addStyleClass",
+     "why": "컨트롤에 CSS 클래스를 추가합니다."
+    },
+    {
+     "ref": "sap.ui.core.Control#method:removeStyleClass",
+     "why": "CSS 클래스를 제거합니다."
+    }
+   ]
+  },
+  {
+   "id": "focus",
+   "ko": [
+    "포커스 맞추기",
+    "입력창에 커서 두기",
+    "초점 이동"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.Element#method:focus",
+     "why": "컨트롤에 포커스를 줍니다."
+    }
+   ]
+  },
+  {
+   "id": "destroy",
+   "ko": [
+    "컨트롤 파괴하고 정리",
+    "메모리에서 제거",
+    "컨트롤 없애기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.base.ManagedObject#method:destroy",
+     "why": "컨트롤을 파괴해 메모리를 정리합니다."
+    }
+   ]
+  },
+  {
+   "id": "rerender",
+   "ko": [
+    "컨트롤 다시 그리기",
+    "화면 갱신 강제",
+    "다시 렌더링"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.Control#method:invalidate",
+     "why": "다음 렌더링 때 다시 그리도록 표시합니다."
+    },
+    {
+     "ref": "sap.ui.core.Control#method:rerender",
+     "why": "즉시 다시 그립니다."
+    }
+   ]
+  },
+  {
+   "id": "place-at",
+   "ko": [
+    "컨트롤을 화면 영역에 배치",
+    "HTML 요소 안에 컨트롤 넣기",
+    "컨트롤을 DOM 에 붙이기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.Control#method:placeAt",
+     "why": "컨트롤을 지정한 DOM 요소(아이디) 안에 배치합니다."
+    }
+   ]
+  },
+  {
+   "id": "event-attach",
+   "ko": [
+    "이벤트 핸들러 연결",
+    "이벤트 리스너 등록",
+    "이벤트 구독"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.base.EventProvider#method:attachEvent",
+     "why": "이벤트에 핸들러를 등록합니다."
+    }
+   ]
+  },
+  {
+   "id": "event-detach",
+   "ko": [
+    "이벤트 핸들러 연결 해제",
+    "이벤트 리스너 제거",
+    "구독 취소"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.base.EventProvider#method:detachEvent",
+     "why": "등록한 핸들러를 해제합니다."
+    }
+   ]
+  },
+  {
+   "id": "event-fire",
+   "ko": [
+    "이벤트를 발생시키기",
+    "커스텀 이벤트 일으키기",
+    "이벤트 직접 발생"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.base.EventProvider#method:fireEvent",
+     "why": "이벤트를 발생시켜 등록된 핸들러를 호출합니다."
+    }
+   ]
+  },
+  {
+   "id": "busy",
+   "ko": [
+    "로딩 중 표시",
+    "화면을 로딩 중 상태로",
+    "기다리는 동안 빙글빙글",
+    "처리 중 화면 막기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.Control#method:setBusy",
+     "why": "컨트롤을 로딩(busy) 상태로 바꿉니다."
+    },
+    {
+     "ref": "sap.m.BusyDialog#method:open",
+     "why": "화면 전체를 막는 로딩 대화상자를 엽니다."
+    },
+    {
+     "ref": "sap.m.BusyIndicator",
+     "why": "로딩 표시 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "upload",
+   "ko": [
+    "파일 업로드",
+    "파일 올리기",
+    "파일 선택해서 서버로"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.unified.FileUploader#method:upload",
+     "why": "선택한 파일을 서버로 올립니다."
+    },
+    {
+     "ref": "sap.ui.unified.FileUploader",
+     "why": "파일 선택·업로드 컨트롤입니다."
+    },
+    {
+     "ref": "sap.m.upload.UploadSet",
+     "why": "여러 파일을 목록으로 관리하는 업로드 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "form",
+   "ko": [
+    "입력 폼 만들기",
+    "폼 레이아웃",
+    "항목들을 폼으로 정리"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.layout.form.SimpleForm",
+     "why": "라벨과 입력을 짝지어 쉽게 배치하는 폼입니다."
+    },
+    {
+     "ref": "sap.ui.layout.form.Form",
+     "why": "세밀하게 제어하는 폼입니다."
+    }
+   ]
+  },
+  {
+   "id": "hbox-vbox",
+   "ko": [
+    "가로로 나란히 배치",
+    "세로로 쌓아서 배치",
+    "상자 안에 컨트롤 정렬"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.HBox",
+     "why": "자식을 가로로 배치합니다."
+    },
+    {
+     "ref": "sap.m.VBox",
+     "why": "자식을 세로로 배치합니다."
+    },
+    {
+     "ref": "sap.m.FlexBox",
+     "why": "방향을 정하는 범용 배치 상자입니다."
+    }
+   ]
+  },
+  {
+   "id": "toolbar",
+   "ko": [
+    "툴바에 버튼 넣기",
+    "상단 도구 모음 만들기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Toolbar#method:addContent",
+     "why": "툴바에 컨트롤을 추가합니다."
+    },
+    {
+     "ref": "sap.m.OverflowToolbar",
+     "why": "공간이 부족하면 접히는 툴바입니다."
+    }
+   ]
+  },
+  {
+   "id": "icon",
+   "ko": [
+    "아이콘 설정",
+    "버튼에 아이콘 넣기",
+    "아이콘 바꾸기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Button#method:setIcon",
+     "why": "버튼 아이콘을 지정합니다."
+    },
+    {
+     "ref": "sap.ui.core.Icon",
+     "why": "아이콘 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "image-src",
+   "ko": [
+    "이미지 주소 지정",
+    "사진 경로 바꾸기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Image#method:setSrc",
+     "why": "이미지 주소(경로)를 지정합니다."
+    },
+    {
+     "ref": "sap.m.Image",
+     "why": "이미지 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "link-href",
+   "ko": [
+    "링크 주소 지정",
+    "링크 걸기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Link#method:setHref",
+     "why": "링크 주소를 지정합니다."
+    },
+    {
+     "ref": "sap.m.Link",
+     "why": "링크 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "size",
+   "ko": [
+    "컨트롤 너비 지정",
+    "가로 크기 설정",
+    "폭 바꾸기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Button#method:setWidth",
+     "why": "버튼 너비를 지정합니다."
+    },
+    {
+     "ref": "sap.m.InputBase#method:setWidth",
+     "why": "입력창 너비를 지정합니다."
+    },
+    {
+     "ref": "sap.m.Image#method:setWidth",
+     "why": "이미지 너비를 지정합니다."
+    }
+   ]
+  },
+  {
+   "id": "odata-model",
+   "ko": [
+    "서버 데이터 읽기",
+    "오데이터 서비스 연결",
+    "백엔드에서 데이터 가져오기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.odata.v2.ODataModel#method:read",
+     "why": "OData 서비스에서 데이터를 읽습니다."
+    },
+    {
+     "ref": "sap.ui.model.odata.v2.ODataModel",
+     "why": "OData V2 서비스 모델입니다."
+    },
+    {
+     "ref": "sap.ui.model.odata.v4.ODataModel",
+     "why": "OData V4 서비스 모델입니다."
+    }
+   ]
+  },
+  {
+   "id": "odata-write",
+   "ko": [
+    "서버에 데이터 저장",
+    "데이터 생성 수정 삭제",
+    "새 항목 서버에 만들기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.odata.v2.ODataModel#method:create",
+     "why": "서버에 새 항목을 만듭니다."
+    },
+    {
+     "ref": "sap.ui.model.odata.v2.ODataModel#method:update",
+     "why": "서버의 항목을 수정합니다."
+    },
+    {
+     "ref": "sap.ui.model.odata.v2.ODataModel#method:remove",
+     "why": "서버의 항목을 삭제합니다."
+    }
+   ]
+  },
+  {
+   "id": "message-list",
+   "ko": [
+    "오류 메시지 목록 보여주기",
+    "메시지 모아서 보기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.MessagePopover",
+     "why": "메시지 목록을 팝오버로 보여줍니다."
+    },
+    {
+     "ref": "sap.ui.core.message.MessageManager",
+     "why": "메시지를 모아 관리합니다."
+    }
+   ]
+  },
+  {
+   "id": "format-date",
+   "ko": [
+    "날짜를 원하는 모양으로 포맷",
+    "날짜 형식 바꾸기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.format.DateFormat",
+     "why": "날짜·시간 포맷을 만드는 클래스입니다."
+    },
+    {
+     "ref": "sap.ui.model.type.Date",
+     "why": "바인딩에서 날짜 형식을 지정합니다."
+    }
+   ]
+  },
+  {
+   "id": "format-currency",
+   "ko": [
+    "금액을 통화 형식으로",
+    "숫자 천 단위 쉼표",
+    "통화 표시"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.core.format.NumberFormat",
+     "why": "숫자·통화 포맷을 만드는 클래스입니다."
+    },
+    {
+     "ref": "sap.ui.model.type.Currency",
+     "why": "바인딩에서 통화 형식을 지정합니다."
+    }
+   ]
+  },
+  {
+   "id": "progress",
+   "ko": [
+    "진행 퍼센트 막대",
+    "진행률 표시"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.ProgressIndicator",
+     "why": "진행률 막대 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "rating",
+   "ko": [
+    "별점 주기",
+    "평점 입력"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.RatingIndicator",
+     "why": "별점 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "carousel",
+   "ko": [
+    "사진을 좌우로 넘겨 보기",
+    "이미지 슬라이드"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Carousel",
+     "why": "페이지를 좌우로 넘기는 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "wizard",
+   "ko": [
+    "단계별로 입력받는 마법사",
+    "스텝 입력 화면"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Wizard",
+     "why": "단계별 진행 컨트롤입니다."
+    },
+    {
+     "ref": "sap.m.WizardStep",
+     "why": "마법사의 단계 하나입니다."
+    }
+   ]
+  },
+  {
+   "id": "object-page",
+   "ko": [
+    "상세 화면 헤더와 섹션",
+    "오브젝트 페이지 만들기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.uxap.ObjectPageLayout",
+     "why": "헤더와 섹션을 가진 상세 페이지 레이아웃입니다."
+    }
+   ]
+  },
+  {
+   "id": "split-app",
+   "ko": [
+    "왼쪽 목록 오른쪽 상세",
+    "마스터 디테일 화면"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.SplitApp",
+     "why": "마스터-디테일 분할 앱입니다."
+    },
+    {
+     "ref": "sap.f.FlexibleColumnLayout",
+     "why": "열 수가 바뀌는 분할 레이아웃입니다."
+    }
+   ]
+  },
+  {
+   "id": "tree",
+   "ko": [
+    "트리 구조 보여주기",
+    "폴더처럼 펼치는 목록"
+   ],
+   "answers": [
+    {
+     "ref": "sap.m.Tree",
+     "why": "계층 구조를 보여주는 트리입니다."
+    },
+    {
+     "ref": "sap.ui.table.TreeTable",
+     "why": "그리드형 트리 테이블입니다."
+    }
+   ]
+  },
+  {
+   "id": "chart",
+   "ko": [
+    "막대 그래프 차트",
+    "차트 그리기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.viz.ui5.controls.VizFrame",
+     "why": "차트를 그리는 컨트롤입니다."
+    },
+    {
+     "ref": "sap.chart.Chart",
+     "why": "스마트 차트 컨트롤입니다."
+    }
+   ]
+  },
+  {
+   "id": "refresh-binding",
+   "ko": [
+    "목록을 새로고침",
+    "데이터 다시 불러오기"
+   ],
+   "answers": [
+    {
+     "ref": "sap.ui.model.Binding#method:refresh",
+     "why": "바인딩 데이터를 다시 읽습니다."
+    },
+    {
+     "ref": "sap.ui.model.odata.v2.ODataModel#method:refresh",
+     "why": "OData 모델 전체를 새로 읽습니다."
+    }
+   ]
+  }
+ ]
+}

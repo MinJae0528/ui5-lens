@@ -306,6 +306,32 @@ if (existsSync('data/intents.json') && existsSync(`${OUT}/v/${BASE_MINOR}/intent
   if (existsSync('data/recommend-members-eval-result.json')) writeFileSync(`${OUT}/recommend-members-eval.json`, readFileSync('data/recommend-members-eval-result.json'));
 }
 
+// ---------- 레시피 (data/recipes.json): 정답 API 가 기준 버전 공식 자료에 실제로 있는지 검증 ----------
+if (existsSync('data/recipes.json') && existsSync(`${OUT}/v/${BASE_MINOR}/members.json.gz`)) {
+  const src = JSON.parse(readFileSync('data/recipes.json', 'utf8'));
+  const idx = JSON.parse(gunzipSync(readFileSync(`${OUT}/v/${BASE_MINOR}/index.json.gz`)).toString('utf8'));
+  const mem = JSON.parse(gunzipSync(readFileSync(`${OUT}/v/${BASE_MINOR}/members.json.gz`)).toString('utf8'));
+  const classes = new Set(idx.map((e) => e.n));
+  const rows = new Set(mem.m.map(([ci, k, n]) => `${mem.c[ci]}#${k}:${n}`));
+  const KC = { method: 'm', property: 'p', event: 'e', aggregation: 'a', association: 's' };
+  const ids = new Set();
+  for (const r of src.recipes) {
+    if (ids.has(r.id)) errors.push(`recipes: id 중복 ${r.id}`);
+    ids.add(r.id);
+    if (!r.ko?.length) errors.push(`recipes: ${r.id} 질문 문구가 없음`);
+    if (!r.answers?.length || r.answers.length > 3) errors.push(`recipes: ${r.id} 정답은 1~3개여야 함`);
+    for (const a of r.answers || []) {
+      const m = /^([A-Za-z0-9_$.]+)(?:#(method|property|event|aggregation|association):([A-Za-z0-9_$]+))?$/.exec(a.ref);
+      if (!m) { errors.push(`recipes: ${r.id} 형식이 틀린 정답 ${a.ref}`); continue; }
+      if (!classes.has(m[1])) errors.push(`recipes: ${r.id} 의 클래스 ${m[1]} 가 ${BASE_MINOR} 공식 자료에 없음`);
+      else if (m[2] && !rows.has(`${m[1]}#${KC[m[2]]}:${m[3]}`)) errors.push(`recipes: ${r.id} 의 ${m[1]} 에 ${m[2]} ${m[3]} 선언이 ${BASE_MINOR} 공식 자료에 없음`);
+      if (!a.why) errors.push(`recipes: ${r.id} 이유 문장이 없음`);
+    }
+  }
+  writeFileSync(`${OUT}/recipes.json`, JSON.stringify(src));
+  console.log(`레시피 ${src.recipes.length}개 검증`);
+}
+
 // ---------- 버전 목록·별칭 ----------
 const built = new Set(existsSync(`${OUT}/v`) ? readdirSync(`${OUT}/v`) : []);
 writeFileSync(`${OUT}/versions.json`, JSON.stringify({
