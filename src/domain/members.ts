@@ -6,12 +6,13 @@ export type Plural = 'properties' | 'methods' | 'events' | 'aggregations' | 'ass
 export interface MemberSpec { id: MemberKind; label: string; en: string; plural: Plural }
 export interface Item<T = AnyMember> { m: T; definedIn: string; inherited: boolean }
 
+// ui5.sap.com API Reference 의 탭 순서(Properties → Aggregations → Associations → Events → Methods)
 export const MEMBER_SPECS: MemberSpec[] = [
   { id: 'property', label: '속성', en: 'Properties', plural: 'properties' },
-  { id: 'method', label: '메서드', en: 'Methods', plural: 'methods' },
-  { id: 'event', label: '이벤트', en: 'Events', plural: 'events' },
   { id: 'aggregation', label: '구성 요소', en: 'Aggregations', plural: 'aggregations' },
   { id: 'association', label: '참조 관계', en: 'Associations', plural: 'associations' },
+  { id: 'event', label: '이벤트', en: 'Events', plural: 'events' },
+  { id: 'method', label: '메서드', en: 'Methods', plural: 'methods' },
 ];
 
 /** 버전별 가용성 자료(member shard)의 키 접두: p 속성 / a 구성 요소 / s 참조 / e 이벤트 / m 메서드 */

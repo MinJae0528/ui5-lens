@@ -27,7 +27,7 @@ async function type(page, text) {
   await page.fill('#q', text);
   // 디바운스가 끝나 검색어가 확정(URL 반영)되고 "검색 중…" 이 사라질 때까지 대기
   await page.waitForFunction((t) => new URLSearchParams(location.hash.replace(/^#\??/, '')).get('q') === t && !document.querySelector('.search-status')?.textContent.includes('검색 중'), text, { timeout: 5000 });
-  await page.waitForSelector('#cands .card, .empty, .rec-list .rec', { timeout: 5000 });
+  await page.waitForSelector('#cands .card, .member-card, .empty, .rec-list .rec, [role=alert]', { timeout: 8000 });
 }
 async function inl(page, text) {
   await page.fill('.inline-search', text);
@@ -70,7 +70,7 @@ check('짧은 이름 Dialog → sap.m.Dialog 상단', list.slice(0, 3).includes(
 
 // ---- 4. 없는 API
 await type(page, 'ZzzNotAnApi');
-check('결과 없음 상태: 안내 표시, 후보 0개', (await page.textContent('.empty')).includes('지원 범위 안에 없고') && (await names(page)).length === 0);
+check('결과 없음 상태: 안내 표시, 후보 0개', (await page.textContent('.empty')).includes('지원 범위 안에 없습니다') && (await names(page)).length === 0);
 await shot(page, '03-empty');
 
 // ---- 5. 상세: 섞임 없음
@@ -313,48 +313,150 @@ await page.waitForFunction(() => document.querySelector('.scope-chip')?.textCont
 check('1.120 에서는 기준(1.154)과 달라 경고', (await page.textContent('.tab-body')).includes('달라서 재검토가 필요'));
 await page.context().close();
 
-// ---- 17. 통합 검색: 이름이 없으면 기능 설명으로 해석해 추천
+// ---- 17. 4개 모드: 이름·메서드 검색 / 기능 추천 / API 탐색 / 문서 가이드
 page = await fresh();
-check('모드 탭이 없음(검색창 하나로 이름·기능 모두)', (await page.$$('.mode-tabs')).length === 0 && await page.isVisible('#q'));
+{
+  const tabs = await page.$$eval('.mode-tabs [role=tab]', (e) => e.map((x) => ({ t: x.querySelector('.mt-label').textContent, on: x.getAttribute('aria-selected') })));
+  check('모드 탭 4개(이름·메서드, 기능 추천, API 탐색, 문서 가이드), 기본은 이름·메서드', tabs.map((x) => x.t).join('|') === '이름·메서드 검색|기능으로 추천|API 탐색|문서 가이드' && tabs[0].on === 'true', JSON.stringify(tabs));
+}
+// 17a. 메서드 이름 검색 → 묶음 → 클래스 선택 → 멤버 상세(4탭)
+await type(page, 'setText');
+await page.waitForSelector('.member-card');
+check('메서드 이름 검색: 같은 이름은 한 묶음(“N개 클래스가 선언”)', /\d+개 클래스가 선언/.test(await page.textContent('.member-card')));
+check('종류 필터 알약에 개수 표시(메서드·속성…)', (await page.$$('.pills .pill')).length === 6);
+await page.click('.member-card .decl button.link');
+await page.click('.member-card .decl .chip:text-is("sap.m.Button")');
+await page.waitForSelector('.member-page .api-name');
+check('멤버 상세: 이름·위치(breadcrumb)·URL(mem=)', (await page.textContent('.member-page .api-name')).startsWith('setText') && (await page.textContent('.crumb')).includes('sap.m.Button') && (await page.evaluate(() => location.hash)).includes('mem=method%3AsetText'));
+check('멤버 상세: 탭 4개(설명·사용법·버전·쓸 수 있는 클래스)', (await page.$$eval('.member-page .tabs [role=tab]', (e) => e.map((x) => x.textContent))).join('|') === '설명|사용법·예제|버전|쓸 수 있는 클래스');
+check('멤버 상세: 인자 표와 접근자 관계(속성 text)', (await page.textContent('.tab-body')).includes('sText') && (await page.textContent('.tab-body')).includes('text'));
+await page.click('.member-page .tabs [role=tab]:has-text(\"사용법·예제\")');
+check('사용법 탭: 호출 형태와 sap.ui.define(모듈 경로)', await page.waitForSelector('.tab-body pre').then(async () => { const t = await page.textContent('.tab-body'); return t.includes('setText(') && t.includes('sap.ui.define') && t.includes('sap/m/Button'); }));
+await page.click('.member-page .tabs [role=tab]:has-text(\"버전\")');
+await page.waitForSelector('.life .avail .av');
+check('버전 탭: 31개 버전 칸', (await page.$$('.life .avail .av')).length === 31);
+await page.click('.member-page .tabs [role=tab]:has-text(\"쓸 수 있는 클래스\")');
+await page.waitForSelector('text=상속받아 쓸 수 있는 클래스');
+check('쓸 수 있는 클래스: 선언 클래스와 상속 클래스(ToggleButton) 표시', (await page.textContent('.tab-body')).includes('sap.m.Button') && (await page.textContent('.tab-body')).includes('sap.m.ToggleButton'));
+await page.click('.crumb .link.mono');
+await page.waitForSelector('.tabs [role=tab]:has-text("생성자")');
+check('breadcrumb 의 클래스 이름 → 클래스 개요로 복귀', (await page.textContent('.api-name')) === 'sap.m.Button');
+await page.context().close();
+
+// 17b. 클래스 지정 검색
+page = await fresh();
+await type(page, 'Button#setText');
+await page.waitForSelector('.member-card');
+{
+  // Button 이라는 이름의 클래스가 여러 라이브러리에 있으므로 묶음이 정상이다: 선언 클래스는 모두 …Button 이고 기본 라이브러리(sap.m.Button)가 앞에 온다.
+  const chips = await page.$$eval('.member-card:first-child .decl .chip', (e) => e.map((x) => x.textContent));
+  check('Button#setText: 클래스를 지정하면 이름이 Button 인 클래스들만, sap.m.Button 이 앞', (await page.textContent('.member-card:first-child .card-name')) === 'setText' && chips.length >= 1 && chips.every((c) => /\.Button$/.test(c)) && chips[0] === 'sap.m.Button', chips.join(','));
+}
+await page.context().close();
+
+// 17c. 이름 모드에서 문장을 쓰면 지어내지 않고 기능 추천으로 안내
+page = await fresh();
 await type(page, '댓글을 다는 기능을 추가하고 싶어');
-await page.waitForSelector('.rec-list .rec');
-const recs = await page.$$eval('.rec-list .rec .card-name', (e) => e.map((x) => x.textContent.replace(/^\d+/, '')));
-check('추천: 기본 3개만 표시', recs.length === 3, recs.join(', '));
-check('추천: 댓글 → FeedInput, FeedListItem 계열이 상위', recs.includes('sap.m.FeedInput') && recs.some((n) => n.startsWith('sap.m.Feed')), recs.join(', '));
-const why = await page.textContent('.rec-list .rec .reasons');
-check('추천: “왜 추천?” 근거(공식 용어와 위치) 표시', why.includes('왜 추천') && why.includes('이름'));
-check('추천: 질문 해석(댓글 → feed …) 공개', (await page.textContent('.interp')).includes('댓글') && (await page.textContent('.interp')).includes('feed'));
-check('추천: AI 아님·보증 안 함·자체 평가 정확도를 함께 표시', await (async () => { const t = await page.textContent('.rec-sec'); return t.includes('AI 아님') && t.includes('보증하지 않') && /\d+%/.test(t); })());
-check('추천: 더 보기로 8개까지', await (async () => { await page.click('text=더 보기'); return (await page.$$('.rec-list .rec')).length === 8; })());
-await page.click('.rec-list .rec >> nth=0');
-await page.waitForSelector('.api-name');
-check('추천 카드 선택 → 해당 API 상세 열림', (await page.textContent('.api-name')) === recs[0]);
-await page.context().close();
-
-page = await fresh();
-await type(page, 'Table');
-check('이름이 정확히 있으면 추천 상자를 띄우지 않음(이름 검색 우선)', (await page.$$('.rec-sec')).length === 0 && (await page.$$('.card')).length > 0);
-await page.context().close();
-
-page = await fresh();
-await type(page, 'ㅁㄴㅇㄹ');
 await page.waitForSelector('.empty');
-check('해석 못 하는 질문: 지어내지 않고 안내', (await page.textContent('.empty')).includes('만들어 보여 주지 않습니다') && (await page.$$('.rec')).length === 0);
+check('이름 모드에서 문장 입력: 추천을 몰래 섞지 않고 “기능으로 추천” 안내', (await page.$$('.rec-sec')).length === 0 && (await page.textContent('.empty')).includes('기능으로 추천'));
+await page.click('.empty .btn.primary');
+await page.waitForSelector('.rec-list .rec');
+check('안내 버튼 → 기능 추천 모드로 전환(같은 질문 유지)', (await page.evaluate(() => location.hash)).includes('m=feature') && (await page.inputValue('#q')).includes('댓글'));
 await page.context().close();
 
+// 17d. 기능 추천 모드: 컨트롤 3 + 메서드, 클릭하면 상세
 page = await fresh();
-await page.goto(URL_ + '#?v=1.71&q=' + encodeURIComponent('날짜를 고르고 싶어'));
+await page.goto(URL_ + '#?m=feature&q=' + encodeURIComponent('댓글을 다는 기능을 추가하고 싶어'));
 await page.waitForSelector('.rec-list .rec');
-check('다른 버전(1.71)에서도 그 버전 자료로 추천', (await page.textContent('.rec-list')).includes('DatePicker'));
+const featRecs = await page.$$eval('.rec-sec:first-of-type .rec-list .rec .card-name', (e) => e.map((x) => x.textContent.replace(/^\d+/, '')));
+check('기능 추천: 컨트롤 기본 3개, FeedInput 이 먼저', featRecs.length === 3 && featRecs[0] === 'sap.m.FeedInput', featRecs.join(', '));
+check('기능 추천: “왜 추천?” 근거·AI 아님·정확도 고지', await (async () => { const t = await page.textContent('.rec-sec'); return t.includes('왜 추천') && t.includes('AI 아님') && /\d+%/.test(t); })());
+await page.waitForSelector('section[aria-label="추천 메서드"] .rec');
+check('기능 추천: 추천 메서드·이벤트도 함께(클래스 이름과 함께 표시)', (await page.$$('section[aria-label="추천 메서드"] .rec')).length >= 1);
+check('추천 메서드: 정확도가 낮은 실험적 기능이라는 고지와 자체 평가 수치를 함께 표시', await (async () => { const t = await page.textContent('section[aria-label="추천 메서드"]'); return t.includes('정확도가 낮은 실험적') && /\d+%/.test(t); })());
+await page.click('section[aria-label="추천 메서드"] .rec >> nth=0');
+await page.waitForSelector('.member-page .api-name');
+check('추천 메서드 클릭 → 멤버 상세', (await page.$$('.member-page .tabs [role=tab]')).length === 4);
+await page.context().close();
+
+// 17e. 추천 자료 로딩 실패는 “결과 없음”과 다르게 알리고, 재시도하면 복구된다
+page = await fresh();
+await page.route('**/data/v/1.154/intent.json.gz', (r) => r.abort());
+await page.goto(URL_ + '#?m=feature&q=' + encodeURIComponent('댓글을 다는 기능'));
+await page.waitForSelector('[role=alert]:has-text("추천용 자료를 불러오지 못했습니다")');
+check('추천 자료 실패: “조회 실패”로 알리고 “해석하지 못했습니다(결과 없음)” 문구는 쓰지 않음', (await page.$$('.empty')).length === 0 && (await page.textContent('[role=alert]')).includes('조회 실패'));
+await page.unroute('**/data/v/1.154/intent.json.gz');
+await page.click('[role=alert] >> text=다시 시도');
+await page.waitForSelector('.rec-list .rec', { timeout: 15000 });
+check('추천 자료 실패 후 “다시 시도” → 추천 결과 복구', (await page.$$('.rec-list .rec')).length >= 3);
+await page.context().close();
+
+// 17f. API 탐색 모드: 라이브러리 → 클래스 → 생성자 탭(ui5.sap.com 탭 순서)
+page = await fresh();
+await page.click('#mode-browse');
+await page.waitForSelector('.lib-list');
+check('API 탐색: 라이브러리 목록(sap.m 포함, 개수 표시)', /sap\.m[\s\S]*\d+개/.test(await page.textContent('.lib-list')));
+await page.click('.lib-row:has-text("sap.m") >> nth=0');
+await page.waitForSelector('.class-list .class-row');
+await page.fill('#clsq', 'Butt');
+await page.waitForSelector('.class-row:has(.cname:text-is("Button"))');
+await page.click('.class-row:has(.cname:text-is("Button"))');
+await page.waitForSelector('.api-name');
+check('API 탐색 → 클래스 선택 → 상세', (await page.textContent('.api-name')) === 'sap.m.Button');
+check('클래스 탭 순서가 ui5.sap.com 과 같음(개요·생성자·속성·구성 요소·참조·이벤트·메서드)', await (async () => { const t = await page.$$eval('.detail .tabs [role=tab]', (e) => e.map((x) => x.textContent.replace(/[A-Za-z· 0-9+]+$/, '').trim() || x.textContent)); const want = ['개요·구조', '생성자', '속성', '구성 요소', '참조 관계', '이벤트', '메서드']; return want.every((w, i) => t[i] && t[i].startsWith(w)); })());
+await page.click('.detail .tabs [role=tab]:has-text("생성자")');
+await page.waitForSelector('text=만드는 형태');
+check('생성자 탭: 인자 표와 new 호출 형태', (await page.textContent('.tab-body')).includes('mSettings') && (await page.textContent('.tab-body')).includes('new sap.m.Button('));
+await page.context().close();
+
+// 17g. 문서 가이드 모드: 목차 트리·제목 검색·공식 문서 링크, 목차 없는 버전 안내
+page = await fresh();
+await page.click('#mode-guide');
+await page.waitForSelector('.tree');
+check('문서 가이드: 목차 트리(Developing Apps)', (await page.textContent('.tree')).includes('Developing Apps'));
+await page.fill('#gq', 'data binding');
+await page.waitForSelector('.topic-hits .class-row');
+await page.click('.topic-hits .class-row >> nth=0');
+await page.waitForSelector('.guide-page');
+const guideHref = await page.$eval('.guide-page a.btn.primary', (a) => a.href);
+check('문서 가이드: 공식 문서로 가는 링크(ui5.sap.com/#/topic/<키>), 본문은 복사하지 않음', /^https:\/\/ui5\.sap\.com\/[^/]+\/#\/topic\/[0-9a-f]{32}$/.test(guideHref) && (await page.textContent('.guide-page')).includes('목차만'), guideHref);
+await page.goto(URL_ + '#?v=1.38&m=guide');
+await page.waitForSelector('.notice');
+check('목차가 없는 버전(1.38): 없음 안내(조회 실패와 구분)', (await page.textContent('.guide, .cands')).includes('받아 둔 문서 목차가 없습니다'));
+await page.context().close();
+
+// 17h. 한국어 자료: “준비 안 됨(404)” 과 “조회 실패” 를 구분
+page = await fresh();
+await page.goto(URL_ + '#?q=Button&api=sap.m.Button');
+await page.waitForSelector('.api-name');
+check('한국어 파일이 없는 API(Button): 실패 배너 없이 “준비되지 않았습니다”', (await page.$$('[role=alert]:has-text("한국어 설명 자료를")')).length === 0 && (await page.textContent('.tab-body')).includes('준비되지 않았습니다'));
+await page.route('**/data/ko/sap.m.Table.json', (r) => r.abort());
+await page.goto(URL_ + '#?q=Table&api=sap.m.Table');
+await page.reload();
+await page.waitForSelector('[role=alert]:has-text("한국어 설명 자료를")');
+check('한국어 조회 실패(Table): “불러오지 못했습니다” 경고와 재시도 버튼', (await page.textContent('[role=alert]')).includes('다시 시도'));
+await page.unroute('**/data/ko/sap.m.Table.json');
+await page.click('[role=alert] >> text=다시 시도');
+await page.waitForFunction(() => !document.querySelector('[role=alert]') || !document.querySelector('[role=alert]').textContent.includes('한국어 설명 자료를'), null, { timeout: 15000 });
+check('재시도 후 한국어 설명 복구(경고 사라짐)', (await page.$$('[role=alert]:has-text("한국어 설명 자료를")')).length === 0 && (await page.textContent('.tab-body')).includes('반응형'));
+await page.context().close();
+
+// 17i. 잘못된 해시는 API 이름으로 채택되지 않는다
+page = await fresh();
+await page.goto(URL_ + '#?api=../../etc/passwd&q=x');
+await page.waitForTimeout(800);
+check('해시 api=../../etc/passwd: 상세가 열리지 않고 시작 화면 유지', (await page.$$('.api-name')).length === 0 && (page.errs ?? []).length === 0);
 await page.context().close();
 
 // ---- 18. 첫 화면·한눈에 보기·표기
 page = await fresh();
 check('첫 화면(데스크톱): 오른쪽에 시작 안내와 예시, 소개', await page.isVisible('.detail-empty .landing') && (await page.textContent('.detail-empty .about')).includes('학습자용') && (await page.textContent('.detail-empty .about')).includes('Demo Kit'));
 check('첫 화면: 자체 평가 정확도 공개', /자체 평가에서 새 질문 \d+개 중 \d+%/.test(await page.textContent('.detail-empty .about')));
+await page.click('#mode-feature');
+await page.waitForSelector('.detail-empty .chip');
 await page.click('.detail-empty .chip >> nth=0');
 await page.waitForSelector('.rec-list .rec');
-check('첫 화면 예시 클릭 → 바로 추천 결과', (await page.$$('.rec-list .rec')).length === 3);
+check('기능 추천 첫 화면 예시 클릭 → 바로 추천 결과', (await page.$$('.rec-sec:first-of-type .rec-list .rec')).length === 3);
 await page.goto(URL_ + '#?v=1.154&q=Table&api=sap.m.Table');
 await page.waitForSelector('.glance');
 const gl = await page.textContent('.glance');

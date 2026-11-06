@@ -1,6 +1,7 @@
 import { buildIndex, type CorpusEntry, type IntentEntry, type RecIndex } from './domain/recommend';
 import type { LifeContext } from './domain/life';
-import type { Alias, ApiDoc, Availability, IndexEntry, KoDoc, Meta, VersionList } from './types';
+import { expandMembers, type MemberRow, type RawMembers } from './domain/memberIndex';
+import type { Alias, ApiDoc, Availability, IndexEntry, KoDoc, Meta, TopicNode, VersionList } from './types';
 
 const BASE = `${import.meta.env.BASE_URL}data`;
 async function getJson<T>(url: string, allow404 = false): Promise<T | null> {
@@ -67,7 +68,8 @@ export async function loadApi(v: VersionData, name: string): Promise<ApiDoc> {
 export async function loadKo(name: string): Promise<KoDoc | null> {
   return getJson<KoDoc>(`${BASE}/ko/${encodeURIComponent(name)}.json`, true);
 }
-export interface Detail { chain: ApiDoc[]; ko: KoDoc | null; chainErrors: string[] }
+/** koError: 한국어 자료를 불러오다 실패한 이유(없으면 null). ko 가 null 이고 koError 도 null 이면 “아직 준비되지 않음”이다. */
+export interface Detail { chain: ApiDoc[]; ko: KoDoc | null; koError: string | null; chainErrors: string[] }
 /** 선택한 API + 부모 체인 + 한국어 층. 자기 자신의 조회가 실패하면 throw (가짜 데이터로 대체하지 않음). */
 export async function loadDetail(v: VersionData, name: string): Promise<Detail> {
   const self = await loadApi(v, name);
@@ -78,8 +80,12 @@ export async function loadDetail(v: VersionData, name: string): Promise<Detail> 
     try { const p = await loadApi(v, cur); chain.push(p); cur = p.extends; }
     catch (e) { chainErrors.push(`${cur}: ${(e as Error).message}`); break; }
   }
-  const ko = await loadKo(name).catch(() => null);
-  return { chain, ko, chainErrors };
+  // 한국어 파일이 있는지는 색인(ko 상태)이 알려 준다. 파일이 없는 API 는 요청하지 않으므로, 개발 서버처럼 없는 파일에 HTML 을 돌려주는
+  // 호스트에서도 “준비 안 됨”을 “조회 실패”로 오해하지 않는다. 파일이 있어야 하는데 못 읽으면 그때만 실패로 알린다.
+  let ko: KoDoc | null = null, koError: string | null = null;
+  const hasKo = (v.index.find((e) => e.n === name)?.ko ?? 'none') !== 'none';
+  if (hasKo) { try { ko = await loadKo(name); if (!ko) koError = '한국어 파일이 색인에는 있지만 서버에 없습니다'; } catch (e) { koError = String((e as Error).message ?? e); } }
+  return { chain, ko, koError, chainErrors };
 }
 
 /** 멤버별 버전 가용성: "p:속성명" 등 -> 버전 순서(availability.versions)대로 0/1/2 문자열. 해시 샤드 8개. */
@@ -113,5 +119,42 @@ export function loadRecEval(): Promise<RecEval | null> {
   return evalP;
 }
 
+/** 추천 메서드·이벤트(멤버) 자체 평가 결과. 없으면 null. */
+export interface MemberRecEval { minor: string; at: string; n: number; top3: number; top8: number }
+let memberEvalP: Promise<MemberRecEval | null> | null = null;
+export function loadMemberRecEval(): Promise<MemberRecEval | null> {
+  if (!memberEvalP) memberEvalP = getJson<MemberRecEval>(`${BASE}/recommend-members-eval.json`, true).catch(() => null);
+  return memberEvalP;
+}
+
 /** 버전별 존재 여부 해석(domain/life)에 필요한 정보만 뽑아 넘긴다. */
 export const lifeCtx = (g: Global): LifeContext => ({ order: g.availability.versions, versions: g.versions.versions });
+
+async function getGzOptional<T>(url: string): Promise<T | null> {
+  const res = await fetch(url);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`HTTP ${res.status} · ${url}`);
+  const buf = new Uint8Array(await res.arrayBuffer());
+  if (buf[0] === 0x1f && buf[1] === 0x8b) return new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).json();
+  return JSON.parse(new TextDecoder().decode(buf));
+}
+
+/** 선택한 버전의 멤버 색인(메서드·속성·이벤트 이름 검색, 기능 추천 멤버용). 처음 필요할 때 한 번만 불러온다. */
+const memberCache = new Map<string, Promise<MemberRow[]>>();
+export function loadMemberRows(minor: string): Promise<MemberRow[]> {
+  let p = memberCache.get(minor);
+  if (!p) {
+    p = getGz<RawMembers>(`${BASE}/v/${minor}/members.json.gz`).then(expandMembers);
+    p.catch(() => memberCache.delete(minor));
+    memberCache.set(minor, p);
+  }
+  return p;
+}
+
+/** 문서 가이드 목차. 버전에 목차가 없으면 null(1.38 등). */
+const topicCache = new Map<string, Promise<TopicNode[] | null>>();
+export function loadTopics(minor: string): Promise<TopicNode[] | null> {
+  let p = topicCache.get(minor);
+  if (!p) { p = getGzOptional<TopicNode[]>(`${BASE}/v/${minor}/topics.json.gz`); p.catch(() => topicCache.delete(minor)); topicCache.set(minor, p); }
+  return p;
+}

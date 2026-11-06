@@ -4,7 +4,7 @@ import { describeLife, missingInVersion, sinceConflict } from '../domain/life';
 import { KEY_LABEL } from '../domain/members';
 
 /** 심볼이 선언한 멤버들의 버전별 칸(공식 api.json 비교). undefined 로딩 / 'err' 실패 / null 자료 없음 */
-function useMemberLife(symbol: string) {
+export function useMemberLife(symbol: string) {
   const [life, setLife] = useState<MemberLife | null | 'err' | undefined>(undefined);
   useEffect(() => { setLife(undefined); loadMemberLife(symbol).then(setLife).catch(() => setLife('err')); }, [symbol]);
   return life;
@@ -118,6 +118,31 @@ export function Availability({ name, g, current, onVersion }: { name: string; g:
         ))}
       </div>
       <p className="muted small">초록=있음 · 주황=deprecated 표시 · 회색=없음. 이 표시는 공식 api.json 을 Lens 가 버전끼리 비교해 계산한 값입니다. 서버에 호스팅되지 않은 마이너 버전(예: 1.78)은 비교할 수 없어, 그 사이의 변경은 “사이에”로만 표기합니다. 칸을 누르면 같은 API 를 그 버전으로 봅니다.</p>
+    </div>
+  );
+}
+
+/** 멤버 상세 페이지 맨 위: 이 멤버가 31개 버전에서 어땠는지 한눈에. */
+export function MemberGlance({ symbol, memberKey, since, g, current, onVersion, onMore }: { symbol: string; memberKey: string; since: string | null; g: Global; current: string; onVersion: (m: string) => void; onMore: () => void }) {
+  const life = useMemberLife(symbol);
+  const row = life && life !== 'err' ? life[memberKey] : undefined;
+  if (life === undefined) return <div className="glance muted small">버전별 사용 가능 여부 불러오는 중…</div>;
+  if (!row) return null;
+  const d = describeLife(row, lifeCtx(g));
+  if (d.none) return null;
+  const cur = d.cells.find((c) => c.m === current);
+  return (
+    <div className="glance" aria-label="이 항목의 버전별 사용 가능 여부 요약">
+      <div className="glance-line">
+        {cur?.st === '0' ? <b className="life-no">지금 보는 {current} 에는 없음</b> : cur?.st === '2' ? <b className="life-dep">{current} 에서 사용 가능하지만 deprecated</b> : <b className="life-ok">{current} 에서 사용 가능</b>}
+        <span className="muted small"> · {d.intro.startsWith('≤') ? `도입 ${d.intro.split(' — ')[0]}` : d.introExact ? `도입 ${d.oldest.m}` : '도입 시점은 “버전” 탭 참고'}{d.removed ? ' · 이후 사라짐' : ''}{since ? ` · 공식 since ${since}` : ''}</span>
+        <button className="link small" onClick={onMore}>자세히</button>
+      </div>
+      <div className="dots" role="group" aria-label="버전별 존재 여부(오래된 버전 → 최신)">
+        {[...d.cells].reverse().map((c) => (
+          <button key={c.m} className={`dot av-${c.st} ${c.m === current ? 'cur' : ''}`} onClick={() => onVersion(c.m)} title={`${c.version}: ${stLabel(c.st)}`} aria-label={`${c.m} ${stLabel(c.st)}`} />
+        ))}
+      </div>
     </div>
   );
 }

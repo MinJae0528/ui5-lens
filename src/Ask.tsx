@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { loadRecEval, type RecEval } from './data';
+import { loadMemberRecEval, loadRecEval, type MemberRecEval, type RecEval } from './data';
+import { FLAG, KIND_LABEL, type MemberRow } from './domain/memberIndex';
+import type { MemberRecResult } from './domain/memberRecommend';
 import type { Rec, RecResult } from './domain/recommend';
 import type { IndexEntry } from './types';
 import { DepBadge, KoBadge } from './ui';
@@ -59,5 +61,38 @@ function RecCard({ rank, r, entry, selected, onPick }: { rank: number; r: Rec; e
         <p className="reasons"><b>왜 추천?</b> 질문과 겹친 공식 용어 — {where.join(' · ')}</p>
       </button>
     </li>
+  );
+}
+
+/** 기능 설명으로 고른 추천 멤버(메서드·이벤트·속성). 눌러서 멤버 상세 페이지로 간다. */
+export function MemberRecSection({ res, onOpen }: { res: MemberRecResult; onOpen: (r: MemberRow) => void }) {
+  const [more, setMore] = useState(false);
+  const [ev, setEv] = useState<MemberRecEval | null>(null);
+  useEffect(() => { loadMemberRecEval().then(setEv).catch(() => setEv(null)); }, []);
+  useEffect(() => setMore(false), [res]);
+  if (res.results.length === 0) return null;
+  const shown = more ? res.results : res.results.slice(0, 5);
+  return (
+    <section className="rec-sec" aria-label="추천 메서드">
+      <h3 className="rec-title">이런 메서드·이벤트를 쓰게 될 거예요 <span className="badge b-off">추천 · AI 아님</span></h3>
+      <ol className="rec-list">
+        {shown.map((x, i) => {
+          const where = (['name', 'desc', 'cls'] as const).filter((k) => x.why[k].length).map((k) => `${{ name: '이름', desc: '공식 설명', cls: '클래스 이름' }[k]}: ${[...new Set(x.why[k])].join(', ')}`);
+          return (
+            <li key={`${x.r.c}#${x.r.n}`} className="card rec">
+              <button className="rec-btn" onClick={() => onOpen(x.r)} aria-label={`${x.r.c} ${x.r.n} 열기`}>
+                <div className="card-head"><span className="card-name"><span className="rank">{i + 1}</span>{x.r.n}</span><span className="badge">{KIND_LABEL[x.r.k]}</span></div>
+                <div className="badges"><span className="badge mono-badge">{x.r.c}</span>{x.r.f & FLAG.deprecated ? <DepBadge since={true} /> : null}</div>
+                <p className="card-sum"><span className="lang">EN 원문</span> {x.r.t || '(공식 설명 없음)'}</p>
+                <p className="reasons"><b>왜 추천?</b> 질문과 겹친 공식 용어 — {where.join(' · ')}</p>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+      {res.results.length > 5 && <button className="btn" onClick={() => setMore((m) => !m)}>{more ? '상위 5개만 보기' : `다음 후보 ${res.results.length - 5}개 더 보기`}</button>}
+      <p className="muted small">멤버 이름·공식 설명 첫 문장·소속 클래스 이름과 질문이 겹치는 정도로 고른 후보입니다. 자동 생성 접근자(getX/setX)는 제외했습니다.</p>
+      <div className="notice warn" role="note"><b>정확도가 낮은 실험적 기능입니다.</b>{ev ? <> 자체 평가에서 질문 {ev.n}개 중 상위 3개 안에 정답이 있었던 것은 {ev.top3}개({Math.round((ev.top3 / ev.n) * 100)}%)입니다(UI5 {ev.minor}). 컨트롤 추천보다 훨씬 낮으니 참고만 하고, 정확한 이름을 알면 이름·메서드 검색을 쓰세요.</> : <> 컨트롤 추천보다 정확도가 낮을 수 있으니 참고만 하고, 정확한 이름을 알면 이름·메서드 검색을 쓰세요.</>}</div>
+    </section>
   );
 }

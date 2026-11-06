@@ -1,15 +1,16 @@
 import { useMemo, useState } from 'react';
 import type { Global } from '../data';
-import { aggrSnippet, assocSnippet, eventSnippet, methSnippet, propSnippet } from '../domain/snippets';
+import { aggrSnippet, assocSnippet, eventSnippet, methSnippet, propSnippet, xmlMemberSnippet } from '../domain/snippets';
 import { filterMembers, mergeMembers, memberKey, signature, type AnyMember, type Item, type MemberSpec } from '../domain/members';
 import { plain } from '../domain/text';
 import type { ApiDoc, Aggr, Assoc, Evt, KoDoc, MemberKind, Meth, Prop } from '../types';
 import { Code, DepBadge, Html } from '../ui';
+import { OfficialExamples, RefList } from './Refs';
 import type { Route } from '../controller/route';
 import type { Setter } from './props';
 import { MemberLifeView } from './Life';
 
-interface Shared { onApi: (n: string) => void; known: Set<string>; g: Global; minor: string; onVersion: (m: string) => void }
+export interface Shared { onApi: (n: string) => void; known: Set<string>; g: Global; minor: string; onVersion: (m: string) => void; docBase: string; onRef: (api: string, member: string | null) => void }
 
 /** 속성/메서드/이벤트/구성 요소/참조 관계 탭. 필터 규칙은 domain/members(filterMembers)에 있고 여기서는 상태와 그리기만 한다. */
 export function MemberTab({ spec, chain, ko, route, setRoute, ...sh }: { spec: MemberSpec; chain: ApiDoc[]; ko: KoDoc | null; route: Route; setRoute: Setter } & Shared) {
@@ -55,7 +56,7 @@ export function MemberTab({ spec, chain, ko, route, setRoute, ...sh }: { spec: M
                 </span>
                 <span className="m-sum">{k ?? (it.inherited ? <span className="muted">정의: {it.definedIn} · 영문 원문</span> : <span className="muted">{plain(it.m.description).slice(0, 110) || '(공식 설명 없음)'}</span>)}</span>
               </button>
-              {isOpen && <MemberBody kind={spec.id} it={it} doc={doc} koText={k} {...sh} />}
+              {isOpen && <MemberBody kind={spec.id} it={it} doc={doc} koText={k} onOpenPage={() => setRoute({ mem: `${spec.id}:${it.m.name}`, tab: 'mdesc' }, true)} {...sh} />}
             </li>
           );
         })}
@@ -67,7 +68,7 @@ export function MemberTab({ spec, chain, ko, route, setRoute, ...sh }: { spec: M
 // 한국어 층의 멤버 키는 "종류:이름" (예: property:width). 버전별 가용성 키(p:width)와 다르다.
 const memberKeyKo = (kind: MemberKind, name: string) => `${kind}:${name}`;
 
-function snippetFor(kind: MemberKind, doc: ApiDoc, m: AnyMember): string {
+export function snippetFor(kind: MemberKind, doc: ApiDoc, m: AnyMember): string {
   if (kind === 'property') return propSnippet(doc, m as Prop);
   if (kind === 'aggregation') return aggrSnippet(doc, m as Aggr);
   if (kind === 'association') return assocSnippet(doc, m as Assoc);
@@ -75,11 +76,11 @@ function snippetFor(kind: MemberKind, doc: ApiDoc, m: AnyMember): string {
   return methSnippet(doc, m as Meth);
 }
 
-function MemberBody({ kind, it, doc, koText, onApi, known, g, minor, onVersion }: { kind: MemberKind; it: Item; doc: ApiDoc; koText?: string } & Shared) {
+/** 설명 조각: 한국어·영문 원문, 사실 표(자료형·기본값·인자·반환), deprecated·experimental 안내, 공식 참고. 인라인 펼침과 멤버 상세 페이지가 함께 쓴다. */
+export function MemberDescription({ kind, it, koText, onApi, known, docBase, onRef }: { kind: MemberKind; it: Item; koText?: string } & Pick<Shared, 'onApi' | 'known' | 'docBase' | 'onRef'>) {
   const m = it.m;
-  const snippet = snippetFor(kind, doc, m);
   return (
-    <div className="member-body">
+    <>
       <div className="two">
         <div>
           <h5>한국어</h5>
@@ -97,6 +98,7 @@ function MemberBody({ kind, it, doc, koText, onApi, known, g, minor, onVersion }
           <dt>자료형</dt><dd className="mono">{(m as Prop).type}</dd>
           <dt>기본값</dt><dd className="mono">{(m as Prop).defaultValue != null ? JSON.stringify((m as Prop).defaultValue) : '공식 자료에 지정 없음'}</dd>
           {(m as Prop).group && <><dt>그룹</dt><dd>{(m as Prop).group}</dd></>}
+          {(m as Prop).bindable && <><dt>데이터 바인딩</dt><dd>공식 자료에 바인딩 가능으로 표시됨</dd></>}
           <dt>접근자</dt><dd className="mono">{(m as Prop).methods.join(', ') || '—'}</dd>
         </>}
         {(kind === 'aggregation' || kind === 'association') && <>
@@ -111,16 +113,49 @@ function MemberBody({ kind, it, doc, koText, onApi, known, g, minor, onVersion }
           <dt>구분</dt><dd>{(m as Meth).static ? '정적(static) 메서드' : '인스턴스 메서드'}{(m as Meth).accessorOf ? ` · ${(m as Meth).accessorOf!.kind} “${(m as Meth).accessorOf!.name}” 의 자동 생성 접근자` : ''}</dd>
           {(m as Meth).returnValue && <><dt>반환값</dt><dd><span className="mono">{(m as Meth).returnValue!.type}</span> <Html html={(m as Meth).returnValue!.description} onApi={onApi} known={known} /></dd></>}
         </>}
+        {m.since && <><dt>도입 버전(공식 since)</dt><dd>{m.since}</dd></>}
+        {m.allowedFor && m.allowedFor.length > 0 && <><dt>공개 범위</dt><dd>공식 자료 표시: {m.allowedFor.join(', ')} 용도로만 공개된 항목입니다.</dd></>}
       </dl>
       {kind === 'event' && (m as Evt).parameters.length > 0 && <ParamTable title="전달되는 정보 (event parameters · oEvent.getParameter)" params={(m as Evt).parameters} onApi={onApi} known={known} />}
       {kind === 'method' && (m as Meth).parameters.length > 0 && <ParamTable title="인자" params={(m as Meth).parameters} onApi={onApi} known={known} />}
+      {kind === 'method' && (m as Meth).throws && (m as Meth).throws!.length > 0 && (
+        <div className="notice"><b>발생할 수 있는 예외 (throws)</b>
+          <ul className="plain">{(m as Meth).throws!.map((t, i) => <li key={i}><code>{t.type ?? 'Error'}</code> <Html html={t.description} onApi={onApi} known={known} /></li>)}</ul></div>
+      )}
       {m.deprecated && (
         <div className="notice warn"><b>deprecated{m.deprecated.since ? ` (${m.deprecated.since})` : ''}</b> — 공식 안내 원문:
           <Html html={m.deprecated.text || '(안내 문구 없음)'} onApi={onApi} known={known} />
           <span className="muted small">대체 방법은 상황에 따라 다를 수 있어 원문 그대로 표시합니다.</span></div>
       )}
-      <MemberLifeView symbol={it.definedIn} memberKey={memberKey(kind, m.name)} since={m.since} g={g} minor={minor} onVersion={onVersion} />
-      <Code code={snippet} label={kind === 'method' ? '호출 형태 (공식 메타데이터로 자동 생성 · 실행 검증 안 함)' : '사용 형태 (공식 메타데이터로 자동 생성 · 실행 검증 안 함)'} />
+      {m.experimental && (
+        <div className="notice warn"><b>experimental{m.experimental.since ? ` (${m.experimental.since})` : ''}</b> — 공식 자료에 실험적 기능으로 표시되어 있어, 이후 버전에서 바뀌거나 사라질 수 있습니다.
+          {m.experimental.text && <Html html={m.experimental.text} onApi={onApi} known={known} />}</div>
+      )}
+      {m.references && m.references.length > 0 && <div><h5>참고 링크 <small className="muted">(공식)</small></h5><RefList refs={m.references} docBase={docBase} known={known} onRef={onRef} /></div>}
+    </>
+  );
+}
+
+/** 사용 형태 조각: 호출 형태, XML 뷰 형태, 공식 예제(있을 때). */
+export function MemberUsage({ kind, it, doc }: { kind: MemberKind; it: Item; doc: ApiDoc }) {
+  const m = it.m;
+  const xml = xmlMemberSnippet(kind, doc, m);
+  return (
+    <div className="stack">
+      <Code code={snippetFor(kind, doc, m)} label={kind === 'method' ? '호출 형태 (공식 메타데이터로 자동 생성 · 실행 검증 안 함)' : '사용 형태 (공식 메타데이터로 자동 생성 · 실행 검증 안 함)'} />
+      {xml && <Code code={xml} label="XML 뷰에서 쓰는 형태 (공식 메타데이터로 자동 생성 · 실행 검증 안 함)" />}
+      <OfficialExamples examples={m.examples} />
+    </div>
+  );
+}
+
+function MemberBody({ kind, it, doc, koText, onApi, known, g, minor, onVersion, docBase, onRef, onOpenPage }: { kind: MemberKind; it: Item; doc: ApiDoc; koText?: string; onOpenPage: () => void } & Shared) {
+  return (
+    <div className="member-body">
+      <p className="row"><button className="btn small primary" onClick={onOpenPage}>이 항목 상세 페이지 열기 →</button> <span className="muted small">설명·사용법·버전·쓸 수 있는 클래스를 탭으로 봅니다</span></p>
+      <MemberDescription kind={kind} it={it} koText={koText} onApi={onApi} known={known} docBase={docBase} onRef={onRef} />
+      <MemberLifeView symbol={it.definedIn} memberKey={memberKey(kind, it.m.name)} since={it.m.since} g={g} minor={minor} onVersion={onVersion} />
+      <MemberUsage kind={kind} it={it} doc={doc} />
     </div>
   );
 }

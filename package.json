@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "fetch:api": "node scripts/fetch-api.mjs",
+    "fetch:topics": "node scripts/fetch-topics.mjs",
     "build:data": "node scripts/build-data.mjs",
     "dev": "npm run build:data && vite",
     "build": "npm run build:data && npm run typecheck && npm test && vite build",

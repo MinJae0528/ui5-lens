@@ -34,3 +34,54 @@ export function methSnippet(doc: ApiDoc, m: Meth) {
   const call = m.static ? `${doc.name}.${m.name}(${args})` : `${inst(doc)}.${m.name}(${args})`;
   return m.returnValue && m.returnValue.type !== 'void' ? `var result = ${call};   // → ${m.returnValue.type}` : `${call};`;
 }
+
+// ---------- 불러오기·XML 뷰 사용 형태 (공식 메타데이터로 기계 생성, 실행 검증 안 함) ----------
+/** 모듈 경로(공식 api.json 의 module)로 만든 sap.ui.define 사용 형태. 모듈 경로가 없으면 null. */
+export function defineSnippet(doc: ApiDoc): string | null {
+  if (!doc.module || !/^[A-Za-z0-9_/$.-]+$/.test(doc.module)) return null;
+  const v = doc.basename;
+  const body = doc.kind === 'namespace' || doc.stereotype === null && doc.kind !== 'class'
+    ? `  // ${v} 는 함수 모음(싱글톤)입니다: ${v}.메서드(...) 형태로 호출합니다.`
+    : `  var o${v} = new ${v}(/* mSettings: 속성·구성 요소·이벤트를 객체로 전달 */);`;
+  return `sap.ui.define([\n  "${doc.module}"\n], function (${v}) {\n  "use strict";\n${body}\n});`;
+}
+
+const defaultNs = 'sap.m';
+function xmlParts(doc: ApiDoc): { xmlns: string; tag: string; uses: string } | null {
+  if (doc.stereotype !== 'control' && doc.stereotype !== 'element') return null;
+  const dot = doc.name.lastIndexOf('.');
+  if (dot <= 0 || doc.name.slice(dot + 1) !== doc.basename) return null; // 네임스페이스가 없거나 이름 규칙이 다르면 만들지 않는다
+  const ns = doc.name.slice(0, dot);
+  if (ns === defaultNs) return { xmlns: `xmlns="${ns}"`, tag: doc.basename, uses: '' };
+  const prefix = (ns.split('.').pop() as string).replace(/[^a-z0-9]/gi, '') || 'x';
+  const p = prefix === 'mvc' ? 'x' : prefix;
+  return { xmlns: `xmlns:${p}="${ns}"`, tag: `${p}:${doc.basename}`, uses: ` xmlns:${p}="${ns}"` };
+}
+/** XML 뷰에서 컨트롤을 쓰는 형태. 컨트롤/엘리먼트가 아니면 null. */
+export function xmlSnippet(doc: ApiDoc): string | null {
+  const x = xmlParts(doc);
+  if (!x) return null;
+  const ns = x.xmlns === `xmlns="${defaultNs}"` ? `xmlns:mvc="sap.ui.core.mvc" xmlns="${defaultNs}"` : `xmlns:mvc="sap.ui.core.mvc" ${x.xmlns}`;
+  return `<mvc:View ${ns}>\n  <${x.tag} />\n</mvc:View>`;
+}
+/** XML 뷰에서 속성·이벤트·구성 요소·참조를 쓰는 형태. 메서드는 XML 로 쓰지 않으므로 null. */
+export function xmlMemberSnippet(kind: 'property' | 'method' | 'event' | 'aggregation' | 'association', doc: ApiDoc, m: Prop | Meth | Evt | Aggr | Assoc): string | null {
+  const x = xmlParts(doc);
+  if (!x || kind === 'method') return null;
+  if (kind === 'property') return `<${x.tag} ${m.name}=${JSON.stringify(placeholder((m as Prop).type).replace(/^"|"$/g, '') || '…')} />`;
+  if (kind === 'event') return `<${x.tag} ${m.name}=".on${cap(m.name)}" />   <!-- 컨트롤러에 onPress 같은 핸들러 함수 필요 -->`;
+  if (kind === 'association') return `<${x.tag} ${m.name}="아이디" />`;
+  const a = m as Aggr;
+  return a.isDefault
+    ? `<${x.tag}>\n  <!-- 기본 구성 요소(${m.name}): 태그 이름 없이 ${a.type} 를 바로 넣을 수 있음 -->\n</${x.tag}>`
+    : `<${x.tag}>\n  <${m.name}>\n    <!-- ${a.type} -->\n  </${m.name}>\n</${x.tag}>`;
+}
+/** 생성자 호출 형태 */
+export function newSnippet(doc: ApiDoc): string | null {
+  if (doc.kind !== 'class' || !doc.ctor) return null;
+  const v = doc.name;
+  const sid = doc.constructorParams.some((p) => p.name === 'sId');
+  const set = doc.constructorParams.some((p) => p.name === 'mSettings');
+  const args = sid && set ? '"myId", { /* mSettings */ }' : set ? '{ /* mSettings */ }' : sid ? '"myId"' : '';
+  return `var o${doc.basename} = new ${v}(${args});`;
+}

@@ -53,6 +53,55 @@ function plainFirstSentence(html) {
 const plainN = (html, max) => (html || '').replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/g, ' ').replace(/\{@link\s+[^\s}]+(?:\s+([^}]*))?\}/g, '$1').replace(/\s+/g, ' ').trim().slice(0, max);
 const dep = (d) => (d ? { since: d.since ?? null, text: d.text ?? '' } : null);
 
+// ---------- 추가 공식 정보 ----------
+// 한국어 설명이 "원문 변경" 으로 잘못 판정되지 않도록 officialHash 에는 넣지 않고, 해시를 계산한 뒤에 붙인다.
+function parseRef(raw) {
+  const str = String(raw).trim();
+  const link = /^\{@link\s+(\S+)(?:\s+([\s\S]*?))?\}$/.exec(str);
+  const target = link ? link[1] : str;
+  const label = link?.[2]?.trim();
+  let m;
+  if ((m = /^fiori:(.+)$/.exec(target))) {
+    const u = m[1];
+    const url = /^https?:\/\//.test(u) ? u : `https://experience.sap.com/fiori-design-web${u.startsWith('/') ? '' : '/'}${u}`;
+    return { kind: 'fiori', text: label || u, url };
+  }
+  if ((m = /^topic:(.+)$/.exec(target))) return { kind: 'topic', text: label || m[1], key: m[1] };
+  if (/^https?:\/\//.test(target)) return { kind: 'url', text: label || target, url: target };
+  if ((m = /^([A-Za-z0-9_.$/:]+)(?:#([A-Za-z0-9_$.]+))?$/.exec(target))) return { kind: 'api', text: label || target, api: m[1].replace(/^module:/, '').replace(/\//g, '.'), member: m[2] ?? null };
+  return { kind: 'text', text: label || str };
+}
+const cleanExamples = (arr) => (arr || []).map((e) => ({ caption: e.caption ?? null, text: String(e.text ?? '') })).filter((e) => e.text);
+function memberExtras(m, known) {
+  const r = {};
+  if (m.experimental) r.experimental = { since: m.experimental.since ?? null, text: cleanHtml(m.experimental.text || '', known) };
+  if (m.allowedFor?.length) r.allowedFor = m.allowedFor;
+  if (m.references?.length) r.references = m.references.map(parseRef);
+  if (m.examples?.length) r.examples = cleanExamples(m.examples);
+  if (m.throws?.length) r.throws = m.throws.map((t) => ({ type: t.type ?? null, description: cleanHtml(t.description || '', known) }));
+  if (m.bindable) r.bindable = true;
+  return r;
+}
+function classExtras(s, known) {
+  const r = {};
+  if (s.abstract) r.abstract = true;
+  if (s.final) r.final = true;
+  if (s.experimental) r.experimental = { since: s.experimental.since ?? null, text: cleanHtml(s.experimental.text || '', known) };
+  if (s.allowedFor?.length) r.allowedFor = s.allowedFor;
+  if (s.references?.length) r.references = s.references.map(parseRef);
+  if (s.examples?.length) r.examples = cleanExamples(s.examples);
+  const c = s.constructor;
+  if (c && typeof c === 'object') {
+    r.ctor = {
+      description: cleanHtml(c.description || '', known),
+      references: (c.references || []).map(parseRef),
+      examples: cleanExamples(c.examples),
+      allowedFor: c.allowedFor || [],
+    };
+  }
+  return r;
+}
+
 // ---------- 정규화 ----------
 function normalize(name, s, lib, known, docBase) {
   const md = s['ui5-metadata'] || {};
@@ -92,6 +141,12 @@ function normalize(name, s, lib, known, docBase) {
     constructorParams: (s.constructor?.parameters || []).map((p) => ({ name: p.name, type: p.type, optional: !!p.optional, description: cleanHtml(p.description, known) })),
   };
   out.officialHash = sha({ ...out, sourceUrl: undefined });
+  Object.assign(out, classExtras(s, known));
+  const srcOf = { properties: md.properties, aggregations: md.aggregations, associations: md.associations, events: [...evTop.values()], methods: s.methods };
+  for (const [pl, arr] of Object.entries(srcOf)) {
+    const byName = new Map((arr || []).map((x) => [x.name, x]));
+    for (const m of out[pl]) { const src = byName.get(m.name); if (src) Object.assign(m, memberExtras(src, known)); }
+  }
   return out;
 }
 
@@ -153,6 +208,35 @@ for (const v of versions) {
     intent.push({ n: d.name, c: d.kind === 'namespace' ? 3 : d.stereotype === 'control' ? 1 : d.stereotype === 'element' ? 2 : 0, ...(d.deprecated ? { dp: d.deprecated.since ?? 1 } : {}), t: plainN(d.description, 420), m: [...new Set(members)].slice(0, 90).join(' ') });
   }
   writeFileSync(`${vOut}/intent.json.gz`, gzipSync(JSON.stringify(intent), { level: 9 }));
+  // 멤버 색인(메서드·속성·이벤트·구성 요소·참조 이름 검색 + 기능 추천용). [클래스 번호, 종류, 이름, 플래그, since, 설명|접근자 대상]
+  {
+    const classes = [], rows = [];
+    for (const arr of byLib.values()) for (const d of arr) {
+      if (d.visibility !== 'public' || !(d.kind === 'class' || d.kind === 'interface' || d.kind === 'namespace')) continue;
+      let ci = -1;
+      for (const [pl, kc] of [['properties', 'p'], ['aggregations', 'a'], ['associations', 's'], ['events', 'e'], ['methods', 'm']]) {
+        for (const m of d[pl] || []) {
+          if (ci < 0) { ci = classes.length; classes.push(d.name); }
+          const flags = (m.deprecated ? 1 : 0) | (m.static ? 2 : 0) | (m.accessorOf ? 4 : 0) | (m.experimental ? 8 : 0);
+          rows.push([ci, kc, m.name, flags, m.since ?? 0, m.accessorOf ? m.accessorOf.name : plainN(m.description, 140).replace(/^(.{20,140}?[.!?])\s.*$/, '$1')]);
+        }
+      }
+    }
+    writeFileSync(`${vOut}/members.json.gz`, gzipSync(JSON.stringify({ c: classes, m: rows }), { level: 9 }));
+    var memberCount = rows.length;
+  }
+  // 문서 가이드 목차: [key, text, children|0]
+  let topicCount = 0;
+  {
+    const tp = join(dir, 'topics.index.json.gz');
+    if (existsSync(tp)) {
+      const t = JSON.parse(gunzipSync(readFileSync(tp)).toString('utf8'));
+      if (Array.isArray(t) && t.every((x) => x && typeof x.key === 'string' && /^[0-9a-f]{32}$/.test(x.key))) {
+        const walk = (a) => a.filter((x) => x && typeof x.key === 'string' && /^[0-9a-f]{32}$/.test(x.key)).map((x) => { topicCount++; return [x.key, String(x.text ?? ''), x.links?.length ? walk(x.links) : 0]; });
+        writeFileSync(`${vOut}/topics.json.gz`, gzipSync(JSON.stringify(walk(t)), { level: 9 }));
+      }
+    }
+  }
   index.sort((a, b) => a.n.localeCompare(b.n));
   writeFileSync(`${vOut}/index.json.gz`, gzipSync(JSON.stringify(index), { level: 9 }));
   const pubCount = index.filter((i) => i.p !== 0).length;
@@ -160,7 +244,7 @@ for (const v of versions) {
   const meta = {
     minor: v.minor, version: manifest.version, fetchedAt: manifest.fetchedAt, builtAt: new Date().toISOString(),
     docBase, libraries: libs, noApiJson: manifest.noApiJson ?? [],
-    counts: { searchable: pubCount, detailedKo: index.filter((i) => i.ko !== 'none' && i.p !== 0).length, reviewedKo: index.filter((i) => i.ko === 'reviewed').length },
+    counts: { members: memberCount, topics: topicCount, searchable: pubCount, detailedKo: index.filter((i) => i.ko !== 'none' && i.p !== 0).length, reviewedKo: index.filter((i) => i.ko === 'reviewed').length },
     dataKind: 'official',
   };
   writeFileSync(`${vOut}/meta.json`, JSON.stringify(meta));
@@ -219,6 +303,7 @@ if (existsSync('data/intents.json') && existsSync(`${OUT}/v/${BASE_MINOR}/intent
   for (const e of src.intents) for (const w of e.en) if (!text.includes(w.toLowerCase())) errors.push(`intents: "${e.ko[0]}" 의 영어 용어 "${w}" 가 ${BASE_MINOR} 공식 자료에 한 번도 나오지 않음`);
   writeFileSync(`${OUT}/intents.json`, JSON.stringify(src));
   if (existsSync('data/recommend-eval-result.json')) writeFileSync(`${OUT}/recommend-eval.json`, readFileSync('data/recommend-eval-result.json'));
+  if (existsSync('data/recommend-members-eval-result.json')) writeFileSync(`${OUT}/recommend-members-eval.json`, readFileSync('data/recommend-members-eval-result.json'));
 }
 
 // ---------- 버전 목록·별칭 ----------

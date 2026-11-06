@@ -1,24 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
-/** URL 해시(#?q=Table&api=sap.m.Table&tab=methods&inh=1&mq=add)에 화면 상태를 담는다. 새로고침·뒤로가기에도 유지된다. */
-export interface Route { v: string; q: string; api: string | null; tab: string; inh: boolean; mq: string }
-const DEFAULT: Route = { v: '', q: '', api: null, tab: 'overview', inh: false, mq: '' };
-
-export function parse(hash: string): Route {
-  const p = new URLSearchParams(hash.replace(/^#\??/, ''));
-  return { v: p.get('v') ?? '', q: p.get('q') ?? '', api: p.get('api'), tab: p.get('tab') ?? 'overview', inh: p.get('inh') === '1', mq: p.get('mq') ?? '' };
-}
-function serialize(r: Route) {
-  const p = new URLSearchParams();
-  if (r.v) p.set('v', r.v);
-  if (r.q) p.set('q', r.q);
-  if (r.api) p.set('api', r.api);
-  if (r.api && r.tab !== 'overview') p.set('tab', r.tab);
-  if (r.api && r.inh) p.set('inh', '1');
-  if (r.api && r.mq) p.set('mq', r.mq);
-  const s = p.toString();
-  return s ? `#?${s}` : '#';
-}
+import { DEFAULT_ROUTE as DEFAULT, parse, serialize, type Route } from './routeState';
+export type { Route, Mode, KindFilter } from './routeState';
 
 export function useRoute(): [Route, (patch: Partial<Route>, push?: boolean) => void] {
   const [route, setRoute] = useState<Route>(() => ({ ...DEFAULT, ...parse(location.hash) }));

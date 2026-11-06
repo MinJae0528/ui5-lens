@@ -1,7 +1,9 @@
 import { mergeMembers, MEMBER_SPECS } from '../domain/members';
+import { defineSnippet, newSnippet, xmlSnippet } from '../domain/snippets';
 import { plain } from '../domain/text';
 import type { ApiDoc, KoDoc, KoStatus } from '../types';
-import { Html, Origin } from '../ui';
+import { Code, Html, Origin } from '../ui';
+import { OfficialExamples, RefList } from './Refs';
 import type { DetailProps } from './props';
 
 export function Overview({ chain, ko, koStatus, p, goTab }: { chain: ApiDoc[]; ko: KoDoc | null; koStatus: KoStatus; p: DetailProps; goTab: (t: string) => void }) {
@@ -62,6 +64,22 @@ export function Overview({ chain, ko, koStatus, p, goTab }: { chain: ApiDoc[]; k
         )}
       </section>
 
+      <Howto doc={doc} />
+
+      {(doc.experimental || doc.abstract || doc.final || (doc.allowedFor && doc.allowedFor.length > 0)) && (
+        <section><h3>공식 자료의 표시</h3>
+          <ul className="plain">
+            {doc.experimental && <li><span className="badge b-warn">experimental</span> 실험적 기능으로 표시되어 이후 버전에서 바뀔 수 있습니다{doc.experimental.since ? ` (${doc.experimental.since} 부터)` : ''}.</li>}
+            {doc.abstract && <li><span className="badge">abstract</span> 직접 만들지 않고 상속해서 쓰는 클래스입니다.</li>}
+            {doc.final && <li><span className="badge">final</span> 상속할 수 없는 클래스입니다.</li>}
+            {doc.allowedFor && doc.allowedFor.length > 0 && <li><span className="badge">공개 범위</span> {doc.allowedFor.join(', ')} 용도로만 공개된 항목입니다.</li>}
+          </ul>
+        </section>
+      )}
+
+      {doc.examples && doc.examples.length > 0 && <section><h3>공식 예제</h3><OfficialExamples examples={doc.examples} /></section>}
+      {doc.references && doc.references.length > 0 && <section><h3>참고 링크 <small className="muted">(공식)</small></h3><RefList refs={doc.references} docBase={p.vd.meta.docBase} known={known} onRef={(a) => onApi(a)} /></section>}
+
       <section>
         <h3>기본 정보</h3>
         <dl className="kv">
@@ -88,5 +106,19 @@ function ProvenanceNote({ ko, status, minor, version }: { ko: KoDoc; status: KoS
         ? <>⚠ 이 한국어 설명은 UI5 <b>{ko.baseMinor}</b> 원문을 기준으로 작성·대조했는데, 지금 보는 <b>{version}</b> 의 공식 원문과 <b>달라서 재검토가 필요</b>합니다. 한국어 문장이 이 버전과 맞지 않을 수 있으니 영문 원문과 공식 항목 목록을 기준으로 보세요. {minor === ko.baseMinor ? '(같은 버전인데 원문이 갱신됨)' : ''}</>
         : <>이 API 의 한국어 설명은 <b>{ko.provenance.generator}</b> 입니다 · 검토 상태: <b>{ko.provenance.review === 'reviewed' ? '검토 완료' : '미검토(초안)'}</b> · 공식 원문 대조: {ko.basedOn.stampedAt ?? ko.provenance.checkedAt} (UI5 {ko.baseMinor})</>}
     </div>
+  );
+}
+
+/** 사용 시작하기: 모듈 경로(sap.ui.define), 생성자, XML 뷰 사용 형태. 공식 메타데이터로 기계 생성한 것이라 실행 검증은 안 했다. */
+function Howto({ doc }: { doc: ApiDoc }) {
+  const def = defineSnippet(doc), xml = xmlSnippet(doc), ctor = newSnippet(doc);
+  if (!def && !xml && !ctor) return null;
+  return (
+    <section><h3>사용 시작하기 <small className="muted">(공식 메타데이터로 자동 생성 · 실행 검증 안 함)</small></h3>
+      {doc.module && <p className="muted small">공식 모듈 경로: <code>{doc.module}</code></p>}
+      {def && <Code code={def} label="JavaScript — sap.ui.define 으로 불러오기" />}
+      {ctor && !def && <Code code={ctor} label="JavaScript — 생성자" />}
+      {xml && <Code code={xml} label="XML 뷰 — 네임스페이스와 태그" />}
+    </section>
   );
 }

@@ -28,8 +28,8 @@ mark { background: #ffe58a; color: #222; border-radius: 2px; padding: 0 1px; }
 .scope { background: var(--panel); border-bottom: 1px solid var(--line); padding: 12px 18px; max-height: 45vh; overflow: auto; }
 .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
-.panes { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(340px, 430px) 1fr; }
-.pane { min-height: 0; display: flex; flex-direction: column; }
+.panes { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(340px, 430px) minmax(0, 1fr); }
+.pane { min-height: 0; min-width: 0; display: flex; flex-direction: column; }
 .list-pane { border-right: 1px solid var(--line); background: var(--panel); }
 .detail-pane { overflow: auto; }
 .search-box { padding: 12px 14px 6px; }
@@ -110,7 +110,7 @@ details { margin: 8px 0; } summary { cursor: pointer; color: var(--muted); font-
 .runframe { width: 100%; height: 340px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
 
 @media (max-width: 900px) {
-  .panes { grid-template-columns: 1fr; }
+  .panes { grid-template-columns: minmax(0, 1fr); }
   .has-detail .list-pane { display: none; }
   .app:not(.has-detail) .detail-pane { display: none; }
   .detail-bar { display: block; } .detail { padding: 12px; }
@@ -179,3 +179,48 @@ tr.cur td { background: var(--accent-bg); }
   .tab .en { display: none; } .tab { padding: 10px 12px; }
   .landing h2 { font-size: 1.35rem; }
 }
+
+/* ---- 모드 탭(ui5.sap.com 상단 탭처럼), 필터 알약, 멤버 카드, 탐색 트리, 문서 가이드, 멤버 상세 ---- */
+.mode-nav { display: flex; align-items: flex-end; gap: 12px; padding: 0 14px; background: var(--panel); border-bottom: 1px solid var(--line); overflow-x: auto; }
+.mode-tabs { display: flex; gap: 2px; flex: 0 0 auto; }
+.mode-tab { display: grid; text-align: left; gap: 1px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--muted); padding: 9px 14px 8px; cursor: pointer; font: inherit; white-space: nowrap; }
+.mode-tab .mt-label { font-weight: 600; font-size: .95rem; } .mode-tab .mt-hint { font-size: .72rem; opacity: .85; }
+.mode-tab:hover { color: var(--ink); } .mode-tab.on { color: var(--ink); border-bottom-color: var(--accent); background: var(--accent-bg); }
+.mode-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.mode-links { margin-left: auto; display: flex; gap: 12px; align-items: center; padding: 0 0 9px; white-space: nowrap; font-size: .82rem; }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0 4px; }
+.pill { font: inherit; font-size: .82rem; padding: 4px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--muted); cursor: pointer; }
+.pill b { color: var(--ink); } .pill.on { background: var(--accent-bg); border-color: var(--accent); color: var(--ink); font-weight: 600; }
+.pills .check { margin-left: auto; }
+.member-card { cursor: pointer; } .member-card .decl { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-top: 6px; }
+.mono-chip, .mono-badge { font-family: var(--mono); font-size: .78rem; }
+.b-kind { background: var(--accent-bg); color: var(--ink); }
+.member-results { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.sig { font-family: var(--mono); font-size: .95rem; font-weight: 400; color: var(--muted); margin-left: .5em; word-break: break-all; }
+.crumb { font-size: .85rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.rel { color: var(--muted); font-size: .85em; }
+.two-col { columns: 2 260px; column-gap: 24px; }
+.lib-list, .class-list, .tree, .topic-hits { list-style: none; padding: 0; margin: 6px 0; display: grid; gap: 2px; }
+.tree ul { list-style: none; padding: 0; margin: 0; }
+.lib-row, .class-row { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; width: 100%; text-align: left; font: inherit; padding: 8px 10px; border: 1px solid transparent; border-radius: 8px; background: none; color: var(--ink); cursor: pointer; }
+.lib-row:hover, .class-row:hover { background: var(--accent-bg); } .class-row.sel { background: var(--accent-bg); border-color: var(--accent); }
+.lib-count { margin-left: auto; color: var(--muted); font-size: .82rem; }
+.class-row .cname { font-weight: 600; } .class-row .csum { flex-basis: 100%; color: var(--muted); font-size: .82rem; line-height: 1.35; max-height: 2.7em; overflow: hidden; }
+.lib-title { margin: 8px 0 4px; font-size: 1.05rem; }
+.tnode { display: flex; align-items: baseline; gap: 4px; border-radius: 6px; } .tnode.sel { background: var(--accent-bg); }
+.tog, .tog-sp { width: 22px; flex: 0 0 22px; text-align: center; } .tog { border: 0; background: none; color: var(--muted); cursor: pointer; font: inherit; }
+.tlabel { border: 0; background: none; font: inherit; color: var(--ink); text-align: left; cursor: pointer; padding: 5px 4px; flex: 1; } .tlabel:hover { text-decoration: underline; }
+.guide-wrap { text-align: left; padding: 24px 30px; color: var(--ink); max-width: 860px; margin: 0 auto; }
+.guide-page .btn.primary { display: inline-block; }
+.refs li { margin: 3px 0; }
+@media (max-width: 900px) {
+  .mode-nav { padding: 0 6px; gap: 6px; } .mode-links { display: none; }
+  .mode-tab { padding: 8px 10px 7px; } .mode-tab .mt-hint { display: none; } .mode-tab .mt-label { font-size: .88rem; }
+  .guide-wrap { padding: 12px; } .pills .check { margin-left: 0; }
+}
+
+/* 긴 이름·칩이 좁은 패널을 밀어내지 않게 */
+.cands, .search-box, .member-results, .member-results > li, .rec-list > li, .decl, .card { min-width: 0; }
+.member-results { grid-template-columns: minmax(0, 1fr); }
+.card { overflow-wrap: anywhere; }
+.decl .chip, .mono-chip { max-width: 100%; white-space: normal; text-align: left; }

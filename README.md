@@ -3,12 +3,15 @@
 키워드 검색 → API 후보 목록 → 후보 선택 → 한국어로 구조·사용 조건·예제 확인.
 ui5.sap.com 이 호스팅하는 **모든 UI5 버전(31개)** 의 공식 API 자료를 담고, 회사가 쓰는 버전을 골라 볼 수 있다.
 
+프로젝트 문서(요구사항, MVC 역할 설계, 시스템 아키텍처, 설계서, 구현 현황)는 [docs/](docs/README.md) 에 있다.
+
 ## 실행
 
 ```bash
 npm install
 npm run discover:versions   # ui5.sap.com 에 실제 호스팅된 버전 탐색 → data/versions.json (최초/갱신 시)
 npm run fetch:api           # 전 버전 api.json 다운로드 (약 1GB 원본 → gzip 캐시 약 110MB, 이어받기 가능)
+npm run fetch:topics        # 버전별 문서 가이드 목차(약 140KB/버전). 문서 가이드 모드가 쓴다 — 본문은 받지 않는다
 npm run dev                 # 데이터 빌드(약 30초) + 개발 서버 http://localhost:5173
 npm run build               # 데이터 빌드 + 타입 검사 + 단위 테스트 + 정적 배포물 dist/ (약 105MB)
 npm run app                 # (데이터가 이미 있을 때) 빌드 후 미리보기 서버를 띄우고 브라우저를 자동으로 연다

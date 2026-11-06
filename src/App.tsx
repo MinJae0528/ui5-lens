@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { RecSection } from './Ask';
-import { MAX_RENDER, useSearchController } from './controller/useSearchController';
+import { MemberRecSection, RecSection } from './Ask';
 import { useRoute, type Route } from './controller/route';
+import { useSearchController } from './controller/useSearchController';
 import { loadGlobal, loadVersion, type Global, type VersionData } from './data';
 import { Detail } from './detail/Detail';
-import { Card } from './shell/Card';
+import { Browse } from './shell/Browse';
+import { Guide, GuidePage } from './shell/Guide';
 import { Landing } from './shell/Landing';
+import { ModeTabs } from './shell/ModeTabs';
+import { NameResults } from './shell/NameResults';
 import { FEATURE_QUICK } from './shell/quick';
 import { Scope } from './shell/Scope';
 
@@ -53,17 +56,33 @@ export function App() {
   return <Shell key={minor} g={g} vd={vd} route={route} setRoute={setRoute} onVersion={(m) => { lsSet(m); setRoute({ v: m }); }} />;
 }
 
-/** 화면 조립: 상태와 동작은 useSearchController 가 갖고, 여기서는 배치와 그리기만 한다. */
+const PLACEHOLDER = {
+  name: '클래스·메서드 이름 (예: Table, setText, Button#setText)   ( / 로 이동 )',
+  feature: '하고 싶은 일 (예: 댓글을 다는 기능, 날짜를 고르기)   ( / 로 이동 )',
+};
+
+/** 화면 조립: 상태와 동작은 컨트롤러 훅이 갖고, 여기서는 모드별 배치와 그리기만 한다. */
 function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionData; route: Route; setRoute: ReturnType<typeof useRoute>[1]; onVersion: (m: string) => void }) {
   const { meta } = vd;
   const c = useSearchController({ g, vd, route, setRoute });
   const [showScope, setShowScope] = useState(false);
-  const { q, pending, results, shown, exactN, rec } = c;
+  const { q, pending, mode, rec } = c;
   const verInfo = g.versions.versions.find((v) => v.minor === meta.minor);
   const recReady = !!(rec.res && rec.res.results.length > 0);
+  const memberRecReady = !!(c.memberRec && c.memberRec.results.length > 0);
+  const hasDetail = !!route.api || (mode === 'guide' && !!route.tp);
+  const landing = <Landing vd={vd} g={g} mode={mode} onQuick={c.quick} onMode={c.setMode} onLib={(lib) => setRoute({ m: 'browse', lib, api: null }, true)} onPick={c.select} />;
+
+  const status = (() => {
+    if (pending) return '검색 중…';
+    if (!q) return '';
+    if (mode === 'name') return `UI5 ${meta.minor} · 클래스 ${c.results.length}개 · 메서드·속성·이벤트 ${c.allGroups.length}개`;
+    if (mode === 'feature') return recReady || memberRecReady ? '하고 싶은 일을 공식 이름·설명과 비교해 골랐습니다' : '';
+    return '';
+  })();
 
   return (
-    <div className={`app ${route.api ? 'has-detail' : ''}`}>
+    <div className={`app ${hasDetail ? 'has-detail' : ''}`}>
       <header className="top">
         <div className="brand"><span className="logo">UI5 Lens</span><span className="tag">한국어 UI5 API 탐색</span></div>
         <div className="ver-pick">
@@ -79,57 +98,77 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
           {meta.dataKind === 'demo' ? <span className="badge b-warn">데모 데이터</span> : <span className="badge b-off">공식 api.json</span>}
         </button>
       </header>
+      <ModeTabs mode={mode} onMode={c.setMode} docBase={meta.docBase} />
       {showScope && <Scope g={g} vd={vd} onVersion={(m) => { onVersion(m); setShowScope(false); }} onPick={(n) => { c.select(n); setShowScope(false); }} />}
 
       <div className="panes">
-        <section className="pane list-pane" aria-label="검색과 후보 목록">
-          <div className="search-box">
-            <label htmlFor="q" className="sr-only">API 이름 또는 하고 싶은 일 검색</label>
-            <input
-              id="q" ref={c.inputRef} autoFocus type="search" autoComplete="off" spellCheck={false}
-              placeholder="API 이름 또는 하고 싶은 일 …  ( / 로 이동 )"
-              value={c.draft} onChange={(e) => c.setDraft(e.target.value)} onKeyDown={c.onKey}
-              role="combobox" aria-expanded={shown.length > 0} aria-controls="cands" aria-activedescendant={shown.length ? `cand-${c.active}` : undefined}
-            />
-            <div className="search-status" role="status" aria-live="polite">
-              {pending ? '검색 중…' : q ? (results.length ? `UI5 ${meta.minor} 에서 이름 후보 ${results.length}개 · 정식 이름 기준 중복 없음${results.length > MAX_RENDER ? ` · 상위 ${MAX_RENDER}개 표시` : ''}` : recReady ? `이름과 일치하는 API 는 없어, 기능 설명으로 해석해 추천 ${Math.min(3, rec.res!.results.length)}개를 골랐습니다` : '') : ''}
+        <section className="pane list-pane" aria-label="검색과 후보 목록" role="tabpanel" aria-labelledby={`mode-${mode}`}>
+          {c.typed && (
+            <div className="search-box">
+              <label htmlFor="q" className="sr-only">{mode === 'name' ? '클래스·메서드 이름 검색' : '하고 싶은 일 검색'}</label>
+              <input
+                id="q" ref={c.inputRef} autoFocus type="search" autoComplete="off" spellCheck={false}
+                placeholder={PLACEHOLDER[mode as 'name' | 'feature']}
+                value={c.draft} onChange={(e) => c.setDraft(e.target.value)} onKeyDown={c.onKey}
+                role="combobox" aria-expanded={c.items.length > 0} aria-controls="cands" aria-activedescendant={c.items.length ? `cand-${c.active}` : undefined}
+              />
+              <div className="search-status" role="status" aria-live="polite">{status}</div>
             </div>
-          </div>
+          )}
 
-          <div className="cands" ref={c.listRef} onScroll={(e) => c.onScroll(e.currentTarget.scrollTop)}>
-            {!q && !pending && <div className="only-narrow"><Landing vd={vd} g={g} onQuick={c.quick} onPick={c.select} /></div>}
-            {q && !pending && rec.loading && <p className="muted pad" role="status">기능 설명으로 해석하는 중…</p>}
-            {q && !pending && exactN === 0 && recReady && (
-              <RecSection res={rec.res!} version={meta.version} index={c.searchable} selected={route.api} onPick={c.select} />
-            )}
-            {q && !pending && !rec.loading && results.length === 0 && !recReady && (
-              <div className="empty" role="status">
-                <b>“{q}”</b> 와 일치하는 API 가 UI5 {meta.minor} 지원 범위 안에 없고, 기능 설명으로도 해석하지 못했습니다.
-                <p className="muted">존재하지 않는 API 를 만들어 보여 주지 않습니다. 다른 버전에서는 있을 수 있으니 위의 버전 선택으로 바꿔 보거나, 정식 이름(예: <code>sap.m.Table</code>) 또는 영어 키워드(예: <code>date picker</code>)로 다시 검색해 보세요.</p>
-                <div className="chips">{FEATURE_QUICK.slice(0, 4).map((x) => <button key={x} className="chip" onClick={() => c.quick(x)}>{x}</button>)}</div>
-              </div>
-            )}
-            {q && !pending && results.length > 0 && exactN === 0 && recReady && <h3 className="sec-title">이름이 비슷한 후보</h3>}
-            <ul id="cands" role="listbox" aria-label="API 후보">
-              {shown.map((r, i) => (
-                <Card key={r.entry.n} c={r} i={i} q={q} active={i === c.active} selected={route.api === r.entry.n}
-                  onHover={() => c.setActive(i)} onPick={() => c.select(r.entry.n)} />
-              ))}
-            </ul>
-          </div>
+          {c.typed && (
+            <div className="cands" ref={c.listRef} onScroll={(e) => c.onScroll(e.currentTarget.scrollTop)}>
+              {!q && !pending && <div className="only-narrow">{landing}</div>}
+
+              {mode === 'name' && q && !pending && (
+                <NameResults
+                  q={q} kf={c.kf} setKind={c.setKind}
+                  classList={c.classList} shownClasses={c.shownClasses} groups={c.groups} shownGroups={c.shownGroups} kindCounts={c.kindCounts} allGroupsCount={c.allGroups.length} allClassCount={c.results.length} items={c.items}
+                  active={c.active} setActive={c.setActive} selected={route.api}
+                  showAcc={c.showAcc} setShowAcc={c.setShowAcc} moreClasses={c.moreClasses} setMoreClasses={c.setMoreClasses} moreMembers={c.moreMembers} setMoreMembers={c.setMoreMembers}
+                  memberLoading={c.memberLoading} memberError={c.memberError} select={c.select} openMember={c.openMember} toFeature={() => c.quick(q, 'feature')}
+                />
+              )}
+
+              {mode === 'feature' && q && !pending && (
+                <>
+                  {(rec.loading || c.memberLoading) && !c.recFailed && <p className="muted pad" role="status">기능 설명으로 해석하는 중…</p>}
+                  {c.recFailed && (
+                    <div className="notice warn" role="alert">
+                      <b>추천용 자료를 불러오지 못했습니다.</b> “추천 결과 없음”이 아니라 자료 조회 실패입니다(네트워크 또는 데이터 파일 문제). 이름·메서드 검색은 계속 쓸 수 있습니다.
+                      <div className="row"><button className="btn small" onClick={c.retryLoad}>다시 시도</button> <button className="btn small" onClick={() => c.quick(q, 'name')}>이름으로 검색</button></div>
+                    </div>
+                  )}
+                  {recReady && <RecSection res={rec.res!} version={meta.version} index={c.searchable} selected={route.api} onPick={c.select} />}
+                  {memberRecReady && <MemberRecSection res={c.memberRec!} onOpen={c.openMember} />}
+                  {!rec.loading && !c.memberLoading && !c.recFailed && !recReady && !memberRecReady && (
+                    <div className="empty" role="status">
+                      <b>“{q}”</b> 을(를) 기능 설명으로 해석하지 못했거나, UI5 {meta.minor} 공식 자료에서 겹치는 API 를 찾지 못했습니다.
+                      <p className="muted">존재하지 않는 API 를 만들어 보여 주지 않습니다. 영어 키워드(예: <code>date picker</code>)로 다시 적거나, 이름을 안다면 <b>이름·메서드 검색</b> 모드를 쓰세요. 다른 버전에서는 있을 수 있습니다.</p>
+                      <div className="chips">{FEATURE_QUICK.slice(0, 4).map((x) => <button key={x} className="chip" onClick={() => c.quick(x, 'feature')}>{x}</button>)}</div>
+                      <button className="btn" onClick={() => c.quick(q, 'name')}>“{q}” 를 이름으로 검색</button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+
+          {mode === 'browse' && <div className="cands"><Browse index={c.searchable} lib={route.lib} selected={route.api} onLib={(lib) => setRoute({ lib })} onPick={c.select} /></div>}
+          {mode === 'guide' && <div className="cands"><Guide minor={meta.minor} hasTopics={!!meta.counts.topics} tp={route.tp} onTopic={(tp) => setRoute({ tp, api: null }, true)} /></div>}
         </section>
 
-        <section className="pane detail-pane" aria-label="API 상세">
+        <section className="pane detail-pane" aria-label="상세">
           {route.api ? (
             <Detail
               key={`${meta.minor}/${route.api}`} name={route.api} g={g} vd={vd} known={c.known} route={route} setRoute={setRoute} siblings={c.siblings}
-              onBack={() => setRoute({ api: null, mq: '', tab: 'overview' }, true)}
+              onBack={() => setRoute({ api: null, mem: '', mq: '', tab: 'overview' }, true)}
               onApi={c.select} onVersion={onVersion}
             />
+          ) : mode === 'guide' ? (
+            <div className="detail-empty guide-wrap"><GuidePage minor={meta.minor} hasTopics={!!meta.counts.topics} docBase={meta.docBase} tp={route.tp} onTopic={(tp) => setRoute({ tp }, true)} onBack={() => setRoute({ tp: '' }, true)} /></div>
           ) : (
-            <div className="detail-empty only-wide">
-              <Landing vd={vd} g={g} onQuick={c.quick} onPick={c.select} />
-            </div>
+            <div className="detail-empty only-wide">{landing}</div>
           )}
         </section>
       </div>
