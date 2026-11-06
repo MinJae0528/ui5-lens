@@ -19,14 +19,17 @@ const matches = (r, pat) => {
   return r.n === mem && (!cls || base(r.c) === cls);
 };
 // 정답 후보가 말뭉치에 하나도 없으면 평가 오류(질문이 아니라 기대값 문제)로 따로 센다.
-let n = 0, t3 = 0, t8 = 0, invalid = 0;
+const stat = Object.fromEntries(['dev', 'fresh', 'fresh2'].map((k) => [k, { n: 0, top3: 0, top8: 0 }]));
+let invalid = 0;
 for (const c of cases) {
   if (!c.expect.some((p) => rows.some((r) => matches(r, p)))) { invalid++; console.log(`!! 정답 후보가 ${minor} 멤버 색인에 없음(평가 오류): ${c.q}`); continue; }
   const res = recommendMembers(index, c.q, intents, 8).results.map((x) => x.r);
   const hit = (k) => res.slice(0, k).some((r) => c.expect.some((p) => matches(r, p)));
-  n++; if (hit(3)) t3++; if (hit(8)) t8++;
-  if (verbose || !hit(3)) console.log(`${hit(3) ? 'PASS' : 'FAIL'} ${c.q} → ${res.slice(0, 3).map((r) => `${base(r.c)}#${r.n}`).join(', ') || '(없음)'}   기대: ${c.expect.join(' | ')}`);
+  const s = stat[c.split];
+  s.n++; if (hit(3)) s.top3++; if (hit(8)) s.top8++;
+  if (verbose || !hit(3)) console.log(`${hit(3) ? 'PASS' : 'FAIL'} [${c.split}] ${c.q} → ${res.slice(0, 3).map((r) => `${base(r.c)}#${r.n}`).join(', ') || '(없음)'}   기대: ${c.expect.join(' | ')}`);
 }
-const pct = (a) => (n ? `${Math.round((a / n) * 100)}%` : '-');
-console.log(`\nUI5 ${minor} · 추천 멤버 평가 ${n}개 (평가 오류 ${invalid}개 제외)  상위3 ${t3}/${n} (${pct(t3)})  상위8 ${t8}/${n} (${pct(t8)})`);
-if (jsonOut) writeFileSync(jsonOut, JSON.stringify({ minor, at: new Date().toISOString(), n, top3: t3, top8: t8, invalid }, null, 1));
+const pct = (a, b) => (b ? `${Math.round((a / b) * 100)}%` : '-');
+console.log(`\nUI5 ${minor} · 추천 멤버 평가 (평가 오류 ${invalid}개 제외)`);
+for (const [k, v] of Object.entries(stat)) console.log(`${k.padEnd(6)} n=${v.n}  상위3 ${v.top3} (${pct(v.top3, v.n)})  상위8 ${v.top8} (${pct(v.top8, v.n)})`);
+if (jsonOut) writeFileSync(jsonOut, JSON.stringify({ minor, at: new Date().toISOString(), dev: stat.dev, fresh: stat.fresh, fresh2: stat.fresh2, invalid }, null, 1));

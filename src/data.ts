@@ -120,7 +120,8 @@ export function loadRecEval(): Promise<RecEval | null> {
 }
 
 /** 추천 메서드·이벤트(멤버) 자체 평가 결과. 없으면 null. */
-export interface MemberRecEval { minor: string; at: string; n: number; top3: number; top8: number }
+/** fresh2: 마지막 개선 뒤 한 번만 잰 질문 세트(공개 수치). dev·fresh 는 개선에 참고한 세트라 공개하지 않는다. */
+export interface MemberRecEval { minor: string; at: string; fresh2: { n: number; top3: number; top8: number } }
 let memberEvalP: Promise<MemberRecEval | null> | null = null;
 export function loadMemberRecEval(): Promise<MemberRecEval | null> {
   if (!memberEvalP) memberEvalP = getJson<MemberRecEval>(`${BASE}/recommend-members-eval.json`, true).catch(() => null);

@@ -82,8 +82,8 @@ export function MemberRecSection({ res, onOpen }: { res: MemberRecResult; onOpen
             <li key={`${x.r.c}#${x.r.n}`} className="card rec">
               <button className="rec-btn" onClick={() => onOpen(x.r)} aria-label={`${x.r.c} ${x.r.n} 열기`}>
                 <div className="card-head"><span className="card-name"><span className="rank">{i + 1}</span>{x.r.n}</span><span className="badge">{KIND_LABEL[x.r.k]}</span></div>
-                <div className="badges"><span className="badge mono-badge">{x.r.c}</span>{x.r.f & FLAG.deprecated ? <DepBadge since={true} /> : null}</div>
-                <p className="card-sum"><span className="lang">EN 원문</span> {x.r.t || '(공식 설명 없음)'}</p>
+                <div className="badges"><span className="badge mono-badge">{x.r.c}</span>{x.classes > 1 && <span className="badge">같은 이름을 {x.classes}개 클래스가 선언</span>}{x.r.f & FLAG.accessor ? <span className="badge">자동 생성 접근자</span> : null}{x.r.f & FLAG.deprecated ? <DepBadge since={true} /> : null}</div>
+                <p className="card-sum">{x.r.a ? <span className="muted">속성 “{x.r.a}” 의 자동 생성 접근자</span> : <><span className="lang">EN 원문</span> {x.r.t || '(공식 설명 없음)'}</>}</p>
                 <p className="reasons"><b>왜 추천?</b> 질문과 겹친 공식 용어 — {where.join(' · ')}</p>
               </button>
             </li>
@@ -91,8 +91,8 @@ export function MemberRecSection({ res, onOpen }: { res: MemberRecResult; onOpen
         })}
       </ol>
       {res.results.length > 5 && <button className="btn" onClick={() => setMore((m) => !m)}>{more ? '상위 5개만 보기' : `다음 후보 ${res.results.length - 5}개 더 보기`}</button>}
-      <p className="muted small">멤버 이름·공식 설명 첫 문장·소속 클래스 이름과 질문이 겹치는 정도로 고른 후보입니다. 자동 생성 접근자(getX/setX)는 제외했습니다.</p>
-      <div className="notice warn" role="note"><b>정확도가 낮은 실험적 기능입니다.</b>{ev ? <> 자체 평가에서 질문 {ev.n}개 중 상위 3개 안에 정답이 있었던 것은 {ev.top3}개({Math.round((ev.top3 / ev.n) * 100)}%)입니다(UI5 {ev.minor}). 컨트롤 추천보다 훨씬 낮으니 참고만 하고, 정확한 이름을 알면 이름·메서드 검색을 쓰세요.</> : <> 컨트롤 추천보다 정확도가 낮을 수 있으니 참고만 하고, 정확한 이름을 알면 이름·메서드 검색을 쓰세요.</>}</div>
+      <p className="muted small">멤버 이름·공식 설명 첫 문장·소속 클래스 이름과 질문이 겹치는 정도로 고른 후보입니다. 같은 이름은 한 줄로 묶고 대표 클래스를 보여 줍니다. 자동 생성 접근자(getX/setX)도 후보에 포함합니다.</p>
+      <div className="notice warn" role="note"><b>정확도가 낮은 실험적 기능입니다.</b>{ev ? <> 자체 평가에서 새 질문 {ev.fresh2.n}개 중 상위 3개 안에 정답이 있었던 것은 {ev.fresh2.top3}개({Math.round((ev.fresh2.top3 / ev.fresh2.n) * 100)}%)입니다(UI5 {ev.minor}). 컨트롤 추천보다 훨씬 낮으니 참고만 하고, 정확한 이름을 알면 이름·메서드 검색을 쓰세요.</> : <> 컨트롤 추천보다 정확도가 낮을 수 있으니 참고만 하고, 정확한 이름을 알면 이름·메서드 검색을 쓰세요.</>}</div>
     </section>
   );
 }

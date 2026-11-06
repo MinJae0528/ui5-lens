@@ -1,35 +1,681 @@
 {
-  "note": "추천 메서드·이벤트(멤버) 평가 세트. 질문과 정답 후보는 점수 규칙·사전을 이 세트에 맞춰 고치기 전에 작성했고, 한 번 측정한 값을 그대로 공개한다(이 세트를 보고 사전을 고치지 않는다). expect 항목은 '멤버이름' 또는 '클래스기본이름#멤버이름'이며, 상위 k개 안에 하나라도 있으면 적중이다.",
-  "cases": [
-    { "q": "버튼을 눌렀을 때 실행할 함수 연결", "expect": ["Button#press", "Button#attachPress"] },
-    { "q": "입력값이 바뀔 때 알림 받기", "expect": ["Input#change", "Input#liveChange", "Input#attachChange", "Input#attachLiveChange"] },
-    { "q": "목록에 항목 추가하기", "expect": ["List#addItem", "ListBase#addItem", "Table#addItem"] },
-    { "q": "컨테이너에 자식 컨트롤 넣기", "expect": ["addContent", "addItem"] },
-    { "q": "모델을 화면에 연결", "expect": ["setModel"] },
-    { "q": "컨트롤 숨기기", "expect": ["setVisible"] },
-    { "q": "버튼 비활성화", "expect": ["Button#enabled", "Button#setEnabled", "setEnabled"] },
-    { "q": "대화상자 열기", "expect": ["Dialog#open"] },
-    { "q": "대화상자 닫기", "expect": ["Dialog#close"] },
-    { "q": "선택된 항목 가져오기", "expect": ["getSelectedItem", "getSelectedItems", "getSelectedKey"] },
-    { "q": "삭제할 때 확인창 띄우기", "expect": ["MessageBox#confirm", "MessageBox#show"] },
-    { "q": "잠깐 알림 메시지 보여주기", "expect": ["MessageToast#show"] },
-    { "q": "데이터 바인딩 경로 지정", "expect": ["bindProperty", "bindAggregation", "bindElement", "bindContext"] },
-    { "q": "다른 화면으로 이동", "expect": ["navTo", "to", "NavContainer#to"] },
-    { "q": "필터 적용", "expect": ["filter", "ListBinding#filter"] },
-    { "q": "정렬하기", "expect": ["sort", "ListBinding#sort"] },
-    { "q": "컨트롤을 화면 영역에 배치", "expect": ["placeAt"] },
-    { "q": "텍스트 설정", "expect": ["setText", "Text#text", "Button#text"] },
-    { "q": "포커스 맞추기", "expect": ["focus", "applyFocusInfo"] },
-    { "q": "아이디로 컨트롤 찾기", "expect": ["byId"] },
-    { "q": "스타일 클래스 추가", "expect": ["addStyleClass"] },
-    { "q": "파일 업로드 시작", "expect": ["FileUploader#upload"] },
-    { "q": "탭 선택 바꾸기", "expect": ["IconTabBar#setSelectedKey", "IconTabBar#selectedKey", "IconTabBar#select", "setSelectedKey"] },
-    { "q": "검색어를 입력했을 때", "expect": ["SearchField#search", "SearchField#liveChange", "SearchField#attachSearch"] },
-    { "q": "체크박스 선택 상태 읽기", "expect": ["CheckBox#selected", "CheckBox#getSelected", "getSelected"] },
-    { "q": "화면을 로딩 중 상태로", "expect": ["setBusy", "BusyIndicator#show", "BusyDialog#open", "busy"] },
-    { "q": "다국어 문구 가져오기", "expect": ["getText", "ResourceBundle#getText", "getResourceBundle"] },
-    { "q": "날짜 값 읽기", "expect": ["DatePicker#getDateValue", "DatePicker#dateValue", "getDateValue"] },
-    { "q": "목록을 새로고침", "expect": ["refresh", "updateItems", "ListBinding#refresh"] },
-    { "q": "이벤트를 발생시키기", "expect": ["fireEvent", "fireEvent", "fire"] }
-  ]
+ "note": "추천 메서드·이벤트(멤버) 평가 세트. expect 항목은 '멤버이름' 또는 '클래스기본이름#멤버이름'이며 상위 k개 안에 하나라도 있으면 적중이다. dev: 실패 원인을 이미 보고 개선에 참고한 세트. fresh: 1차 개선 전에 작성했으나 개선 중 두 번 측정했다. fresh2: 마지막 개선 전에 작성해 개선 후 한 번만 측정한 세트(공개 수치는 fresh2 기준).",
+ "cases": [
+  {
+   "q": "버튼을 눌렀을 때 실행할 함수 연결",
+   "expect": [
+    "Button#press",
+    "Button#attachPress"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "입력값이 바뀔 때 알림 받기",
+   "expect": [
+    "Input#change",
+    "Input#liveChange",
+    "Input#attachChange",
+    "Input#attachLiveChange"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "목록에 항목 추가하기",
+   "expect": [
+    "List#addItem",
+    "ListBase#addItem",
+    "Table#addItem"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "컨테이너에 자식 컨트롤 넣기",
+   "expect": [
+    "addContent",
+    "addItem"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "모델을 화면에 연결",
+   "expect": [
+    "setModel"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "컨트롤 숨기기",
+   "expect": [
+    "setVisible"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "버튼 비활성화",
+   "expect": [
+    "Button#enabled",
+    "Button#setEnabled",
+    "setEnabled"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "대화상자 열기",
+   "expect": [
+    "Dialog#open"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "대화상자 닫기",
+   "expect": [
+    "Dialog#close"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "선택된 항목 가져오기",
+   "expect": [
+    "getSelectedItem",
+    "getSelectedItems",
+    "getSelectedKey"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "삭제할 때 확인창 띄우기",
+   "expect": [
+    "MessageBox#confirm",
+    "MessageBox#show"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "잠깐 알림 메시지 보여주기",
+   "expect": [
+    "MessageToast#show"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "데이터 바인딩 경로 지정",
+   "expect": [
+    "bindProperty",
+    "bindAggregation",
+    "bindElement",
+    "bindContext"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "다른 화면으로 이동",
+   "expect": [
+    "navTo",
+    "to",
+    "NavContainer#to"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "필터 적용",
+   "expect": [
+    "filter",
+    "ListBinding#filter"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "정렬하기",
+   "expect": [
+    "sort",
+    "ListBinding#sort"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "컨트롤을 화면 영역에 배치",
+   "expect": [
+    "placeAt"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "텍스트 설정",
+   "expect": [
+    "setText",
+    "Text#text",
+    "Button#text"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "포커스 맞추기",
+   "expect": [
+    "focus",
+    "applyFocusInfo"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "아이디로 컨트롤 찾기",
+   "expect": [
+    "byId"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "스타일 클래스 추가",
+   "expect": [
+    "addStyleClass"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "파일 업로드 시작",
+   "expect": [
+    "FileUploader#upload"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "탭 선택 바꾸기",
+   "expect": [
+    "IconTabBar#setSelectedKey",
+    "IconTabBar#selectedKey",
+    "IconTabBar#select",
+    "setSelectedKey"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "검색어를 입력했을 때",
+   "expect": [
+    "SearchField#search",
+    "SearchField#liveChange",
+    "SearchField#attachSearch"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "체크박스 선택 상태 읽기",
+   "expect": [
+    "CheckBox#selected",
+    "CheckBox#getSelected",
+    "getSelected"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "화면을 로딩 중 상태로",
+   "expect": [
+    "setBusy",
+    "BusyIndicator#show",
+    "BusyDialog#open",
+    "busy"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "다국어 문구 가져오기",
+   "expect": [
+    "getText",
+    "ResourceBundle#getText",
+    "getResourceBundle"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "날짜 값 읽기",
+   "expect": [
+    "DatePicker#getDateValue",
+    "DatePicker#dateValue",
+    "getDateValue"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "목록을 새로고침",
+   "expect": [
+    "refresh",
+    "updateItems",
+    "ListBinding#refresh"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "이벤트를 발생시키기",
+   "expect": [
+    "fireEvent",
+    "fireEvent",
+    "fire"
+   ],
+   "split": "dev"
+  },
+  {
+   "q": "컨트롤 보이게 하기",
+   "expect": [
+    "setVisible",
+    "getVisible",
+    "visible"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "행을 선택했을 때",
+   "expect": [
+    "selectionChange",
+    "attachSelectionChange",
+    "rowSelectionChange"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "리스트 항목을 클릭했을 때",
+   "expect": [
+    "itemPress",
+    "attachItemPress",
+    "press",
+    "attachPress"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "입력창 값 가져오기",
+   "expect": [
+    "getValue",
+    "value"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "입력창 값 바꾸기",
+   "expect": [
+    "setValue"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "팝오버 열기",
+   "expect": [
+    "openBy",
+    "Popover#openBy",
+    "open"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "드롭다운 선택 키 설정",
+   "expect": [
+    "setSelectedKey",
+    "selectedKey"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "체크박스 체크하기",
+   "expect": [
+    "setSelected",
+    "selected"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "토글 버튼 눌림 상태",
+   "expect": [
+    "pressed",
+    "getPressed",
+    "setPressed"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "슬라이더 값 바꾸기",
+   "expect": [
+    "Slider#setValue",
+    "Slider#value",
+    "setValue"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "테이블에 컬럼 추가",
+   "expect": [
+    "addColumn"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "항목 하나 제거",
+   "expect": [
+    "removeItem",
+    "removeContent",
+    "removeAggregation",
+    "removeColumn"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "모든 항목 지우기",
+   "expect": [
+    "removeAllItems",
+    "destroyItems",
+    "removeAllContent",
+    "removeAllAggregation",
+    "destroyContent"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "이벤트 핸들러 연결 해제",
+   "expect": [
+    "detachEvent",
+    "detachPress",
+    "detach"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "컨트롤 파괴하고 정리",
+   "expect": [
+    "destroy"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "속성 값 읽기",
+   "expect": [
+    "getProperty"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "바인딩 컨텍스트 지정",
+   "expect": [
+    "setBindingContext",
+    "bindElement",
+    "getBindingContext"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "제이슨 모델에 데이터 넣기",
+   "expect": [
+    "JSONModel#setData",
+    "setData"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "모델에서 값 읽기",
+   "expect": [
+    "getProperty",
+    "getData"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "모델 값 바꾸기",
+   "expect": [
+    "setProperty",
+    "setData"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "라우트가 일치했을 때",
+   "expect": [
+    "attachPatternMatched",
+    "patternMatched",
+    "attachMatched",
+    "matched",
+    "routeMatched",
+    "attachRouteMatched"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "주소 해시 바꾸기",
+   "expect": [
+    "setHash",
+    "replaceHash"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "뷰의 컨트롤러 가져오기",
+   "expect": [
+    "getController"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "컴포넌트의 라우터 가져오기",
+   "expect": [
+    "getRouter"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "경고 메시지 상자",
+   "expect": [
+    "MessageBox#warning",
+    "MessageBox#alert",
+    "warning",
+    "alert"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "에러 메시지 상자",
+   "expect": [
+    "MessageBox#error",
+    "error"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "다이얼로그 제목 설정",
+   "expect": [
+    "Dialog#title",
+    "Dialog#setTitle",
+    "setTitle",
+    "title"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "툴바에 버튼 넣기",
+   "expect": [
+    "Toolbar#addContent",
+    "addContent"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "페이지 머리글 제목",
+   "expect": [
+    "Page#title",
+    "Page#setTitle",
+    "setTitle",
+    "title"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "툴팁 달기",
+   "expect": [
+    "setTooltip",
+    "tooltip",
+    "getTooltip"
+   ],
+   "split": "fresh"
+  },
+  {
+   "q": "화면에 텍스트 보여주기",
+   "expect": [
+    "setText",
+    "text",
+    "Text#text"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "버튼 글자 바꾸기",
+   "expect": [
+    "setText",
+    "text",
+    "Button#text"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "컨트롤 활성화 여부",
+   "expect": [
+    "enabled",
+    "setEnabled",
+    "getEnabled"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "리스트 선택 모드 설정",
+   "expect": [
+    "setMode",
+    "mode",
+    "ListBase#mode"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "선택 해제하기",
+   "expect": [
+    "removeSelections",
+    "clearSelection"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "목록 데이터가 갱신됐을 때",
+   "expect": [
+    "updateFinished",
+    "attachUpdateFinished",
+    "updateFinish"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "날짜를 골랐을 때 이벤트",
+   "expect": [
+    "change",
+    "attachChange",
+    "DatePicker#change"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "날짜 값 지정",
+   "expect": [
+    "setDateValue",
+    "setValue",
+    "dateValue"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "대화상자에 버튼 추가",
+   "expect": [
+    "addButton",
+    "setBeginButton",
+    "setEndButton"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "입력값 오류 상태 표시",
+   "expect": [
+    "setValueState",
+    "valueState",
+    "setValueStateText"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "컨트롤 너비 지정",
+   "expect": [
+    "setWidth",
+    "width"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "컨트롤 높이 지정",
+   "expect": [
+    "setHeight",
+    "height"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "아이콘 설정",
+   "expect": [
+    "setIcon",
+    "icon"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "이미지 주소 지정",
+   "expect": [
+    "setSrc",
+    "src"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "링크 주소 지정",
+   "expect": [
+    "setHref",
+    "href"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "페이지에 내용 추가",
+   "expect": [
+    "addContent"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "컨트롤의 부모 가져오기",
+   "expect": [
+    "getParent"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "컨트롤 아이디 가져오기",
+   "expect": [
+    "getId"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "컨트롤 다시 그리기",
+   "expect": [
+    "rerender",
+    "invalidate"
+   ],
+   "split": "fresh2"
+  },
+  {
+   "q": "자식 컨트롤 목록 가져오기",
+   "expect": [
+    "getContent",
+    "getItems",
+    "getAggregation"
+   ],
+   "split": "fresh2"
+  }
+ ]
 }

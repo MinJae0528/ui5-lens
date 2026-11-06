@@ -102,11 +102,25 @@ test('descendants/ancestors: 직간접 후손과 조상, 순환이 있어도 끝
 
 // ---- 기능 → 추천 멤버 ----
 const intents: IntentEntry[] = JSON.parse(readFileSync('data/intents.json', 'utf8')).intents;
-test('기능 추천 멤버: 댓글 → FeedInput 의 attachPost/post 가 상위, 접근자는 제외', () => {
+test('기능 추천 멤버: 댓글 → FeedInput 의 attachPost/post 가 상위에 온다', () => {
   const idxRec = buildMemberRecIndex(rows);
   const r = recommendMembers(idxRec, '댓글을 다는 기능', intents, 5);
   const top = r.results.map((x) => `${x.r.c}#${x.r.n}`);
   assert.ok(top.slice(0, 3).some((t) => t.startsWith('sap.m.FeedInput#')), top.join(', '));
-  assert.ok(top.every((t) => !/#(get|set)(Text|Value)$/.test(t)));
   assert.deepEqual(recommendMembers(idxRec, 'ZzzNotAnApi', intents).results, []);
+});
+
+test('기능 추천 멤버: 같은 이름은 한 줄로 묶고(선언 클래스 수 표시), 자동 생성 접근자도 후보가 된다', () => {
+  const idxRec = buildMemberRecIndex(rows);
+  const r = recommendMembers(idxRec, 'getValue', intents, 8);
+  const gv = r.results.filter((x) => x.r.n === 'getValue');
+  assert.equal(gv.length, 1, '같은 (종류, 이름)은 한 줄');
+  assert.equal(gv[0].classes, 2, 'getValue 를 선언한 클래스 수');
+  assert.ok(gv[0].r.f & FLAG.accessor, '접근자도 추천 대상');
+});
+
+test('기능 추천 멤버: 이름이 질문과 정확히 겹치는 멤버가, 낱말이 더 붙은 긴 이름보다 앞선다', () => {
+  const rr = expandMembers({ c: ['sap.m.A', 'sap.m.B'], m: [[0, 'm', 'open', 0, 0, 'Opens the thing.'], [1, 'm', 'openValueStateMessageNow', 0, 0, 'Opens a message.']] });
+  const r = recommendMembers(buildMemberRecIndex(rr), '열기', intents, 2);
+  assert.equal(r.results[0].r.n, 'open');
 });
