@@ -1,0 +1,18 @@
+{
+ "minor": "1.154",
+ "at": "2026-11-08T23:43:00.008Z",
+ "minScore": 0.35,
+ "minMargin": 0.03,
+ "covered": {
+  "n": 23,
+  "hit": 19,
+  "accepted": 11,
+  "acceptedHit": 10
+ },
+ "uncovered": {
+  "n": 50,
+  "hit": 17,
+  "accepted": 13,
+  "acceptedHit": 0
+ }
+}
