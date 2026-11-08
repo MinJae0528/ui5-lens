@@ -7,6 +7,7 @@ import { gunzipSync } from 'node:zlib';
 import { expandMembers } from '../src/domain/memberIndex.ts';
 import { buildMemberRecIndex, recommendMembers } from '../src/domain/memberRecommend.ts';
 import { buildIndex, recommend } from '../src/domain/recommend.ts';
+import { anchor, buildAnchorIndex } from '../src/domain/nameAnchor.ts';
 import { parseRef } from '../src/domain/recipes.ts';
 import { decide, prepareModel, scoreModel } from '../src/domain/recipeModel.ts';
 
@@ -15,6 +16,8 @@ const EXT = mode === 'external';
 const minor = '1.154';
 const gz = (p) => JSON.parse(gunzipSync(readFileSync(p)).toString('utf8'));
 const memIdx = buildMemberRecIndex(expandMembers(gz(`public/data/v/${minor}/members.json.gz`)));
+const anchorIx = buildAnchorIndex(gz(`public/data/v/${minor}/index.json.gz`), expandMembers(gz(`public/data/v/${minor}/members.json.gz`)));
+const USE_ANCHOR = process.env.ANCHOR !== '0';
 const clsIdx = buildIndex(gz(`public/data/v/${minor}/intent.json.gz`));
 const intents = JSON.parse(readFileSync('public/data/intents.json', 'utf8')).intents;
 const recipes = new Map(JSON.parse(readFileSync('public/data/recipes.json', 'utf8')).recipes.map((r) => [r.id, r]));
@@ -24,7 +27,7 @@ const split = EXT ? file : null; // dev | test
 const { cases } = EXT ? { cases: ext.filter((c) => c.split === split).map((c) => ({ q: c.q, expect: c.expect, kind: c.coverage })) } : JSON.parse(readFileSync(file, 'utf8'));
 const base = (c) => c.split('.').pop();
 const hit = (pat, c, n) => {
-  if (n) { const [pc, pm2] = pat.includes('#') ? pat.split('#') : [null, pat]; return pm2 === n && (!pc || base(c) === pc || c === pc); }
+  if (n) { const [pc, pm2] = pat.includes('#') ? pat.split('#') : [null, pat]; return pm2.replace(/^(method|property|event|aggregation|association):/, '') === n && (!pc || base(c) === pc || c === pc); }
   return pat === c || pat === base(c);
 };
 const refsOf = (id, scores) => {
@@ -35,6 +38,8 @@ const refsOf = (id, scores) => {
   return out;
 };
 const fallbackOk = (c) => {
+  const an = USE_ANCHOR ? anchor(anchorIx, c.q, intents) : null;
+  if (an) return an.refs.some((r) => c.expect.some((p) => hit(p, r.c, r.n)));
   const cls = recommend(clsIdx, c.q, intents, 3).results.map((r) => ({ c: r.c.n, n: null }));
   const mem = recommendMembers(memIdx, c.q, intents, 3).results.map((r) => ({ c: r.r.c, n: r.r.n }));
   return [...cls, ...mem].some((r) => c.expect.some((p) => hit(p, r.c, r.n)));
@@ -44,14 +49,14 @@ const rows = cases.map((c) => {
   const scores = scoreModel(pm, c.q);
   const top = scores[0], second = scores[1];
   const recipeRight = top && top.id !== '__none__' ? refsOf(top.id, scores.filter((s2) => s2.id !== '__none__')).some((r) => c.expect.some((p) => hit(p, r.c, r.n))) : false;
-  return { c, scores, top, margin: top && second ? top.score - second.score : top?.score ?? 0, recipeRight, fb: fallbackOk(c) };
+  return { c, scores, top, anchored: USE_ANCHOR && anchor(anchorIx, c.q, intents)?.strength === 'member', margin: top && second ? top.score - second.score : top?.score ?? 0, recipeRight, fb: fallbackOk(c) };
 });
 const evaluate = (minScore, minMargin) => {
   const st = { covered: { n: 0, hit: 0, accepted: 0, acceptedHit: 0 }, uncovered: { n: 0, hit: 0, accepted: 0, acceptedHit: 0 } };
   const fails = [];
   for (const r of rows) {
     const s = st[r.c.kind] ?? (st[r.c.kind] = { n: 0, hit: 0, accepted: 0, acceptedHit: 0 }); s.n++;
-    const d = decide(r.scores, minScore, minMargin);
+    const d = r.anchored ? null : decide(r.scores, minScore, minMargin);
     // 해당 없음 질문은 레시피를 채택하지 않아야 정답(정확한 거절)
     const ok = r.c.kind === 'none' ? !d : d ? r.recipeRight : r.fb;
     if (d) { s.accepted++; if (r.recipeRight) s.acceptedHit++; }

@@ -1,4 +1,1959 @@
 {
  "note": "외부 AI 가 만든 평가 질문(검증·분할 완료). 직접 고치지 않는다.",
- "cases": []
+ "cases": [
+  {
+   "q": "입력창에 실시간으로 글자 입력할 때 이벤트 감지하기",
+   "expect": [
+    "sap.m.Input#event:liveChange"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "인풋에 비번 처럼 까만 점으로 표시되게 masking 설정",
+   "expect": [
+    "sap.m.Input#property:type"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "검색 돋보기 아이콘 있는 전용 입력창 컨트롤 쓰기",
+   "expect": [
+    "sap.m.SearchField"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "체크박스 체크 유무 값 JS로 가져오는 프로퍼티",
+   "expect": [
+    "sap.m.CheckBox#property:selected"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "스위치 토글 버튼 state 바뀔때 이벤트",
+   "expect": [
+    "sap.m.Switch#event:change"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "여러줄 장문의 텍스트 입력받는 textarea 컨트롤",
+   "expect": [
+    "sap.m.TextArea"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "숫자 1씩 증가 감량하는 플러스마이너스 입력 필드",
+   "expect": [
+    "sap.m.StepInput"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "드롭다운 셀렉트 바꿀때 타는 체인지 이벤트",
+   "expect": [
+    "sap.m.Select#event:change"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "콤보박스에 직접 텍스트 타이핑 검색 기능",
+   "expect": [
+    "sap.m.ComboBox"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "MultiInput 멀티인풋 토큰 삭제할때 이벤트",
+   "expect": [
+    "sap.m.MultiInput#event:tokenUpdate"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "라디오버튼 라디오 그룹 생성",
+   "expect": [
+    "sap.m.RadioButtonGroup"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "슬라이더 바 드래그해서 숫자값 설정",
+   "expect": [
+    "sap.m.Slider#property:value"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "최대 최저 두개 범위 지정 슬라이더",
+   "expect": [
+    "sap.m.RangeSlider"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "별점 평점 채우기 컨트롤 값",
+   "expect": [
+    "sap.m.RatingIndicator#property:value"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "MultiComboBox 항목 선택 다 하고 드롭다운 닫힐 때 이벤트",
+   "expect": [
+    "sap.m.MultiComboBox#event:selectionFinish"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "입력창 길이 제한 최대 글자수 설정",
+   "expect": [
+    "sap.m.Input#property:maxLength"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "체크박스에 라벨 텍스트 붙이기",
+   "expect": [
+    "sap.m.CheckBox#property:text"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "MultiInput에 들어가는 동그란 태그 토큰 객체",
+   "expect": [
+    "sap.m.Token"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "스위치 버튼 켜짐 꺼짐 텍스트 지정하기",
+   "expect": [
+    "sap.m.Switch#property:state"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "SearchField 검색 버튼 누르거나 엔터 쳤을 때 이벤트",
+   "expect": [
+    "sap.m.SearchField#event:search"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "슬라이더 최소값 최대값 범위 지정",
+   "expect": [
+    "sap.m.Slider#property:min",
+    "sap.m.Slider#property:max"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "입력 컨트롤",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "버튼클릭이벤트",
+   "expect": [
+    "sap.m.Button#event:press"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "버튼 색깔 초록색 승인 타입 설정",
+   "expect": [
+    "sap.m.Button#property:type"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "클릭하면 메뉴 리스트 내려오는 버튼",
+   "expect": [
+    "sap.m.MenuButton"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "세그먼티드 버튼에서 눌린 아이템 키값 알아내기",
+   "expect": [
+    "sap.m.SegmentedButton#property:selectedKey"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "버튼 아이콘 지정",
+   "expect": [
+    "sap.m.Button#property:icon"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "아이콘 클릭 전용 아이콘 컨트롤",
+   "expect": [
+    "sap.ui.core.Icon#property:src"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "플로팅 액션 버튼 FAB 띄우기",
+   "expect": [
+    "sap.m.Button"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "토글버튼 눌린 상태 여부 check",
+   "expect": [
+    "sap.m.ToggleButton#property:pressed"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "하이퍼링크 클릭 이벤트",
+   "expect": [
+    "sap.m.Link#event:press"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "메뉴버튼 안의 항목 메뉴 아이템",
+   "expect": [
+    "sap.m.MenuItem#property:text"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "버튼 글자 텍스트 세팅",
+   "expect": [
+    "sap.m.Button#property:text"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "아이콘TabBar 아이콘 탭 필터 바 선택 이벤트",
+   "expect": [
+    "sap.m.IconTabBar#event:select"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "버튼 모양 빨간색 Emphasized 스타일 적용",
+   "expect": [
+    "sap.m.Button#property:type"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "아이콘 선택시 발생하는 클릭 press",
+   "expect": [
+    "sap.ui.core.Icon#event:press"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "버튼·이벤트",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ColumnListItem 테이블 셀 컨트롤 배치",
+   "expect": [
+    "sap.m.ColumnListItem#aggregation:cells"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ui.table Grid 테이블 컬럼 지정",
+   "expect": [
+    "sap.ui.table.Table#aggregation:columns"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ui.table 컬럼 안 템플릿 넣기",
+   "expect": [
+    "sap.ui.table.Column#aggregation:template"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "테이블 스크롤 하단 도달시 자동 페이징 로딩",
+   "expect": [
+    "sap.m.ListBase#property:growing"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "리스트 체크박스 다중선택 멀티셀렉트 모드",
+   "expect": [
+    "sap.m.ListBase#property:mode"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "계층형 구조 나무 형태 테이블 컨트롤",
+   "expect": [
+    "sap.ui.table.TreeTable"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "StandardListItem 제목 변경",
+   "expect": [
+    "sap.m.StandardListItem#property:title"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "SmartTable OData 엔티티 연결",
+   "expect": [
+    "sap.ui.comp.smarttable.SmartTable#property:entitySet"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "테이블 선택된 행 인덱스 들고오기",
+   "expect": [
+    "sap.ui.table.Table#method:getSelectedIndices"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "리스트 데이터 없을 때 노출 문구",
+   "expect": [
+    "sap.m.ListBase#property:noDataText"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "CustomListItem 커스텀 항목 레이아웃",
+   "expect": [
+    "sap.m.CustomListItem#aggregation:content"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ui.table 행 클릭 선택 바뀔때 event",
+   "expect": [
+    "sap.ui.table.Table#event:rowSelectionChange"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "List 선택된 아이템 객체 가져오는 함수",
+   "expect": [
+    "sap.m.ListBase#method:getSelectedItem"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Table 컬럼 헤더 텍스트 넣기",
+   "expect": [
+    "sap.m.Column#aggregation:header"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "TreeTable 레벨 펼치기 expand 함수",
+   "expect": [
+    "sap.ui.table.TreeTable#method:expand"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "List 다중 선택된 모든 items 가져오는 메소드",
+   "expect": [
+    "sap.m.ListBase#method:getSelectedItems"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "테이블 컬럼 너비 폭 width 지정",
+   "expect": [
+    "sap.ui.table.Column#property:width"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ObjectListItem 서브 설명 텍스트 넣기",
+   "expect": [
+    "sap.m.ObjectListItem#property:intro"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "AnalyticalTable OLAP 차원 분석 테이블 컨트롤",
+   "expect": [
+    "sap.ui.table.AnalyticalTable"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "리스트·테이블",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "모달 팝업 창 띄우는 open 메서드",
+   "expect": [
+    "sap.m.Dialog#method:open"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "열린 대화상자 팝업 닫기",
+   "expect": [
+    "sap.m.Dialog#method:close"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "하단 토스트 토스트 알림 메시지",
+   "expect": [
+    "sap.m.MessageToast#method:show"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "확인 취소 선택 묻는 컨펌 팝업창",
+   "expect": [
+    "sap.m.MessageBox#method:confirm"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "에러 알림 MessageBox 에러창",
+   "expect": [
+    "sap.m.MessageBox#method:error"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "특정 위치 타겟 바로 옆 말풍선 팝오버",
+   "expect": [
+    "sap.m.Popover#method:openBy"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "반응형 팝오버 다이얼로그 클래스",
+   "expect": [
+    "sap.m.ResponsivePopover"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "로딩중 전체화면 다이얼로그 띄우기",
+   "expect": [
+    "sap.m.BusyDialog#method:open"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "에러 메시지 모음집 메세지 팝오버",
+   "expect": [
+    "sap.m.MessagePopover"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "아래에서 올라오는 선택 액션시트 팝업 open",
+   "expect": [
+    "sap.m.ActionSheet#method:openBy"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Dialog 팝업 제목 타이틀",
+   "expect": [
+    "sap.m.Dialog#property:title"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "XML Fragment 비동기 로딩 함수",
+   "expect": [
+    "sap.ui.core.Fragment#method:load"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "사용자 명함 카드 퀵뷰 팝업",
+   "expect": [
+    "sap.m.QuickView#method:openBy"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "성공 메시지 MessageBox success 창",
+   "expect": [
+    "sap.m.MessageBox#method:success"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "경고 MessageBox warning 팝업",
+   "expect": [
+    "sap.m.MessageBox#method:warning"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Dialog 하단 버튼 영역 beginButton",
+   "expect": [
+    "sap.m.Dialog#aggregation:beginButton"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Dialog 취소/닫기 버튼 endButton 지정",
+   "expect": [
+    "sap.m.Dialog#aggregation:endButton"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Dialog 드래그해서 위치 이동 가능하게 만들기",
+   "expect": [
+    "sap.m.Dialog#property:draggable"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Dialog 창 크기 조절 리사이즈 가능 옵션",
+   "expect": [
+    "sap.m.Dialog#property:resizable"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Popover 화살표 꼬리 연출 위치 placement",
+   "expect": [
+    "sap.m.Popover#property:placement"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "대화상자·메시지",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "JSONModel 데이터 객체 덮어쓰기",
+   "expect": [
+    "sap.ui.model.json.JSONModel#method:setData"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "JSONModel 특정 경로 property 값 세팅",
+   "expect": [
+    "sap.ui.model.json.JSONModel#method:setProperty"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "OData v2 read GET 조회 요청",
+   "expect": [
+    "sap.ui.model.odata.v2.ODataModel#method:read"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "OData v2 create POST 생성 함수",
+   "expect": [
+    "sap.ui.model.odata.v2.ODataModel#method:create"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "OData 변경 데이터 서버 저장 제출 submitChanges",
+   "expect": [
+    "sap.ui.model.odata.v2.ODataModel#method:submitChanges"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "바인딩 리스트 조건 필터 Filter 객체",
+   "expect": [
+    "sap.ui.model.Filter"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "리스트 정렬 Sorter 객체 생성",
+   "expect": [
+    "sap.ui.model.Sorter"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "OData DELETE 삭제 함수 remove",
+   "expect": [
+    "sap.ui.model.odata.v2.ODataModel#method:remove"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "OData 데이터 수정 update 호출",
+   "expect": [
+    "sap.ui.model.odata.v2.ODataModel#method:update"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "i18n 다국어 파일 연결 ResourceModel",
+   "expect": [
+    "sap.ui.model.resource.ResourceModel"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "OData v4 refresh 새로고침",
+   "expect": [
+    "sap.ui.model.odata.v4.ODataModel#method:refresh"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "JSONModel 특정 경로 값 단건 읽기",
+   "expect": [
+    "sap.ui.model.json.JSONModel#method:getProperty"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "OData 배치 그룹 변경사항 롤백 resetChanges",
+   "expect": [
+    "sap.ui.model.odata.v2.ODataModel#method:resetChanges"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "컨트롤에 ElementBinding 적용 bindElement",
+   "expect": [
+    "sap.ui.core.Element#method:bindElement"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "OData 배치 처리 동기 비동기 설정",
+   "expect": [
+    "sap.ui.model.odata.v2.ODataModel#method:setUseBatch"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "데이터 모델",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "화면 전환 navTo 타겟 페이지 이동",
+   "expect": [
+    "sap.ui.core.routing.Router#method:navTo"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "라우팅",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "UIComponent에서 라우터 가져오기",
+   "expect": [
+    "sap.ui.core.UIComponent#method:getRouter"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "라우팅",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "라우터 패턴 매칭 이벤트 patternMatched",
+   "expect": [
+    "sap.ui.core.routing.Route#event:patternMatched"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "라우팅",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "NavContainer 뒤로가기 애니메이션 실행",
+   "expect": [
+    "sap.m.NavContainer#method:back"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "라우팅",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "NavContainer 지정 페이지로 이동 to",
+   "expect": [
+    "sap.m.NavContainer#method:to"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "라우팅",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Router에서 경로 이름으로 Route 객체 얻기",
+   "expect": [
+    "sap.ui.core.routing.Router#method:getRoute"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "라우팅",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "FlexibleColumnLayout 2열 화면 전환 속성",
+   "expect": [
+    "sap.f.FlexibleColumnLayout#property:layout"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "라우팅",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "라우팅 히스토리 history 뒤로가기 처리 클래스",
+   "expect": [
+    "sap.ui.core.routing.History#method:getInstance"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "라우팅",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "컨트롤러에서 XML 아이디로 컨트롤 찾기 byId",
+   "expect": [
+    "sap.ui.core.mvc.Controller#method:byId"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "컨트롤러·뷰",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Controller에서 뷰 객체 반환 getView",
+   "expect": [
+    "sap.ui.core.mvc.Controller#method:getView"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "컨트롤러·뷰",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "뷰 라이프사이클 초기화 함수 onInit",
+   "expect": [
+    "sap.ui.core.mvc.Controller#method:onInit"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "컨트롤러·뷰",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "화면 렌더링 끝난 후 실행 onAfterRendering",
+   "expect": [
+    "sap.ui.core.mvc.Controller#method:onAfterRendering"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "컨트롤러·뷰",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "뷰 종료 파괴 타임 onExit",
+   "expect": [
+    "sap.ui.core.mvc.Controller#method:onExit"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "컨트롤러·뷰",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "UIComponent 초기화 init 메쏘드",
+   "expect": [
+    "sap.ui.core.UIComponent#method:init"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "컨트롤러·뷰",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "XMLView 비동기 생성 XMLView.create",
+   "expect": [
+    "sap.ui.core.mvc.XMLView#method:create"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "컨트롤러·뷰",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "렌더링 직전 호출 onBeforeRendering",
+   "expect": [
+    "sap.ui.core.mvc.Controller#method:onBeforeRendering"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "컨트롤러·뷰",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "SimpleForm 폼 레이아웃 데이터 배치",
+   "expect": [
+    "sap.ui.layout.form.SimpleForm#aggregation:content"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "FlexBox 정렬 방향 설정 direction",
+   "expect": [
+    "sap.m.FlexBox#property:direction"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "HBox 가로 배치 수평 레이아웃",
+   "expect": [
+    "sap.m.FlexBox"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "VBox 세로 수직 레이아웃",
+   "expect": [
+    "sap.m.VBox"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Grid 반응형 칼럼 그리드 레이아웃",
+   "expect": [
+    "sap.ui.layout.Grid"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Splitter 분할 레이아웃 영역 지정",
+   "expect": [
+    "sap.ui.layout.Splitter#aggregation:contentAreas"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "IconTabBar 탭 들 aggregation",
+   "expect": [
+    "sap.m.IconTabBar#aggregation:items"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Page 상단 제목 설정",
+   "expect": [
+    "sap.m.Page#property:title"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ObjectHeader 상세 타이틀 설정",
+   "expect": [
+    "sap.m.ObjectHeader#property:title"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Panel 접이식 확장 가능 여부",
+   "expect": [
+    "sap.m.Panel#property:expandable"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "DynamicPage Fiori 3 표준 반응형 페이지 컨트롤",
+   "expect": [
+    "sap.f.DynamicPage"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Wizard 단계별 스텝 넘어가기 nextStep",
+   "expect": [
+    "sap.m.Wizard#method:nextStep"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "WizardStep 단계 유효성 검사 완료 처리",
+   "expect": [
+    "sap.m.WizardStep#property:validated"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Page 컨텐츠 영역 content aggregation",
+   "expect": [
+    "sap.m.Page#aggregation:content"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Page 서브헤더 subHeader 넣기",
+   "expect": [
+    "sap.m.Page#aggregation:subHeader"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Page 하단 풋터 footer 툴바 지정",
+   "expect": [
+    "sap.m.Page#aggregation:footer"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ScrollContainer 스크롤 영역 감싸기",
+   "expect": [
+    "sap.m.ScrollContainer"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "FixFlex 세로 고정 영역과 가변 영역 분할",
+   "expect": [
+    "sap.ui.layout.FixFlex"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "DateRangeSelection 종료일 선택 값",
+   "expect": [
+    "sap.m.DateRangeSelection#property:secondDateValue"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "날짜·숫자",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "NumberFormat 통화 커런시 포맷터",
+   "expect": [
+    "sap.ui.core.format.NumberFormat#method:getCurrencyInstance"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "날짜·숫자",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Calendar 독립형 달력 컨트롤",
+   "expect": [
+    "sap.ui.unified.Calendar"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "날짜·숫자",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "PlanningCalendar 일점 일정 표",
+   "expect": [
+    "sap.m.PlanningCalendar#aggregation:rows"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "날짜·숫자",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "FileUploader 파일선택 change 이벤트",
+   "expect": [
+    "sap.ui.unified.FileUploader#event:change"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "파일 업로드",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "FileUploader 파일 서버 전송 upload",
+   "expect": [
+    "sap.ui.unified.FileUploader#method:upload"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "파일 업로드",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "UploadCollection 파일 목록들",
+   "expect": [
+    "sap.m.UploadCollection#aggregation:items"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "파일 업로드",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "UploadSet 파일 삭제 후 이벤트",
+   "expect": [
+    "sap.m.upload.UploadSet#event:afterItemRemoved"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "파일 업로드",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "FileUploader 허용 확장자 fileType 지정",
+   "expect": [
+    "sap.ui.unified.FileUploader#property:fileType"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "파일 업로드",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "UploadCollection 파일 추가 완료 이벤트",
+   "expect": [
+    "sap.m.UploadCollection#event:uploadComplete"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "파일 업로드",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "FileUploader 멀티 파일 선택 가능 여부 multiple",
+   "expect": [
+    "sap.ui.unified.FileUploader#property:multiple"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "파일 업로드",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "UploadSet에 파일 드래그앤드롭 업로드 영역 설정",
+   "expect": [
+    "sap.m.upload.UploadSet"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "파일 업로드",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "VizFrame 차트 그리기 컴포넌트",
+   "expect": [
+    "sap.viz.ui5.controls.VizFrame"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "차트·시각화",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ProgressIndicator 진행 바 백분율 값",
+   "expect": [
+    "sap.m.ProgressIndicator#property:percentValue"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "차트·시각화",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "GenericTile Fiori 타일 제목 header",
+   "expect": [
+    "sap.m.GenericTile#property:header"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "차트·시각화",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "i18n 파일 동적 로드 locale 설정",
+   "expect": [
+    "sap.ui.core.Configuration#method:setLanguage"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "다국어",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "컨트롤 안보이게 바이드 안함 visible 설정",
+   "expect": [
+    "sap.ui.core.Control#property:visible"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "컨트롤 생명주기",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "특정 인풋이나 버튼 뱅글뱅글 busy 로딩 효과",
+   "expect": [
+    "sap.ui.core.Control#property:busy"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "컨트롤 생명주기",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "글로벌 비지 인디케이터 켜기 BusyIndicator.show",
+   "expect": [
+    "sap.ui.core.BusyIndicator#method:show"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "컨트롤 생명주기",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "컨트롤 리렌더링 강제 실행 invalidate",
+   "expect": [
+    "sap.ui.core.Control#method:invalidate"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "컨트롤 생명주기",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "동적 컨트롤 엘리먼트 완전 파괴 destroy",
+   "expect": [
+    "sap.ui.core.Element#method:destroy"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "컨트롤 생명주기",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "UI5 컨트롤에 CSS 커스텀 클래스 추가",
+   "expect": [
+    "sap.ui.core.Control#method:addStyleClass"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "test",
+   "area": "컨트롤 생명주기",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "컨트롤에 바인딩된 특정 모델 이름 제거 unbindElement",
+   "expect": [
+    "sap.ui.core.Element#method:unbindElement"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "컨트롤 생명주기",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "BusyIndicator 로딩 끄기 hide 함수",
+   "expect": [
+    "sap.ui.core.BusyIndicator#method:hide"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "컨트롤 생명주기",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "UI5 컨트롤 CSS 커스텀 클래스 제거 removeStyleClass",
+   "expect": [
+    "sap.ui.core.Control#method:removeStyleClass"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "컨트롤 생명주기",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "CustomData 써서 HTML dataset 추가",
+   "expect": [
+    "sap.ui.core.CustomData"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "test",
+   "area": "이벤트 시스템",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "이벤트 리스너 등록 attachEvent",
+   "expect": [
+    "sap.ui.base.EventProvider#method:attachEvent"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "이벤트 시스템",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Event 객체에서 매개변수 파라미터 값 추출",
+   "expect": [
+    "sap.ui.base.Event#method:getParameter"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "이벤트 시스템",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "MessagePage 오류 안내 전용 풀스크린 페이지",
+   "expect": [
+    "sap.m.MessagePage"
+   ],
+   "kind": "task",
+   "coverage": "uncovered",
+   "split": "dev",
+   "area": "레이아웃",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "이벤트 리스너 해제 detachEvent",
+   "expect": [
+    "sap.ui.base.EventProvider#method:detachEvent"
+   ],
+   "kind": "task",
+   "coverage": "covered",
+   "split": "dev",
+   "area": "이벤트 시스템",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "자바스크립트 Array에서 map이랑 filter 차이가 뭔가요?",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "JS/CSS",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "CSS flexbox에서 align-items랑 justify-content 차이 설명해줘",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "JS/CSS",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "React의 useEffect 훅은 언제 실행되는지 궁금합니다.",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "프레임워크",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Vue.js v-model 양방향 바인딩 원리가 어떻게 되나요?",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "프레임워크",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "SAP ABAP에서 SELECT SINGLE문 쓸 때 주의할 점",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "SAP/ABAP",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ABAP CDS View 만들 때 association이랑 join 차이점",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "SAP/ABAP",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Node.js Express 서버에서 CORS 에러 해결하는 방법",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "서버/DB",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "MySQL 데이터베이스에서 인덱스 생성 타는 쿼리문 작성법",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "서버/DB",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "오늘 점심 메뉴 추천 좀 해주세요",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "일상",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "비 오는 날 듣기 좋은 발라드 노래 추천",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "일상",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "HTML5 input tag type=number 오타 방지 방법",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "JS/CSS",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "자바스크립트 Promise.all async await 예외처리 어떻게 하나요?",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "JS/CSS",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "TypeScript에서 interface랑 type alias 차이가 뭐야?",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "JS/CSS",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "SAP GUI 실행할 때 T-code 어디에 입력해?",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "SAP/ABAP",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ABAP 스마트폼 Smartforms PDF로 변환하는 법",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "SAP/ABAP",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "REST API랑 GraphQL 차이점 설명해줘",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "서버/DB",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Docker 컨테이너 안에서 백엔드 포트 포워딩하는 명령어",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "서버/DB",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "서울 강남역 근처 분위기 좋은 카페 어디 있어?",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "일상",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Visual Studio Code 설치 패키지 어디서 다운로드 받아?",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "일상",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "CSS opacity 속성이랑 rgba 배경색 투명도 차이",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "JS/CSS",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "자바스크립트 closure 클로저 개념 쉽게 설명해줘",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "JS/CSS",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Git commit 메시지 취소하고 커밋 수정하는 git reset 방법",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "기타",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Next.js App Router 서버 컴포넌트 개념이 뭐야?",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "프레임워크",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "SAP BTP Cloud Foundry 환경에 쿼터 할당하는 방법",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "SAP/ABAP",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "ABAP LOOP AT 구문 내부에서 WHERE 조건문 사용법",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "SAP/ABAP",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "PostgreSQL JSONB 타입 컬럼 조회 쿼리문",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "서버/DB",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "AWS S3 버킷에 파일 업로드 권한 IAM 정책 설정",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "서버/DB",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "내일 안양 날씨 비 많이 오나?",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "일상",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "주말에 볼만한 재미있는 넷플릭스 영화 추천해줘",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "dev",
+   "area": "일상",
+   "source": "eval-gemini.json"
+  },
+  {
+   "q": "Chrome 개발자 도구 Network 탭에서 payload 확인하는 방법",
+   "expect": [],
+   "kind": "none",
+   "coverage": "none",
+   "split": "test",
+   "area": "기타",
+   "source": "eval-gemini.json"
+  }
+ ]
 }

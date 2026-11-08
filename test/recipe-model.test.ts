@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { gzipSync } from 'node:zlib';
 import { decide, features, prepare, prepareModel, scoreModel, train, vectorize, type RecipeModel } from '../src/domain/recipeModel.ts';
 
 test('prepare: 낱말 끝 조사와 군더더기를 떼고 영어 낱말을 따로 뽑는다', () => {
@@ -50,9 +51,11 @@ test('vectorize: 정규화된 희소 벡터(길이 1)', () => {
   assert.ok(Math.abs(norm - 1) < 1e-9);
 });
 
-test('data/recipe-model.json: 형식과 크기(1MB 미만), 모든 레시피 포함', () => {
+test('data/recipe-model.json: 형식과 크기(전송 1MB·원본 4MB 미만), 모든 레시피 포함', () => {
   const raw = readFileSync('data/recipe-model.json');
-  assert.ok(raw.length < 1024 * 1024, `모델 파일 ${raw.length} 바이트`);
+  // 사용자가 내려받는 크기는 gzip 기준이다(일반 모바일 회선에서 1초 안팎). 원본 한도는 JSON 해석 시간 때문이다.
+  assert.ok(gzipSync(raw).length < 1024 * 1024, `모델 전송 크기 ${gzipSync(raw).length} 바이트`);
+  assert.ok(raw.length < 4 * 1024 * 1024, `모델 파일 ${raw.length} 바이트`);
   const m = JSON.parse(raw.toString('utf8')) as RecipeModel;
   const ids = (JSON.parse(readFileSync('data/recipes.json', 'utf8')).recipes as { id: string }[]).map((r) => r.id);
   assert.deepEqual(m.classes.map((c) => c.id).filter((id) => id !== '__none__').sort(), [...ids].sort()); // 해당 없음 분류는 있을 수도 없을 수도 있다
