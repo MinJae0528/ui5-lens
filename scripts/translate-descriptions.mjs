@@ -36,9 +36,10 @@ for (const minor of minors) {
 }
 const done = new Set();
 if (existsSync(CACHE)) for (const line of readFileSync(CACHE, 'utf8').split('\n')) if (line.trim()) { try { done.add(JSON.parse(line).k); } catch { /* 깨진 줄은 무시 */ } }
-const todo = [...units].filter(([k]) => !done.has(k)).slice(0, LIMIT);
+const pending = [...units].filter(([k]) => !done.has(k));
+const todo = pending.slice(0, LIMIT);
 const chars = todo.reduce((a, [, t]) => a + t.length, 0);
-console.log(`문장 ${units.size}개 중 번역 필요 ${todo.length}개(이미 번역 ${units.size - todo.length}개), 영어 ${chars.toLocaleString()}자`);
+console.log(`문장 ${units.size}개 중 이미 번역 ${units.size - pending.length}개, 남은 ${pending.length}개 중 이번에 ${todo.length}개(영어 ${chars.toLocaleString()}자) 번역`);
 if (has('--dry') || !todo.length) process.exit(0);
 
 const KEY = process.env.ANTHROPIC_API_KEY;
