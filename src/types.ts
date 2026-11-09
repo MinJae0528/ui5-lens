@@ -17,7 +17,7 @@ export interface Experimental { since: string | null; text: string }
 export interface Throws { type: string | null; description: string }
 /** 정규화 때 해시 밖에 덧붙이는 공식 추가 정보(없으면 생략) */
 interface Extras { experimental?: Experimental; allowedFor?: string[]; references?: Ref[]; examples?: ExampleCode[] }
-interface Base extends Extras { name: string; since: string | null; deprecated: Deprecation | null; visibility: string; description: string }
+interface Base extends Extras { kd?: string; name: string; since: string | null; deprecated: Deprecation | null; visibility: string; description: string }
 export interface Param { name: string; type?: string; optional?: boolean; defaultValue?: string | null; description?: string }
 export interface Prop extends Base { type: string; defaultValue: unknown; group: string | null; methods: string[]; bindable?: boolean }
 export interface Aggr extends Base { type: string; cardinality: string; singularName: string | null; isDefault: boolean; methods: string[] }
@@ -25,7 +25,7 @@ export interface Assoc extends Base { type: string; cardinality: string; singula
 export interface Evt extends Base { allowPreventDefault: boolean; parameters: Param[] }
 export interface Meth extends Base { static: boolean; accessorOf: { kind: string; name: string } | null; parameters: Param[]; returnValue: { type: string; description: string } | null; throws?: Throws[] }
 export interface ApiDoc {
-  name: string; basename: string; library: string; kind: string; visibility: string; since: string | null; deprecated: Deprecation | null;
+  kd?: string; name: string; basename: string; library: string; kind: string; visibility: string; since: string | null; deprecated: Deprecation | null;
   extends: string | null; implements: string[]; stereotype: string | null; module: string | null; description: string; sourceUrl: string;
   properties: Prop[]; aggregations: Aggr[]; associations: Assoc[]; events: Evt[]; methods: Meth[];
   enumValues: { name: string; value: unknown; description: string }[];

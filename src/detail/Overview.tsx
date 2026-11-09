@@ -20,6 +20,11 @@ export function Overview({ chain, ko, koStatus, p, goTab }: { chain: ApiDoc[]; k
             <p className="muted small">근거: {ko.overview.summaryBasis ?? '공식 설명'}</p>
             <ProvenanceNote ko={ko} status={koStatus} minor={p.vd.meta.minor} version={p.vd.meta.version} />
           </>
+        ) : doc.kd ? (
+          <>
+            <p className="lead">{doc.kd}</p>
+            <div className="notice">자동 번역 · AI 초안 · 미검토 — 공식 설명의 <b>첫 문장만</b> 번역했습니다. 전체 내용은 아래 영문 원문(공식)을 보세요.</div>
+          </>
         ) : <div className="notice">한국어 설명이 아직 준비되지 않았습니다. 아래 영문 원문(공식)을 표시합니다.</div>}
         <details open={!ko}><summary>영문 원문 (공식 · {doc.name})</summary><Html html={firstP || '(공식 설명 없음)'} onApi={onApi} known={known} /></details>
       </section>

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import type { Global } from '../data';
 import { aggrSnippet, assocSnippet, eventSnippet, methSnippet, propSnippet, xmlMemberSnippet } from '../domain/snippets';
 import { filterMembers, mergeMembers, memberKey, signature, type AnyMember, type Item, type MemberSpec } from '../domain/members';
-import { plain } from '../domain/text';
+import { cutWords, plain } from '../domain/text';
 import type { ApiDoc, Aggr, Assoc, Evt, KoDoc, MemberKind, Meth, Prop } from '../types';
 import { Code, DepBadge, Html } from '../ui';
 import { OfficialExamples, RefList } from './Refs';
@@ -54,7 +54,7 @@ export function MemberTab({ spec, chain, ko, route, setRoute, ...sh }: { spec: M
                   <DepBadge since={it.m.deprecated ? it.m.deprecated.since ?? true : null} />
                   {it.m.since && <span className="badge">since {it.m.since}</span>}
                 </span>
-                <span className="m-sum">{k ?? (it.inherited ? <span className="muted">정의: {it.definedIn} · 영문 원문</span> : <span className="muted">{plain(it.m.description).slice(0, 110) || '(공식 설명 없음)'}</span>)}</span>
+                <span className="m-sum">{k ?? (it.m.kd ? <>{it.m.kd} <span className="badge" title="AI 가 번역한 초안입니다. 첫 문장만 번역하며 미검토입니다.">자동 번역</span></> : <span className="muted">{cutWords(plain(it.m.description), 160) || '(공식 설명 없음)'} <span className="badge">영문</span></span>)}</span>
               </button>
               {isOpen && <MemberBody kind={spec.id} it={it} doc={doc} koText={k} onOpenPage={() => setRoute({ mem: `${spec.id}:${it.m.name}`, tab: 'mdesc' }, true)} {...sh} />}
             </li>
@@ -84,8 +84,9 @@ export function MemberDescription({ kind, it, koText, onApi, known, docBase, onR
       <div className="two">
         <div>
           <h5>한국어</h5>
-          {koText ? <p>{koText}</p> : <p className="muted">한국어 설명이 아직 준비되지 않았습니다.</p>}
+          {koText ? <p>{koText}</p> : m.kd ? <p>{m.kd}</p> : <p className="muted">한국어 설명이 아직 준비되지 않았습니다.</p>}
           {koText && <p className="muted small">AI 번역 초안 · 미검토 (공식 영문 원문과 대조해 작성)</p>}
+          {!koText && m.kd && <p className="muted small">자동 번역 · AI 초안 · 미검토 (첫 문장만 번역, 전체는 오른쪽 영문 원문)</p>}
         </div>
         <div>
           <h5>영문 원문 (공식)</h5>

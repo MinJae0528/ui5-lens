@@ -5,6 +5,7 @@
 //   node scripts/build-data.mjs 1.120 1.71 # 특정 마이너만 (빠른 개발용; availability 는 해당 버전 칸만 갱신)
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 import { gunzipSync, gzipSync } from 'node:zlib';
+import { mtKey, mtUnit } from './mt-unit.mjs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { CACHE_DIR } from './paths.mjs';
@@ -102,6 +103,11 @@ function classExtras(s, known) {
   return r;
 }
 
+// ---------- 자동 번역 캐시(data/mt/ko.jsonl): 영어 첫 문장 해시 → 한국어. 없으면 번역을 붙이지 않는다 ----------
+const mt = new Map();
+if (existsSync('data/mt/ko.jsonl')) for (const line of readFileSync('data/mt/ko.jsonl', 'utf8').split(/\r?\n/)) if (line.trim()) { try { const r = JSON.parse(line); mt.set(r.k, r.t); } catch { /* 깨진 줄 무시 */ } }
+const withKd = (o) => { const u = mtUnit(o.description); const t = u && mt.get(mtKey(u)); if (t) o.kd = t; };
+
 // ---------- 정규화 ----------
 function normalize(name, s, lib, known, docBase) {
   const md = s['ui5-metadata'] || {};
@@ -141,6 +147,9 @@ function normalize(name, s, lib, known, docBase) {
     constructorParams: (s.constructor?.parameters || []).map((p) => ({ name: p.name, type: p.type, optional: !!p.optional, description: cleanHtml(p.description, known) })),
   };
   out.officialHash = sha({ ...out, sourceUrl: undefined });
+  // 자동 번역은 officialHash 계산 뒤에 붙인다(번역이 바뀌어도 한국어 설명이 '원문 변경'으로 판정되지 않게)
+  withKd(out);
+  for (const pl of ['properties', 'aggregations', 'associations', 'events', 'methods']) out[pl].forEach(withKd);
   Object.assign(out, classExtras(s, known));
   const srcOf = { properties: md.properties, aggregations: md.aggregations, associations: md.associations, events: [...evTop.values()], methods: s.methods };
   for (const [pl, arr] of Object.entries(srcOf)) {
