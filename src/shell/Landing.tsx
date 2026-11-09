@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Mode } from '../controller/route';
 import { loadRecEval, type Global, type RecEval, type VersionData } from '../data';
 import { libraries } from '../domain/browse';
-import { KoBadge } from '../ui';
-import { FEATURE_QUICK, METHOD_QUICK, NAME_QUICK } from './quick';
+import { FEATURE_QUICK, METHOD_QUICK, NAME_QUICK, POPULAR } from './quick';
 
 /** 시작 화면: 지금 고른 찾기 방식을 설명하고 예시를 눌러 바로 써 보게 한다. 한국어 지원 범위와 도구 소개(공식 문서와의 관계·정확도 공개)도 함께 보여 준다. */
 export function Landing({ vd, g, mode, onQuick, onMode, onLib, onPick }: { vd: VersionData; g: Global; mode: Mode; onQuick: (s: string, m?: Mode) => void; onMode: (m: Mode) => void; onLib: (lib: string) => void; onPick: (n: string) => void }) {
@@ -11,6 +10,8 @@ export function Landing({ vd, g, mode, onQuick, onMode, onLib, onPick }: { vd: V
   const [ev, setEv] = useState<RecEval | null>(null);
   useEffect(() => { loadRecEval().then(setEv).catch(() => setEv(null)); }, []);
   const { meta } = vd;
+  const have = new Set(vd.index.map((i) => i.n));
+  const popular = POPULAR.map((g2) => ({ title: g2.title, apis: g2.apis.filter((a) => have.has(a)) })).filter((g2) => g2.apis.length);
   const topLibs = libraries(vd.index).filter((l) => l.core).slice(0, 8);
   return (
     <div className="landing">
@@ -38,9 +39,14 @@ export function Landing({ vd, g, mode, onQuick, onMode, onLib, onPick }: { vd: V
 
       <p className="muted small">다른 방법: {mode !== 'name' && <button className="link" onClick={() => onMode('name')}>이름·메서드 검색</button>}{mode !== 'name' && mode !== 'feature' ? ' · ' : ''}{mode !== 'feature' && <button className="link" onClick={() => onMode('feature')}>기능으로 추천</button>} · <button className="link" onClick={() => onMode('guide')}>문서 가이드</button></p>
 
-      <h3>한국어 설명이 준비된 API ({ko.length}개)</h3>
-      <ul className="plain">{ko.map((k) => <li key={k.n}><button className="link" onClick={() => onPick(k.n)}>{k.n}</button> <KoBadge status={k.ko} /></li>)}</ul>
-      <p className="muted small">나머지 {(meta.counts.searchable - ko.length).toLocaleString()}개는 검색과 공식 영문 구조(속성·메서드·이벤트 등)를 제공합니다. 전체 UI5 API 를 한국어로 지원하는 것이 아닙니다.</p>
+      <section className="popular" aria-label="많이 쓰는 API">
+        <h3>많이 쓰는 API 바로가기</h3>
+        {popular.map((g2) => (
+          <div key={g2.title} className="try"><h4 className="muted small">{g2.title}</h4>
+            <div className="chips">{g2.apis.map((a) => <button key={a} className="chip mono-chip" onClick={() => onPick(a)}>{a.split('.').pop()}</button>)}</div></div>
+        ))}
+        <p className="muted small">누르면 공식 영문 구조(속성·메서드·이벤트·상속·버전)가 열립니다. 한국어 설명은 일부 API 에만 있습니다{ko.length > 0 && <>(현재 {ko.map((k) => k.n.split('.').pop()).join(', ')} · AI 초안)</>}. 나머지는 영문 원문과 공식 링크를 제공합니다.</p>
+      </section>
       <section className="about" aria-label="UI5 Lens 소개">
         <h3>UI5 Lens 는 이런 도구입니다</h3>
         <ul>
