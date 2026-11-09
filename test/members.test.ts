@@ -26,8 +26,8 @@ test('mergeMembers: 체인이 한 개여도 동작하고 같은 이름은 한 �
 });
 
 test('signature: 종류별 표기', () => {
-  assert.equal(signature('property', prop('count', 'int', { defaultValue: 3 })), ': int = 3');
-  assert.equal(signature('property', prop('title', 'string')), ': string');
+  assert.equal(signature('property', prop('count', 'int', { defaultValue: 3 })), 'int · 기본값: 3');
+  assert.equal(signature('property', prop('title', 'string')), 'string');
   const agg = { ...prop('items'), type: 'sap.m.Item', cardinality: '0..n', singularName: 'item', isDefault: true, methods: [] } as unknown as Aggr;
   assert.equal(signature('aggregation', agg), ': sap.m.Item [0..n]');
   const ev = { name: 'press', since: null, deprecated: null, visibility: 'public', description: '', allowPreventDefault: false, parameters: [{ name: 'id' }, { name: 'value' }] } as Evt;

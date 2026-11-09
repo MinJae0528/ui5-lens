@@ -39,7 +39,7 @@ export function mergeMembers(chain: ApiDoc[], plural: Plural): Item[] {
 
 /** 목록 한 줄에 보이는 시그니처 */
 export function signature(kind: MemberKind, m: AnyMember): string {
-  if (kind === 'property') { const p = m as Prop; return `: ${p.type}${p.defaultValue != null ? ` = ${JSON.stringify(p.defaultValue)}` : ''}`; }
+  if (kind === 'property') { const p = m as Prop; return `${p.type}${p.defaultValue != null ? ` · 기본값: ${JSON.stringify(p.defaultValue)}` : ''}`; }
   if (kind === 'aggregation' || kind === 'association') { const a = m as Aggr; return `: ${a.type} [${a.cardinality}]`; }
   if (kind === 'event') return `(${(m as Evt).parameters.map((p) => p.name).join(', ')})`;
   const me = m as Meth;
