@@ -1,0 +1,71 @@
+{
+  "api": "sap.m.Select",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "a3de1b0192d0",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "목록에서 항목 하나를 고르는 드롭다운 컨트롤. 직접 글자를 입력하지는 않습니다.",
+    "summaryBasis": "공식 클래스 설명: “provides a list of items that allows users to select an item.”",
+    "whenToUse": [
+      {
+        "text": "정해진 항목 중 하나만 고르게 할 때(직접 입력은 필요 없을 때).",
+        "kind": "service",
+        "basis": "공식 설명: 항목 목록에서 하나를 선택하게 하는 컨트롤."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.ComboBox",
+        "role": "입력으로 좁히며 선택"
+      },
+      {
+        "api": "sap.m.RadioButton",
+        "role": "항목이 적을 때 모두 보이게"
+      }
+    ]
+  },
+  "members": {
+    "aggregation:items": {
+      "text": "선택지로 쓸 항목들(sap.ui.core.Item)."
+    },
+    "property:selectedKey": {
+      "text": "선택된 항목의 키. 키가 중복되면 처음 일치하는 항목이 선택됩니다."
+    },
+    "property:forceSelection": {
+      "text": "true 이면 선택을 목록의 항목 중 하나로 제한합니다."
+    },
+    "property:type": {
+      "text": "Select 의 형태(Default, IconOnly)."
+    },
+    "property:showSecondaryValues": {
+      "text": "항목의 additionalText 도 함께 보여 줄지 정합니다."
+    },
+    "event:change": {
+      "text": "선택 필드의 값이 바뀔 때 발생합니다."
+    },
+    "event:liveChange": {
+      "text": "사용자가 항목 사이를 이동할 때 발생합니다."
+    },
+    "event:beforeOpen": {
+      "text": "선택 목록이 열리기 직전에 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

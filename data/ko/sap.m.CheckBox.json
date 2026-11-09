@@ -1,0 +1,65 @@
+{
+  "api": "sap.m.CheckBox",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "54a6459e2f70",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "참/거짓 같은 두 가지 값을 체크 표시로 입력받는 컨트롤. 옆에 설명 글자를 함께 둡니다.",
+    "summaryBasis": "공식 클래스 설명: “Allows the user to set a binary value, such as true/false or yes/no for an item.”",
+    "whenToUse": [
+      {
+        "text": "동의 여부처럼 항목별 예/아니오를 받을 때.",
+        "kind": "service",
+        "basis": "공식 설명: true/false, yes/no 같은 이진 값을 항목마다 설정."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Switch",
+        "role": "켬/끔 전환"
+      },
+      {
+        "api": "sap.m.RadioButton",
+        "role": "여럿 중 하나만 선택"
+      }
+    ]
+  },
+  "members": {
+    "property:selected": {
+      "text": "체크되어 있는지 여부."
+    },
+    "property:partiallySelected": {
+      "text": "부분 선택 상태로 표시할지 여부."
+    },
+    "property:text": {
+      "text": "체크박스 옆에 표시할 글자."
+    },
+    "property:enabled": {
+      "text": "사용할 수 있는지 여부. 꺼지면 상호작용할 수 없습니다."
+    },
+    "property:editable": {
+      "text": "사용자가 상태를 바꿀 수 있는지 여부."
+    },
+    "event:select": {
+      "text": "사용자가 체크 상태를 바꿀 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

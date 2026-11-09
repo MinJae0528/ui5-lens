@@ -42,7 +42,7 @@ export interface KoExample {
 }
 export interface KoDoc {
   api: string; baseMinor: string; hashes: Record<string, string>;
-  provenance: { ui5Version: string; checkedAt: string; generator: string; ai: boolean; review: string; reviewNote?: string };
+  provenance: { ui5Version: string; checkedAt: string; generator: string; ai: boolean; review: string; reviewNote?: string; depth?: 'brief' };
   basedOn: { officialHash: string; stampedAt?: string };
   overview: {
     summary: string; summaryBasis?: string; whenToUse: Tagged[];

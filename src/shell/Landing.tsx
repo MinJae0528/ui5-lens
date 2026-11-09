@@ -10,6 +10,7 @@ export function Landing({ vd, g, mode, onQuick, onMode, onLib, onPick }: { vd: V
   const [ev, setEv] = useState<RecEval | null>(null);
   useEffect(() => { loadRecEval().then(setEv).catch(() => setEv(null)); }, []);
   const { meta } = vd;
+  const koSet = new Set(ko.map((k) => k.n));
   const have = new Set(vd.index.map((i) => i.n));
   const popular = POPULAR.map((g2) => ({ title: g2.title, apis: g2.apis.filter((a) => have.has(a)) })).filter((g2) => g2.apis.length);
   const topLibs = libraries(vd.index).filter((l) => l.core).slice(0, 8);
@@ -43,9 +44,9 @@ export function Landing({ vd, g, mode, onQuick, onMode, onLib, onPick }: { vd: V
         <h3>많이 쓰는 API 바로가기</h3>
         {popular.map((g2) => (
           <div key={g2.title} className="try"><h4 className="muted small">{g2.title}</h4>
-            <div className="chips">{g2.apis.map((a) => <button key={a} className="chip mono-chip" onClick={() => onPick(a)}>{a.split('.').pop()}</button>)}</div></div>
+            <div className="chips">{g2.apis.map((a) => <button key={a} className="chip mono-chip" onClick={() => onPick(a)}>{a.split('.').pop()}{koSet.has(a) && <small title="한국어 설명(AI 초안)이 있습니다"> 한</small>}</button>)}</div></div>
         ))}
-        <p className="muted small">누르면 공식 영문 구조(속성·메서드·이벤트·상속·버전)가 열립니다. 한국어 설명은 일부 API 에만 있습니다{ko.length > 0 && <>(현재 {ko.map((k) => k.n.split('.').pop()).join(', ')} · AI 초안)</>}. 나머지는 영문 원문과 공식 링크를 제공합니다.</p>
+        <p className="muted small">누르면 공식 영문 구조(속성·메서드·이벤트·상속·버전)가 열립니다. ‘한’ 표시가 붙은 {ko.length}개에는 한국어 설명(AI 초안·미검토)이 있고, 나머지는 영문 원문과 공식 링크를 제공합니다.</p>
       </section>
       <section className="about" aria-label="UI5 Lens 소개">
         <h3>UI5 Lens 는 이런 도구입니다</h3>

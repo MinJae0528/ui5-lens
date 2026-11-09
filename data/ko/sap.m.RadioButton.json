@@ -1,0 +1,62 @@
+{
+  "api": "sap.m.RadioButton",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "680a57dcd9a4",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "미리 정한 선택지 중 하나만 고르게 하는 컨트롤. 같은 그룹 이름을 가진 라디오 버튼끼리 하나만 선택됩니다.",
+    "summaryBasis": "공식 클래스 설명: “allows you to choose only one of the predefined set of options.”",
+    "whenToUse": [
+      {
+        "text": "선택지가 적고 모두 화면에 보이면서 하나만 고르게 할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 미리 정한 선택지 중 하나만 선택."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.CheckBox",
+        "role": "여러 개 선택 가능"
+      },
+      {
+        "api": "sap.m.Select",
+        "role": "선택지가 많을 때"
+      }
+    ]
+  },
+  "members": {
+    "property:selected": {
+      "text": "선택된 상태인지 여부."
+    },
+    "property:groupName": {
+      "text": "소속된 라디오 그룹 이름. 같은 이름끼리 하나만 선택됩니다."
+    },
+    "property:text": {
+      "text": "라디오 버튼 옆에 표시할 글자."
+    },
+    "property:enabled": {
+      "text": "사용할 수 있는지 여부."
+    },
+    "event:select": {
+      "text": "사용자가 라디오 버튼을 선택하거나 해제할 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

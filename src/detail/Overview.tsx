@@ -105,6 +105,7 @@ function ProvenanceNote({ ko, status, minor, version }: { ko: KoDoc; status: KoS
       {stale
         ? <>⚠ 이 한국어 설명은 UI5 <b>{ko.baseMinor}</b> 원문을 기준으로 작성·대조했는데, 지금 보는 <b>{version}</b> 의 공식 원문과 <b>달라서 재검토가 필요</b>합니다. 한국어 문장이 이 버전과 맞지 않을 수 있으니 영문 원문과 공식 항목 목록을 기준으로 보세요. {minor === ko.baseMinor ? '(같은 버전인데 원문이 갱신됨)' : ''}</>
         : <>이 API 의 한국어 설명은 <b>{ko.provenance.generator}</b> 입니다 · 검토 상태: <b>{ko.provenance.review === 'reviewed' ? '검토 완료' : '미검토(초안)'}</b> · 공식 원문 대조: {ko.basedOn.stampedAt ?? ko.provenance.checkedAt} (UI5 {ko.baseMinor})</>}
+      {ko.provenance.depth === 'brief' && !stale && <div className="small"><b>간단 설명</b> — 요약·언제 쓰는가·핵심 항목만 있고, 검증된 예제와 사용 순서는 아직 없습니다. 자세한 내용은 아래 공식 영문 구조와 원문 링크를 보세요.</div>}
     </div>
   );
 }

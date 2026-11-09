@@ -1,0 +1,58 @@
+{
+  "api": "sap.m.Switch",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "fb900d5f58e7",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "두 가지 상태(켬/끔)를 전환하는 스위치. 손잡이를 끌거나 눌러서 바꿉니다.",
+    "summaryBasis": "공식 클래스 설명: “used for change between binary states. The user can also drag the button handle or tap to change the state.”",
+    "whenToUse": [
+      {
+        "text": "설정을 즉시 켜고 끄는 화면에서.",
+        "kind": "service",
+        "basis": "공식 설명: 이진 상태를 전환하는 컨트롤."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.CheckBox",
+        "role": "체크 표시로 두 상태 입력"
+      }
+    ]
+  },
+  "members": {
+    "property:state": {
+      "text": "켜져 있는지(true) 꺼져 있는지(false)."
+    },
+    "property:customTextOn": {
+      "text": "켬 상태에 표시할 글자. 지정하지 않으면 현재 언어의 “ON”."
+    },
+    "property:customTextOff": {
+      "text": "끔 상태에 표시할 글자. 지정하지 않으면 현재 언어의 “OFF”."
+    },
+    "property:type": {
+      "text": "스위치 형태(Default, AcceptReject)."
+    },
+    "event:change": {
+      "text": "스위치 상태가 바뀔 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

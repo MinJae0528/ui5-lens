@@ -1,0 +1,52 @@
+{
+  "api": "sap.m.DateRangeSelection",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "cf2eebc64868",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "시작일과 종료일을 한 입력창에서 고르는 컨트롤. DatePicker 를 확장했습니다.",
+    "summaryBasis": "공식 클래스 설명: “A single-field input control that enables the users to enter a localized date range.”",
+    "whenToUse": [
+      {
+        "text": "기간(시작일~종료일)을 입력받을 때.",
+        "kind": "service",
+        "basis": "공식 설명: 지역화된 날짜 범위를 한 필드에서 입력."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.DatePicker",
+        "role": "날짜 하나"
+      }
+    ]
+  },
+  "members": {
+    "property:secondDateValue": {
+      "text": "범위의 끝 날짜(UI5Date 또는 JavaScript Date)."
+    },
+    "property:delimiter": {
+      "text": "시작일과 종료일 사이의 구분 문자. 기본은 “-”."
+    },
+    "event:change": {
+      "text": "날짜 범위가 바뀔 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

@@ -1,0 +1,65 @@
+{
+  "api": "sap.m.DatePicker",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "c4f1c801d3d0",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "달력 팝업이나 직접 입력으로 날짜 하나를 고르는 컨트롤. 0001-01-01 부터 9999-12-31 사이의 지역화된 날짜를 다룹니다.",
+    "summaryBasis": "공식 클래스 설명: “Enables the users to select a localized date between 0001-01-01 and 9999-12-31.”",
+    "whenToUse": [
+      {
+        "text": "날짜 하나를 입력받을 때(생일, 마감일 등).",
+        "kind": "service",
+        "basis": "공식 설명: 터치·마우스·키보드로 지역화된 날짜를 선택."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.DateRangeSelection",
+        "role": "시작일~종료일 범위"
+      },
+      {
+        "api": "sap.m.TimePicker",
+        "role": "시간 선택"
+      }
+    ]
+  },
+  "members": {
+    "property:minDate": {
+      "text": "선택할 수 있는 가장 이른 날짜."
+    },
+    "property:maxDate": {
+      "text": "선택할 수 있는 가장 늦은 날짜."
+    },
+    "aggregation:specialDates": {
+      "text": "달력에서 특별한 날을 구분해 보여 줄 날짜 범위들."
+    },
+    "property:showCurrentDateButton": {
+      "text": "오늘로 이동하는 버튼을 보여 줄지 정합니다."
+    },
+    "event:change": {
+      "text": "입력이 끝나고 값이 바뀌었을 때 발생합니다."
+    },
+    "event:navigate": {
+      "text": "달력 팝업에서 이동할 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

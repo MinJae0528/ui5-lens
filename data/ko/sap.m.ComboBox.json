@@ -1,0 +1,62 @@
+{
+  "api": "sap.m.ComboBox",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "1ed4b83380dc",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "입력창과 드롭다운 목록이 합쳐진 컨트롤. 목록에서 고르거나 글자를 입력해 항목을 좁힐 수 있습니다.",
+    "summaryBasis": "공식 클래스 설명: “A drop-down list for selecting and filtering values.”",
+    "whenToUse": [
+      {
+        "text": "항목이 많아 입력으로 후보를 좁히면서 하나를 고르게 할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 선택 가능한 옵션 목록과 후보를 좁히는 텍스트 입력창으로 구성."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Select",
+        "role": "입력 없이 목록에서만 선택"
+      },
+      {
+        "api": "sap.m.MultiComboBox",
+        "role": "여러 개 선택"
+      }
+    ]
+  },
+  "members": {
+    "property:selectedKey": {
+      "text": "선택된 항목의 키. 키가 중복되면 처음 일치하는 항목이 선택됩니다."
+    },
+    "property:selectedItemId": {
+      "text": "선택된 항목의 ID."
+    },
+    "property:filterSecondaryValues": {
+      "text": "목록을 걸러 낼 때 text 와 추가 텍스트(additionalText) 둘 다 검사할지 정합니다."
+    },
+    "event:change": {
+      "text": "입력창의 값이 바뀐 뒤 확정될 때 발생합니다."
+    },
+    "event:selectionChange": {
+      "text": "입력한 내용이 항목과 일치하거나 사용자가 선택을 바꿀 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}
