@@ -55,7 +55,8 @@ const SYSTEM = `당신은 SAPUI5 공식 API 문서를 한국어로 옮기는 기
 - 문장이 "…" 로 끝나면 번역도 "…" 로 끝내세요.`;
 
 async function translate(batch, attempt = 1) {
-  const body = { model: MODEL, max_tokens: 4096, system: SYSTEM, messages: [{ role: 'user', content: JSON.stringify(batch.map(([k, t]) => ({ id: k, text: t }))) }] };
+  // Haiku 5.5 는 생각(thinking)이 기본으로 켜져 출력 토큰으로 과금되므로, 단순 번역에서는 끈다(effort 기본값 medium 에서 허용됨)
+  const body = { model: MODEL, max_tokens: 4096, thinking: { type: 'disabled' }, system: SYSTEM, messages: [{ role: 'user', content: JSON.stringify(batch.map(([k, t]) => ({ id: k, text: t }))) }] };
   const res = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'content-type': 'application/json', 'x-api-key': KEY, 'anthropic-version': '2023-06-01' }, body: JSON.stringify(body) });
   if (res.status === 429 || res.status >= 500) { if (attempt > 5) throw new Error(`HTTP ${res.status}`); await new Promise((r) => setTimeout(r, 2000 * attempt)); return translate(batch, attempt + 1); }
   if (!res.ok) throw new Error(`HTTP ${res.status} ${(await res.text()).slice(0, 300)}`);
