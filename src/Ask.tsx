@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { loadMemberRecEval, loadRecEval, type MemberRecEval, type RecEval } from './data';
-import { FLAG, KIND_LABEL, type MemberRow } from './domain/memberIndex';
+import { loadHybridEval, loadMemberRecEval, loadRecEval, type HybridEval, type MemberRecEval, type RecEval } from './data';
+import type { HybridResult } from './domain/hybrid';
+import { FLAG, KIND_CHAR_OF, KIND_LABEL, type MemberRow } from './domain/memberIndex';
 import type { MemberRecResult } from './domain/memberRecommend';
 import type { Rec, RecResult } from './domain/recommend';
 import type { IndexEntry } from './types';
@@ -93,6 +94,37 @@ export function MemberRecSection({ res, onOpen }: { res: MemberRecResult; onOpen
       {res.results.length > 5 && <button className="btn" onClick={() => setMore((m) => !m)}>{more ? '상위 5개만 보기' : `다음 후보 ${res.results.length - 5}개 더 보기`}</button>}
       <p className="muted small">멤버 이름·공식 설명 첫 문장·소속 클래스 이름과 질문이 겹치는 정도로 고른 후보입니다. 같은 이름은 한 줄로 묶고 대표 클래스를 보여 줍니다. 자동 생성 접근자(getX/setX)도 후보에 포함합니다.</p>
       <div className="notice warn" role="note"><b>정확도가 낮은 실험적 기능입니다.</b>{ev ? <> 자체 평가에서 새 질문 {ev.fresh2.n}개 중 상위 3개 안에 정답이 있었던 것은 {ev.fresh2.top3}개({Math.round((ev.fresh2.top3 / ev.fresh2.n) * 100)}%)입니다(UI5 {ev.minor}). 컨트롤 추천보다 훨씬 낮으니 참고만 하고, 정확한 이름을 알면 이름·메서드 검색을 쓰세요.</> : <> 컨트롤 추천보다 정확도가 낮을 수 있으니 참고만 하고, 정확한 이름을 알면 이름·메서드 검색을 쓰세요.</>}</div>
+    </section>
+  );
+}
+
+/** 질문에 적은 이름과 일치하거나, 미리 정리한 작업표(레시피)에서 학습한 분류기가 골라 낸 정답. 가장 먼저 보여 준다. */
+export function HybridSection({ res, onPick, onOpen }: { res: NonNullable<HybridResult>; onPick: (name: string) => void; onOpen: (r: Pick<MemberRow, 'c' | 'k' | 'n'>) => void }) {
+  const [ev, setEv] = useState<HybridEval | null>(null);
+  useEffect(() => { loadHybridEval().then(setEv).catch(() => setEv(null)); }, []);
+  const pct = (a: number, b: number) => Math.round((a / b) * 100);
+  return (
+    <section className="rec-sec" aria-label="가장 가능성 높은 정답">
+      <h3 className="rec-title">가장 가능성 높은 정답 <span className="badge b-off">{res.source === 'name' ? '이름 일치' : '학습한 작업표 · 생성형 AI 아님'}</span></h3>
+      <ol className="rec-list">
+        {res.picks.map((p, i) => {
+          const label = p.ref.n ? `${p.ref.c.split('.').pop()}#${p.ref.n}` : p.ref.c;
+          const open = () => (p.ref.k && p.ref.n && KIND_CHAR_OF[p.ref.k] ? onOpen({ c: p.ref.c, k: KIND_CHAR_OF[p.ref.k], n: p.ref.n }) : onPick(p.ref.c));
+          return (
+            <li key={`${p.ref.c}#${p.ref.k}:${p.ref.n}`} className="card rec">
+              <button className="rec-btn" onClick={open} aria-label={`${p.ref.c} ${p.ref.n ?? ''} 열기`}>
+                <div className="card-head"><span className="card-name"><span className="rank">{i + 1}</span>{label}</span>{p.ref.k && <span className="badge">{KIND_LABEL[KIND_CHAR_OF[p.ref.k]]}</span>}</div>
+                <div className="badges"><span className="badge mono-badge">{p.ref.c}</span></div>
+                <p className="reasons"><b>왜 추천?</b> {p.why}</p>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+      <p className="muted small">
+        {res.source === 'recipe' ? '작업표에 있는 흔한 작업으로 판단했습니다. ' : ''}이 목록은 선택한 버전의 공식 자료에 실제로 있는 것만 보여 줍니다.
+        {ev && <> 별도로 만든 평가 질문(UI5 {ev.minor})에서 작업표에 있는 작업은 {ev.covered.n}개 중 {ev.covered.hit}개({pct(ev.covered.hit, ev.covered.n)}%)를 맞혔지만, 그 밖의 질문은 {ev.uncovered.n}개 중 {ev.uncovered.hit}개({pct(ev.uncovered.hit, ev.uncovered.n)}%)만 맞혔습니다. 아래 일반 추천도 함께 확인하세요.</>}
+      </p>
     </section>
   );
 }

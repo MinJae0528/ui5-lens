@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { MemberRecSection, RecSection } from './Ask';
+import { HybridSection, MemberRecSection, RecSection } from './Ask';
 import { useRoute, type Route } from './controller/route';
 import { useSearchController } from './controller/useSearchController';
 import { loadGlobal, loadVersion, type Global, type VersionData } from './data';
@@ -70,6 +70,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   const verInfo = g.versions.versions.find((v) => v.minor === meta.minor);
   const recReady = !!(rec.res && rec.res.results.length > 0);
   const memberRecReady = !!(c.memberRec && c.memberRec.results.length > 0);
+  const hybridReady = !!c.hybrid;
   const hasDetail = !!route.api || (mode === 'guide' && !!route.tp);
   const landing = <Landing vd={vd} g={g} mode={mode} onQuick={c.quick} onMode={c.setMode} onLib={(lib) => setRoute({ m: 'browse', lib, api: null }, true)} onPick={c.select} />;
 
@@ -77,7 +78,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
     if (pending) return '검색 중…';
     if (!q) return '';
     if (mode === 'name') return `UI5 ${meta.minor} · 클래스 ${c.results.length}개 · 메서드·속성·이벤트 ${c.allGroups.length}개`;
-    if (mode === 'feature') return recReady || memberRecReady ? '하고 싶은 일을 공식 이름·설명과 비교해 골랐습니다' : '';
+    if (mode === 'feature') return recReady || memberRecReady || hybridReady ? '하고 싶은 일을 공식 이름·설명과 비교해 골랐습니다' : '';
     return '';
   })();
 
@@ -139,9 +140,10 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
                       <div className="row"><button className="btn small" onClick={c.retryLoad}>다시 시도</button> <button className="btn small" onClick={() => c.quick(q, 'name')}>이름으로 검색</button></div>
                     </div>
                   )}
+                  {c.hybrid && <HybridSection res={c.hybrid} onPick={c.select} onOpen={c.openMember} />}
                   {recReady && <RecSection res={rec.res!} version={meta.version} index={c.searchable} selected={route.api} onPick={c.select} />}
                   {memberRecReady && <MemberRecSection res={c.memberRec!} onOpen={c.openMember} />}
-                  {!rec.loading && !c.memberLoading && !c.recFailed && !recReady && !memberRecReady && (
+                  {!rec.loading && !c.memberLoading && !c.recFailed && !recReady && !memberRecReady && !hybridReady && (
                     <div className="empty" role="status">
                       <b>“{q}”</b> 을(를) 기능 설명으로 해석하지 못했거나, UI5 {meta.minor} 공식 자료에서 겹치는 API 를 찾지 못했습니다.
                       <p className="muted">존재하지 않는 API 를 만들어 보여 주지 않습니다. 영어 키워드(예: <code>date picker</code>)로 다시 적거나, 이름을 안다면 <b>이름·메서드 검색</b> 모드를 쓰세요. 다른 버전에서는 있을 수 있습니다.</p>

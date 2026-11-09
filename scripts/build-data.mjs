@@ -330,6 +330,9 @@ if (existsSync('data/recipes.json') && existsSync(`${OUT}/v/${BASE_MINOR}/member
   }
   writeFileSync(`${OUT}/recipes.json`, JSON.stringify(src));
   console.log(`레시피 ${src.recipes.length}개 검증`);
+  // 소형 분류 모델(브라우저가 gzip 으로 내려받음)과 그 독립 평가 결과(화면에 정확도로 공개)
+  if (existsSync('data/recipe-model.json')) writeFileSync(`${OUT}/recipe-model.json.gz`, gzipSync(readFileSync('data/recipe-model.json'), { level: 9 }));
+  if (existsSync('data/external/test-result.json')) writeFileSync(`${OUT}/hybrid-eval.json`, readFileSync('data/external/test-result.json'));
 }
 
 // ---------- 버전 목록·별칭 ----------

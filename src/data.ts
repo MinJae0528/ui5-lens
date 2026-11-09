@@ -1,6 +1,10 @@
 import { buildIndex, type CorpusEntry, type IntentEntry, type RecIndex } from './domain/recommend';
+import { buildAnchorIndex } from './domain/nameAnchor';
+import { prepareModel, type RecipeModel } from './domain/recipeModel';
+import type { HybridCtx } from './domain/hybrid';
+import type { Recipe } from './domain/recipes';
 import type { LifeContext } from './domain/life';
-import { expandMembers, type MemberRow, type RawMembers } from './domain/memberIndex';
+import { expandMembers, KIND_NAME, type MemberRow, type RawMembers } from './domain/memberIndex';
 import type { Alias, ApiDoc, Availability, IndexEntry, KoDoc, Meta, TopicNode, VersionList } from './types';
 
 const BASE = `${import.meta.env.BASE_URL}data`;
@@ -159,3 +163,30 @@ export function loadTopics(minor: string): Promise<TopicNode[] | null> {
   if (!p) { p = getGzOptional<TopicNode[]>(`${BASE}/v/${minor}/topics.json.gz`); p.catch(() => topicCache.delete(minor)); topicCache.set(minor, p); }
   return p;
 }
+
+/** 하이브리드 추천 자료: 소형 분류 모델 + 레시피 + 이름 앵커 색인. 처음 필요할 때 한 번만 불러온다. */
+const hybridCache = new Map<string, Promise<HybridCtx>>();
+export function loadHybrid(minor: string): Promise<HybridCtx> {
+  let p = hybridCache.get(minor);
+  if (!p) {
+    p = Promise.all([
+      getGz<RecipeModel>(`${BASE}/recipe-model.json.gz`),
+      getJson<{ recipes: Recipe[] }>(`${BASE}/recipes.json`),
+      getGz<{ n: string; b: string; x: string | null; k: string }[]>(`${BASE}/v/${minor}/index.json.gz`),
+      loadMemberRows(minor), loadIntents(),
+    ]).then(([model, rj, idx, rows, intents]) => {
+      const classes = new Set(idx.map((e) => e.n));
+      const members = new Set(rows.map((r) => `${r.c}#${KIND_NAME[r.k]}:${r.n}`));
+      return {
+        pm: prepareModel(model), recipes: rj!.recipes, anchors: buildAnchorIndex(idx, rows), intents,
+        hasClass: (c: string) => classes.has(c), hasMember: (c: string, k: string, n: string) => members.has(`${c}#${k}:${n}`),
+      };
+    });
+    p.catch(() => hybridCache.delete(minor));
+    hybridCache.set(minor, p);
+  }
+  return p;
+}
+
+export interface HybridEval { minor: string; covered: { n: number; hit: number; accepted: number; acceptedHit: number }; uncovered: { n: number; hit: number } }
+export function loadHybridEval(): Promise<HybridEval | null> { return getJson<HybridEval>(`${BASE}/hybrid-eval.json`, true); }

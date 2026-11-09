@@ -6,6 +6,7 @@ import type { KindFilter, Mode, Route } from './route';
 import { useMemberRec } from './useMemberRec';
 import { useMemberRows } from './useMemberRows';
 import { useRec } from './useRec';
+import { useHybrid } from './useHybrid';
 
 export const MAX_RENDER = 200;
 type SetRoute = (patch: Partial<Route>, push?: boolean) => void;
@@ -65,6 +66,7 @@ export function useSearchController({ g, vd, route, setRoute }: { g: Global; vd:
   const rec = useRec(meta.minor, q, featureOn, retry);
   const memberRecState = useMemberRec(mem.rows, q, featureOn, retry);
   const memberRec = memberRecState.res;
+  const hybrid = useHybrid(meta.minor, q, featureOn, retry);
   // 추천 자료(컨트롤 말뭉치·용어 사전·멤버 색인) 중 하나라도 못 불러왔으면 “결과 없음”이 아니라 실패다.
   const recFailed = featureOn && (rec.error || memberRecState.error || mem.error);
 
@@ -101,7 +103,7 @@ export function useSearchController({ g, vd, route, setRoute }: { g: Global; vd:
     results, classList, groups, allGroups, kindCounts, kf, shownClasses, shownGroups, items, memberLoading: mem.loading, memberError: mem.error,
     showAcc, setShowAcc, moreClasses, setMoreClasses, moreMembers, setMoreMembers,
     // 기능 추천
-    rec, memberRec, memberRows: mem.rows, recFailed, retryLoad: () => setRetry((n) => n + 1),
+    rec, hybrid: hybrid.res, memberRec, memberRows: mem.rows, recFailed, retryLoad: () => setRetry((n) => n + 1),
     active, setActive, inputRef, listRef, onScroll: (top: number) => { scrollTop.current = top; }, onKey,
     select, openMember, openItem, setMode, setKind, quick,
   };
