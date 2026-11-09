@@ -93,6 +93,7 @@ details { margin: 8px 0; } summary { cursor: pointer; color: var(--muted); font-
 .toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .inline-search { flex: 1 1 240px; font: inherit; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); }
 .check { display: flex; gap: 5px; align-items: center; font-size: .85rem; cursor: pointer; }
+.check.disabled { opacity: .5; cursor: not-allowed; }
 .members { list-style: none; display: grid; gap: 6px; }
 .member { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
 .member.open { border-color: var(--accent); }

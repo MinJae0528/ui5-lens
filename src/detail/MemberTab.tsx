@@ -22,10 +22,11 @@ export function MemberTab({ spec, chain, ko, route, setRoute, ...sh }: { spec: M
   const all = useMemo(() => mergeMembers(chain, spec.plural), [chain, spec.plural]);
   const own = all.filter((a) => !a.inherited);
   const base = inh ? all : own;
+  const depCount = base.filter((a) => a.m.deprecated).length;
   const accCount = spec.id === 'method' ? base.filter((a) => (a.m as Meth).accessorOf).length : 0;
 
   const koText = (it: Item) => (it.inherited ? undefined : ko?.members[memberKeyKo(spec.id, it.m.name)]?.text);
-  const rows = filterMembers(base, { kind: spec.id, mq, hideAccessors: hideAcc, hideDeprecated: hideDep, koText, plain });
+  const rows = filterMembers(base, { kind: spec.id, mq, hideAccessors: hideAcc, hideDeprecated: hideDep && depCount > 0, koText, plain });
 
   return (
     <div className="stack">
@@ -33,7 +34,7 @@ export function MemberTab({ spec, chain, ko, route, setRoute, ...sh }: { spec: M
         <input aria-label={`${spec.label} 안에서 검색`} type="search" className="inline-search" placeholder={`${spec.label} 이름·설명 검색 (한국어/영어)`} value={route.mq} onChange={(e) => setRoute({ mq: e.target.value })} />
         <label className="check"><input type="checkbox" checked={inh} onChange={(e) => setRoute({ inh: e.target.checked })} /> 상속 항목 포함 <small>(+{all.length - own.length})</small></label>
         {spec.id === 'method' && <label className="check"><input type="checkbox" checked={hideAcc} onChange={(e) => setHideAcc(e.target.checked)} /> 자동 생성 접근자 숨기기 <small>({accCount})</small></label>}
-        <label className="check"><input type="checkbox" checked={hideDep} onChange={(e) => setHideDep(e.target.checked)} /> deprecated 숨기기</label>
+        <label className={`check ${depCount === 0 ? "disabled" : ""}`} title={depCount === 0 ? "이 목록에는 deprecated 항목이 없습니다" : undefined}><input type="checkbox" checked={hideDep && depCount > 0} disabled={depCount === 0} onChange={(e) => setHideDep(e.target.checked)} /> deprecated 숨기기 <small>({depCount})</small></label>
         <span className="muted small">{rows.length} / {base.length}개</span>
         <button className="btn small" onClick={() => setOpen(open.size ? new Set() : new Set(rows.slice(0, 50).map((r) => r.definedIn + r.m.name)))}>{open.size ? '모두 접기' : '모두 펼치기(50개까지)'}</button>
       </div>
