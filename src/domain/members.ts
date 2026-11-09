@@ -17,6 +17,9 @@ export const MEMBER_SPECS: MemberSpec[] = [
 
 /** 버전별 가용성 자료(member shard)의 키 접두: p 속성 / a 구성 요소 / s 참조 / e 이벤트 / m 메서드 */
 export const KEY_CHAR: Record<MemberKind, string> = { property: 'p', aggregation: 'a', association: 's', event: 'e', method: 'm' };
+const OFFICIAL_SECTION: Record<MemberKind, string> = { method: 'methods', property: 'controlProperties', event: 'events', aggregation: 'aggregations', association: 'associations' };
+/** ui5.sap.com API Reference 의 해당 항목 주소 (정의된 클래스 기준) */
+export const officialMemberUrl = (docBase: string, definedIn: string, kind: MemberKind, name: string): string => `${docBase}/#/api/${encodeURIComponent(definedIn)}%23${OFFICIAL_SECTION[kind]}/${encodeURIComponent(name)}`;
 export const memberKey = (kind: MemberKind, name: string): string => `${KEY_CHAR[kind]}:${name}`;
 export const KEY_LABEL: Record<string, string> = { p: '속성', a: '구성 요소', s: '참조', e: '이벤트', m: '메서드' };
 

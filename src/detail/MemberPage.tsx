@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useMemberRows } from '../controller/useMemberRows';
 import { descendants } from '../domain/hierarchy';
 import { KIND_CHAR_OF } from '../domain/memberIndex';
-import { memberKey, mergeMembers, MEMBER_SPECS, signature, type Item } from '../domain/members';
+import { memberKey, mergeMembers, officialMemberUrl, MEMBER_SPECS, signature, type Item } from '../domain/members';
 import { defineSnippet } from '../domain/snippets';
 import type { ApiDoc, KoDoc, MemberKind, Meth, Prop, Aggr, Assoc } from '../types';
 import { Code, CopyButton, DepBadge } from '../ui';
@@ -16,7 +16,6 @@ const TABS = [
   { id: 'mver', label: '버전' },
   { id: 'mclasses', label: '쓸 수 있는 클래스' },
 ] as const;
-const SECTION: Record<MemberKind, string> = { method: 'methods', property: 'controlProperties', event: 'events', aggregation: 'aggregations', association: 'associations' };
 const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
 
 /** 한 메서드(또는 속성·이벤트·구성 요소·참조)의 상세 페이지. ui5.sap.com 처럼 탭으로 설명·사용법·버전·쓸 수 있는 클래스를 오간다. */
@@ -47,7 +46,7 @@ export function MemberPage({ p, chain, ko, kind, name, back }: { p: DetailProps;
 
   const m = it.m;
   const koText = it.inherited ? undefined : ko?.members[`${kind}:${name}`]?.text;
-  const officialUrl = `${vd.meta.docBase}/#/api/${encodeURIComponent(it.definedIn)}%23${SECTION[kind]}/${encodeURIComponent(name)}`;
+  const officialUrl = officialMemberUrl(vd.meta.docBase, it.definedIn, kind, name);
   const sh = { onApi: p.onApi, known: p.known, docBase: vd.meta.docBase, onRef };
 
   // 관련 항목: 속성/구성 요소/참조 → 접근자, 이벤트 → attach/detach/fire, 접근자 → 대상 속성

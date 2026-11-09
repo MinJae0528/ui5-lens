@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { Global } from '../data';
 import { aggrSnippet, assocSnippet, eventSnippet, methSnippet, propSnippet, xmlMemberSnippet } from '../domain/snippets';
-import { filterMembers, mergeMembers, memberKey, signature, type AnyMember, type Item, type MemberSpec } from '../domain/members';
+import { filterMembers, mergeMembers, memberKey, officialMemberUrl, signature, type AnyMember, type Item, type MemberSpec } from '../domain/members';
 import { cutWords, plain } from '../domain/text';
 import type { ApiDoc, Aggr, Assoc, Evt, KoDoc, MemberKind, Meth, Prop } from '../types';
 import { Code, DepBadge, Html } from '../ui';
@@ -153,7 +153,7 @@ export function MemberUsage({ kind, it, doc }: { kind: MemberKind; it: Item; doc
 function MemberBody({ kind, it, doc, koText, onApi, known, g, minor, onVersion, docBase, onRef, onOpenPage }: { kind: MemberKind; it: Item; doc: ApiDoc; koText?: string; onOpenPage: () => void } & Shared) {
   return (
     <div className="member-body">
-      <p className="row"><button className="btn small primary" onClick={onOpenPage}>이 항목 상세 페이지 열기 →</button> <span className="muted small">설명·사용법·버전·쓸 수 있는 클래스를 탭으로 봅니다</span></p>
+      <p className="row"><button className="btn small primary" onClick={onOpenPage}>이 항목 상세 페이지 열기 →</button> <span className="muted small">설명·사용법·버전·쓸 수 있는 클래스를 탭으로 봅니다</span> <a className="btn small" href={officialMemberUrl(docBase, it.definedIn, kind, it.m.name)} target="_blank" rel="noreferrer noopener">공식 설명 전체 ↗</a></p>
       <MemberDescription kind={kind} it={it} koText={koText} onApi={onApi} known={known} docBase={docBase} onRef={onRef} />
       <MemberLifeView symbol={it.definedIn} memberKey={memberKey(kind, it.m.name)} since={it.m.since} g={g} minor={minor} onVersion={onVersion} />
       <MemberUsage kind={kind} it={it} doc={doc} />
