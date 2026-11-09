@@ -149,7 +149,7 @@ const memberCache = new Map<string, Promise<MemberRow[]>>();
 export function loadMemberRows(minor: string): Promise<MemberRow[]> {
   let p = memberCache.get(minor);
   if (!p) {
-    p = getGz<RawMembers>(`${BASE}/v/${minor}/members.json.gz`).then(expandMembers);
+    p = Promise.all([getGz<RawMembers>(`${BASE}/v/${minor}/members.json.gz`), getGz<string[]>(`${BASE}/v/${minor}/members-ko.json.gz`).catch(() => null)]).then(([raw, ko]) => expandMembers(raw, ko));
     p.catch(() => memberCache.delete(minor));
     memberCache.set(minor, p);
   }

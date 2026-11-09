@@ -35,7 +35,7 @@ function MemberCard({ g, i, q, active, onHover, onOpen }: { g: MemberGroup; i: n
         {g.rows.some((r) => r.f & FLAG.experimental) && <span className="badge b-warn">experimental</span>}
       </div>
       <p className="card-sum">
-        {g.accessor ? <span className="muted">속성 “{g.rows[0].a}” 의 자동 생성 접근자</span> : g.sample ? <><span className="lang">EN 원문</span> {g.sample}</> : <span className="muted">(공식 설명 없음)</span>}
+        {g.accessor ? <span className="muted">속성 “{g.rows[0].a}” 의 자동 생성 접근자</span> : g.sampleKo ? <>{g.sampleKo} <span className="badge" title="AI 가 번역한 초안입니다. 첫 문장만 번역하며 미검토입니다.">자동 번역</span></> : g.sample ? <><span className="lang">EN 원문</span> {g.sample}</> : <span className="muted">(공식 설명 없음)</span>}
       </p>
       {g.rows.length > 1 && (
         <div className="decl" onClick={(e) => e.stopPropagation()}>

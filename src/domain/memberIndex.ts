@@ -12,19 +12,19 @@ export const FLAG = { deprecated: 1, static: 2, accessor: 4, experimental: 8 } a
 /** 빌드가 만든 압축 형식: c 클래스 이름표, m [클래스 번호, 종류, 이름, 플래그, since|0, 설명(접근자는 대상 속성 이름)] */
 export interface RawMembers { c: string[]; m: [number, string, string, number, string | number, string][] }
 /** t: 설명 첫 문장(접근자는 비어 있고 a 에 대상 속성 이름) */
-export interface MemberRow { c: string; k: KindChar; n: string; f: number; s: string | null; t: string; a: string | null }
+export interface MemberRow { c: string; k: KindChar; n: string; f: number; s: string | null; t: string; a: string | null; tk?: string }
 
-export function expandMembers(raw: RawMembers): MemberRow[] {
-  return raw.m.map(([ci, k, n, f, s, t]) => ({
+export function expandMembers(raw: RawMembers, ko: string[] | null = null): MemberRow[] {
+  return raw.m.map(([ci, k, n, f, s, t], i) => ({
     c: raw.c[ci], k: k as KindChar, n, f, s: s ? String(s) : null,
-    t: f & FLAG.accessor ? '' : t, a: f & FLAG.accessor ? t : null,
+    t: f & FLAG.accessor ? '' : t, a: f & FLAG.accessor ? t : null, ...(ko?.[i] ? { tk: ko[i] } : {}),
   }));
 }
 
 export interface MemberGroup {
   key: string; k: KindChar; n: string; tier: 1 | 2 | 3;
   /** 이 이름을 선언한 클래스들(기본 라이브러리 먼저, deprecated 는 뒤) */
-  rows: MemberRow[]; allDeprecated: boolean; accessor: boolean; sample: string;
+  rows: MemberRow[]; allDeprecated: boolean; accessor: boolean; sample: string; sampleKo?: string;
 }
 
 /**
@@ -78,7 +78,7 @@ export function searchMembers(rows: MemberRow[], query: string, opts: MemberSear
     if (!g) { g = { key, k: r.k, n: r.n, tier, rows: [], allDeprecated: true, accessor: isAcc, sample: '' }; groups.set(key, g); }
     g.rows.push(r);
     if (!(r.f & FLAG.deprecated)) g.allDeprecated = false;
-    if (!g.sample && r.t) g.sample = r.t;
+    if (!g.sample && r.t) { g.sample = r.t; if (r.tk) g.sampleKo = r.tk; }
   }
   const out = [...groups.values()];
   for (const g of out) g.rows.sort((a, b) => Number(!isCore(a.c)) - Number(!isCore(b.c)) || (a.f & 1) - (b.f & 1) || a.c.length - b.c.length || a.c.localeCompare(b.c));

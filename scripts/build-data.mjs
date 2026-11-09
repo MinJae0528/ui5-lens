@@ -205,6 +205,7 @@ for (const v of versions) {
     index.push({
       n: name, b: d.basename, l: lib, k: d.kind, s: d.since, d: d.deprecated ? (d.deprecated.since ?? true) : null,
       x: d.extends, t: plainFirstSentence(d.description), ko: koStatus, ...(d.visibility !== 'public' ? { p: 0 } : {}),
+      ...(d.kd ? { tk: d.kd } : {}),
       ...(ko ? { kz: ko.overview?.summary ?? null, ku: ko.overview?.whenToUse?.[0]?.text ?? null } : {}),
     });
   }
@@ -219,7 +220,7 @@ for (const v of versions) {
   writeFileSync(`${vOut}/intent.json.gz`, gzipSync(JSON.stringify(intent), { level: 9 }));
   // 멤버 색인(메서드·속성·이벤트·구성 요소·참조 이름 검색 + 기능 추천용). [클래스 번호, 종류, 이름, 플래그, since, 설명|접근자 대상]
   {
-    const classes = [], rows = [];
+    const classes = [], rows = [], rowsKo = [];
     for (const arr of byLib.values()) for (const d of arr) {
       if (d.visibility !== 'public' || !(d.kind === 'class' || d.kind === 'interface' || d.kind === 'namespace')) continue;
       let ci = -1;
@@ -227,11 +228,13 @@ for (const v of versions) {
         for (const m of d[pl] || []) {
           if (ci < 0) { ci = classes.length; classes.push(d.name); }
           const flags = (m.deprecated ? 1 : 0) | (m.static ? 2 : 0) | (m.accessorOf ? 4 : 0) | (m.experimental ? 8 : 0);
+          rowsKo.push(m.accessorOf ? '' : (m.kd ?? ''));
           rows.push([ci, kc, m.name, flags, m.since ?? 0, m.accessorOf ? m.accessorOf.name : plainN(m.description, 140).replace(/^(.{20,140}?[.!?])\s.*$/, '$1')]);
         }
       }
     }
     writeFileSync(`${vOut}/members.json.gz`, gzipSync(JSON.stringify({ c: classes, m: rows }), { level: 9 }));
+    writeFileSync(`${vOut}/members-ko.json.gz`, gzipSync(JSON.stringify(rowsKo), { level: 9 }));
     var memberCount = rows.length;
   }
   // 문서 가이드 목차: [key, text, children|0]

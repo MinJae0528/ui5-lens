@@ -1,5 +1,5 @@
 export type KoStatus = 'none' | 'draft' | 'reviewed' | 'stale';
-export interface IndexEntry { p?: 0; n: string; b: string; l: string; k: string; s: string | null; d: string | true | null; x: string | null; t: string; ko: KoStatus; kz?: string | null; ku?: string | null }
+export interface IndexEntry { p?: 0; n: string; b: string; l: string; k: string; s: string | null; d: string | true | null; x: string | null; t: string; ko: KoStatus; kz?: string | null; ku?: string | null; tk?: string }
 export interface Alias { term: string; apis: string[] }
 export interface Meta {
   minor: string; version: string; fetchedAt: string; builtAt: string; docBase: string; dataKind: 'official' | 'demo';
