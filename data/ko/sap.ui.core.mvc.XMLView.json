@@ -1,0 +1,53 @@
+{
+  "api": "sap.ui.core.mvc.XMLView",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "c64c4b9ad8bd",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "XML(필요하면 순수 HTML 포함)로 정의한 뷰.",
+    "summaryBasis": "공식 클래스 설명: “A View defined using XML and, optionally, pure HTML markup.”",
+    "whenToUse": [
+      {
+        "text": "화면을 XML 로 선언하고 컨트롤러와 연결할 때.",
+        "kind": "service",
+        "basis": "공식 설명: XML 로 정의되는 뷰."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.core.mvc.Controller",
+        "role": "뷰의 로직을 담는 컨트롤러"
+      },
+      {
+        "api": "sap.ui.core.Fragment",
+        "role": "재사용 가능한 작은 UI 조각"
+      }
+    ]
+  },
+  "members": {
+    "method:create": {
+      "text": "주어진 설정으로 XMLView 를 만듭니다(비동기)."
+    },
+    "method:registerPreprocessor": {
+      "text": "특정 종류의 모든 뷰에 대한 전처리기를 등록합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

@@ -1,0 +1,85 @@
+{
+  "api": "sap.ui.unified.FileUploader",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "548b1d056f50",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "파일을 고르고 서버로 올리는 컨트롤. 입력 필드와 “찾아보기” 버튼을 만들어 줍니다.",
+    "summaryBasis": "공식 클래스 설명: “The framework generates an input field and a button with text \"Browse ...\".”",
+    "whenToUse": [
+      {
+        "text": "사용자가 PC 의 파일을 선택해 서버로 업로드하게 할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 입력 필드와 찾아보기 버튼을 만들고 업로드 기능을 지원."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.upload.UploadSet",
+        "role": "업로드 목록 관리까지 있는 컨트롤"
+      }
+    ]
+  },
+  "members": {
+    "property:uploadUrl": {
+      "text": "업로드할 서버 주소."
+    },
+    "property:uploadOnChange": {
+      "text": "true 이면 파일을 고르자마자 업로드를 시작합니다."
+    },
+    "property:multiple": {
+      "text": "같은 폴더의 파일 여러 개를 고를 수 있게 합니다."
+    },
+    "property:fileType": {
+      "text": "고른 파일의 확장자를 이 목록과 대조합니다."
+    },
+    "property:mimeType": {
+      "text": "고른 파일의 MIME 형식을 이 목록과 대조합니다."
+    },
+    "property:maximumFileSize": {
+      "text": "업로드를 막는 파일 크기 한도(MB)."
+    },
+    "property:buttonText": {
+      "text": "버튼 글자를 바꿉니다."
+    },
+    "event:change": {
+      "text": "파일 경로 값이 바뀌었을 때 발생합니다."
+    },
+    "event:uploadComplete": {
+      "text": "업로드 요청이 끝나면(성공이든 실패든) 발생합니다."
+    },
+    "event:fileSizeExceed": {
+      "text": "파일 크기가 maximumFileSize 를 넘을 때 발생합니다."
+    },
+    "event:typeMissmatch": {
+      "text": "파일 형식이 허용 목록과 맞지 않을 때 발생합니다."
+    },
+    "method:upload": {
+      "text": "uploadUrl 에 정의된 대로 업로드를 시작합니다."
+    },
+    "method:abort": {
+      "text": "진행 중인 업로드를 중단합니다."
+    },
+    "method:clear": {
+      "text": "FileUploader 의 내용을 비웁니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

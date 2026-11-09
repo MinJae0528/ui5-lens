@@ -1,0 +1,71 @@
+{
+  "api": "sap.m.Avatar",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "2a02117f16ed",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "이미지, 이니셜, 아이콘을 다양한 모양으로 표시하는 이미지 형태의 컨트롤.",
+    "summaryBasis": "공식 클래스 설명: “An image-like control that has different display options for representing images, initials, and icons.”",
+    "whenToUse": [
+      {
+        "text": "사용자 프로필처럼 이미지·이니셜·아이콘을 동그라미나 사각형으로 보여 줄 때.",
+        "kind": "service",
+        "basis": "공식 설명: 이미지, 이니셜, 아이콘 등 여러 내용을 표시."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Image",
+        "role": "일반 이미지"
+      },
+      {
+        "api": "sap.ui.core.Icon",
+        "role": "아이콘 글꼴"
+      }
+    ]
+  },
+  "members": {
+    "property:src": {
+      "text": "표시할 이미지 또는 아이콘의 경로."
+    },
+    "property:initials": {
+      "text": "표시할 이니셜. 1~3자의 글자여야 합니다."
+    },
+    "property:displayShape": {
+      "text": "아바타의 모양(원형, 사각형 등)."
+    },
+    "property:displaySize": {
+      "text": "미리 정해진 크기."
+    },
+    "property:backgroundColor": {
+      "text": "배경색."
+    },
+    "property:fallbackIcon": {
+      "text": "이미지 경로가 잘못되고 이니셜도 없을 때 보여 줄 대체 아이콘."
+    },
+    "property:showBorder": {
+      "text": "테두리를 표시할지 정합니다."
+    },
+    "event:press": {
+      "text": "사용자가 아바타를 선택하면 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

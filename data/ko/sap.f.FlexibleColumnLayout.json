@@ -1,0 +1,71 @@
+{
+  "api": "sap.f.FlexibleColumnLayout",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "f60cffd1148e",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "목록-상세-상세 패턴을 구현하는 레이아웃. 최대 세 개의 페이지를 서로 다른 열에 보여 줍니다.",
+    "summaryBasis": "공식 클래스 설명: “Implements the list-detail-detail paradigm by displaying up to three pages in separate columns.”",
+    "whenToUse": [
+      {
+        "text": "왼쪽에 목록, 가운데·오른쪽에 상세를 단계적으로 열어 보여 주는 화면을 만들 때.",
+        "kind": "service",
+        "basis": "공식 설명: 목록-상세-상세 패러다임, 최대 세 열."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.f.DynamicPage",
+        "role": "열 안에 넣는 페이지"
+      },
+      {
+        "api": "sap.m.SplitApp",
+        "role": "두 열 master-detail"
+      }
+    ]
+  },
+  "members": {
+    "property:layout": {
+      "text": "보이는 열의 수와 너비 분배를 정하는 레이아웃."
+    },
+    "aggregation:beginColumnPages": {
+      "text": "첫 번째(시작) 열에서 이동할 페이지들."
+    },
+    "aggregation:midColumnPages": {
+      "text": "가운데 열에서 이동할 페이지들."
+    },
+    "aggregation:endColumnPages": {
+      "text": "마지막 열에서 이동할 페이지들."
+    },
+    "event:stateChange": {
+      "text": "layout 속성이나 최대 열 수가 바뀔 때 발생합니다."
+    },
+    "event:columnResize": {
+      "text": "각 열의 크기 조절이 끝나면 발생합니다."
+    },
+    "method:to": {
+      "text": "FlexibleColumnLayout 안의 지정한 페이지로 이동합니다."
+    },
+    "method:backToPage": {
+      "text": "FlexibleColumnLayout 안의 지정한 페이지로 돌아갑니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

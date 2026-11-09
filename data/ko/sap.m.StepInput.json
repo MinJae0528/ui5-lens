@@ -1,0 +1,71 @@
+{
+  "api": "sap.m.StepInput",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "bbfec962792f",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "정해진 단위(스텝)만큼 값을 늘리고 줄여 가며 숫자를 입력받는 컨트롤.",
+    "summaryBasis": "공식 클래스 설명: “Allows the user to change the input values with predefined increments (steps).”",
+    "whenToUse": [
+      {
+        "text": "수량처럼 +/- 버튼으로 숫자를 조금씩 조절하게 할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 미리 정한 증감 단위로 입력 값을 바꿈."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Input",
+        "role": "자유 입력"
+      },
+      {
+        "api": "sap.m.Slider",
+        "role": "막대로 값 조절"
+      }
+    ]
+  },
+  "members": {
+    "property:value": {
+      "text": "StepInput 의 값."
+    },
+    "property:min": {
+      "text": "허용하는 최솟값."
+    },
+    "property:max": {
+      "text": "허용하는 최댓값."
+    },
+    "property:step": {
+      "text": "한 번에 늘리거나 줄이는 값."
+    },
+    "property:largerStep": {
+      "text": "키보드 등으로 더 크게 늘리거나 줄일 때의 값."
+    },
+    "property:editable": {
+      "text": "사용자가 값을 바꿀 수 있는지 여부."
+    },
+    "property:enabled": {
+      "text": "사용자가 상호작용할 수 있는지 여부."
+    },
+    "event:change": {
+      "text": "입력 글자가 확정되거나 +/- 버튼으로 값이 바뀔 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

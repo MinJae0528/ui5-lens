@@ -1,0 +1,84 @@
+{
+  "api": "sap.m.Page",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "6b12f29a9079",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "앱의 화면 하나를 담는 컨테이너. 머리글 바, 내용, 푸터로 구성됩니다.",
+    "summaryBasis": "공식 클래스 설명: “A container control that holds one whole screen of an application.”",
+    "whenToUse": [
+      {
+        "text": "앱의 한 화면(제목 바 + 내용 + 아래 버튼 영역)을 구성할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 앱의 화면 하나 전체를 담는 컨테이너."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.App",
+        "role": "Page 들을 담는 앱 루트"
+      },
+      {
+        "api": "sap.f.DynamicPage",
+        "role": "접히는 헤더가 있는 화면"
+      },
+      {
+        "api": "sap.m.Panel",
+        "role": "화면 일부를 묶는 영역"
+      }
+    ]
+  },
+  "members": {
+    "property:title": {
+      "text": "페이지 머리글 바에 표시할 제목."
+    },
+    "property:showNavButton": {
+      "text": "true 이면 머리글 왼쪽에 뒤로 가기 버튼이 표시됩니다."
+    },
+    "property:showHeader": {
+      "text": "페이지에 머리글을 둘지 정합니다."
+    },
+    "property:showFooter": {
+      "text": "페이지에 푸터를 둘지 정합니다."
+    },
+    "property:enableScrolling": {
+      "text": "내용을 세로로 스크롤할 수 있게 합니다. 머리글과 푸터는 고정됩니다."
+    },
+    "aggregation:content": {
+      "text": "페이지의 내용."
+    },
+    "aggregation:footer": {
+      "text": "항상 맨 아래에 있는 선택 푸터."
+    },
+    "aggregation:subHeader": {
+      "text": "머리글 바로 아래에 렌더링되는 영역."
+    },
+    "aggregation:customHeader": {
+      "text": "직접 만든 머리글. 이것을 쓰면 title 등은 무시됩니다."
+    },
+    "event:navButtonPress": {
+      "text": "뒤로 가기 버튼을 누르면 발생합니다."
+    },
+    "method:scrollTo": {
+      "text": "지정한 위치로 스크롤합니다(enableScrolling 이 켜져 있을 때)."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

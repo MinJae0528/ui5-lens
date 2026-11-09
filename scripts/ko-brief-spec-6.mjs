@@ -1,0 +1,23 @@
+// 간단 설명 원고 6: 입력 분류 보충(시간·숫자·슬라이더·파일 업로드).
+export const BRIEF = [
+  { api: 'sap.m.TimePicker', summary: '시간을 입력하거나 시계 팝업에서 고르는 한 줄 입력 컨트롤.',
+    basis: '공식 클래스 설명: “A single-field input control that enables the users to fill time related input fields.”',
+    when: [['시간(시:분:초)을 입력받을 때.', '공식 설명: 시간 관련 입력 필드를 채우는 한 줄 입력 컨트롤.']],
+    related: [['sap.m.DatePicker', '날짜 선택'], ['sap.m.DateTimePicker', '날짜와 시간을 함께 선택']],
+    members: { 'property:minutesStep': '분 단위 증가 간격.', 'property:secondsStep': '초 단위 증가 간격.', 'property:mask': '입력 형식을 정하는 마스크(문자 종류와 길이).', 'property:maskMode': '마스크의 상태(On 등).', 'property:support2400': '하루의 끝을 나타내는 24:00 값을 허용합니다.', 'property:showCurrentTimeButton': '현재 시간으로 바로 이동하는 버튼을 보일지 정합니다.', 'event:change': '입력이 끝나고 값이 바뀌었을 때 발생합니다.', 'event:liveChange': '사용자가 값을 바꿀 때마다 발생합니다.', 'method:openBy': '선택 팝오버를 엽니다.' } },
+  { api: 'sap.m.StepInput', summary: '정해진 단위(스텝)만큼 값을 늘리고 줄여 가며 숫자를 입력받는 컨트롤.',
+    basis: '공식 클래스 설명: “Allows the user to change the input values with predefined increments (steps).”',
+    when: [['수량처럼 +/- 버튼으로 숫자를 조금씩 조절하게 할 때.', '공식 설명: 미리 정한 증감 단위로 입력 값을 바꿈.']],
+    related: [['sap.m.Input', '자유 입력'], ['sap.m.Slider', '막대로 값 조절']],
+    members: { 'property:value': 'StepInput 의 값.', 'property:min': '허용하는 최솟값.', 'property:max': '허용하는 최댓값.', 'property:step': '한 번에 늘리거나 줄이는 값.', 'property:largerStep': '키보드 등으로 더 크게 늘리거나 줄일 때의 값.', 'property:editable': '사용자가 값을 바꿀 수 있는지 여부.', 'property:enabled': '사용자가 상호작용할 수 있는지 여부.', 'event:change': '입력 글자가 확정되거나 +/- 버튼으로 값이 바뀔 때 발생합니다.' } },
+  { api: 'sap.m.Slider', summary: '숫자 범위와 손잡이를 보여 주고, 손잡이를 끌어 값을 고르게 하는 슬라이더.',
+    basis: '공식 클래스 설명: “A sap.m.Slider control represents a numerical range and a handle.”',
+    when: [['음량·밝기처럼 범위 안에서 값을 시각적으로 고르게 할 때.', '공식 설명: 숫자 범위와 손잡이를 보여 주는 컨트롤.']],
+    related: [['sap.m.StepInput', '숫자를 단위로 조절'], ['sap.m.RangeSlider', '두 값(범위) 선택']],
+    members: { 'property:value': '슬라이더의 값.', 'property:min': '최솟값.', 'property:max': '최댓값.', 'property:step': '드래그나 키보드로 값을 바꿀 때 한 번에 바뀌는 양.', 'property:progress': '진행 막대를 보일지 정합니다.', 'property:enableTickmarks': '눈금 표시를 켭니다.', 'property:showHandleTooltip': '손잡이 툴팁을 보일지 정합니다.', 'event:change': '사용자가 조작을 마친 뒤 값이 바뀌었을 때 발생합니다.', 'event:liveChange': '드래그하는 동안 값이 바뀔 때마다 발생합니다.' } },
+  { api: 'sap.ui.unified.FileUploader', summary: '파일을 고르고 서버로 올리는 컨트롤. 입력 필드와 “찾아보기” 버튼을 만들어 줍니다.',
+    basis: '공식 클래스 설명: “The framework generates an input field and a button with text "Browse ...".”',
+    when: [['사용자가 PC 의 파일을 선택해 서버로 업로드하게 할 때.', '공식 설명: 입력 필드와 찾아보기 버튼을 만들고 업로드 기능을 지원.']],
+    related: [['sap.m.upload.UploadSet', '업로드 목록 관리까지 있는 컨트롤']],
+    members: { 'property:uploadUrl': '업로드할 서버 주소.', 'property:uploadOnChange': 'true 이면 파일을 고르자마자 업로드를 시작합니다.', 'property:multiple': '같은 폴더의 파일 여러 개를 고를 수 있게 합니다.', 'property:fileType': '고른 파일의 확장자를 이 목록과 대조합니다.', 'property:mimeType': '고른 파일의 MIME 형식을 이 목록과 대조합니다.', 'property:maximumFileSize': '업로드를 막는 파일 크기 한도(MB).', 'property:buttonText': '버튼 글자를 바꿉니다.', 'event:change': '파일 경로 값이 바뀌었을 때 발생합니다.', 'event:uploadComplete': '업로드 요청이 끝나면(성공이든 실패든) 발생합니다.', 'event:fileSizeExceed': '파일 크기가 maximumFileSize 를 넘을 때 발생합니다.', 'event:typeMissmatch': '파일 형식이 허용 목록과 맞지 않을 때 발생합니다.', 'method:upload': 'uploadUrl 에 정의된 대로 업로드를 시작합니다.', 'method:abort': '진행 중인 업로드를 중단합니다.', 'method:clear': 'FileUploader 의 내용을 비웁니다.' } },
+];

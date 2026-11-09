@@ -1,0 +1,68 @@
+{
+  "api": "sap.m.BusyDialog",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "f8c33e84f0c5",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "시스템이 바쁘다는 것을 알리는 대화상자. 열려 있는 동안 앱 전체가 막힙니다.",
+    "summaryBasis": "공식 클래스 설명: “BusyDialog is used to indicate that the system is busy.”",
+    "whenToUse": [
+      {
+        "text": "오래 걸리는 작업 동안 사용자 조작을 막고 로딩을 알릴 때.",
+        "kind": "service",
+        "basis": "공식 설명: 표시되는 동안 전체 앱이 막힘."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.BusyIndicator",
+        "role": "한 컨트롤 안의 로딩 표시"
+      },
+      {
+        "api": "sap.ui.core.BusyIndicator",
+        "role": "전역 로딩 표시"
+      }
+    ]
+  },
+  "members": {
+    "method:open": {
+      "text": "바쁨 대화상자를 엽니다."
+    },
+    "method:close": {
+      "text": "바쁨 대화상자를 닫습니다."
+    },
+    "property:text": {
+      "text": "대화상자 안에 표시할 글자(선택)."
+    },
+    "property:title": {
+      "text": "대화상자의 제목."
+    },
+    "property:showCancelButton": {
+      "text": "취소 버튼을 보일지 정합니다."
+    },
+    "property:cancelButtonText": {
+      "text": "취소 버튼의 글자."
+    },
+    "event:close": {
+      "text": "바쁨 대화상자가 닫힐 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

@@ -1,0 +1,74 @@
+{
+  "api": "sap.m.ResponsivePopover",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "35bf5a973e30",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "데스크톱·태블릿에서는 Popover 로, 폰에서는 전체 화면 Dialog 로 동작하는 반응형 팝업.",
+    "summaryBasis": "공식 클래스 설명: “The responsive popover acts as a popover on desktop and tablet, while on phone it acts as a dialog with stretch set to true.”",
+    "whenToUse": [
+      {
+        "text": "한 팝업을 기기 크기에 맞게 자동으로 바꿔 보여 주고 싶을 때.",
+        "kind": "service",
+        "basis": "공식 설명: 데스크톱·태블릿은 팝오버, 폰은 대화상자로 동작."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Popover",
+        "role": "화면 크기와 관계없이 팝오버"
+      },
+      {
+        "api": "sap.m.Dialog",
+        "role": "항상 대화상자"
+      }
+    ]
+  },
+  "members": {
+    "method:openBy": {
+      "text": "지정한 컨트롤을 기준으로 엽니다."
+    },
+    "method:close": {
+      "text": "닫습니다."
+    },
+    "method:isOpen": {
+      "text": "현재 열려 있는지 확인합니다."
+    },
+    "property:title": {
+      "text": "두 형태 모두에서 쓰이는 제목."
+    },
+    "property:placement": {
+      "text": "데스크톱·태블릿에서만 적용되는 놓일 위치."
+    },
+    "property:showCloseButton": {
+      "text": "대화상자 머리글에 닫기 버튼을 넣을지 정합니다."
+    },
+    "aggregation:content": {
+      "text": "두 형태 모두에서 쓰이는 내용."
+    },
+    "event:afterOpen": {
+      "text": "팝오버나 대화상자가 열린 뒤에 발생합니다."
+    },
+    "event:afterClose": {
+      "text": "팝오버나 대화상자가 닫힌 뒤에 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

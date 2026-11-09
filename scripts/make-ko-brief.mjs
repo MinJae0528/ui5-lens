@@ -1,8 +1,12 @@
 // 간단 설명 원고(scripts/ko-brief-spec.mjs)로 data/ko/<api>.json 을 만든다. 이미 있는 상세 문서(간단판이 아닌 것)는 덮어쓰지 않는다.
 //   node scripts/make-ko-brief.mjs
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { readdirSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
-import { BRIEF } from './ko-brief-spec.mjs';
+
+// scripts/ko-brief-spec*.mjs 원고를 모두 합친다(분류별로 파일을 나눠 쓴다)
+const BRIEF = [];
+for (const f of readdirSync('scripts').filter((x) => /^ko-brief-spec.*.mjs$/.test(x)).sort()) BRIEF.push(...(await import(`./${f}`)).BRIEF);
 
 const BASE = '1.154';
 const gz = (p) => JSON.parse(gunzipSync(readFileSync(p)).toString('utf8'));

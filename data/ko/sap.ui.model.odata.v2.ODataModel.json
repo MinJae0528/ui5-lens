@@ -1,0 +1,76 @@
+{
+  "api": "sap.ui.model.odata.v2.ODataModel",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "4d750402ad32",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "OData V2 프로토콜로 서버 데이터를 읽고 쓰는 모델.",
+    "summaryBasis": "공식 클래스 설명: “Model implementation based on the OData protocol.”",
+    "whenToUse": [
+      {
+        "text": "SAP 백엔드의 OData V2 서비스에서 데이터를 조회·생성·수정·삭제할 때.",
+        "kind": "service",
+        "basis": "공식 설명: OData 프로토콜 기반 모델."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.model.json.JSONModel",
+        "role": "브라우저 안의 JSON 데이터용 모델"
+      }
+    ]
+  },
+  "members": {
+    "method:read": {
+      "text": "서버에 읽기(GET) 요청을 보냅니다."
+    },
+    "method:create": {
+      "text": "서버에 생성(POST) 요청을 보냅니다."
+    },
+    "method:update": {
+      "text": "서버에 수정 요청을 보냅니다."
+    },
+    "method:remove": {
+      "text": "서버에 삭제 요청을 보냅니다."
+    },
+    "method:callFunction": {
+      "text": "지정한 function import 를 호출하는 요청을 보냅니다."
+    },
+    "method:submitChanges": {
+      "text": "대기 중인 변경 사항을 서버로 보냅니다."
+    },
+    "method:resetChanges": {
+      "text": "대기 중인 변경 사항을 되돌립니다."
+    },
+    "event:metadataLoaded": {
+      "text": "메타데이터 문서를 성공적으로 불러왔을 때 발생합니다."
+    },
+    "event:metadataFailed": {
+      "text": "메타데이터 문서를 불러오지 못했을 때 발생합니다."
+    },
+    "event:requestCompleted": {
+      "text": "요청이 끝났을 때(응답 수신 포함) 발생합니다."
+    },
+    "event:requestFailed": {
+      "text": "백엔드에서 데이터를 가져오지 못했을 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

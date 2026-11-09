@@ -1,0 +1,64 @@
+{
+  "api": "sap.m.Link",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "dfd883a2540a",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "다른 앱이나 웹 페이지로 이동하거나 동작을 실행하는 하이퍼링크 컨트롤.",
+    "summaryBasis": "공식 클래스 설명: “A hyperlink control used to navigate to other apps and web pages or to trigger actions.”",
+    "whenToUse": [
+      {
+        "text": "다른 페이지·앱으로 이동하거나, 버튼보다 가벼운 동작을 글자 링크로 실행할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 이동 또는 동작 실행용 클릭 가능한 글자."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Button",
+        "role": "눈에 띄는 동작 실행"
+      }
+    ]
+  },
+  "members": {
+    "property:text": {
+      "text": "링크로 표시할 글자."
+    },
+    "property:href": {
+      "text": "이동할 주소(URI)."
+    },
+    "property:target": {
+      "text": "링크 내용을 어디에서 열지(예: _blank)."
+    },
+    "property:enabled": {
+      "text": "사용자가 링크를 쓸 수 있는지 여부."
+    },
+    "property:subtle": {
+      "text": "일반 글자에 가깝게 보이는 은은한 링크로 표시합니다."
+    },
+    "property:emphasized": {
+      "text": "일반 링크보다 시각적으로 눈에 띄게 표시합니다."
+    },
+    "event:press": {
+      "text": "사용자가 링크를 누르면 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

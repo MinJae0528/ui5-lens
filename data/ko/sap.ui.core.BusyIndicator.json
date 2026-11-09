@@ -1,0 +1,59 @@
+{
+  "api": "sap.ui.core.BusyIndicator",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "6f319866021e",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "페이지 전체를 덮는 대기 애니메이션을 보이거나 숨기고, 그동안 사용자 입력을 막는 전역 로딩 표시.",
+    "summaryBasis": "공식 클래스 설명: “Provides methods to show or hide a waiting animation covering the whole page and blocking user interaction.”",
+    "whenToUse": [
+      {
+        "text": "앱 전체를 잠깐 막고 로딩 중임을 알릴 때.",
+        "kind": "service",
+        "basis": "공식 설명: 페이지 전체를 덮고 사용자 입력을 막는 대기 애니메이션."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.BusyIndicator",
+        "role": "한 컨트롤 안의 로딩 표시"
+      },
+      {
+        "api": "sap.m.BusyDialog",
+        "role": "로딩 대화상자"
+      }
+    ]
+  },
+  "members": {
+    "method:show": {
+      "text": "로딩 표시를 보이고 모든 사용자 입력을 막기 시작합니다."
+    },
+    "method:hide": {
+      "text": "로딩 표시를 화면에서 없앱니다."
+    },
+    "event:Open": {
+      "text": "로딩 표시가 열린 뒤에 발생합니다."
+    },
+    "event:Close": {
+      "text": "로딩 표시가 닫히기 전에 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

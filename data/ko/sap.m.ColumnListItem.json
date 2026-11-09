@@ -1,0 +1,53 @@
+{
+  "api": "sap.m.ColumnListItem",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "ae3735304a34",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "sap.m.Table 의 행을 만드는 목록 항목. cells 에 컨트롤을 넣어 한 행을 구성합니다.",
+    "summaryBasis": "공식 클래스 설명: “can be used with the cells aggregation to create rows for the sap.m.Table control.”",
+    "whenToUse": [
+      {
+        "text": "sap.m.Table 에 행 템플릿을 정의할 때.",
+        "kind": "service",
+        "basis": "공식 설명: cells 로 sap.m.Table 의 행을 만든다."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Table",
+        "role": "이 항목을 쓰는 표"
+      },
+      {
+        "api": "sap.m.StandardListItem",
+        "role": "열이 없는 일반 목록 항목"
+      }
+    ]
+  },
+  "members": {
+    "aggregation:cells": {
+      "text": "cells 안의 컨트롤 하나가 행의 셀 하나가 됩니다."
+    },
+    "property:vAlign": {
+      "text": "행 안 모든 셀의 세로 정렬."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

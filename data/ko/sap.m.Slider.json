@@ -1,0 +1,74 @@
+{
+  "api": "sap.m.Slider",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "08b34bca0947",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "숫자 범위와 손잡이를 보여 주고, 손잡이를 끌어 값을 고르게 하는 슬라이더.",
+    "summaryBasis": "공식 클래스 설명: “A sap.m.Slider control represents a numerical range and a handle.”",
+    "whenToUse": [
+      {
+        "text": "음량·밝기처럼 범위 안에서 값을 시각적으로 고르게 할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 숫자 범위와 손잡이를 보여 주는 컨트롤."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.StepInput",
+        "role": "숫자를 단위로 조절"
+      },
+      {
+        "api": "sap.m.RangeSlider",
+        "role": "두 값(범위) 선택"
+      }
+    ]
+  },
+  "members": {
+    "property:value": {
+      "text": "슬라이더의 값."
+    },
+    "property:min": {
+      "text": "최솟값."
+    },
+    "property:max": {
+      "text": "최댓값."
+    },
+    "property:step": {
+      "text": "드래그나 키보드로 값을 바꿀 때 한 번에 바뀌는 양."
+    },
+    "property:progress": {
+      "text": "진행 막대를 보일지 정합니다."
+    },
+    "property:enableTickmarks": {
+      "text": "눈금 표시를 켭니다."
+    },
+    "property:showHandleTooltip": {
+      "text": "손잡이 툴팁을 보일지 정합니다."
+    },
+    "event:change": {
+      "text": "사용자가 조작을 마친 뒤 값이 바뀌었을 때 발생합니다."
+    },
+    "event:liveChange": {
+      "text": "드래그하는 동안 값이 바뀔 때마다 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

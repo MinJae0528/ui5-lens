@@ -1,0 +1,65 @@
+{
+  "api": "sap.m.MessageBox",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "730a306c0561",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "메시지 유형의 Dialog 를 간단한 함수 호출로 만들어 주는 도구(경고, 확인, 오류 등 표준 창).",
+    "summaryBasis": "공식 클래스 설명: “Provides easier methods to create sap.m.Dialog with type sap.m.DialogType.Message, such as standard alerts, confirmation dialogs, or arbitrary message dialogs.”",
+    "whenToUse": [
+      {
+        "text": "삭제 전에 “정말 삭제할까요?” 같은 확인창이나 오류 알림을 띄울 때.",
+        "kind": "service",
+        "basis": "공식 설명: 표준 알림·확인·임의 메시지 대화상자를 쉽게 만든다."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.MessageToast",
+        "role": "잠깐 보였다 사라지는 알림"
+      },
+      {
+        "api": "sap.m.Dialog",
+        "role": "직접 구성하는 대화상자"
+      }
+    ]
+  },
+  "members": {
+    "method:alert": {
+      "text": "메시지와 OK 버튼이 있는 알림창을 띄웁니다."
+    },
+    "method:confirm": {
+      "text": "메시지와 질문 아이콘, 확인·취소 버튼이 있는 확인창을 띄웁니다."
+    },
+    "method:error": {
+      "text": "메시지와 오류 아이콘, 닫기 버튼이 있는 오류창을 띄웁니다."
+    },
+    "method:information": {
+      "text": "메시지와 정보 아이콘이 있는 안내창을 띄웁니다."
+    },
+    "method:success": {
+      "text": "메시지와 성공 아이콘이 있는 성공창을 띄웁니다."
+    },
+    "method:show": {
+      "text": "메시지 유형의 Dialog 를 만들어 보여 줍니다(다른 메서드의 바탕)."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

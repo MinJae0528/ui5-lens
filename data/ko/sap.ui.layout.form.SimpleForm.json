@@ -1,0 +1,68 @@
+{
+  "api": "sap.ui.layout.form.SimpleForm",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "874dbff2d332",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "간단한 폼을 쉽게 만드는 API. 제목·레이블·입력 컨트롤을 순서대로 넣으면 폼 구조가 자동으로 만들어집니다.",
+    "summaryBasis": "공식 클래스 설명: “The SimpleForm control provides an easy-to-use API to create simple forms.”",
+    "whenToUse": [
+      {
+        "text": "“이름: [입력창]” 같은 레이블-입력 쌍을 모은 입력·조회 폼을 빠르게 만들 때.",
+        "kind": "service",
+        "basis": "공식 설명: 간단한 폼을 만드는 사용하기 쉬운 API."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.layout.Grid",
+        "role": "12열 그리드 배치"
+      },
+      {
+        "api": "sap.m.Label",
+        "role": "폼 안의 이름표"
+      }
+    ]
+  },
+  "members": {
+    "aggregation:content": {
+      "text": "폼의 내용. Title 다음에 Label 과 입력 컨트롤을 차례로 넣어 구성합니다."
+    },
+    "aggregation:title": {
+      "text": "SimpleForm 의 제목."
+    },
+    "aggregation:toolbar": {
+      "text": "SimpleForm 의 Toolbar. 쓰면 Title 은 무시됩니다."
+    },
+    "property:editable": {
+      "text": "기기·테마에 맞는 줄 높이와 레이블 정렬을 적용합니다(편집용 폼)."
+    },
+    "property:layout": {
+      "text": "렌더링에 쓰는 FormLayout."
+    },
+    "property:width": {
+      "text": "폼의 너비."
+    },
+    "property:labelSpanL": {
+      "text": "큰 화면에서 레이블이 차지할 기본 칸 수."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

@@ -1,0 +1,52 @@
+{
+  "api": "sap.ui.core.Fragment",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "7d135d0237d5",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "재사용할 수 있는 가벼운 독립 UI 컨트롤 묶음(조각)을 정의하고 만들어 주는 클래스.",
+    "summaryBasis": "공식 클래스 설명: “Fragments support the definition of light-weight stand-alone UI control trees.”",
+    "whenToUse": [
+      {
+        "text": "대화상자나 목록 항목 템플릿처럼 뷰 밖에서 재사용할 UI 조각을 따로 정의할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 가벼운 독립 UI 컨트롤 트리를 정의."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.core.mvc.XMLView",
+        "role": "컨트롤러가 있는 화면 단위"
+      }
+    ]
+  },
+  "members": {
+    "method:load": {
+      "text": "프래그먼트를 불러와 인스턴스로 만듭니다(비동기)."
+    },
+    "method:byId": {
+      "text": "프래그먼트 범위에서 ID 로 컨트롤을 찾습니다."
+    },
+    "method:createId": {
+      "text": "프래그먼트 범위의 ID 를 전역에서 유일한 ID 로 바꿉니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

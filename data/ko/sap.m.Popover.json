@@ -1,0 +1,83 @@
+{
+  "api": "sap.m.Popover",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "f641bb90c524",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "대상 컨트롤 옆에 추가 정보를 작게 보여 주는 팝업(말풍선 형태).",
+    "summaryBasis": "공식 클래스 설명: “Displays additional information for an object in a compact way.”",
+    "whenToUse": [
+      {
+        "text": "버튼·아이콘을 누르면 그 옆에 부가 정보나 간단한 메뉴를 띄울 때.",
+        "kind": "service",
+        "basis": "공식 설명: 객체의 추가 정보를 간결하게 표시."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Dialog",
+        "role": "화면을 가리는 모달 창"
+      },
+      {
+        "api": "sap.m.ResponsivePopover",
+        "role": "폰에서는 대화상자로 바뀜"
+      }
+    ]
+  },
+  "members": {
+    "method:openBy": {
+      "text": "지정한 컨트롤을 기준으로 위치를 잡아 팝오버를 엽니다."
+    },
+    "method:close": {
+      "text": "열려 있는 팝오버를 닫습니다."
+    },
+    "method:isOpen": {
+      "text": "팝오버가 열려 있는지 확인합니다."
+    },
+    "property:placement": {
+      "text": "팝오버를 기준 컨트롤의 어느 쪽에 놓을지 정합니다."
+    },
+    "property:title": {
+      "text": "머리글에 표시할 제목."
+    },
+    "property:modal": {
+      "text": "true 이면 바깥을 눌러도 닫히지 않습니다."
+    },
+    "property:showArrow": {
+      "text": "화살표를 보일지 정합니다."
+    },
+    "property:contentWidth": {
+      "text": "내용 영역의 너비."
+    },
+    "aggregation:content": {
+      "text": "팝오버 안의 내용."
+    },
+    "aggregation:footer": {
+      "text": "팝오버 아래쪽의 선택 푸터."
+    },
+    "event:afterOpen": {
+      "text": "열린 뒤에 발생합니다."
+    },
+    "event:afterClose": {
+      "text": "닫힌 뒤에 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

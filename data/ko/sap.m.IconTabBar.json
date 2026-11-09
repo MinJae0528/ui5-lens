@@ -1,0 +1,67 @@
+{
+  "api": "sap.m.IconTabBar",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "ac94df03f729",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "탭 묶음과 각 탭에 연결된 내용을 보여 주는 컨트롤. 화면 안에서 영역을 전환하는 데 씁니다.",
+    "summaryBasis": "공식 클래스 설명: “The IconTabBar represents a collection of tabs with associated content.”",
+    "whenToUse": [
+      {
+        "text": "한 화면 안에서 “개요 / 상세 / 이력”처럼 내용을 탭으로 나눠 보여 줄 때.",
+        "kind": "service",
+        "basis": "공식 설명: 내용이 연결된 탭들의 모음."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Panel",
+        "role": "접고 펼치는 영역"
+      }
+    ]
+  },
+  "members": {
+    "property:selectedKey": {
+      "text": "선택된 탭 항목의 키."
+    },
+    "property:expandable": {
+      "text": "탭을 접고 펼칠 수 있게 할지 정합니다."
+    },
+    "property:expanded": {
+      "text": "현재 탭 내용이 펼쳐져 있는지 여부."
+    },
+    "property:headerMode": {
+      "text": "헤더 모드."
+    },
+    "aggregation:items": {
+      "text": "탭 모음에 표시할 항목들."
+    },
+    "aggregation:content": {
+      "text": "탭 모음 아래에 표시되는 내용."
+    },
+    "event:select": {
+      "text": "항목을 선택하면 발생합니다."
+    },
+    "event:expand": {
+      "text": "탭이 펼쳐지거나 접힐 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

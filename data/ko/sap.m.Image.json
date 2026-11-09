@@ -1,0 +1,74 @@
+{
+  "api": "sap.m.Image",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "b392b3008edf",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "로컬이나 원격 서버의 이미지를 보여 주는 컨트롤. 내부적으로 img 태그를 감쌉니다.",
+    "summaryBasis": "공식 클래스 설명: “A wrapper around the <img> tag; the image can be loaded from a remote or local server.”",
+    "whenToUse": [
+      {
+        "text": "화면에 이미지를 표시할 때.",
+        "kind": "service",
+        "basis": "공식 설명: img 태그를 감싸는 이미지 컨트롤."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Avatar",
+        "role": "이미지·이니셜·아이콘을 원형 등으로 표시"
+      },
+      {
+        "api": "sap.ui.core.Icon",
+        "role": "아이콘 글꼴"
+      }
+    ]
+  },
+  "members": {
+    "property:src": {
+      "text": "이미지 파일 주소(상대 또는 절대 경로)."
+    },
+    "property:alt": {
+      "text": "이미지를 불러오지 못할 때 대신 보여 줄 대체 글자."
+    },
+    "property:width": {
+      "text": "이미지 너비. 비워 두면 원래 크기를 유지합니다."
+    },
+    "property:height": {
+      "text": "이미지 높이. 비워 두면 원래 크기를 유지합니다."
+    },
+    "property:decorative": {
+      "text": "꾸밈용 이미지인지 여부. 접근성 도구가 무시합니다."
+    },
+    "property:lazyLoading": {
+      "text": "true 이면 화면 밖 이미지를 나중에 불러옵니다."
+    },
+    "event:press": {
+      "text": "사용자가 이미지를 클릭하면 발생합니다."
+    },
+    "event:load": {
+      "text": "이미지 리소스를 불러왔을 때 발생합니다."
+    },
+    "event:error": {
+      "text": "이미지 리소스를 불러오지 못했을 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

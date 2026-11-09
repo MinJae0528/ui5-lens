@@ -1,0 +1,46 @@
+{
+  "api": "sap.m.HBox",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "5a25efd9d659",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "자식들을 가로로 늘어놓는 유연한 박스 레이아웃 컨테이너. FlexBox 의 가로 방향 전용 버전입니다.",
+    "summaryBasis": "공식 클래스 설명: “The HBox control builds the container for a horizontal flexible box layout.”",
+    "whenToUse": [
+      {
+        "text": "컨트롤들을 왼쪽에서 오른쪽으로 나란히 놓고 싶을 때.",
+        "kind": "service",
+        "basis": "공식 설명: 가로 방향 flexible box 레이아웃 컨테이너."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.VBox",
+        "role": "세로로 배치"
+      },
+      {
+        "api": "sap.m.FlexBox",
+        "role": "방향을 직접 지정하는 상위 클래스"
+      }
+    ]
+  },
+  "members": {},
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

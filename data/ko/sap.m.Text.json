@@ -1,0 +1,65 @@
+{
+  "api": "sap.m.Text",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "e5a87ce3f4d0",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "줄바꿈이 필요한 긴 글을 앱에 넣는 텍스트 컨트롤. 글자 안의 HTML 코드는 해석하지 않고 그대로 보여 줍니다.",
+    "summaryBasis": "공식 클래스 설명: “The Text control can be used for embedding longer text paragraphs, that need text wrapping, into your app.”",
+    "whenToUse": [
+      {
+        "text": "설명 문장이나 문단처럼 여러 줄에 걸쳐 줄바꿈되는 글을 보여 줄 때.",
+        "kind": "service",
+        "basis": "공식 설명: 줄바꿈이 필요한 긴 문단용 컨트롤."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Label",
+        "role": "입력 컨트롤의 이름표"
+      },
+      {
+        "api": "sap.m.Title",
+        "role": "제목 글자"
+      }
+    ]
+  },
+  "members": {
+    "property:text": {
+      "text": "표시할 글자."
+    },
+    "property:wrapping": {
+      "text": "글자가 칸을 넘으면 줄바꿈할지 정합니다."
+    },
+    "property:maxLines": {
+      "text": "줄바꿈되는 글의 최대 줄 수를 제한합니다."
+    },
+    "property:textAlign": {
+      "text": "글자의 가로 정렬."
+    },
+    "property:width": {
+      "text": "Text 컨트롤의 너비."
+    },
+    "property:wrappingType": {
+      "text": "줄바꿈 방식(하이픈 사용 또는 일반)."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

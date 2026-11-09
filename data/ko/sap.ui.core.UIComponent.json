@@ -1,0 +1,59 @@
+{
+  "api": "sap.ui.core.UIComponent",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "ee0b219baf2b",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "UI 를 가진 컴포넌트(앱 구성 단위)의 기반 클래스. 앱의 시작점과 라우터를 담당합니다.",
+    "summaryBasis": "공식 클래스 설명: “Base Class for UIComponent.”",
+    "whenToUse": [
+      {
+        "text": "앱의 진입점(Component.js)을 만들고 라우팅·모델을 설정할 때.",
+        "kind": "service",
+        "basis": "공식 설명: UIComponent 의 기반 클래스."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.core.routing.Router",
+        "role": "컴포넌트가 가지는 라우터"
+      },
+      {
+        "api": "sap.ui.core.mvc.Controller",
+        "role": "뷰의 컨트롤러"
+      }
+    ]
+  },
+  "members": {
+    "method:init": {
+      "text": "컴포넌트 인스턴스가 만들어진 뒤 호출되는 초기화 함수."
+    },
+    "method:createContent": {
+      "text": "컴포넌트의 UI(컨트롤 트리)를 만드는 훅 메서드."
+    },
+    "method:getRouter": {
+      "text": "컴포넌트의 라우터를 돌려줍니다."
+    },
+    "method:byId": {
+      "text": "컴포넌트 범위에서 ID 로 요소를 찾습니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

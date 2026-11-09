@@ -1,0 +1,65 @@
+{
+  "api": "sap.m.StandardListItem",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "773f5cd32e4b",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "이미지·제목·설명처럼 가장 흔한 구성의 목록 항목.",
+    "summaryBasis": "공식 클래스 설명: “a list item providing the most common use cases, e.g. image, title and description.”",
+    "whenToUse": [
+      {
+        "text": "목록 항목에 제목·설명·아이콘을 간단히 넣을 때.",
+        "kind": "service",
+        "basis": "공식 설명: 이미지, 제목, 설명 등 가장 흔한 사용을 제공."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.List",
+        "role": "이 항목을 담는 목록"
+      },
+      {
+        "api": "sap.m.ColumnListItem",
+        "role": "표의 행"
+      }
+    ]
+  },
+  "members": {
+    "property:title": {
+      "text": "목록 항목의 제목."
+    },
+    "property:description": {
+      "text": "제목에 덧붙이는 부가 정보."
+    },
+    "property:icon": {
+      "text": "목록 항목의 아이콘."
+    },
+    "property:info": {
+      "text": "추가 정보 글자."
+    },
+    "property:infoState": {
+      "text": "추가 정보 글자의 상태(Error, Warning, Success 등)."
+    },
+    "aggregation:avatar": {
+      "text": "설정하면 아이콘 대신 쓰이는 sap.m.Avatar."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

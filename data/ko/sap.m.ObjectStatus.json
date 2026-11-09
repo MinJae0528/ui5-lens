@@ -1,0 +1,64 @@
+{
+  "api": "sap.m.ObjectStatus",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "0591f72484ae",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "상태 값 색을 가진 글자나 아이콘으로 상태 정보를 보여 주는 컨트롤.",
+    "summaryBasis": "공식 클래스 설명: “Status information that can be either text with a value state, or an icon.”",
+    "whenToUse": [
+      {
+        "text": "“승인됨”, “지연” 같은 상태를 색(성공·경고·오류)과 함께 보여 줄 때.",
+        "kind": "service",
+        "basis": "공식 설명: 값 상태를 가진 글자 또는 아이콘으로 상태 정보를 표시."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Text",
+        "role": "상태 색이 필요 없는 글자"
+      }
+    ]
+  },
+  "members": {
+    "property:text": {
+      "text": "표시할 글자."
+    },
+    "property:title": {
+      "text": "글자 앞에 붙는 제목."
+    },
+    "property:state": {
+      "text": "글자의 값 상태(None, Success, Warning, Error 등)."
+    },
+    "property:icon": {
+      "text": "아이콘 URI(아이콘 글꼴 또는 이미지 경로)."
+    },
+    "property:active": {
+      "text": "글자와 아이콘을 사용자가 누를 수 있게 할지 정합니다."
+    },
+    "property:inverted": {
+      "text": "상태를 글자색 대신 배경색으로 나타낼지 정합니다."
+    },
+    "event:press": {
+      "text": "활성 상태의 글자를 클릭·탭하면 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

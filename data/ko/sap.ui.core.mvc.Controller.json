@@ -1,0 +1,68 @@
+{
+  "api": "sap.ui.core.mvc.Controller",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "385151fb3085",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "UI5 의 MVC(모델-뷰-컨트롤러) 개념에서 컨트롤러의 바탕이 되는 클래스. 뷰의 이벤트를 처리하는 코드를 담습니다.",
+    "summaryBasis": "공식 클래스 설명: “A generic controller implementation for the UI5 Model-View-Controller concept.”",
+    "whenToUse": [
+      {
+        "text": "뷰(XML)의 버튼 누름 같은 이벤트를 처리하는 로직을 작성할 때.",
+        "kind": "service",
+        "basis": "공식 설명: MVC 개념의 일반 컨트롤러 구현이며 기반 클래스로 쓸 수 있음."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.core.mvc.XMLView",
+        "role": "컨트롤러와 짝을 이루는 뷰"
+      },
+      {
+        "api": "sap.ui.core.UIComponent",
+        "role": "앱 구성 요소"
+      }
+    ]
+  },
+  "members": {
+    "method:byId": {
+      "text": "연결된 뷰에서 지역 ID 로 컨트롤(요소)을 찾아 돌려줍니다."
+    },
+    "method:createId": {
+      "text": "뷰의 지역 ID 를 전역에서 유일한 ID 로 바꿉니다."
+    },
+    "method:loadFragment": {
+      "text": "프래그먼트를 불러옵니다(Fragment.load 를 이용)."
+    },
+    "method:onInit": {
+      "text": "컨트롤러가 만들어질 때 한 번 호출되는 초기화 함수."
+    },
+    "method:onExit": {
+      "text": "컨트롤러가 없어질 때 호출되는 정리 함수."
+    },
+    "method:onBeforeRendering": {
+      "text": "뷰가 렌더링될 때마다 렌더링 전에 호출됩니다."
+    },
+    "method:onAfterRendering": {
+      "text": "뷰가 렌더링될 때마다 HTML 이 만들어진 후에 호출됩니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

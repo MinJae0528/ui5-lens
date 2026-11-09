@@ -1,0 +1,65 @@
+{
+  "api": "sap.ui.layout.Grid",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "8b0e3ef71f5f",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "자식 컨트롤을 12열 흐름 레이아웃으로 배치하는 컨트롤. 화면 크기별로 차지하는 칸을 지정할 수 있습니다.",
+    "summaryBasis": "공식 클래스 설명: “A layout control which positions its child controls in a 12 column flow layout.”",
+    "whenToUse": [
+      {
+        "text": "화면 폭에 따라 컨트롤이 차지하는 칸 수를 바꾸는 반응형 배치를 할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 12열 흐름 레이아웃, 자식마다 span 지정 가능."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.layout.form.SimpleForm",
+        "role": "폼 전용 배치"
+      },
+      {
+        "api": "sap.m.VBox",
+        "role": "단순한 세로 배치"
+      }
+    ]
+  },
+  "members": {
+    "aggregation:content": {
+      "text": "Grid 레이아웃에 놓이는 컨트롤들."
+    },
+    "property:defaultSpan": {
+      "text": "화면 크기별로 자식이 기본으로 차지하는 칸 수."
+    },
+    "property:vSpacing": {
+      "text": "행 사이의 세로 간격."
+    },
+    "property:hSpacing": {
+      "text": "내용 사이의 가로 간격."
+    },
+    "property:width": {
+      "text": "Grid 의 너비(지정하지 않으면 100%)."
+    },
+    "property:defaultIndent": {
+      "text": "Grid 전체의 기본 빈 열 수."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

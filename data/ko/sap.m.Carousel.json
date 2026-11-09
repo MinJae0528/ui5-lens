@@ -1,0 +1,70 @@
+{
+  "api": "sap.m.Carousel",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "b03e92e0d998",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "좌우로 넘기며 여러 항목을 둘러보게 하는 컨트롤.",
+    "summaryBasis": "공식 클래스 설명: “The carousel allows the user to browse through a set of items by swiping right or left.”",
+    "whenToUse": [
+      {
+        "text": "이미지·카드를 한 장씩 넘겨 보게 하는 갤러리를 만들 때.",
+        "kind": "service",
+        "basis": "공식 설명: 좌우로 스와이프하며 항목 모음을 둘러봄."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Image",
+        "role": "캐러셀 안의 흔한 내용"
+      }
+    ]
+  },
+  "members": {
+    "aggregation:pages": {
+      "text": "캐러셀이 보여 주는 내용(페이지)."
+    },
+    "property:loop": {
+      "text": "마지막 페이지 다음에 처음 페이지로 돌아갈지 정합니다."
+    },
+    "property:showPageIndicator": {
+      "text": "페이지 표시기를 보일지 정합니다."
+    },
+    "property:height": {
+      "text": "캐러셀 높이."
+    },
+    "property:width": {
+      "text": "캐러셀 너비."
+    },
+    "event:pageChanged": {
+      "text": "스와이프가 끝난 뒤에 발생합니다."
+    },
+    "event:beforePageChanged": {
+      "text": "스와이프가 끝나기 전에 발생합니다."
+    },
+    "method:next": {
+      "text": "다음 페이지를 보여 줍니다."
+    },
+    "method:previous": {
+      "text": "이전 페이지를 보여 줍니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

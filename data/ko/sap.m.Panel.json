@@ -1,0 +1,70 @@
+{
+  "api": "sap.m.Panel",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "bc677543ccd6",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "머리글과 내용이 있는 컨테이너. 관련 정보를 묶어 보여 주며 접고 펼칠 수 있습니다.",
+    "summaryBasis": "공식 클래스 설명: “A container control which has a header and content.”",
+    "whenToUse": [
+      {
+        "text": "관련 있는 컨트롤을 제목과 함께 묶고, 필요하면 접고 펼치게 할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 정보를 묶어 보여 주는 컨테이너이며 접을 수 있음."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Page",
+        "role": "화면 전체를 담는 컨테이너"
+      }
+    ]
+  },
+  "members": {
+    "property:headerText": {
+      "text": "패널 머리글에 표시할 글자."
+    },
+    "property:expandable": {
+      "text": "패널을 접고 펼칠 수 있게 할지 정합니다."
+    },
+    "property:expanded": {
+      "text": "패널이 펼쳐져 있는지 여부."
+    },
+    "property:width": {
+      "text": "패널 너비."
+    },
+    "property:height": {
+      "text": "패널 높이."
+    },
+    "property:backgroundDesign": {
+      "text": "패널의 배경 스타일."
+    },
+    "aggregation:content": {
+      "text": "패널의 내용. 펼쳐져 있을 때만 보입니다."
+    },
+    "aggregation:headerToolbar": {
+      "text": "머리글을 대신하는 사용자 정의 Toolbar."
+    },
+    "event:expand": {
+      "text": "패널이 펼쳐지거나 접힐 때 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

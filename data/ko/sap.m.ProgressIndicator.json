@@ -1,0 +1,61 @@
+{
+  "api": "sap.m.ProgressIndicator",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "d34f59571ca9",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "진행 정도를 막대 안을 색으로 채워 보여 주는 컨트롤. 퍼센트 값이나 글자를 함께 표시할 수 있습니다.",
+    "summaryBasis": "공식 클래스 설명: “Shows the progress of a process in a graphical way.”",
+    "whenToUse": [
+      {
+        "text": "업로드·처리 작업의 진행률을 막대로 보여 줄 때.",
+        "kind": "service",
+        "basis": "공식 설명: 진행 정도를 색으로 채워 그래픽으로 표시."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.BusyIndicator",
+        "role": "진행률 없이 작업 중임만 표시"
+      }
+    ]
+  },
+  "members": {
+    "property:percentValue": {
+      "text": "막대 길이를 정하는 퍼센트 값."
+    },
+    "property:displayValue": {
+      "text": "막대에 표시할 글자."
+    },
+    "property:showValue": {
+      "text": "displayValue 를 막대에 보여 줄지 정합니다."
+    },
+    "property:state": {
+      "text": "막대의 상태 색(값 상태)."
+    },
+    "property:width": {
+      "text": "컨트롤의 너비."
+    },
+    "property:displayAnimation": {
+      "text": "퍼센트가 바뀔 때 애니메이션을 쓸지 정합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

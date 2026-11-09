@@ -1,0 +1,65 @@
+{
+  "api": "sap.m.Title",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "bd68e6e84845",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "제목(헤더) 의미를 가진 크고 단순한 글자 컨트롤.",
+    "summaryBasis": "공식 클래스 설명: “A simple, large-sized text with explicit header / title semantics.”",
+    "whenToUse": [
+      {
+        "text": "화면이나 영역의 제목을 표시할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 제목 의미 정보를 가진 큰 글자."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Text",
+        "role": "일반 문단 글자"
+      },
+      {
+        "api": "sap.m.Label",
+        "role": "컨트롤 이름표"
+      }
+    ]
+  },
+  "members": {
+    "property:text": {
+      "text": "제목으로 표시할 글자."
+    },
+    "property:level": {
+      "text": "제목의 의미 수준(H1~H6 등). 접근성 도구가 활용합니다."
+    },
+    "property:titleStyle": {
+      "text": "제목의 시각 스타일. Auto 이면 level 에 따라 정해집니다."
+    },
+    "property:width": {
+      "text": "제목의 너비."
+    },
+    "property:textAlign": {
+      "text": "제목 글자의 가로 정렬."
+    },
+    "property:wrapping": {
+      "text": "제목 글자를 줄바꿈할지 정합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

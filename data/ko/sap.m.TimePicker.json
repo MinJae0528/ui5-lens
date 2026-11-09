@@ -1,0 +1,74 @@
+{
+  "api": "sap.m.TimePicker",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "ff999a460e09",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "시간을 입력하거나 시계 팝업에서 고르는 한 줄 입력 컨트롤.",
+    "summaryBasis": "공식 클래스 설명: “A single-field input control that enables the users to fill time related input fields.”",
+    "whenToUse": [
+      {
+        "text": "시간(시:분:초)을 입력받을 때.",
+        "kind": "service",
+        "basis": "공식 설명: 시간 관련 입력 필드를 채우는 한 줄 입력 컨트롤."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.DatePicker",
+        "role": "날짜 선택"
+      },
+      {
+        "api": "sap.m.DateTimePicker",
+        "role": "날짜와 시간을 함께 선택"
+      }
+    ]
+  },
+  "members": {
+    "property:minutesStep": {
+      "text": "분 단위 증가 간격."
+    },
+    "property:secondsStep": {
+      "text": "초 단위 증가 간격."
+    },
+    "property:mask": {
+      "text": "입력 형식을 정하는 마스크(문자 종류와 길이)."
+    },
+    "property:maskMode": {
+      "text": "마스크의 상태(On 등)."
+    },
+    "property:support2400": {
+      "text": "하루의 끝을 나타내는 24:00 값을 허용합니다."
+    },
+    "property:showCurrentTimeButton": {
+      "text": "현재 시간으로 바로 이동하는 버튼을 보일지 정합니다."
+    },
+    "event:change": {
+      "text": "입력이 끝나고 값이 바뀌었을 때 발생합니다."
+    },
+    "event:liveChange": {
+      "text": "사용자가 값을 바꿀 때마다 발생합니다."
+    },
+    "method:openBy": {
+      "text": "선택 팝오버를 엽니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

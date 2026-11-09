@@ -1,0 +1,55 @@
+{
+  "api": "sap.ui.core.format.DateFormat",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "7bb747227957",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "날짜·시간 값을 형식 옵션에 맞춰 글자로 바꾸거나(format) 글자에서 읽어(parse) 오는 정적 클래스.",
+    "summaryBasis": "공식 클래스 설명: “The DateFormat is a static class for formatting and parsing single date and time values or date and time intervals.”",
+    "whenToUse": [
+      {
+        "text": "날짜를 “2026-11-09”나 지역 형식 글자로 보여 주거나, 입력 글자를 날짜로 해석할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 날짜·시간 값의 형식화와 해석을 위한 정적 클래스."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.core.format.NumberFormat",
+        "role": "숫자 형식"
+      }
+    ]
+  },
+  "members": {
+    "method:getDateInstance": {
+      "text": "날짜 형식기를 만듭니다."
+    },
+    "method:getDateTimeInstance": {
+      "text": "날짜와 시간 형식기를 만듭니다."
+    },
+    "method:format": {
+      "text": "형식 옵션에 따라 날짜를 글자로 바꿉니다."
+    },
+    "method:parse": {
+      "text": "형식 옵션에 맞는 글자를 날짜로 읽습니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

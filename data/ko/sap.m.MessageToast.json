@@ -1,0 +1,46 @@
+{
+  "api": "sap.m.MessageToast",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "c3e9c7c3cf45",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "성공·안내 메시지를 잠깐 보였다가 저절로 사라지는 작은 알림. 사용자의 작업을 방해하지 않습니다.",
+    "summaryBasis": "공식 클래스 설명: “A small, non-disruptive popup for messages.”",
+    "whenToUse": [
+      {
+        "text": "저장 완료 같은 짧은 안내를 보여 주고 사용자는 아무것도 누르지 않아도 될 때.",
+        "kind": "service",
+        "basis": "공식 설명: 성공·정보 메시지용으로 저절로 사라지는 작은 팝업."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.MessageBox",
+        "role": "확인이 필요한 알림창"
+      }
+    ]
+  },
+  "members": {
+    "method:show": {
+      "text": "간단한 메시지 토스트를 만들어 보여 줍니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

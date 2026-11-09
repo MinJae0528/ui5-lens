@@ -1,0 +1,58 @@
+{
+  "api": "sap.ui.model.json.JSONModel",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "8be20375a16b",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "JSON 형식 데이터를 위한 모델. 브라우저 안의 데이터를 화면 컨트롤에 바인딩할 때 씁니다.",
+    "summaryBasis": "공식 클래스 설명: “Model implementation for the JSON format.”",
+    "whenToUse": [
+      {
+        "text": "서버 없이 앱 안의 데이터나 JSON 파일 내용을 화면에 연결(바인딩)할 때.",
+        "kind": "service",
+        "basis": "공식 설명: JSON 형식을 위한 모델 구현."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.model.odata.v2.ODataModel",
+        "role": "서버의 OData 서비스를 쓰는 모델"
+      }
+    ]
+  },
+  "members": {
+    "method:loadData": {
+      "text": "서버에서 JSON 데이터를 불러와 모델에 저장합니다."
+    },
+    "method:setData": {
+      "text": "모델의 JSON 데이터를 통째로 지정합니다."
+    },
+    "method:getProperty": {
+      "text": "지정한 경로의 값을 읽습니다."
+    },
+    "method:setProperty": {
+      "text": "지정한 경로의 값을 바꿉니다."
+    },
+    "method:dataLoaded": {
+      "text": "현재 데이터 로딩 상태를 나타내는 Promise 를 돌려줍니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

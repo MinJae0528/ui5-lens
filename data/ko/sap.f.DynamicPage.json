@@ -1,0 +1,74 @@
+{
+  "api": "sap.f.DynamicPage",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "75b508b156cd",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "제목, 스크롤하면 접히는 헤더, 내용 영역, 선택 푸터로 구성된 웹 페이지형 레이아웃.",
+    "summaryBasis": "공식 클래스 설명: “A layout control, representing a web page, consisting of a title, header with dynamic behavior, a content area, and an optional footer.”",
+    "whenToUse": [
+      {
+        "text": "제목과 요약 헤더가 스크롤에 따라 접히는 상세·목록 페이지를 만들 때.",
+        "kind": "service",
+        "basis": "공식 설명: 동적으로 동작하는 헤더가 있는 웹 페이지 레이아웃."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Page",
+        "role": "더 단순한 화면 컨테이너"
+      },
+      {
+        "api": "sap.f.FlexibleColumnLayout",
+        "role": "여러 열 목록-상세"
+      }
+    ]
+  },
+  "members": {
+    "aggregation:title": {
+      "text": "DynamicPage 의 제목."
+    },
+    "aggregation:header": {
+      "text": "DynamicPage 의 헤더."
+    },
+    "aggregation:content": {
+      "text": "DynamicPage 의 내용."
+    },
+    "aggregation:footer": {
+      "text": "화면 아래에 떠 있는 푸터."
+    },
+    "property:headerExpanded": {
+      "text": "헤더가 펼쳐져 있는지 여부."
+    },
+    "property:headerPinned": {
+      "text": "헤더를 고정할지 여부."
+    },
+    "property:showFooter": {
+      "text": "푸터를 보일지 정합니다."
+    },
+    "property:fitContent": {
+      "text": "내용 컨테이너가 늘어나는 컨트롤을 위해 공간을 채우게 합니다."
+    },
+    "event:pinnedStateChange": {
+      "text": "사용자가 헤더 고정 상태를 바꾸면 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

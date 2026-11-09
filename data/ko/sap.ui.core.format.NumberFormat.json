@@ -1,0 +1,58 @@
+{
+  "api": "sap.ui.core.format.NumberFormat",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "67f8dbfa6d00",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "숫자 값을 형식 옵션에 맞춰 글자로 바꾸거나(format) 글자에서 읽어(parse) 오는 정적 클래스.",
+    "summaryBasis": "공식 클래스 설명: “The NumberFormat is a static class for formatting and parsing numeric values according to a set of format options.”",
+    "whenToUse": [
+      {
+        "text": "금액·소수를 천 단위 구분이나 소수 자릿수에 맞춰 보여 줄 때.",
+        "kind": "service",
+        "basis": "공식 설명: 숫자 값의 형식화와 해석을 위한 정적 클래스."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.core.format.DateFormat",
+        "role": "날짜 형식"
+      }
+    ]
+  },
+  "members": {
+    "method:getFloatInstance": {
+      "text": "소수 숫자 형식기를 만듭니다."
+    },
+    "method:getIntegerInstance": {
+      "text": "정수 형식기를 만듭니다."
+    },
+    "method:getCurrencyInstance": {
+      "text": "통화 형식기를 만듭니다."
+    },
+    "method:format": {
+      "text": "형식 옵션에 따라 숫자를 글자로 바꿉니다."
+    },
+    "method:parse": {
+      "text": "형식 옵션에 맞는 글자를 숫자로 읽습니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

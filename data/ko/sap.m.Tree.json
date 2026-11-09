@@ -1,0 +1,62 @@
+{
+  "api": "sap.m.Tree",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "8c82d937a691",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "데이터를 계층 구조로 보여 주는 트리 컨트롤. 모바일용 sap.m 목록 계열이며 growing 기능은 지원하지 않습니다.",
+    "summaryBasis": "공식 클래스 설명: “The Tree control provides a tree structure for displaying data in a hierarchy.”",
+    "whenToUse": [
+      {
+        "text": "열 없이 계층 구조(폴더 등)를 접고 펼치며 보여 줄 때.",
+        "kind": "service",
+        "basis": "공식 설명: 계층 구조로 데이터를 표시하는 트리."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.ui.table.TreeTable",
+        "role": "여러 열의 계층 표"
+      },
+      {
+        "api": "sap.m.List",
+        "role": "평평한 목록"
+      }
+    ]
+  },
+  "members": {
+    "event:toggleOpenState": {
+      "text": "사용자가 항목을 펼치거나 접을 때 발생합니다."
+    },
+    "method:expand": {
+      "text": "항목 하나 이상을 펼칩니다."
+    },
+    "method:collapse": {
+      "text": "항목 하나 이상을 접습니다."
+    },
+    "method:collapseAll": {
+      "text": "모든 노드를 접습니다."
+    },
+    "method:expandToLevel": {
+      "text": "트리를 지정한 깊이까지 펼칩니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

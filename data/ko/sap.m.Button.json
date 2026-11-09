@@ -1,0 +1,71 @@
+{
+  "api": "sap.m.Button",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "133fb29dd1b4",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "사용자가 눌러서 동작을 실행하게 하는 기본 버튼. 글자와 아이콘을 함께 둘 수 있습니다.",
+    "summaryBasis": "공식 클래스 설명: “Enables users to trigger actions.”",
+    "whenToUse": [
+      {
+        "text": "저장·삭제·열기처럼 사용자가 직접 눌러 동작을 실행하게 할 때.",
+        "kind": "service",
+        "basis": "공식 설명: 클릭·탭이나 Enter 같은 키로 동작을 실행."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Link",
+        "role": "이동·가벼운 동작용 링크"
+      },
+      {
+        "api": "sap.m.ToggleButton",
+        "role": "눌린 상태를 유지하는 버튼"
+      }
+    ]
+  },
+  "members": {
+    "property:text": {
+      "text": "버튼에 표시할 글자."
+    },
+    "property:type": {
+      "text": "버튼의 종류(모양). 예: Emphasized, Accept, Reject."
+    },
+    "property:icon": {
+      "text": "버튼 안에 표시할 아이콘."
+    },
+    "property:iconFirst": {
+      "text": "아이콘을 글자 앞에 둘지 정합니다."
+    },
+    "property:enabled": {
+      "text": "버튼을 쓸 수 있는지 여부(기본 true)."
+    },
+    "property:width": {
+      "text": "버튼의 너비."
+    },
+    "event:press": {
+      "text": "사용자가 버튼을 클릭하거나 탭하면 발생합니다."
+    },
+    "event:tap": {
+      "text": "사용자가 버튼을 탭하면 발생합니다. deprecated 이므로 press 를 쓰세요."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}

@@ -1,0 +1,68 @@
+{
+  "api": "sap.ui.core.Icon",
+  "provenance": {
+    "ui5Version": "1.154.0",
+    "checkedAt": "2026-11-09",
+    "generator": "AI(Claude) 간단 설명 초안",
+    "ai": true,
+    "review": "draft",
+    "depth": "brief",
+    "reviewNote": "간단 설명: 요약·언제 쓰는가·핵심 항목만 있고 예제와 사용 순서는 없습니다. 사람이 검토하지 않은 AI 초안입니다.",
+    "versionNote": "공식 api.json(1.154) 설명을 바탕으로 작성했고 예제는 실행 검증을 하지 않았습니다(예제 없음)."
+  },
+  "basedOn": {
+    "officialHash": "056c56606171",
+    "stampedAt": "2026-11-09"
+  },
+  "overview": {
+    "summary": "그림 대신 아이콘 글꼴로 그리는 아이콘 컨트롤. 크기를 키워도 깨지지 않고 색을 바꿀 수 있습니다.",
+    "summaryBasis": "공식 클래스 설명: “Icon uses embedded font instead of pixel image.”",
+    "whenToUse": [
+      {
+        "text": "버튼·목록 항목 옆에 크기 조절과 색 변경이 쉬운 아이콘을 둘 때.",
+        "kind": "service",
+        "basis": "공식 설명: 이미지와 달리 확대가 쉽고 색을 바꿀 수 있음."
+      }
+    ],
+    "compare": [],
+    "related": [
+      {
+        "api": "sap.m.Image",
+        "role": "그림 이미지"
+      },
+      {
+        "api": "sap.m.Avatar",
+        "role": "프로필형 표시"
+      }
+    ]
+  },
+  "members": {
+    "property:src": {
+      "text": "아이콘을 지정하는 값(아이콘 URI, 예: sap-icon://add)."
+    },
+    "property:size": {
+      "text": "아이콘 크기(글꼴 크기로 적용됩니다)."
+    },
+    "property:color": {
+      "text": "아이콘 색. 지정하지 않으면 주변 글자색을 따릅니다."
+    },
+    "property:hoverColor": {
+      "text": "마우스를 올렸을 때의 색."
+    },
+    "property:activeColor": {
+      "text": "눌렀을 때의 색."
+    },
+    "property:decorative": {
+      "text": "꾸밈용 아이콘인지 여부. 접근성 도구가 무시합니다."
+    },
+    "event:press": {
+      "text": "사용자가 아이콘을 누르면 발생합니다."
+    }
+  },
+  "usage": {
+    "prerequisites": [],
+    "exampleFlow": [],
+    "recommended": []
+  },
+  "examples": []
+}
