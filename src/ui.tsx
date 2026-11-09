@@ -44,7 +44,9 @@ export function Code({ code, label }: { code: string; label?: string }) {
   );
 }
 
-export function KoBadge({ status }: { status: KoStatus }) {
+/** mt: 손으로 쓴 한국어 문서는 없지만 자동 번역(첫 문장)이 있을 때 */
+export function KoBadge({ status, mt }: { status: KoStatus; mt?: boolean }) {
+  if (status === 'none' && mt) return <span className="badge b-draft" title="공식 설명의 첫 문장을 AI 로 번역했습니다">자동 번역 · AI 초안 · 미검토</span>;
   const map: Record<KoStatus, [string, string]> = {
     none: ['한국어 설명 준비 안 됨', 'b-none'],
     draft: ['한국어 · AI 초안 · 미검토', 'b-draft'],

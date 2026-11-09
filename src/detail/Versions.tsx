@@ -42,7 +42,7 @@ export function Versions({ chain, ko, koStatus, p }: { chain: ApiDoc[]; ko: KoDo
       <section><h3>자료 출처와 갱신 상태</h3>
         <dl className="kv">
           <dt>공식 원문 갱신</dt><dd>조회 {fmtDate(meta.fetchedAt)} · 원문 해시 <code>{doc.officialHash}</code> · UI5 {meta.version}</dd>
-          <dt>한국어 설명 상태</dt><dd><KoBadge status={koStatus} /></dd>
+          <dt>한국어 설명 상태</dt><dd><KoBadge status={koStatus} mt={!!doc.kd} /></dd>
           {ko && <>
             <dt>한국어 작성 기준 원문</dt><dd>UI5 {ko.baseMinor} · 해시 <code>{ko.basedOn.officialHash}</code> · 대조일 {ko.basedOn.stampedAt ?? ko.provenance.checkedAt} · {ko.provenance.generator}</dd>
             <dt>이 버전과의 일치</dt><dd>{koStatus === 'stale' ? <>⚠ 이 버전({meta.version})의 원문 해시 <code>{ko.hashes[meta.minor] ?? '—'}</code> 가 달라 재검토 필요</> : '일치 (한국어가 이 버전 원문 기준)'}</dd>

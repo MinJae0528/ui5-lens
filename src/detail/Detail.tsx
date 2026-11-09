@@ -73,7 +73,7 @@ export function Detail(p: DetailProps) {
         <div className="badges">
           <span className="badge b-sel">UI5 {p.vd.meta.version}</span>
           <DepBadge since={doc.deprecated ? doc.deprecated.since ?? true : null} />
-          <KoBadge status={koStatus} />
+          <KoBadge status={koStatus} mt={!!doc.kd} />
           <CopyButton text={doc.name} label="이름 복사" />
           {doc.abstract && <span className="badge" title="직접 만들 수 없고 상속해서 쓰는 클래스">abstract</span>}
           {doc.final && <span className="badge">final</span>}
