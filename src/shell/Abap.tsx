@@ -20,6 +20,14 @@ export function matchAbap(e: AbapEntry, q: string): boolean {
   return !t || [e.term, e.id, e.group, e.summary, e.whenToUse].some((x) => x.toLowerCase().includes(t));
 }
 
+/** 이름 검색에서 ABAP 항목을 함께 알려 줄 때: 항목 이름(토큰)이 검색어로 시작하는 것만 고른다(설명 속 단어로는 맞추지 않아 잡음을 줄인다). */
+export function abapNameHits(entries: AbapEntry[], q: string, limit = 4): AbapEntry[] {
+  const t = q.trim().toLowerCase();
+  if (t.length < 2) return [];
+  const hit = (e: AbapEntry) => [e.id, ...e.term.toLowerCase().split(/[s·/()]+/)].some((w) => w && (t.length >= 3 ? w.startsWith(t) : w === t));
+  return entries.filter(hit).slice(0, limit);
+}
+
 /** 왼쪽: 주제별로 묶은 ABAP 항목 목록과 검색 */
 export function AbapList({ res, ab, onPick }: { res: ReturnType<typeof useAbap>; ab: string; onPick: (id: string) => void }) {
   const [q, setQ] = useState('');

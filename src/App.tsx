@@ -8,7 +8,7 @@ import { Browse } from './shell/Browse';
 import { Guide, GuidePage } from './shell/Guide';
 import { Landing } from './shell/Landing';
 import { ModeTabs } from './shell/ModeTabs';
-import { AbapDetail, AbapList, useAbap } from './shell/Abap';
+import { AbapDetail, AbapList, abapNameHits, useAbap } from './shell/Abap';
 import { NameResults } from './shell/NameResults';
 import { FEATURE_QUICK } from './shell/quick';
 import { Scope } from './shell/Scope';
@@ -72,7 +72,8 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   const recReady = !!(rec.res && rec.res.results.length > 0);
   const memberRecReady = !!(c.memberRec && c.memberRec.results.length > 0);
   const hybridReady = !!c.hybrid;
-  const abap = useAbap(mode === 'abap');
+  const abap = useAbap(mode === 'abap' || (mode === 'name' && !!q));
+  const abapHits = mode === 'name' && q && abap.doc ? abapNameHits(abap.doc.entries, q) : [];
   const hasDetail = !!route.api || (mode === 'guide' && !!route.tp) || (mode === 'abap' && !!route.ab);
   const landing = <Landing vd={vd} g={g} mode={mode} onQuick={c.quick} onMode={c.setMode} onLib={(lib) => setRoute({ m: 'browse', lib, api: null }, true)} onPick={c.select} />;
 
@@ -122,6 +123,10 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
           {c.typed && (
             <div className="cands" ref={c.listRef} onScroll={(e) => c.onScroll(e.currentTarget.scrollTop)}>
               {!q && !pending && <div className="only-narrow">{landing}</div>}
+
+              {abapHits.length > 0 && !pending && (
+                <div className="notice"><b>ABAP 기본</b> 에도 있습니다: {abapHits.map((e) => <button key={e.id} className="chip" onClick={() => setRoute({ m: 'abap', ab: e.id, q: '', api: null }, true)}>{e.term}</button>)}</div>
+              )}
 
               {mode === 'name' && q && !pending && (
                 <NameResults
