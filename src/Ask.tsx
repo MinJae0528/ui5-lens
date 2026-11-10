@@ -54,7 +54,7 @@ function RecCard({ rank, r, entry, selected, onPick }: { rank: number; r: Rec; e
         <div className="badges">
           <span className="badge">{r.c.c === 3 ? 'namespace(함수 모음)' : r.c.c === 1 ? 'control(화면 요소)' : r.c.c === 2 ? 'element' : 'class'}</span>
           {entry && <DepBadge since={entry.d} />}{!entry && r.c.dp ? <DepBadge since={typeof r.c.dp === 'string' ? r.c.dp : true} /> : null}
-          {entry && <KoBadge status={entry.ko} />}
+          {entry && <KoBadge status={entry.ko} mt={!!entry.tk} />}
         </div>
         <p className="card-sum">
           {entry?.kz ? entry.kz : entry?.tk ? <>{entry.tk} <span className="badge" title="AI 가 번역한 초안입니다. 첫 문장만 번역하며 미검토입니다.">자동 번역</span></> : <><span className="lang">EN 원문</span> {entry?.t || r.c.t.slice(0, 200) || '(공식 설명 없음)'}</>}
