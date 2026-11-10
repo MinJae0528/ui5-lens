@@ -48,10 +48,11 @@ export function Landing({ vd, g, mode, onQuick, onMode, onLib, onPick }: { vd: V
         ))}
         <p className="muted small">누르면 공식 영문 구조(속성·메서드·이벤트·상속·버전)가 열립니다. ‘한’ 표시가 붙은 {ko.length}개에는 한국어 설명(AI 초안·미검토)이 있고, 나머지는 영문 원문과 공식 링크를 제공합니다.</p>
       </section>
-      <section className="about" aria-label="UI5 Lens 소개">
-        <h3>UI5 Lens 는 이런 도구입니다</h3>
+      <section className="about" aria-label="SAP Lens 소개">
+        <h3>SAP Lens 는 이런 도구입니다</h3>
         <ul>
           <li>공식 <code>api.json</code> 을 {g.versions.versions.length}개 UI5 버전에 걸쳐 정리해, <b>“이 API 를 내 버전에서 쓸 수 있나?”</b> 를 한국어로 빠르게 확인하게 돕는 학습자용 도구입니다.</li>
+          <li>SAP 와 무관한 학생 프로젝트이며 SAP 가 보증하거나 후원하지 않습니다. 현재 UI5 는 API 탐색 전체를, ABAP 은 기본 문법 사전(AI 초안)만 제공합니다.</li>
           <li>공식 문서를 대체하지 않습니다. 항목마다 공식 원문 링크가 있고, 한국어는 AI 초안인지·검토됐는지를 표시합니다.</li>
           <li>공식 Demo Kit(<a href="https://ui5.sap.com" target="_blank" rel="noreferrer noopener">ui5.sap.com</a>)도 since·deprecated 색인을 제공합니다. Lens 는 같은 공식 데이터를 한국어 검색과 버전 간 비교로 보완합니다. 코드를 대신 써 주는 AI 도구와 달리, 근거를 보며 직접 고르는 용도입니다.</li>
           {ev && <li>“기능으로 추천”은 AI 가 아니라 공식 이름·설명과의 일치로 고릅니다. 자체 평가에서 새 질문 {ev.fresh.n}개 중 {Math.round((ev.fresh.top3 / ev.fresh.n) * 100)}% 에서 상위 3개 안에 정답이 있었습니다(UI5 {ev.minor}, 컨트롤 기준). 못 찾는 표현도 많습니다.</li>}

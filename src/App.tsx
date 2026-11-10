@@ -87,7 +87,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   return (
     <div className={`app ${hasDetail ? 'has-detail' : ''}`}>
       <header className="top">
-        <div className="brand"><span className="logo">UI5 Lens</span><span className="tag">한국어 UI5 API 탐색</span></div>
+        <div className="brand"><span className="logo">SAP Lens</span><span className="tag">한국어 UI5 API 탐색 · ABAP 기본</span></div>
         <div className="ver-pick">
           <label htmlFor="ver">UI5 버전</label>
           <select id="ver" value={meta.minor} onChange={(e) => onVersion(e.target.value)} aria-label="UI5 버전 선택">

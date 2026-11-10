@@ -1,4 +1,4 @@
-# UI5 Lens — 한국어 UI5 API 탐색
+# SAP Lens — 한국어 UI5 API 탐색 · ABAP 기본 문법
 
 키워드 검색 → API 후보 목록 → 후보 선택 → 한국어로 구조·사용 조건·예제 확인.
 ui5.sap.com 이 호스팅하는 **모든 UI5 버전(31개)** 의 공식 API 자료를 담고, 회사가 쓰는 버전을 골라 볼 수 있다.
@@ -83,7 +83,7 @@ npm run verify:examples     # 예제를 실제 UI5 1.154.0 에서 실행(인터�
 
 ## 고지
 
-- UI5 Lens 는 SAP 와 무관한 학생 프로젝트이며, SAP 가 보증하거나 후원하지 않습니다. SAP, SAPUI5, OpenUI5 는 SAP SE 의 상표입니다.
+- SAP Lens(이전 이름 UI5 Lens) 는 SAP 와 무관한 학생 프로젝트이며, SAP 가 보증하거나 후원하지 않습니다. SAP, SAPUI5, OpenUI5 는 SAP SE 의 상표입니다.
 - 화면의 API 구조·영문 설명은 ui5.sap.com 이 공개한 `api.json` 에서 가져옵니다(이 저장소에는 그 원본을 담지 않고, `npm run fetch:api` 로 직접 받습니다). 원본의 저작권과 이용 조건은 SAP 에 있습니다. 가져온 자료를 담은 빌드 결과(`dist/`)를 웹에 배포하기 전에 해당 이용 조건을 확인하세요.
 - 한국어 설명은 AI 가 작성한 초안이며 대부분 사람이 검토하지 않았습니다. 틀릴 수 있으니 항목마다 있는 공식 원문 링크로 확인하세요.
 - 예제는 데이터 파일(`data/ko`)에 있는 코드만 격리된 iframe(`sandbox="allow-scripts"`)의 전용 문서에서 실행합니다. 보안 설계와 알려진 한계는 `SECURITY.md` 를 보세요.
