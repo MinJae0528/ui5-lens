@@ -5,6 +5,7 @@ const TABS: { id: Mode; label: string; hint: string }[] = [
   { id: 'feature', label: '기능으로 추천', hint: '하고 싶은 일로' },
   { id: 'browse', label: 'API 탐색', hint: '목록을 훑어보며' },
   { id: 'guide', label: '문서 가이드', hint: '공식 문서 목차' },
+  { id: 'abap', label: 'ABAP 기본', hint: '문법 사전(초안)' },
 ];
 
 /** ui5.sap.com 상단 탭처럼, 무엇을 어떻게 찾을지 고르는 줄. 탭을 누르면 그 방식의 화면으로 바뀐다. */

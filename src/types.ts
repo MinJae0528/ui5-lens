@@ -33,6 +33,9 @@ export interface ApiDoc {
   abstract?: boolean; final?: boolean; experimental?: Experimental; allowedFor?: string[]; references?: Ref[]; examples?: ExampleCode[];
   ctor?: { description: string; references: Ref[]; examples: ExampleCode[]; allowedFor: string[] };
 }
+export interface AbapLink { label: string; site: 'cloud' | 'standard'; url: string }
+export interface AbapEntry { id: string; term: string; group: string; summary: string; whenToUse: string; syntax: string; notes: string[]; links: AbapLink[] }
+export interface AbapDoc { category: string; title: string; provenance: { generator: string; review: string; executed: boolean; note: string; linkSource: string; checkedAt: string }; sites: Record<string, string>; entries: AbapEntry[] }
 /** 문서 가이드 목차: [key, 제목, 하위 목록 | 0] */
 export type TopicNode = [string, string, TopicNode[] | 0];
 export interface Tagged { text: string; kind?: 'official' | 'service'; basis?: string }

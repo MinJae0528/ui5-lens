@@ -8,6 +8,7 @@ import { Browse } from './shell/Browse';
 import { Guide, GuidePage } from './shell/Guide';
 import { Landing } from './shell/Landing';
 import { ModeTabs } from './shell/ModeTabs';
+import { AbapDetail, AbapList, useAbap } from './shell/Abap';
 import { NameResults } from './shell/NameResults';
 import { FEATURE_QUICK } from './shell/quick';
 import { Scope } from './shell/Scope';
@@ -71,7 +72,8 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   const recReady = !!(rec.res && rec.res.results.length > 0);
   const memberRecReady = !!(c.memberRec && c.memberRec.results.length > 0);
   const hybridReady = !!c.hybrid;
-  const hasDetail = !!route.api || (mode === 'guide' && !!route.tp);
+  const abap = useAbap(mode === 'abap');
+  const hasDetail = !!route.api || (mode === 'guide' && !!route.tp) || (mode === 'abap' && !!route.ab);
   const landing = <Landing vd={vd} g={g} mode={mode} onQuick={c.quick} onMode={c.setMode} onLib={(lib) => setRoute({ m: 'browse', lib, api: null }, true)} onPick={c.select} />;
 
   const status = (() => {
@@ -157,6 +159,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
           )}
 
           {mode === 'browse' && <div className="cands"><Browse index={c.searchable} lib={route.lib} selected={route.api} onLib={(lib) => setRoute({ lib })} onPick={c.select} /></div>}
+          {mode === 'abap' && <div className="cands"><AbapList res={abap} ab={route.ab} onPick={(ab) => setRoute({ ab }, true)} /></div>}
           {mode === 'guide' && <div className="cands"><Guide minor={meta.minor} hasTopics={!!meta.counts.topics} tp={route.tp} onTopic={(tp) => setRoute({ tp, api: null }, true)} /></div>}
         </section>
 
@@ -167,6 +170,8 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
               onBack={() => setRoute({ api: null, mem: '', mq: '', tab: 'overview' }, true)}
               onApi={c.select} onVersion={onVersion}
             />
+          ) : mode === 'abap' ? (
+            <div className="detail-empty guide-wrap"><AbapDetail res={abap} ab={route.ab} onBack={() => setRoute({ ab: '' }, true)} /></div>
           ) : mode === 'guide' ? (
             <div className="detail-empty guide-wrap"><GuidePage minor={meta.minor} hasTopics={!!meta.counts.topics} docBase={meta.docBase} tp={route.tp} onTopic={(tp) => setRoute({ tp }, true)} onBack={() => setRoute({ tp: '' }, true)} /></div>
           ) : (

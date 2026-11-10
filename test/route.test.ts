@@ -17,6 +17,9 @@ test('직렬화→파싱 왕복: 모드·질문·멤버 상세·탭이 보존된
   assert.deepEqual(parse(serialize(b)), b);
   const g: Route = { ...DEFAULT_ROUTE, m: 'guide', tp: '0123456789abcdef0123456789abcdef' };
   assert.deepEqual(parse(serialize(g)), g);
+  const ab: Route = { ...DEFAULT_ROUTE, m: 'abap', ab: 'select' };
+  assert.deepEqual(parse(serialize(ab)), ab);
+  assert.equal(parse('#?m=abap&ab=..%2Fx').ab, '');
 });
 
 test('이전 형식의 주소(모드 없음)는 그대로 열린다', () => {

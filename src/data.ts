@@ -5,7 +5,7 @@ import type { HybridCtx } from './domain/hybrid';
 import type { Recipe } from './domain/recipes';
 import type { LifeContext } from './domain/life';
 import { expandMembers, KIND_NAME, type MemberRow, type RawMembers } from './domain/memberIndex';
-import type { Alias, ApiDoc, Availability, IndexEntry, KoDoc, Meta, TopicNode, VersionList } from './types';
+import type { AbapDoc, Alias, ApiDoc, Availability, IndexEntry, KoDoc, Meta, TopicNode, VersionList } from './types';
 
 const BASE = `${import.meta.env.BASE_URL}data`;
 async function getJson<T>(url: string, allow404 = false): Promise<T | null> {
@@ -157,6 +157,13 @@ export function loadMemberRows(minor: string): Promise<MemberRow[]> {
 }
 
 /** 문서 가이드 목차. 버전에 목차가 없으면 null(1.38 등). */
+let abapP: Promise<AbapDoc> | null = null;
+/** ABAP 기본 문법 사전(버전과 무관) */
+export function loadAbap(): Promise<AbapDoc> {
+  if (!abapP) { const p = getJson<AbapDoc>(`${BASE}/abap/basics.json`).then((d) => d as AbapDoc); p.catch(() => { abapP = null; }); abapP = p; }
+  return abapP;
+}
+
 const topicCache = new Map<string, Promise<TopicNode[] | null>>();
 export function loadTopics(minor: string): Promise<TopicNode[] | null> {
   let p = topicCache.get(minor);

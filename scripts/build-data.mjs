@@ -318,6 +318,13 @@ if (existsSync('data/intents.json') && existsSync(`${OUT}/v/${BASE_MINOR}/intent
   if (existsSync('data/recommend-members-eval-result.json')) writeFileSync(`${OUT}/recommend-members-eval.json`, readFileSync('data/recommend-members-eval-result.json'));
 }
 
+// ---------- ABAP 기본 문법 사전: 링크·필수 칸을 점검한 뒤 화면 데이터로 복사 ----------
+if (existsSync('data/abap/basics.json')) {
+  await import('./check-abap.mjs');
+  mkdirSync(`${OUT}/abap`, { recursive: true });
+  writeFileSync(`${OUT}/abap/basics.json`, readFileSync('data/abap/basics.json'));
+}
+
 // ---------- 레시피 (data/recipes.json): 정답 API 가 기준 버전 공식 자료에 실제로 있는지 검증 ----------
 if (existsSync('data/recipes.json') && existsSync(`${OUT}/v/${BASE_MINOR}/members.json.gz`)) {
   const src = JSON.parse(readFileSync('data/recipes.json', 'utf8'));
