@@ -48,8 +48,8 @@ export function Landing({ vd, g, mode, onQuick, onMode, onLib, onPick }: { vd: V
         ))}
         <p className="muted small">누르면 공식 영문 구조(속성·메서드·이벤트·상속·버전)가 열립니다. ‘한’ 표시가 붙은 {ko.length}개에는 한국어 설명(AI 초안·미검토)이 있고, 나머지는 영문 원문과 공식 링크를 제공합니다.</p>
       </section>
-      <section className="about" aria-label="SAP Lens 소개">
-        <h3>SAP Lens 는 이런 도구입니다</h3>
+      <section className="about" aria-label="ERP Lens 소개">
+        <h3>ERP Lens 는 이런 도구입니다</h3>
         <ul>
           <li>공식 <code>api.json</code> 을 {g.versions.versions.length}개 UI5 버전에 걸쳐 정리해, <b>“이 API 를 내 버전에서 쓸 수 있나?”</b> 를 한국어로 빠르게 확인하게 돕는 학습자용 도구입니다.</li>
           <li>SAP 와 무관한 학생 프로젝트이며 SAP 가 보증하거나 후원하지 않습니다. 현재 UI5 는 API 탐색 전체를, ABAP 은 기본 문법 사전(AI 초안)만 제공합니다.</li>
