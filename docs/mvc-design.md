@@ -1,12 +1,12 @@
-# UI5 Lens MVC 역할 설계
+# ERP Lens MVC 역할 설계
 
 구현 확인 기준일: 2026-11-05
 
-UI5 Lens는 React 컴포넌트와 훅을 사용하여 화면, 상호작용 제어, 자료 및 도메인 로직을 나눈다. 고전적인 서버 MVC 프레임워크를 사용한 구현은 아니며, MVC의 책임 구분을 클라이언트 구조에 대응한 설계이다.
+ERP Lens는 React 컴포넌트와 훅을 사용하여 화면, 상호작용 제어, 자료 및 도메인 로직을 나눈다. 고전적인 서버 MVC 프레임워크를 사용한 구현은 아니며, MVC의 책임 구분을 클라이언트 구조에 대응한 설계이다.
 
 ## 구조도
 
-![UI5 Lens MVC 역할 구조](assets/mvc-design.png)
+![ERP Lens MVC 역할 구조](assets/mvc-design.png)
 
 [벡터 원본 SVG](assets/mvc-design.svg)
 

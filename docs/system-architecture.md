@@ -1,12 +1,12 @@
-# UI5 Lens 시스템 아키텍처
+# ERP Lens 시스템 아키텍처
 
 구현 확인 기준일: 2026-11-05
 
-UI5 Lens는 개발 단계에서 자료를 준비하고, 사용자의 브라우저에서 검색·추천·상세 탐색을 수행하는 정적 웹앱이다. 현재 비즈니스 API 서버, 사용자 데이터베이스, 실시간 AI 추론 서버는 사용하지 않는다.
+ERP Lens는 개발 단계에서 자료를 준비하고, 사용자의 브라우저에서 검색·추천·상세 탐색을 수행하는 정적 웹앱이다. 현재 비즈니스 API 서버, 사용자 데이터베이스, 실시간 AI 추론 서버는 사용하지 않는다.
 
 ## 구성도
 
-![UI5 Lens 시스템 아키텍처](assets/system-architecture.png)
+![ERP Lens 시스템 아키텍처](assets/system-architecture.png)
 
 [벡터 원본 SVG](assets/system-architecture.svg)
 
