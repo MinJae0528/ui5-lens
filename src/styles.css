@@ -2,10 +2,12 @@
   --bg: #f6f7f9; --panel: #fff; --ink: #1d2433; --muted: #5f6b7e; --line: #dde1e8; --accent: #0a62c9; --accent-bg: #e8f1fd;
   --ok: #17703a; --ok-bg: #e4f5ea; --warn: #8a4b00; --warn-bg: #fff1dc; --dep: #a1262f; --dep-bg: #fde8ea; --code-bg: #0f1722; --code-ink: #e6edf7;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --ui5: #0a62c9; --abap: #0b7a75; --abap-bg: #e1f4f2; --chrome: #e4e8ee; --on-accent: #fff;
 }
 @media (prefers-color-scheme: dark) {
   :root { --bg: #11151c; --panel: #1a202b; --ink: #e8ecf3; --muted: #9aa6ba; --line: #2c3544; --accent: #6fb0ff; --accent-bg: #172a45;
-    --ok: #6fd392; --ok-bg: #12301f; --warn: #ffbf70; --warn-bg: #3a2a10; --dep: #ff9aa2; --dep-bg: #3b1a1e; --code-bg: #0a0e14; }
+    --ok: #6fd392; --ok-bg: #12301f; --warn: #ffbf70; --warn-bg: #3a2a10; --dep: #ff9aa2; --dep-bg: #3b1a1e; --code-bg: #0a0e14;
+    --ui5: #6fb0ff; --abap: #5fd1c8; --abap-bg: #123430; --chrome: #0e1218; --on-accent: #0a1220; }
 }
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; }
@@ -225,3 +227,38 @@ tr.cur td { background: var(--accent-bg); }
 .member-results { grid-template-columns: minmax(0, 1fr); }
 .card { overflow-wrap: anywhere; }
 .decl .chip, .mono-chip { max-width: 100%; white-space: normal; text-align: left; }
+
+/* ---- 상위 탭(UI5 | ABAP)과 맥락 바 ----
+   먼저 UI5 인지 ABAP 인지 고르고, 그 아래 줄이 그 제품의 설정(UI5: 버전+찾는 방법, ABAP: 문법 그룹)으로 바뀐다.
+   ABAP 에서는 강조색(--accent)을 청록으로 바꿔 지금 어느 쪽인지 색으로도 알 수 있게 한다. */
+.app[data-product="abap"] { --accent: var(--abap); --accent-bg: var(--abap-bg); }
+.top { background: var(--chrome); border-bottom: 0; padding-bottom: 4px; }
+.ptabs { background: var(--chrome); padding: 0 14px; }
+.ptab-list { display: flex; gap: 4px; align-items: flex-end; }
+.ptab { display: grid; gap: 1px; text-align: left; min-width: 168px; padding: 9px 22px 8px; border: 1px solid transparent; border-bottom: 0; border-radius: 12px 12px 0 0; background: none; color: var(--muted); font: inherit; cursor: pointer; line-height: 1.25; }
+.ptab b { font-size: 1rem; color: var(--ink); } .ptab small { font-size: .78rem; }
+.ptab[data-id="ui5"] { --tab-color: var(--ui5); } .ptab[data-id="abap"] { --tab-color: var(--abap); }
+.ptab:hover { background: color-mix(in srgb, var(--panel) 55%, transparent); }
+.ptab.on { background: var(--panel); border-color: var(--line); box-shadow: inset 0 3px 0 var(--tab-color); margin-bottom: -1px; position: relative; z-index: 1; color: var(--ink); }
+.ptab.on b { color: var(--tab-color); }
+.ptab:focus-visible { outline: 2px solid var(--tab-color); outline-offset: -2px; }
+.ctx { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.ctx-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 10px 14px 0; }
+.ctx-row .scope-chip { margin-left: 0; }
+.ctx .mode-nav { border-bottom: 0; }
+.ctx-note { border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: .82rem; color: var(--muted); }
+.gchips { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 14px 12px; }
+.gchip { border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 4px 12px; font: inherit; font-size: .88rem; cursor: pointer; }
+.gchip span { margin-left: 4px; font-size: .8rem; opacity: .7; }
+.gchip:hover { border-color: var(--accent); }
+.gchip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+@media (max-width: 900px) {
+  .ptabs { padding: 0 8px; }
+  .ptab { flex: 1; min-width: 0; padding: 9px 12px 8px; }
+  .ptab-list { display: flex; }
+  .ptab small { font-size: .7rem; }
+  .ctx-row { padding: 8px 12px 0; } .gchips { padding: 8px 12px 10px; }
+  /* 하위 탭이 더 있다는 표시: 오른쪽 끝을 흐리게 */
+  .ctx .mode-nav { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+  .mode-tabs { padding-right: 24px; }
+}

@@ -505,6 +505,61 @@ await page.context().close();
   await ctx.close();
 }
 
+// ---- 19b. 상위 탭(UI5 | ABAP)과 맥락 바
+{
+  let p = await fresh();
+  const hash = () => p.evaluate(() => decodeURIComponent(location.hash));
+  check('상위 탭 2개(UI5, ABAP), 기본은 UI5', (await p.$$eval('.ptab-list [role=tab]', (e) => e.map((x) => `${x.querySelector('b').textContent}:${x.getAttribute('aria-selected')}`).join('|'))) === 'UI5:true|ABAP:false');
+  check('UI5: 버전 선택과 찾는 방법 탭 4개가 보임', (await p.isVisible('#ver')) && (await p.$$('.mode-tabs [role=tab]')).length === 4);
+  await p.click('#mode-feature');
+  await p.click('#ptab-abap');
+  await p.waitForSelector('.gchips');
+  check('ABAP: 버전 선택이 없고 "버전 구분 없음" 안내', (await p.$('#ver')) === null && (await p.textContent('.ctx-note')).includes('버전 구분 없음'));
+  check('ABAP: 그룹 칩(전체+7)과 주소 m=abap', (await p.$$('.gchip')).length === 8 && /m=abap/.test(await hash()));
+  await p.click('#ptab-ui5');
+  await p.waitForSelector('#ver');
+  check('UI5 로 돌아오면 직전에 쓰던 모드(기능으로 추천)가 열림', (await p.getAttribute('#mode-feature', 'aria-selected')) === 'true');
+  await p.click('#ptab-abap');
+  await p.waitForSelector('.gchips');
+  await p.click('.gchip:has-text("데이터베이스")');
+  await p.waitForFunction(() => decodeURIComponent(location.hash).includes('ag=데이터베이스'));
+  check('그룹 "데이터베이스": 목록 5개', (await p.$$('.member-head')).length === 5);
+  await p.reload(); await p.waitForSelector('.gchips');
+  check('새로고침해도 ABAP·그룹 유지', (await p.textContent('.gchip[aria-pressed=true]')).startsWith('데이터베이스') && (await p.$$('.member-head')).length === 5);
+  await p.click('.gchip:has-text("전체")');
+  await p.click('.member-head >> nth=0');
+  await p.waitForSelector('.detail-pane .api-name');
+  check('ABAP 항목 상세가 열림', (await p.textContent('.detail-pane .api-name')).length > 0);
+  await p.click('#ptab-ui5');
+  await p.waitForSelector('#ver');
+  await p.focus('#ptab-ui5'); await p.keyboard.press('ArrowRight');
+  await p.waitForSelector('.gchips');
+  check('상위 탭: 오른쪽 화살표로 ABAP 이동, 포커스가 따라감', (await p.evaluate(() => document.activeElement?.id)) === 'ptab-abap');
+  check('상위 탭 전환 중 페이지 오류 없음', p.errs.length === 0, p.errs.join(' | '));
+  await p.context().close();
+
+  // 이름 검색의 "ABAP 기본에도 있습니다" 안내 → ABAP 탭에서 그 항목이 열린다
+  p = await fresh();
+  await type(p, 'select');
+  await p.waitForSelector('.notice:has-text("ABAP 기본") .chip');
+  await p.click('.notice:has-text("ABAP 기본") .chip >> nth=0');
+  await p.waitForSelector('.detail-pane .api-name');
+  check('이름 검색의 ABAP 안내 → ABAP 탭에서 항목 상세가 열림', (await p.getAttribute('#ptab-abap', 'aria-selected')) === 'true' && (await p.textContent('.detail-pane .api-name')).length > 0);
+  await p.context().close();
+
+  // 모바일(390px): 상위 탭이 둘 다 보이고 가로 스크롤이 없다
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 800 } });
+  const mp = await ctx.newPage();
+  await mp.goto(URL_ + '#?m=abap'); await mp.waitForSelector('.gchips');
+  const box = (sel) => mp.$eval(sel, (e) => { const r = e.getBoundingClientRect(); return { l: r.left, r: r.right }; });
+  const ta = await box('#ptab-ui5'), tb = await box('#ptab-abap');
+  check('모바일: 상위 탭 두 개가 모두 화면 안에 보임', ta.l >= 0 && tb.r <= 390, `${ta.l}~${tb.r}`);
+  check('모바일(ABAP): 가로 스크롤 없음', await mp.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
+  await mp.goto(URL_ + '#?m=name'); await mp.waitForSelector('#ver');
+  check('모바일(UI5): 가로 스크롤 없음', await mp.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
+  await ctx.close();
+}
+
 // ---- 20. 보안: CSP 가 적용된 빌드(preview)에서 위반이 없어야 한다
 {
   const p = await fresh();

@@ -28,14 +28,34 @@ export function abapNameHits(entries: AbapEntry[], q: string, limit = 4): AbapEn
   return entries.filter(hit).slice(0, limit);
 }
 
-/** 왼쪽: 주제별로 묶은 ABAP 항목 목록과 검색 */
-export function AbapList({ res, ab, onPick }: { res: ReturnType<typeof useAbap>; ab: string; onPick: (id: string) => void }) {
+/** 문법 그룹별 항목 수. 맥락 바의 그룹 칩과 목록 필터가 같은 값을 쓴다. */
+export function abapGroupCounts(entries: AbapEntry[]): [string, number][] {
+  const m = new Map<string, number>();
+  for (const e of entries) m.set(e.group, (m.get(e.group) ?? 0) + 1);
+  return [...m];
+}
+
+/** ABAP 맥락 바의 두 번째 단계: UI5 의 "버전" 자리에 문법 그룹으로 범위를 좁힌다. active 가 빈 문자열이면 전체. */
+export function AbapGroups({ groups, total, active, onPick }: { groups: [string, number][]; total: number; active: string; onPick: (g: string) => void }) {
+  if (groups.length === 0) return null;
+  return (
+    <div className="gchips" role="group" aria-label="문법 그룹">
+      <button className="gchip" aria-pressed={active === ''} onClick={() => onPick('')}>전체<span>{total}</span></button>
+      {groups.map(([g, n]) => (
+        <button key={g} className="gchip" aria-pressed={active === g} onClick={() => onPick(g)}>{g}<span>{n}</span></button>
+      ))}
+    </div>
+  );
+}
+
+/** 왼쪽: 주제별로 묶은 ABAP 항목 목록과 검색. group 이 비어 있지 않으면 그 그룹만 보여 준다. */
+export function AbapList({ res, ab, group, onPick }: { res: ReturnType<typeof useAbap>; ab: string; group: string; onPick: (id: string) => void }) {
   const [q, setQ] = useState('');
   const groups = useMemo(() => {
     const m = new Map<string, AbapEntry[]>();
-    for (const e of res.doc?.entries ?? []) if (matchAbap(e, q)) (m.get(e.group) ?? m.set(e.group, []).get(e.group)!).push(e);
+    for (const e of res.doc?.entries ?? []) if ((!group || e.group === group) && matchAbap(e, q)) (m.get(e.group) ?? m.set(e.group, []).get(e.group)!).push(e);
     return [...m];
-  }, [res.doc, q]);
+  }, [res.doc, q, group]);
   const total = res.doc?.entries.length ?? 0;
   return (
     <div className="stack pad">
@@ -45,7 +65,7 @@ export function AbapList({ res, ab, onPick }: { res: ReturnType<typeof useAbap>;
       {res.loading && <p className="muted" role="status">불러오는 중…</p>}
       {res.error && <div className="notice warn" role="alert">ABAP 자료를 불러오지 못했습니다. “항목 없음”이 아니라 조회 실패입니다.</div>}
       {res.doc && <p className="muted small">{groups.reduce((a, [, v]) => a + v.length, 0)} / {total}개</p>}
-      {res.doc && groups.length === 0 && <div className="empty">“{q}” 와 맞는 항목이 없습니다.</div>}
+      {res.doc && groups.length === 0 && <div className="empty">{q ? <>“{q}” 와 맞는 항목이 없습니다.{group && <> “{group}” 그룹 안에서만 찾고 있어요. 위에서 “전체”를 누르면 모든 그룹에서 찾습니다.</>}</> : '이 그룹에는 항목이 없습니다.'}</div>}
       {groups.map(([g, list]) => (
         <section key={g}>
           <h4>{g}</h4>

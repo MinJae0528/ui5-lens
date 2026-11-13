@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { HybridSection, MemberRecSection, RecSection } from './Ask';
-import { useRoute, type Route } from './controller/route';
+import { productOf, switchProduct, useRoute, type Product, type Route, type Ui5Mode } from './controller/route';
 import { useSearchController } from './controller/useSearchController';
 import { loadGlobal, loadVersion, type Global, type VersionData } from './data';
 import { Detail } from './detail/Detail';
@@ -8,7 +8,8 @@ import { Browse } from './shell/Browse';
 import { Guide, GuidePage } from './shell/Guide';
 import { Landing } from './shell/Landing';
 import { ModeTabs } from './shell/ModeTabs';
-import { AbapDetail, AbapList, abapNameHits, useAbap } from './shell/Abap';
+import { ProductTabs } from './shell/ProductTabs';
+import { AbapDetail, AbapGroups, AbapList, abapGroupCounts, abapNameHits, useAbap } from './shell/Abap';
 import { NameResults } from './shell/NameResults';
 import { FEATURE_QUICK } from './shell/quick';
 import { Scope } from './shell/Scope';
@@ -74,6 +75,13 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   const hybridReady = !!c.hybrid;
   const abap = useAbap(mode === 'abap' || (mode === 'name' && !!q));
   const abapHits = mode === 'name' && q && abap.doc ? abapNameHits(abap.doc.entries, q) : [];
+  // 상위 구분(UI5 | ABAP). 주소의 모드에서 계산하고, UI5 로 돌아올 때를 위해 직전 UI5 모드를 기억한다.
+  const product = productOf(mode);
+  const lastUi5 = useRef<Ui5Mode>('name');
+  useEffect(() => { if (product === 'ui5') lastUi5.current = mode as Ui5Mode; }, [product, mode]);
+  const onProduct = (p: Product) => { if (p !== product) setRoute(switchProduct(p, lastUi5.current), true); };
+  const abapGroups = useMemo(() => abapGroupCounts(abap.doc?.entries ?? []), [abap.doc]);
+  const abapGroup = abapGroups.some(([name]) => name === route.ag) ? route.ag : ''; // 알 수 없는 그룹 이름(직접 고친 주소)은 전체로
   const hasDetail = !!route.api || (mode === 'guide' && !!route.tp) || (mode === 'abap' && !!route.ab);
   const landing = <Landing vd={vd} g={g} mode={mode} onQuick={c.quick} onMode={c.setMode} onLib={(lib) => setRoute({ m: 'browse', lib, api: null }, true)} onPick={c.select} />;
 
@@ -86,27 +94,42 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   })();
 
   return (
-    <div className={`app ${hasDetail ? 'has-detail' : ''}`}>
+    <div className={`app ${hasDetail ? 'has-detail' : ''}`} data-product={product}>
       <header className="top">
         <div className="brand"><span className="logo">ERP Lens</span><span className="tag">한국어 UI5 API 탐색 · ABAP 기본</span></div>
-        <div className="ver-pick">
-          <label htmlFor="ver">UI5 버전</label>
-          <select id="ver" value={meta.minor} onChange={(e) => onVersion(e.target.value)} aria-label="UI5 버전 선택">
-            {g.versions.versions.map((v) => (
-              <option key={v.minor} value={v.minor}>{v.minor} ({v.version}){v.lts ? ' · LTS' : ''}{v.sapuiversion ? ` · SAP 매핑 ${v.sapuiversion}` : ''}</option>
-            ))}
-          </select>
-        </div>
-        <button className="scope-chip" onClick={() => setShowScope((s) => !s)} aria-expanded={showScope}>
-          UI5 <b>{meta.version}</b>{verInfo?.lts ? ' LTS' : ''}<span className="chip-extra"> · 검색 {meta.counts.searchable.toLocaleString()}개 · 한국어 상세 <b>{meta.counts.detailedKo}</b>개</span>
-          {meta.dataKind === 'demo' ? <span className="badge b-warn">데모 데이터</span> : <span className="badge b-off">공식 api.json</span>}
-        </button>
       </header>
-      <ModeTabs mode={mode} onMode={c.setMode} docBase={meta.docBase} />
-      {showScope && <Scope g={g} vd={vd} onVersion={(m) => { onVersion(m); setShowScope(false); }} onPick={(n) => { c.select(n); setShowScope(false); }} />}
+      <ProductTabs product={product} onProduct={onProduct} abapCount={abap.doc?.entries.length} />
+      <section className="ctx" id="ctx" role="tabpanel" aria-labelledby={`ptab-${product}`}>
+        {product === 'ui5' ? (
+          <>
+            {/* 버전은 UI5 에만 있다. ABAP 에는 UI5 버전이 없어서 아래 ABAP 맥락 바에서는 보이지 않는다. */}
+            <div className="ctx-row">
+              <div className="ver-pick">
+                <label htmlFor="ver">UI5 버전</label>
+                <select id="ver" value={meta.minor} onChange={(e) => onVersion(e.target.value)} aria-label="UI5 버전 선택">
+                  {g.versions.versions.map((v) => (
+                    <option key={v.minor} value={v.minor}>{v.minor} ({v.version}){v.lts ? ' · LTS' : ''}{v.sapuiversion ? ` · SAP 매핑 ${v.sapuiversion}` : ''}</option>
+                  ))}
+                </select>
+              </div>
+              <button className="scope-chip" onClick={() => setShowScope((s) => !s)} aria-expanded={showScope}>
+                UI5 <b>{meta.version}</b>{verInfo?.lts ? ' LTS' : ''}<span className="chip-extra"> · 검색 {meta.counts.searchable.toLocaleString()}개 · 한국어 상세 <b>{meta.counts.detailedKo}</b>개</span>
+                {meta.dataKind === 'demo' ? <span className="badge b-warn">데모 데이터</span> : <span className="badge b-off">공식 api.json</span>}
+              </button>
+            </div>
+            <ModeTabs mode={mode} onMode={c.setMode} docBase={meta.docBase} />
+          </>
+        ) : (
+          <>
+            <div className="ctx-row"><span className="ctx-note">버전 구분 없음 · 기본 문법</span></div>
+            <AbapGroups groups={abapGroups} total={abap.doc?.entries.length ?? 0} active={abapGroup} onPick={(ag) => setRoute({ ag, ab: '' })} />
+          </>
+        )}
+      </section>
+      {product === 'ui5' && showScope && <Scope g={g} vd={vd} onVersion={(m) => { onVersion(m); setShowScope(false); }} onPick={(n) => { c.select(n); setShowScope(false); }} />}
 
       <div className="panes">
-        <section className="pane list-pane" aria-label="검색과 후보 목록" role="tabpanel" aria-labelledby={`mode-${mode}`}>
+        <section className="pane list-pane" aria-label="검색과 후보 목록" role="tabpanel" aria-labelledby={mode === 'abap' ? 'ptab-abap' : `mode-${mode}`}>
           {c.typed && (
             <div className="search-box">
               <label htmlFor="q" className="sr-only">{mode === 'name' ? '클래스·메서드 이름 검색' : '하고 싶은 일 검색'}</label>
@@ -125,7 +148,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
               {!q && !pending && <div className="only-narrow">{landing}</div>}
 
               {abapHits.length > 0 && !pending && (
-                <div className="notice"><b>ABAP 기본</b> 에도 있습니다: {abapHits.map((e) => <button key={e.id} className="chip" onClick={() => setRoute({ m: 'abap', ab: e.id, q: '', api: null }, true)}>{e.term}</button>)}</div>
+                <div className="notice"><b>ABAP 기본</b> 에도 있습니다: {abapHits.map((e) => <button key={e.id} className="chip" onClick={() => setRoute({ ...switchProduct('abap', lastUi5.current), ab: e.id, ag: '' }, true)}>{e.term}</button>)}</div>
               )}
 
               {mode === 'name' && q && !pending && (
@@ -164,7 +187,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
           )}
 
           {mode === 'browse' && <div className="cands"><Browse index={c.searchable} lib={route.lib} selected={route.api} onLib={(lib) => setRoute({ lib })} onPick={c.select} /></div>}
-          {mode === 'abap' && <div className="cands"><AbapList res={abap} ab={route.ab} onPick={(ab) => setRoute({ ab }, true)} /></div>}
+          {mode === 'abap' && <div className="cands"><AbapList res={abap} ab={route.ab} group={abapGroup} onPick={(ab) => setRoute({ ab }, true)} /></div>}
           {mode === 'guide' && <div className="cands"><Guide minor={meta.minor} hasTopics={!!meta.counts.topics} tp={route.tp} onTopic={(tp) => setRoute({ tp, api: null }, true)} /></div>}
         </section>
 
