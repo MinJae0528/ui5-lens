@@ -36,7 +36,7 @@ async function inl(page, text) {
 
 // ---- 1. 검색 전 상태
 let page = await fresh();
-check('검색 전: 안내와 한국어 지원 범위 표시', (await page.textContent('.detail-empty .landing')).includes('한국어 설명이 준비된 API'));
+check('검색 전: 안내와 한국어 지원 범위 표시', (await page.textContent('.detail-empty .landing')).includes('한국어 설명(AI 초안·미검토)이 있고') && (await page.textContent('.detail-empty .landing')).includes('영문 원문과 공식 링크'));
 check('범위 칩에 버전·개수 표시', /1\.154/.test(await page.textContent('.scope-chip')));
 check('버전 선택: 호스팅된 31개 버전', (await page.$$eval('#ver option', (o) => o.length)) === 31);
 await shot(page, '01-initial');
@@ -140,10 +140,11 @@ check('버전 탭: 대상 버전·출처·deprecated/제거됨/disabled 구분',
 await shot(page, '07-versions');
 
 // ---- 9. 한국어 미준비 상태
-await type(page, 'sap.m.Button');
+await type(page, 'sap.m.Bar');
 await page.click('#cands .card >> nth=0');
-await page.waitForFunction(() => document.querySelector('.api-name')?.textContent === 'sap.m.Button');
-check('한국어 미준비 API: 안내 표시 + 영문 원문 제공', (await page.textContent('.tab-body')).includes('한국어 설명이 아직 준비되지 않았습니다') && (await page.textContent('.tab-body')).includes('영문 원문'));
+await page.waitForFunction(() => document.querySelector('.api-name')?.textContent === 'sap.m.Bar');
+// 상세 한국어가 없는 API 는 첫 문장 자동 번역(있으면)과 영문 원문을 함께 보여 준다. 번역도 없으면 "준비되지 않았습니다" 안내.
+check('상세 한국어 없는 API: 간단 번역 안내(AI 초안·첫 문장만) + 영문 원문 제공', (await page.textContent('.tab-body')).includes('자동 번역 · AI 초안 · 미검토') && (await page.textContent('.tab-body')).includes('영문 원문'));
 await shot(page, '08-ko-missing');
 check('콘솔/페이지 오류 없음(데스크톱 흐름)', page.errs.length === 0, page.errs.join('|'));
 await page.context().close();
@@ -427,9 +428,9 @@ await page.context().close();
 
 // 17h. 한국어 자료: “준비 안 됨(404)” 과 “조회 실패” 를 구분
 page = await fresh();
-await page.goto(URL_ + '#?q=Button&api=sap.m.Button');
+await page.goto(URL_ + '#?q=Bar&api=sap.m.Bar');
 await page.waitForSelector('.api-name');
-check('한국어 파일이 없는 API(Button): 실패 배너 없이 “준비되지 않았습니다”', (await page.$$('[role=alert]:has-text("한국어 설명 자료를")')).length === 0 && (await page.textContent('.tab-body')).includes('준비되지 않았습니다'));
+check('한국어 파일이 없는 API(Bar): 실패 배너 없이 영문 원문 + 간단 번역 안내', (await page.$$('[role=alert]:has-text("한국어 설명 자료를")')).length === 0 && (await page.textContent('.tab-body')).includes('영문 원문') && (await page.textContent('.tab-body')).includes('자동 번역'));
 await page.route('**/data/ko/sap.m.Table.json', (r) => r.abort());
 await page.goto(URL_ + '#?q=Table&api=sap.m.Table');
 await page.reload();
