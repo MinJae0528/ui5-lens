@@ -33,9 +33,18 @@ export interface ApiDoc {
   abstract?: boolean; final?: boolean; experimental?: Experimental; allowedFor?: string[]; references?: Ref[]; examples?: ExampleCode[];
   ctor?: { description: string; references: Ref[]; examples: ExampleCode[]; allowedFor: string[] };
 }
-export interface AbapLink { label: string; site: 'cloud' | 'standard'; url: string }
-export interface AbapEntry { id: string; term: string; group: string; summary: string; whenToUse: string; syntax: string; notes: string[]; links: AbapLink[] }
+export interface AbapLink { label: string; site: string; url: string }
+export interface AbapEntry { id: string; term: string; group: string; summary: string; whenToUse: string; syntax: string; notes: string[]; links: AbapLink[]; /** 공식 링크가 없는 항목의 근거 문구 */ basis?: string }
 export interface AbapDoc { category: string; title: string; provenance: { generator: string; review: string; executed: boolean; note: string; linkSource: string; checkedAt: string }; sites: Record<string, string>; entries: AbapEntry[] }
+/** tcode 사전: 입력 → 열리는 화면, 할 수 있는 일, 이어서 쓰는 tcode */
+export interface TcodeRoute { input: string; opens: string; when: string }
+export interface TcodeCommand { cmd: string; does: string; confirm: string }
+export interface Tcode {
+  id: string; code: string; name: string; group: string; summary: string; keywords: string; kind?: 'command';
+  routes: TcodeRoute[]; does: string[]; inClass: string; notes: string[]; related: { id: string; why: string }[];
+  concept?: { id: string; label: string }; commands?: TcodeCommand[]; links: AbapLink[];
+}
+export interface TcodeDoc { category: string; title: string; provenance: AbapDoc['provenance']; sites: Record<string, string>; groups: string[]; entries: Tcode[] }
 /** 문서 가이드 목차: [key, 제목, 하위 목록 | 0] */
 export type TopicNode = [string, string, TopicNode[] | 0];
 export interface Tagged { text: string; kind?: 'official' | 'service'; basis?: string }

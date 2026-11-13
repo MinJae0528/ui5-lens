@@ -1,0 +1,5 @@
+https://help.sap.com/saphelp_46c/helpdata/en/57/38e1824eb711d182bf0000e829fbfe/content.htm
+https://help.sap.com/saphelp_46c/helpdata/en/73/69ec8d55bb11d189680000e829fbbd/content.htm
+https://help.sap.com/saphelp_46c/helpdata/en/9a/897415dc4ad111950d0060b03c6b76/content.htm
+https://help.sap.com/saphelp_em92/helpdata/en/4d/6b8ed80f241783e10000000a42189b/content.htm
+https://learning.sap.com/courses/technical-implementation-and-operation-i-of-sap-s-4hana-and-sap-business-suite/describing-the-data-structure-of-an-as-abap-based-sap-system

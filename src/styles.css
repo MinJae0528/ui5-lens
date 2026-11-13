@@ -247,6 +247,14 @@ tr.cur td { background: var(--accent-bg); }
 .ctx-row .scope-chip { margin-left: 0; }
 .ctx .mode-nav { border-bottom: 0; }
 .ctx-note { border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: .82rem; color: var(--muted); }
+/* ABAP 구역 탭(문법 사전 | tcode 사전) */
+.azones { display: flex; gap: 2px; padding: 4px 14px 0; overflow-x: auto; }
+.azone { appearance: none; background: transparent; border: 0; border-bottom: 3px solid transparent; padding: 7px 16px 6px; cursor: pointer; color: var(--muted); text-align: left; line-height: 1.25; white-space: nowrap; font: inherit; }
+.azone small { display: block; font-size: .75rem; }
+.azone:hover { color: var(--ink); }
+.azone[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--abap); font-weight: 600; }
+.azone:focus-visible { outline: 2px solid var(--abap); outline-offset: -2px; }
+.gchips { border-top: 1px solid var(--line); margin-top: 4px; }
 .gchips { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 14px 12px; }
 .gchip { border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 4px 12px; font: inherit; font-size: .88rem; cursor: pointer; }
 .gchip span { margin-left: 4px; font-size: .8rem; opacity: .7; }
@@ -261,4 +269,29 @@ tr.cur td { background: var(--accent-bg); }
   /* 하위 탭이 더 있다는 표시: 오른쪽 끝을 흐리게 */
   .ctx .mode-nav { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
   .mode-tabs { padding-right: 24px; }
+}
+
+/* tcode 사전 상세: 입력 → 열리는 화면, 이어서 쓰는 tcode, 명령 표 */
+.hops { display: grid; gap: 8px; }
+.hop { display: grid; grid-template-columns: minmax(0, max-content) 22px minmax(0, 1fr); gap: 8px; align-items: center; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.hop code { background: var(--code-bg); color: #e6edf7; padding: 3px 9px; border-radius: 6px; font-weight: 600; white-space: nowrap; }
+.hop-ar { color: var(--abap); font-weight: 700; text-align: center; }
+.hop-to { font-size: .92rem; min-width: 0; overflow-wrap: anywhere; }
+.hop-when { display: block; color: var(--muted); font-size: .78rem; }
+.relchips { display: flex; flex-wrap: wrap; gap: 6px; }
+.relchip { border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer; font: inherit; font-size: .88rem; }
+.relchip:hover { border-color: var(--abap); color: var(--abap); }
+.relchip b { font-family: var(--mono); }
+.relchip small { color: var(--muted); margin-left: 6px; font-size: .8rem; }
+.relchip.concept { border-style: dashed; }
+.tbl-wrap { overflow-x: auto; max-width: 100%; }
+.tbl { border-collapse: collapse; width: 100%; max-width: 680px; font-size: .9rem; }
+.tbl th, .tbl td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.tbl th { color: var(--muted); font-weight: 600; font-size: .8rem; }
+.tbl td:first-child { white-space: nowrap; }
+.cmd-explain { background: var(--abap-bg); color: var(--abap); }
+@media (max-width: 900px) {
+  .azones { padding: 4px 12px 0; }
+  .hop { grid-template-columns: minmax(0, 1fr); }
+  .hop-ar { text-align: left; }
 }

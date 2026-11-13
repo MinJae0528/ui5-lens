@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { HybridSection, MemberRecSection, RecSection } from './Ask';
-import { productOf, switchProduct, useRoute, type Product, type Route, type Ui5Mode } from './controller/route';
+import { productOf, switchAbapZone, switchProduct, useRoute, type Product, type Route, type Ui5Mode } from './controller/route';
 import { useSearchController } from './controller/useSearchController';
 import { loadGlobal, loadVersion, type Global, type VersionData } from './data';
 import { Detail } from './detail/Detail';
@@ -9,7 +9,7 @@ import { Guide, GuidePage } from './shell/Guide';
 import { Landing } from './shell/Landing';
 import { ModeTabs } from './shell/ModeTabs';
 import { ProductTabs } from './shell/ProductTabs';
-import { AbapDetail, AbapGroups, AbapList, abapGroupCounts, abapNameHits, useAbap } from './shell/Abap';
+import { AbapDetail, AbapGroups, AbapList, AbapZones, TcodeDetail, TcodeList, abapGroupCounts, abapNameHits, tcodeGroupCounts, useAbap, useTcodes } from './shell/Abap';
 import { NameResults } from './shell/NameResults';
 import { FEATURE_QUICK } from './shell/quick';
 import { Scope } from './shell/Scope';
@@ -74,6 +74,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   const memberRecReady = !!(c.memberRec && c.memberRec.results.length > 0);
   const hybridReady = !!c.hybrid;
   const abap = useAbap(mode === 'abap' || (mode === 'name' && !!q));
+  const tcodes = useTcodes(mode === 'abap');
   const abapHits = mode === 'name' && q && abap.doc ? abapNameHits(abap.doc.entries, q) : [];
   // 상위 구분(UI5 | ABAP). 주소의 모드에서 계산하고, UI5 로 돌아올 때를 위해 직전 UI5 모드를 기억한다.
   const product = productOf(mode);
@@ -81,7 +82,10 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   useEffect(() => { if (product === 'ui5') lastUi5.current = mode as Ui5Mode; }, [product, mode]);
   const onProduct = (p: Product) => { if (p !== product) setRoute(switchProduct(p, lastUi5.current), true); };
   const abapGroups = useMemo(() => abapGroupCounts(abap.doc?.entries ?? []), [abap.doc]);
-  const abapGroup = abapGroups.some(([name]) => name === route.ag) ? route.ag : ''; // 알 수 없는 그룹 이름(직접 고친 주소)은 전체로
+  const zone = route.az === 'tcode' ? 'tcode' : 'syntax'; // ABAP 안의 구역(문법 사전 | tcode 사전)
+  const tcodeGroups = useMemo(() => tcodeGroupCounts(tcodes.doc), [tcodes.doc]);
+  const zoneGroups = zone === 'tcode' ? tcodeGroups : abapGroups;
+  const abapGroup = zoneGroups.some(([name]) => name === route.ag) ? route.ag : ''; // 알 수 없는 그룹 이름(직접 고친 주소)은 전체로
   const hasDetail = !!route.api || (mode === 'guide' && !!route.tp) || (mode === 'abap' && !!route.ab);
   const landing = <Landing vd={vd} g={g} mode={mode} onQuick={c.quick} onMode={c.setMode} onLib={(lib) => setRoute({ m: 'browse', lib, api: null }, true)} onPick={c.select} />;
 
@@ -98,7 +102,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
       <header className="top">
         <div className="brand"><span className="logo">ERP Lens</span><span className="tag">한국어 UI5 API 탐색 · ABAP 기본</span></div>
       </header>
-      <ProductTabs product={product} onProduct={onProduct} abapCount={abap.doc?.entries.length} />
+      <ProductTabs product={product} onProduct={onProduct} abapCount={abap.doc?.entries.length} tcodeCount={tcodes.doc?.entries.length} />
       <section className="ctx" id="ctx" role="tabpanel" aria-labelledby={`ptab-${product}`}>
         {product === 'ui5' ? (
           <>
@@ -122,7 +126,8 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
         ) : (
           <>
             <div className="ctx-row"><span className="ctx-note">버전 구분 없음 · 기본 문법</span></div>
-            <AbapGroups groups={abapGroups} total={abap.doc?.entries.length ?? 0} active={abapGroup} onPick={(ag) => setRoute({ ag, ab: '' })} />
+            <AbapZones zone={zone} onZone={(z) => setRoute(switchAbapZone(z === 'tcode' ? 'tcode' : ''), true)} syntaxCount={abap.doc?.entries.length} tcodeCount={tcodes.doc?.entries.length} />
+            <AbapGroups groups={zoneGroups} total={zone === 'tcode' ? tcodes.doc?.entries.length ?? 0 : abap.doc?.entries.length ?? 0} active={abapGroup} onPick={(ag) => setRoute({ ag, ab: '' })} />
           </>
         )}
       </section>
@@ -187,7 +192,9 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
           )}
 
           {mode === 'browse' && <div className="cands"><Browse index={c.searchable} lib={route.lib} selected={route.api} onLib={(lib) => setRoute({ lib })} onPick={c.select} /></div>}
-          {mode === 'abap' && <div className="cands"><AbapList res={abap} ab={route.ab} group={abapGroup} onPick={(ab) => setRoute({ ab }, true)} /></div>}
+          {mode === 'abap' && <div className="cands">{zone === 'tcode'
+            ? <TcodeList res={tcodes} ab={route.ab} group={abapGroup} onPick={(ab) => setRoute({ ab }, true)} />
+            : <AbapList res={abap} ab={route.ab} group={abapGroup} onPick={(ab) => setRoute({ ab }, true)} />}</div>}
           {mode === 'guide' && <div className="cands"><Guide minor={meta.minor} hasTopics={!!meta.counts.topics} tp={route.tp} onTopic={(tp) => setRoute({ tp, api: null }, true)} /></div>}
         </section>
 
@@ -199,7 +206,9 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
               onApi={c.select} onVersion={onVersion}
             />
           ) : mode === 'abap' ? (
-            <div className="detail-empty guide-wrap"><AbapDetail res={abap} ab={route.ab} onBack={() => setRoute({ ab: '' }, true)} /></div>
+            <div className="detail-empty guide-wrap">{zone === 'tcode'
+              ? <TcodeDetail res={tcodes} ab={route.ab} syntax={abap.doc} onBack={() => setRoute({ ab: '' }, true)} onTcode={(ab) => setRoute({ ab }, true)} onConcept={(ab) => setRoute({ az: '', ab, ag: '' }, true)} />
+              : <AbapDetail res={abap} ab={route.ab} tcodes={tcodes.doc} onTcode={(ab) => setRoute({ az: 'tcode', ab, ag: '' }, true)} onBack={() => setRoute({ ab: '' }, true)} />}</div>
           ) : mode === 'guide' ? (
             <div className="detail-empty guide-wrap"><GuidePage minor={meta.minor} hasTopics={!!meta.counts.topics} docBase={meta.docBase} tp={route.tp} onTopic={(tp) => setRoute({ tp }, true)} onBack={() => setRoute({ tp: '' }, true)} /></div>
           ) : (

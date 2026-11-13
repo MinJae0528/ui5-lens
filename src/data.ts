@@ -5,7 +5,7 @@ import type { HybridCtx } from './domain/hybrid';
 import type { Recipe } from './domain/recipes';
 import type { LifeContext } from './domain/life';
 import { expandMembers, KIND_NAME, type MemberRow, type RawMembers } from './domain/memberIndex';
-import type { AbapDoc, Alias, ApiDoc, Availability, IndexEntry, KoDoc, Meta, TopicNode, VersionList } from './types';
+import type { AbapDoc, Alias, ApiDoc, Availability, IndexEntry, KoDoc, Meta, TcodeDoc, TopicNode, VersionList } from './types';
 
 const BASE = `${import.meta.env.BASE_URL}data`;
 async function getJson<T>(url: string, allow404 = false): Promise<T | null> {
@@ -162,6 +162,13 @@ let abapP: Promise<AbapDoc> | null = null;
 export function loadAbap(): Promise<AbapDoc> {
   if (!abapP) { const p = getJson<AbapDoc>(`${BASE}/abap/basics.json`).then((d) => d as AbapDoc); p.catch(() => { abapP = null; }); abapP = p; }
   return abapP;
+}
+
+let tcodeP: Promise<TcodeDoc> | null = null;
+/** ABAP tcode 사전(버전과 무관) */
+export function loadTcodes(): Promise<TcodeDoc> {
+  if (!tcodeP) { const p = getJson<TcodeDoc>(`${BASE}/abap/tcodes.json`).then((d) => d as TcodeDoc); p.catch(() => { tcodeP = null; }); tcodeP = p; }
+  return tcodeP;
 }
 
 const topicCache = new Map<string, Promise<TopicNode[] | null>>();

@@ -516,7 +516,7 @@ await page.context().close();
   await p.click('#ptab-abap');
   await p.waitForSelector('.gchips');
   check('ABAP: 버전 선택이 없고 "버전 구분 없음" 안내', (await p.$('#ver')) === null && (await p.textContent('.ctx-note')).includes('버전 구분 없음'));
-  check('ABAP: 그룹 칩(전체+7)과 주소 m=abap', (await p.$$('.gchip')).length === 8 && /m=abap/.test(await hash()));
+  check('ABAP: 그룹 칩(전체+8: 개념·환경 포함)과 주소 m=abap', (await p.$$('.gchip')).length === 9 && /m=abap/.test(await hash()));
   await p.click('#ptab-ui5');
   await p.waitForSelector('#ver');
   check('UI5 로 돌아오면 직전에 쓰던 모드(기능으로 추천)가 열림', (await p.getAttribute('#mode-feature', 'aria-selected')) === 'true');
@@ -559,6 +559,74 @@ await page.context().close();
   await mp.goto(URL_ + '#?m=name'); await mp.waitForSelector('#ver');
   check('모바일(UI5): 가로 스크롤 없음', await mp.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
   await ctx.close();
+}
+
+// ---- 19c. ABAP 구역(문법 사전 | tcode 사전)
+{
+  let p = await fresh();
+  const hash = () => p.evaluate(() => decodeURIComponent(location.hash));
+  await p.goto(URL_ + '#?m=abap'); await p.waitForSelector('.azones');
+  check('ABAP 구역 탭 2개, 기본은 문법 사전', (await p.$$eval('.azones [role=tab]', (e) => e.map((x) => `${x.querySelector('.az-label').textContent}:${x.getAttribute('aria-selected')}`).join('|'))) === '문법 사전:true|tcode 사전:false');
+  check('ABAP 탭 이름 아래에 문법·tcode 개수 표시', /tcode/.test(await p.textContent('#ptab-abap')));
+  await p.click('.gchip:has-text("개념·환경")');
+  check('문법 사전: 개념·환경 그룹 9개', (await p.$$('.member-head')).length === 9);
+  await p.click('.member-head:has-text("TSTC 테이블")');
+  await p.waitForSelector('.detail-pane .api-name');
+  check('개념 항목 상세에 "관련 tcode" 칩', (await p.$$('.detail-pane .relchip')).length >= 2);
+  await p.click('.detail-pane .relchip:has-text("SE93")');
+  await p.waitForSelector('.hops');
+  check('관련 tcode 칩 → tcode 사전의 SE93 상세, 주소에 az=tcode&ab=se93', (await p.textContent('.detail-pane .api-name')).startsWith('SE93') && /az=tcode/.test(await hash()) && /ab=se93/.test(await hash()));
+  check('tcode 사전: 그룹 칩(전체+3)과 목록 11개', (await p.$$('.gchip')).length === 4 && (await p.$$('.member-head')).length === 11);
+  // 검색: 이름·하고 싶은 일·명령
+  await p.fill('#tcode-q', '테이블 보기');
+  check('"테이블 보기" → SE11·SE16·SE84', (await p.$$eval('.member-head .m-name', (e) => e.map((x) => x.textContent).sort().join(','))) === 'SE11,SE16,SE84');
+  await p.fill('#tcode-q', '/nse38');
+  check('"/nse38" → 명령 항목과 SE38 이 함께, 설명 줄 표시', (await p.$$eval('.member-head .m-name', (e) => e.map((x) => x.textContent).join('|'))) === 'Command Field|SE38' && (await p.textContent('.cmd-explain')).includes('/n') && (await p.textContent('.cmd-explain')).includes('ABAP Editor'));
+  await p.fill('#tcode-q', 'se11');
+  check('"se11" → SE11 이 맨 위', (await p.textContent('.member-head .m-name >> nth=0')) === 'SE11');
+  await p.fill('#tcode-q', '');
+  await p.click('.gchip:has-text("이관·설정")');
+  check('그룹 "이관·설정": 목록 4개', (await p.$$('.member-head')).length === 4);
+  await p.click('.gchip:has-text("전체")');
+  await p.click('.member-head:has-text("SE38")');
+  await p.waitForSelector('.hop');
+  const hop = await p.textContent('.hops');
+  check('SE38 상세: 입력(/nse38) → 열리는 곳, 할 수 있는 일', hop.includes('/nse38') && hop.includes('ABAP Editor') && (await p.textContent('.detail-pane')).includes('거기서 할 수 있는 일'));
+  check('tcode 상세: 공식 문서 링크가 새 탭·noopener', (await p.$$eval('.detail-pane a[href^="https://"]', (a) => a.length > 0 && a.every((x) => x.target === '_blank' && /noopener/.test(x.rel)))));
+  await p.click('.detail-pane .relchip.concept');
+  await p.waitForSelector('.detail-pane .api-name');
+  check('개념 칩 → 문법 사전의 개념 항목, 주소에서 az 가 사라짐', (await p.textContent('.detail-pane .api-name')).includes('프로그램 만들기') && !/az=tcode/.test(await hash()) && (await p.getAttribute('#az-syntax', 'aria-selected')) === 'true');
+  await p.click('#az-tcode'); await p.waitForSelector('#tcode-q');
+  await p.click('.member-head:has-text("SE11")'); await p.waitForSelector('.hops');
+  await p.reload(); await p.waitForSelector('.hops');
+  check('새로고침해도 tcode 사전·SE11 상세 유지', (await p.textContent('.detail-pane .api-name')).startsWith('SE11') && (await p.getAttribute('#az-tcode', 'aria-selected')) === 'true');
+  await p.click('.member-head:has-text("Command Field")'); await p.waitForSelector('.tbl');
+  check('Command Field 상세: 명령 표 7행', (await p.$$('.tbl tbody tr')).length === 7);
+  await p.focus('#az-tcode'); await p.keyboard.press('ArrowLeft');
+  await p.waitForSelector('#abap-q');
+  check('구역 탭: 왼쪽 화살표로 문법 사전 이동, 포커스가 따라감', (await p.evaluate(() => document.activeElement?.id)) === 'az-syntax' && !/az=tcode/.test(await hash()));
+  await p.click('#ptab-ui5'); await p.waitForSelector('#ver');
+  await p.click('#ptab-abap'); await p.waitForSelector('.azones');
+  check('UI5 갔다가 ABAP 으로 돌아오면 문법 사전에서 시작', (await p.getAttribute('#az-syntax', 'aria-selected')) === 'true');
+  check('ABAP 구역 전환 중 페이지 오류 없음', p.errs.length === 0, p.errs.join(' | '));
+  await p.context().close();
+
+  // 옛 ABAP 주소는 그대로 문법 사전 항목으로 열린다
+  p = await fresh();
+  await p.goto(URL_ + '#?m=abap&ab=select'); await p.waitForSelector('.detail-pane .api-name');
+  check('옛 주소(#?m=abap&ab=select): 문법 사전의 SELECT 상세', (await p.textContent('.detail-pane .api-name')) === 'SELECT' && (await p.getAttribute('#az-syntax', 'aria-selected')) === 'true');
+  await p.context().close();
+
+  // 모바일(390px): 구역 탭·tcode 상세가 화면 안에 들어오고 가로 스크롤이 없다
+  const ctx2 = await browser.newContext({ viewport: { width: 390, height: 800 } });
+  const mp2 = await ctx2.newPage();
+  await mp2.goto(URL_ + '#?m=abap&az=tcode&ab=se38'); await mp2.waitForSelector('.hops');
+  check('모바일(tcode 사전): 가로 스크롤 없음', await mp2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
+  const zr = await mp2.$eval('.azones', (e) => ({ l: e.getBoundingClientRect().left, r: e.getBoundingClientRect().right }));
+  check('모바일: 구역 탭이 화면 안에 보임', zr.l >= 0 && zr.r <= 391, `${zr.l}~${zr.r}`);
+  await mp2.goto(URL_ + '#?m=abap&az=tcode&ab=cmd'); await mp2.waitForSelector('.tbl');
+  check('모바일(Command Field 표): 페이지 가로 스크롤 없음', await mp2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
+  await ctx2.close();
 }
 
 // ---- 20. 보안: CSP 가 적용된 빌드(preview)에서 위반이 없어야 한다

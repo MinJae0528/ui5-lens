@@ -5,303 +5,1027 @@
     "generator": "AI(Claude) 초안",
     "review": "unreviewed",
     "executed": false,
-    "note": "설명과 예제는 AI 가 직접 쓴 초안이고 ABAP 시스템에서 실행해 검증하지 않았다. 공식 링크는 SAP 가 공개한 SAP-samples/abap-cheat-sheets (Apache-2.0) 안에 실제로 쓰인 주소만 골랐다.",
+    "note": "설명과 예제는 AI 가 직접 쓴 초안이고 ABAP 시스템에서 실행해 검증하지 않았다. 공식 링크는 SAP 가 공개한 SAP-samples/abap-cheat-sheets (Apache-2.0) 안에 실제로 쓰인 주소만 골랐다. 2026-11-13 에 추가한 항목(개념·환경 그룹 등)은 수업 정리노트를 바탕으로 한 AI 요약이고, 링크는 노트에 실린 SAP 공식 주소 중 열리는 것만 골랐다.",
     "linkSource": "https://github.com/SAP-samples/abap-cheat-sheets",
-    "checkedAt": "2026-11-10"
+    "checkedAt": "2026-11-13"
   },
   "sites": {
     "cloud": "ABAP Keyword Documentation (ABAP Cloud) — 클라우드 ABAP 에서 쓸 수 있는 문법만 담김",
-    "standard": "ABAP Keyword Documentation (Standard ABAP, 최신판) — WRITE·MESSAGE·화면 같은 전통 문법 포함"
+    "standard": "ABAP Keyword Documentation (Standard ABAP, 최신판) — WRITE·MESSAGE·화면 같은 전통 문법 포함",
+    "help": "SAP Help Portal (SAP Library) — 오래된 판의 설명 문서. 지금 시스템과 화면이 조금 다를 수 있음",
+    "learning": "SAP Learning — SAP 공식 교육 과정 페이지"
   },
   "entries": [
     {
-      "id": "data", "term": "DATA", "group": "선언·데이터",
+      "id": "data",
+      "term": "DATA",
+      "group": "선언·데이터",
       "summary": "프로그램에서 쓸 변수(데이터 객체)를 선언합니다.",
       "whenToUse": "값을 담아 둘 변수, 구조, 내부 테이블이 필요할 때 가장 먼저 씁니다.",
       "syntax": "DATA lv_count TYPE i.\nDATA lv_name  TYPE string VALUE 'Kim'.\nDATA ls_flight TYPE sflight.   \"구조(한 줄)\nDATA lt_flights TYPE STANDARD TABLE OF sflight WITH EMPTY KEY.   \"내부 테이블",
-      "notes": ["선언만 하면 숫자는 0, 문자열은 빈 값으로 시작합니다.", "변수 이름 앞의 lv_, ls_, lt_ 는 관례입니다(local variable / structure / table). 문법 규칙은 아닙니다."],
-      "links": [{ "label": "DATA", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/data" }]
+      "notes": [
+        "선언만 하면 숫자는 0, 문자열은 빈 값으로 시작합니다.",
+        "변수 이름 앞의 lv_, ls_, lt_ 는 관례입니다(local variable / structure / table). 문법 규칙은 아닙니다.",
+        "값을 처음부터 넣으려면 VALUE 를 씁니다. 문자·숫자 타입은 LENGTH 를 꼭 적으세요. 생략하면 길이 1(P 는 8)이 되어 문자열 '홍길동' 은 첫 글자만 남습니다.",
+        "변수 이름은 최대 30자입니다. 입력칸이 있는 PARAMETERS 는 최대 8자입니다."
+      ],
+      "links": [
+        {
+          "label": "DATA",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/data"
+        }
+      ]
     },
     {
-      "id": "data-inline", "term": "DATA( ) 인라인 선언", "group": "선언·데이터",
+      "id": "data-inline",
+      "term": "DATA( ) 인라인 선언",
+      "group": "선언·데이터",
       "summary": "값을 처음 넣는 자리에서 변수를 동시에 선언합니다. 자료형은 오른쪽 값에서 자동으로 정해집니다.",
       "whenToUse": "짧은 코드에서 별도 DATA 줄 없이 변수를 만들고 싶을 때(최신 ABAP 문법).",
       "syntax": "DATA(lv_sum) = 1 + 2.\nSELECT * FROM sflight INTO TABLE @DATA(lt_flights).\nLOOP AT lt_flights INTO DATA(ls_flight).\n  ...\nENDLOOP.",
-      "notes": ["같은 이름이 이미 있으면 선언이 아니라 다른 의미로 해석될 수 있습니다.", "오래된 시스템(7.40 미만)에서는 쓸 수 없습니다."],
-      "links": [{ "label": "DATA 인라인 선언", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/data-inline-declaration-for-variables" }]
+      "notes": [
+        "같은 이름이 이미 있으면 선언이 아니라 다른 의미로 해석될 수 있습니다.",
+        "오래된 시스템(7.40 미만)에서는 쓸 수 없습니다."
+      ],
+      "links": [
+        {
+          "label": "DATA 인라인 선언",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/data-inline-declaration-for-variables"
+        }
+      ]
     },
     {
-      "id": "types", "term": "TYPES", "group": "선언·데이터",
+      "id": "types",
+      "term": "TYPES",
+      "group": "선언·데이터",
       "summary": "변수를 만들기 전에 '자료형' 자체를 이름 붙여 정의합니다.",
       "whenToUse": "같은 구조나 테이블 형태를 여러 번 쓰거나 메서드 인자의 형태를 정할 때.",
       "syntax": "TYPES: BEGIN OF ty_person,\n         name TYPE string,\n         age  TYPE i,\n       END OF ty_person.\nTYPES tt_person TYPE STANDARD TABLE OF ty_person WITH EMPTY KEY.\nDATA lt_people TYPE tt_person.",
-      "notes": ["TYPES 는 메모리를 쓰지 않습니다. 틀만 정의하고, DATA 로 선언해야 실제 변수가 생깁니다."],
-      "links": [{ "label": "TYPES", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/types" }]
+      "notes": [
+        "TYPES 는 메모리를 쓰지 않습니다. 틀만 정의하고, DATA 로 선언해야 실제 변수가 생깁니다."
+      ],
+      "links": [
+        {
+          "label": "TYPES",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/types"
+        }
+      ]
     },
     {
-      "id": "constants", "term": "CONSTANTS", "group": "선언·데이터",
+      "id": "constants",
+      "term": "CONSTANTS",
+      "group": "선언·데이터",
       "summary": "값이 바뀌지 않는 상수를 선언합니다.",
       "whenToUse": "코드에 직접 적은 고정 값(예: 'X', 최대 건수)에 이름을 붙이고 싶을 때.",
       "syntax": "CONSTANTS gc_max TYPE i VALUE 100.\nCONSTANTS gc_yes TYPE abap_bool VALUE abap_true.",
-      "notes": ["VALUE 가 반드시 필요합니다. 나중에 값을 바꾸는 문장은 문법 오류입니다."],
-      "links": [{ "label": "CONSTANTS", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/constants" }]
+      "notes": [
+        "VALUE 가 반드시 필요합니다. 나중에 값을 바꾸는 문장은 문법 오류입니다.",
+        "빈 값으로 두려면 VALUE IS INITIAL 을 씁니다. 이름이 없는 고정 값(123, 'Hello')은 리터럴이라고 부릅니다.",
+        "소수는 숫자 리터럴로 쓸 수 없어서 '3.14' 처럼 따옴표로 감쌉니다(숫자 리터럴은 정수만)."
+      ],
+      "links": [
+        {
+          "label": "CONSTANTS",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/constants"
+        }
+      ]
     },
     {
-      "id": "clear", "term": "CLEAR", "group": "선언·데이터",
+      "id": "clear",
+      "term": "CLEAR",
+      "group": "선언·데이터",
       "summary": "변수·구조·내부 테이블을 자료형의 초기값(숫자 0, 문자열 빈 값, 테이블은 빈 상태)으로 되돌립니다.",
       "whenToUse": "LOOP 안에서 작업 영역을 비우거나 재사용 전에 값을 초기화할 때.",
       "syntax": "CLEAR lv_count.\nCLEAR ls_flight.\nCLEAR lt_flights.",
-      "notes": ["내부 테이블에서 CLEAR 는 모든 줄을 지웁니다."],
-      "links": [{ "label": "CLEAR", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/clear" }]
+      "notes": [
+        "내부 테이블에서 CLEAR 는 모든 줄을 지웁니다."
+      ],
+      "links": [
+        {
+          "label": "CLEAR",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/clear"
+        }
+      ]
     },
     {
-      "id": "assign", "term": "ASSIGN / FIELD-SYMBOLS", "group": "선언·데이터",
+      "id": "assign",
+      "term": "ASSIGN / FIELD-SYMBOLS",
+      "group": "선언·데이터",
       "summary": "필드 심볼은 이미 있는 데이터를 가리키는 '별명'입니다. ASSIGN 으로 대상을 연결합니다.",
       "whenToUse": "내부 테이블 줄을 복사하지 않고 직접 수정하며 순회할 때.",
       "syntax": "FIELD-SYMBOLS <ls_flight> TYPE sflight.\nLOOP AT lt_flights ASSIGNING <ls_flight>.\n  <ls_flight>-price = <ls_flight>-price * 2.\nENDLOOP.",
-      "notes": ["ASSIGNING 으로 순회하면 줄을 복사하지 않아 바로 수정됩니다. INTO 는 복사본에 쓰므로 원본이 바뀌지 않습니다."],
+      "notes": [
+        "ASSIGNING 으로 순회하면 줄을 복사하지 않아 바로 수정됩니다. INTO 는 복사본에 쓰므로 원본이 바뀌지 않습니다."
+      ],
       "links": [
-        { "label": "ASSIGN", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/assign" },
-        { "label": "필드 심볼(용어)", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/field-symbol" }
+        {
+          "label": "ASSIGN",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/assign"
+        },
+        {
+          "label": "필드 심볼(용어)",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/field-symbol"
+        }
       ]
     },
     {
-      "id": "if", "term": "IF", "group": "제어문",
+      "id": "if",
+      "term": "IF",
+      "group": "제어문",
       "summary": "조건이 참일 때만 문장 블록을 실행합니다. ELSEIF, ELSE 로 갈래를 나눌 수 있습니다.",
       "whenToUse": "값에 따라 처리를 나눌 때.",
       "syntax": "IF lv_age >= 20.\n  \"성인 처리\nELSEIF lv_age >= 13.\n  \"청소년 처리\nELSE.\n  \"그 외\nENDIF.",
-      "notes": ["같음 비교는 =, 다름은 <> 입니다. 문장은 마침표로 끝납니다."],
-      "links": [{ "label": "IF", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/if" }]
+      "notes": [
+        "같음 비교는 =, 다름은 <> 입니다. 문장은 마침표로 끝납니다.",
+        "비어 있는지 확인할 때는 IS INITIAL / IS NOT INITIAL 을 씁니다(숫자는 0, 문자는 빈칸이면 참). 범위는 BETWEEN 8 AND 13 처럼 쓸 수 있습니다.",
+        "실습에서 자주 틀리는 곳: 입력을 비우면 숫자는 0 이라 \"8 이상\" 같은 조건에서 마지막 ELSE 로 가 버립니다. 빈 값과 범위 미만을 맨 위에서 먼저 걸러 내세요."
+      ],
+      "links": [
+        {
+          "label": "IF",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/if"
+        }
+      ]
     },
     {
-      "id": "case", "term": "CASE", "group": "제어문",
+      "id": "case",
+      "term": "CASE",
+      "group": "제어문",
       "summary": "한 값을 여러 후보와 비교해 맞는 WHEN 블록 하나를 실행합니다.",
       "whenToUse": "같은 변수를 IF 로 여러 번 비교할 때 더 읽기 쉽게 쓰려고.",
       "syntax": "CASE lv_status.\n  WHEN 'A'.\n    \"신규\n  WHEN 'B' OR 'C'.\n    \"처리 중\n  WHEN OTHERS.\n    \"그 외\nENDCASE.",
-      "notes": ["맞는 WHEN 하나만 실행되고 아래로 흘러내려 가지 않습니다."],
+      "notes": [
+        "맞는 WHEN 하나만 실행되고 아래로 흘러내려 가지 않습니다.",
+        "사칙연산 계산기처럼 쓸 때 주의: 결과 변수가 정수(i)면 7 / 2 는 3.5 가 반올림되어 4 입니다. 소수 결과는 p 타입(DECIMALS 지정)에 담고, 0 으로 나누면 실행 오류(덤프)가 나므로 먼저 확인합니다.",
+        "잘못된 기호를 처리하는 WHEN OTHERS 안에서만 안내 문구를 출력하고, 결과 출력은 맞는 경우에만 하세요(ENDCASE 뒤에서 항상 출력하면 안내 문구와 함께 0 도 나옵니다)."
+      ],
       "links": [
-        { "label": "CASE", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/case" },
-        { "label": "CASE (Standard ABAP)", "site": "standard", "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcase.html" }
+        {
+          "label": "CASE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/case"
+        },
+        {
+          "label": "CASE (Standard ABAP)",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcase.html"
+        }
       ]
     },
     {
-      "id": "do", "term": "DO", "group": "제어문",
+      "id": "do",
+      "term": "DO",
+      "group": "제어문",
       "summary": "정해진 횟수만큼 블록을 반복합니다. 횟수를 안 적으면 EXIT 로 나올 때까지 계속합니다.",
       "whenToUse": "N번 반복해야 할 때.",
       "syntax": "DO 5 TIMES.\n  WRITE / sy-index.\nENDDO.",
-      "notes": ["sy-index 에 현재 반복 번호(1부터)가 들어갑니다.", "횟수 없이 쓰고 EXIT 를 빠뜨리면 무한 루프입니다."],
-      "links": [{ "label": "DO", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/do" }]
-    },
-    {
-      "id": "while", "term": "WHILE", "group": "제어문",
-      "summary": "조건이 참인 동안 블록을 반복합니다.",
-      "whenToUse": "몇 번 반복할지 모르지만 끝나는 조건이 분명할 때.",
-      "syntax": "WHILE lv_n < 10.\n  lv_n = lv_n + 1.\nENDWHILE.",
-      "notes": ["조건을 바꾸는 문장이 없으면 무한 루프입니다."],
-      "links": [{ "label": "WHILE", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/while" }]
-    },
-    {
-      "id": "exit-continue", "term": "EXIT · CONTINUE · CHECK", "group": "제어문",
-      "summary": "반복 중에 흐름을 바꿉니다. EXIT 는 반복을 끝내고, CONTINUE 는 이번 차례만 건너뛰고, CHECK 는 조건이 거짓이면 이번 차례를 건너뜁니다.",
-      "whenToUse": "조건에 맞지 않는 줄을 건너뛰거나 원하는 줄을 찾으면 반복을 멈출 때.",
-      "syntax": "LOOP AT lt_flights INTO DATA(ls_flight).\n  CHECK ls_flight-price > 0.   \"0 이하면 다음 줄로\n  IF ls_flight-carrid = 'LH'.\n    CONTINUE.\n  ENDIF.\n  IF sy-tabix > 100.\n    EXIT.\n  ENDIF.\nENDLOOP.",
-      "notes": ["반복문 밖에서의 EXIT 는 프로시저(메서드 등)를 끝내는 동작이라 의미가 다릅니다. 반복문 안에서 쓰는 경우만 이 표기를 기준으로 하세요."],
+      "notes": [
+        "sy-index 에 현재 반복 번호(1부터)가 들어갑니다.",
+        "횟수 없이 쓰고 EXIT 를 빠뜨리면 무한 루프입니다."
+      ],
       "links": [
-        { "label": "EXIT (반복)", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/exit-loop" },
-        { "label": "CONTINUE", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/continue" },
-        { "label": "CHECK (반복)", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/check-loop" }
+        {
+          "label": "DO",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/do"
+        }
       ]
     },
     {
-      "id": "return", "term": "RETURN", "group": "제어문",
+      "id": "while",
+      "term": "WHILE",
+      "group": "제어문",
+      "summary": "조건이 참인 동안 블록을 반복합니다.",
+      "whenToUse": "몇 번 반복할지 모르지만 끝나는 조건이 분명할 때.",
+      "syntax": "WHILE lv_n < 10.\n  lv_n = lv_n + 1.\nENDWHILE.",
+      "notes": [
+        "조건을 바꾸는 문장이 없으면 무한 루프입니다."
+      ],
+      "links": [
+        {
+          "label": "WHILE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/while"
+        }
+      ]
+    },
+    {
+      "id": "exit-continue",
+      "term": "EXIT · CONTINUE · CHECK",
+      "group": "제어문",
+      "summary": "반복 중에 흐름을 바꿉니다. EXIT 는 반복을 끝내고, CONTINUE 는 이번 차례만 건너뛰고, CHECK 는 조건이 거짓이면 이번 차례를 건너뜁니다.",
+      "whenToUse": "조건에 맞지 않는 줄을 건너뛰거나 원하는 줄을 찾으면 반복을 멈출 때.",
+      "syntax": "LOOP AT lt_flights INTO DATA(ls_flight).\n  CHECK ls_flight-price > 0.   \"0 이하면 다음 줄로\n  IF ls_flight-carrid = 'LH'.\n    CONTINUE.\n  ENDIF.\n  IF sy-tabix > 100.\n    EXIT.\n  ENDIF.\nENDLOOP.",
+      "notes": [
+        "반복문 밖에서의 EXIT 는 프로시저(메서드 등)를 끝내는 동작이라 의미가 다릅니다. 반복문 안에서 쓰는 경우만 이 표기를 기준으로 하세요."
+      ],
+      "links": [
+        {
+          "label": "EXIT (반복)",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/exit-loop"
+        },
+        {
+          "label": "CONTINUE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/continue"
+        },
+        {
+          "label": "CHECK (반복)",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/check-loop"
+        }
+      ]
+    },
+    {
+      "id": "return",
+      "term": "RETURN",
+      "group": "제어문",
       "summary": "현재 메서드·함수 모듈 같은 프로시저를 즉시 끝내고 호출한 곳으로 돌아갑니다.",
       "whenToUse": "조건이 맞지 않아 더 처리할 필요가 없을 때 일찍 빠져나갈 때.",
       "syntax": "METHOD check_input.\n  IF iv_value IS INITIAL.\n    RETURN.\n  ENDIF.\n  \"...계속\nENDMETHOD.",
       "notes": [],
-      "links": [{ "label": "RETURN", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/return" }]
+      "links": [
+        {
+          "label": "RETURN",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/return"
+        }
+      ]
     },
     {
-      "id": "loop-at", "term": "LOOP AT", "group": "내부 테이블",
+      "id": "loop-at",
+      "term": "LOOP AT",
+      "group": "내부 테이블",
       "summary": "내부 테이블의 줄을 처음부터 하나씩 꺼내 반복 처리합니다.",
       "whenToUse": "테이블 전체를 훑으며 계산·출력·변환할 때.",
       "syntax": "LOOP AT lt_flights INTO DATA(ls_flight) WHERE price > 100.\n  WRITE / ls_flight-carrid.\nENDLOOP.\nIF sy-subrc <> 0.\n  \"조건에 맞는 줄이 하나도 없었음\nENDIF.",
-      "notes": ["WHERE 로 줄을 거를 수 있습니다.", "sy-tabix 는 현재 줄 번호입니다.", "반복 중에 같은 테이블에 줄을 추가·삭제하면 동작이 복잡해집니다."],
-      "links": [{ "label": "LOOP AT 테이블", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/loop-at-itab-basic-form" }]
+      "notes": [
+        "WHERE 로 줄을 거를 수 있습니다.",
+        "sy-tabix 는 현재 줄 번호입니다.",
+        "반복 중에 같은 테이블에 줄을 추가·삭제하면 동작이 복잡해집니다."
+      ],
+      "links": [
+        {
+          "label": "LOOP AT 테이블",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/loop-at-itab-basic-form"
+        }
+      ]
     },
     {
-      "id": "append", "term": "APPEND", "group": "내부 테이블",
+      "id": "append",
+      "term": "APPEND",
+      "group": "내부 테이블",
       "summary": "내부 테이블의 맨 끝에 줄을 하나 추가합니다.",
       "whenToUse": "표준 테이블에 순서대로 데이터를 쌓을 때.",
       "syntax": "APPEND ls_flight TO lt_flights.\nAPPEND VALUE #( carrid = 'LH' connid = '0400' ) TO lt_flights.",
-      "notes": ["정렬 테이블(SORTED)이나 해시 테이블(HASHED)에는 APPEND 대신 INSERT 를 씁니다."],
-      "links": [{ "label": "APPEND", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/append" }]
+      "notes": [
+        "정렬 테이블(SORTED)이나 해시 테이블(HASHED)에는 APPEND 대신 INSERT 를 씁니다."
+      ],
+      "links": [
+        {
+          "label": "APPEND",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/append"
+        }
+      ]
     },
     {
-      "id": "insert-itab", "term": "INSERT (내부 테이블)", "group": "내부 테이블",
+      "id": "insert-itab",
+      "term": "INSERT (내부 테이블)",
+      "group": "내부 테이블",
       "summary": "내부 테이블에 줄을 넣습니다. 위치(INDEX)를 지정하거나 키 규칙에 따라 자동으로 자리를 찾습니다.",
       "whenToUse": "중간에 끼워 넣거나, 정렬·해시 테이블에 줄을 넣을 때.",
       "syntax": "INSERT ls_flight INTO TABLE lt_sorted.\nINSERT ls_flight INTO lt_flights INDEX 1.",
-      "notes": ["같은 이름의 INSERT 가 데이터베이스 테이블용으로도 있습니다. 대상이 내부 테이블인지 DB 테이블인지로 구분됩니다."],
-      "links": [{ "label": "INSERT 내부 테이블", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/insert-itab" }]
+      "notes": [
+        "같은 이름의 INSERT 가 데이터베이스 테이블용으로도 있습니다. 대상이 내부 테이블인지 DB 테이블인지로 구분됩니다."
+      ],
+      "links": [
+        {
+          "label": "INSERT 내부 테이블",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/insert-itab"
+        }
+      ]
     },
     {
-      "id": "read-table", "term": "READ TABLE", "group": "내부 테이블",
+      "id": "read-table",
+      "term": "READ TABLE",
+      "group": "내부 테이블",
       "summary": "내부 테이블에서 조건에 맞는 한 줄을 읽어 옵니다.",
       "whenToUse": "번호나 키로 특정 줄 하나를 찾을 때.",
       "syntax": "READ TABLE lt_flights INTO DATA(ls_flight) WITH KEY carrid = 'LH'.\nIF sy-subrc = 0.\n  \"찾았음\nELSE.\n  \"없음\nENDIF.",
-      "notes": ["성공 여부는 sy-subrc 가 0 인지로 확인합니다. 확인을 빠뜨리면 못 찾았는데도 이전 값이 남아 있을 수 있습니다.", "최신 문법으로는 lt_flights[ carrid = 'LH' ] 형태의 테이블 식도 있습니다(없으면 예외가 발생)."],
-      "links": [{ "label": "READ TABLE", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/read-table-itab" }]
+      "notes": [
+        "성공 여부는 sy-subrc 가 0 인지로 확인합니다. 확인을 빠뜨리면 못 찾았는데도 이전 값이 남아 있을 수 있습니다.",
+        "최신 문법으로는 lt_flights[ carrid = 'LH' ] 형태의 테이블 식도 있습니다(없으면 예외가 발생)."
+      ],
+      "links": [
+        {
+          "label": "READ TABLE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/read-table-itab"
+        }
+      ]
     },
     {
-      "id": "modify-itab", "term": "MODIFY (내부 테이블)", "group": "내부 테이블",
+      "id": "modify-itab",
+      "term": "MODIFY (내부 테이블)",
+      "group": "내부 테이블",
       "summary": "내부 테이블의 기존 줄 내용을 바꿉니다.",
       "whenToUse": "찾은 줄의 값을 다른 값으로 갱신할 때.",
       "syntax": "ls_flight-price = 200.\nMODIFY lt_flights FROM ls_flight INDEX 1.\nMODIFY lt_flights FROM ls_flight TRANSPORTING price WHERE carrid = 'LH'.",
-      "notes": ["TRANSPORTING 으로 바꿀 열만 지정할 수 있습니다."],
-      "links": [{ "label": "MODIFY 내부 테이블", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/modify-itab" }]
+      "notes": [
+        "TRANSPORTING 으로 바꿀 열만 지정할 수 있습니다."
+      ],
+      "links": [
+        {
+          "label": "MODIFY 내부 테이블",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/modify-itab"
+        }
+      ]
     },
     {
-      "id": "delete-itab", "term": "DELETE (내부 테이블)", "group": "내부 테이블",
+      "id": "delete-itab",
+      "term": "DELETE (내부 테이블)",
+      "group": "내부 테이블",
       "summary": "내부 테이블에서 조건에 맞는 줄을 지웁니다.",
       "whenToUse": "필요 없는 줄을 제거하거나 중복을 정리할 때.",
       "syntax": "DELETE lt_flights WHERE price = 0.\nDELETE lt_flights INDEX 1.\nDELETE ADJACENT DUPLICATES FROM lt_flights COMPARING carrid.",
-      "notes": ["DELETE ADJACENT DUPLICATES 는 '인접한' 중복만 지웁니다. 먼저 SORT 해야 의도대로 동작합니다."],
-      "links": [{ "label": "DELETE 내부 테이블", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/delete-itab" }]
+      "notes": [
+        "DELETE ADJACENT DUPLICATES 는 '인접한' 중복만 지웁니다. 먼저 SORT 해야 의도대로 동작합니다."
+      ],
+      "links": [
+        {
+          "label": "DELETE 내부 테이블",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/delete-itab"
+        }
+      ]
     },
     {
-      "id": "sort", "term": "SORT", "group": "내부 테이블",
+      "id": "sort",
+      "term": "SORT",
+      "group": "내부 테이블",
       "summary": "내부 테이블을 지정한 열 기준으로 정렬합니다.",
       "whenToUse": "출력 순서를 정하거나 중복 제거 전에 줄을 정리할 때.",
       "syntax": "SORT lt_flights BY carrid ASCENDING price DESCENDING.",
-      "notes": ["표준 테이블에서만 의미가 큽니다. 정렬 테이블(SORTED)은 항상 키 순서로 유지됩니다."],
-      "links": [{ "label": "SORT 내부 테이블", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/sort-itab" }]
+      "notes": [
+        "표준 테이블에서만 의미가 큽니다. 정렬 테이블(SORTED)은 항상 키 순서로 유지됩니다."
+      ],
+      "links": [
+        {
+          "label": "SORT 내부 테이블",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/sort-itab"
+        }
+      ]
     },
     {
-      "id": "select", "term": "SELECT", "group": "데이터베이스",
+      "id": "select",
+      "term": "SELECT",
+      "group": "데이터베이스",
       "summary": "데이터베이스 테이블(또는 CDS 뷰)에서 데이터를 읽어 옵니다.",
       "whenToUse": "저장된 데이터를 조회해 프로그램에서 쓰려고 할 때.",
       "syntax": "SELECT carrid, connid, price\n  FROM sflight\n  WHERE carrid = 'LH'\n  INTO TABLE @DATA(lt_flights).\nIF sy-subrc <> 0.\n  \"조회 결과 없음\nENDIF.\n\nSELECT SINGLE * FROM sflight\n  WHERE carrid = 'LH' AND connid = '0400'\n  INTO @DATA(ls_flight).",
-      "notes": ["최신 문법에서는 프로그램 변수 앞에 @ 를 붙이고 열 이름은 쉼표로 구분합니다.", "결과가 없으면 sy-subrc 가 0 이 아닙니다.", "SELECT SINGLE 은 조건에 맞는 첫 줄 하나만 읽습니다.", "WHERE 없이 큰 테이블을 통째로 읽으면 느려집니다."],
-      "links": [{ "label": "SELECT", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select" }]
+      "notes": [
+        "최신 문법에서는 프로그램 변수 앞에 @ 를 붙이고 열 이름은 쉼표로 구분합니다.",
+        "결과가 없으면 sy-subrc 가 0 이 아닙니다.",
+        "SELECT SINGLE 은 조건에 맞는 첫 줄 하나만 읽습니다.",
+        "WHERE 없이 큰 테이블을 통째로 읽으면 느려집니다."
+      ],
+      "links": [
+        {
+          "label": "SELECT",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select"
+        }
+      ]
     },
     {
-      "id": "insert-db", "term": "INSERT (DB 테이블)", "group": "데이터베이스",
+      "id": "insert-db",
+      "term": "INSERT (DB 테이블)",
+      "group": "데이터베이스",
       "summary": "데이터베이스 테이블에 새 줄을 추가합니다.",
       "whenToUse": "새 데이터를 저장할 때.",
       "syntax": "INSERT zflight FROM @ls_flight.\nINSERT zflight FROM TABLE @lt_flights.",
-      "notes": ["같은 키가 이미 있으면 sy-subrc 가 0 이 아닙니다(실패).", "실제로 확정하려면 COMMIT 이 필요한 환경이 많습니다. 학습 중인 과정의 규칙을 따르세요."],
-      "links": [{ "label": "INSERT (DB)", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/insert-writable-obj" }]
+      "notes": [
+        "같은 키가 이미 있으면 sy-subrc 가 0 이 아닙니다(실패).",
+        "실제로 확정하려면 COMMIT 이 필요한 환경이 많습니다. 학습 중인 과정의 규칙을 따르세요."
+      ],
+      "links": [
+        {
+          "label": "INSERT (DB)",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/insert-writable-obj"
+        }
+      ]
     },
     {
-      "id": "update-db", "term": "UPDATE (DB 테이블)", "group": "데이터베이스",
+      "id": "update-db",
+      "term": "UPDATE (DB 테이블)",
+      "group": "데이터베이스",
       "summary": "데이터베이스 테이블의 기존 줄을 수정합니다.",
       "whenToUse": "저장된 값을 바꿀 때.",
       "syntax": "UPDATE zflight SET price = 300\n  WHERE carrid = 'LH' AND connid = '0400'.",
-      "notes": ["WHERE 를 빠뜨리면 모든 줄이 바뀝니다."],
-      "links": [{ "label": "UPDATE (DB)", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/update-writable-obj" }]
+      "notes": [
+        "WHERE 를 빠뜨리면 모든 줄이 바뀝니다."
+      ],
+      "links": [
+        {
+          "label": "UPDATE (DB)",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/update-writable-obj"
+        }
+      ]
     },
     {
-      "id": "modify-db", "term": "MODIFY (DB 테이블)", "group": "데이터베이스",
+      "id": "modify-db",
+      "term": "MODIFY (DB 테이블)",
+      "group": "데이터베이스",
       "summary": "키가 같은 줄이 있으면 수정하고, 없으면 새로 추가합니다.",
       "whenToUse": "추가인지 수정인지 구분하지 않고 저장하고 싶을 때.",
       "syntax": "MODIFY zflight FROM @ls_flight.",
-      "notes": ["INSERT 와 UPDATE 중 어느 쪽이 실행됐는지 구분하기 어렵습니다."],
-      "links": [{ "label": "MODIFY (DB)", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/modify-writable-obj" }]
+      "notes": [
+        "INSERT 와 UPDATE 중 어느 쪽이 실행됐는지 구분하기 어렵습니다."
+      ],
+      "links": [
+        {
+          "label": "MODIFY (DB)",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/modify-writable-obj"
+        }
+      ]
     },
     {
-      "id": "delete-db", "term": "DELETE (DB 테이블)", "group": "데이터베이스",
+      "id": "delete-db",
+      "term": "DELETE (DB 테이블)",
+      "group": "데이터베이스",
       "summary": "데이터베이스 테이블의 줄을 삭제합니다.",
       "whenToUse": "저장된 데이터를 제거할 때.",
       "syntax": "DELETE FROM zflight WHERE carrid = 'LH' AND connid = '0400'.",
-      "notes": ["WHERE 를 빠뜨리면 모든 줄이 지워집니다.", "되돌릴 수 있는지는 DB 롤백·커밋 시점에 달려 있으니 연습 환경에서 먼저 확인하세요."],
-      "links": [{ "label": "DELETE (DB)", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/delete-writable-obj" }]
+      "notes": [
+        "WHERE 를 빠뜨리면 모든 줄이 지워집니다.",
+        "되돌릴 수 있는지는 DB 롤백·커밋 시점에 달려 있으니 연습 환경에서 먼저 확인하세요."
+      ],
+      "links": [
+        {
+          "label": "DELETE (DB)",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/delete-writable-obj"
+        }
+      ]
     },
     {
-      "id": "try-catch", "term": "TRY ... CATCH", "group": "예외 처리",
+      "id": "try-catch",
+      "term": "TRY ... CATCH",
+      "group": "예외 처리",
       "summary": "오류(예외)가 날 수 있는 구간을 TRY 로 감싸고, 예외가 나면 CATCH 블록에서 처리합니다.",
       "whenToUse": "0으로 나누기, 존재하지 않는 값 접근처럼 잡을 수 있는 오류가 예상될 때.",
       "syntax": "TRY.\n    DATA(lv_result) = 10 / lv_divisor.\n  CATCH cx_sy_zerodivide INTO DATA(lx_error).\n    DATA(lv_text) = lx_error->get_text( ).\nENDTRY.",
-      "notes": ["잡을 수 없는 오류(런타임 오류, 쇼트 덤프)도 있습니다."],
+      "notes": [
+        "잡을 수 없는 오류(런타임 오류, 쇼트 덤프)도 있습니다."
+      ],
       "links": [
-        { "label": "TRY", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/try" },
-        { "label": "CATCH", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/catch" }
+        {
+          "label": "TRY",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/try"
+        },
+        {
+          "label": "CATCH",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/catch"
+        }
       ]
     },
     {
-      "id": "raise-exception", "term": "RAISE EXCEPTION", "group": "예외 처리",
+      "id": "raise-exception",
+      "term": "RAISE EXCEPTION",
+      "group": "예외 처리",
       "summary": "직접 예외를 일으켜 호출한 쪽에 오류를 알립니다.",
       "whenToUse": "메서드 안에서 입력이 잘못됐을 때 호출자에게 알려야 할 때.",
       "syntax": "RAISE EXCEPTION TYPE cx_sy_illegal_argument.   \"예시용 예외 클래스",
-      "notes": ["사용자 정의 예외 클래스를 쓰는 경우가 많습니다. 예외 클래스는 CX_ 로 시작하는 이름이 관례입니다."],
-      "links": [{ "label": "RAISE EXCEPTION", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/raise-exception" }]
+      "notes": [
+        "사용자 정의 예외 클래스를 쓰는 경우가 많습니다. 예외 클래스는 CX_ 로 시작하는 이름이 관례입니다."
+      ],
+      "links": [
+        {
+          "label": "RAISE EXCEPTION",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/raise-exception"
+        }
+      ]
     },
     {
-      "id": "concatenate-split", "term": "CONCATENATE · SPLIT · 문자열 템플릿", "group": "문자열",
+      "id": "concatenate-split",
+      "term": "CONCATENATE · SPLIT · 문자열 템플릿",
+      "group": "문자열",
       "summary": "문자열을 이어 붙이거나 나눕니다. 최신 문법에서는 |...| 문자열 템플릿이 가장 간단합니다.",
       "whenToUse": "여러 값을 합친 문장을 만들거나 쉼표로 구분된 값을 나눌 때.",
       "syntax": "CONCATENATE lv_a lv_b INTO lv_c SEPARATED BY space.\nSPLIT lv_line AT ',' INTO TABLE DATA(lt_parts).\nDATA(lv_text) = |Hello { lv_name }, you are { lv_age } years old.|.",
-      "notes": ["문자열 템플릿은 | 로 감싸고 변수는 { } 안에 씁니다.", "작은따옴표 '...' 는 문자 리터럴(뒤 공백이 사라짐), 백틱 `...` 는 문자열 리터럴입니다."],
+      "notes": [
+        "문자열 템플릿은 | 로 감싸고 변수는 { } 안에 씁니다.",
+        "작은따옴표 '...' 는 문자 리터럴(뒤 공백이 사라짐), 백틱 `...` 는 문자열 리터럴입니다."
+      ],
       "links": [
-        { "label": "CONCATENATE", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/concatenate" },
-        { "label": "SPLIT", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/split" },
-        { "label": "문자열 템플릿", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/character-string-template" }
+        {
+          "label": "CONCATENATE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/concatenate"
+        },
+        {
+          "label": "SPLIT",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/split"
+        },
+        {
+          "label": "문자열 템플릿",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/character-string-template"
+        }
       ]
     },
     {
-      "id": "condense-translate", "term": "CONDENSE · TRANSLATE", "group": "문자열",
+      "id": "condense-translate",
+      "term": "CONDENSE · TRANSLATE",
+      "group": "문자열",
       "summary": "CONDENSE 는 문자열의 불필요한 공백을 정리하고, TRANSLATE 는 대소문자를 바꿉니다.",
       "whenToUse": "입력값 앞뒤 공백을 정리하거나 대소문자를 맞춰 비교할 때.",
       "syntax": "CONDENSE lv_text.\nTRANSLATE lv_text TO UPPER CASE.",
-      "notes": ["최신 코드는 condense( ), to_upper( ) 같은 내장 함수를 쓰기도 합니다."],
+      "notes": [
+        "최신 코드는 condense( ), to_upper( ) 같은 내장 함수를 쓰기도 합니다."
+      ],
       "links": [
-        { "label": "CONDENSE", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/condense" },
-        { "label": "TRANSLATE", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/translate" }
+        {
+          "label": "CONDENSE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/condense"
+        },
+        {
+          "label": "TRANSLATE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/translate"
+        }
       ]
     },
     {
-      "id": "move-corresponding", "term": "MOVE-CORRESPONDING", "group": "선언·데이터",
+      "id": "move-corresponding",
+      "term": "MOVE-CORRESPONDING",
+      "group": "선언·데이터",
       "summary": "이름이 같은 구성 요소끼리 구조(또는 테이블)의 값을 복사합니다.",
       "whenToUse": "구조 모양이 비슷한 두 변수 사이에 값을 한 번에 옮길 때.",
       "syntax": "MOVE-CORRESPONDING ls_source TO ls_target.\nls_target = CORRESPONDING #( ls_source ).   \"같은 의미의 최신 표기",
-      "notes": ["이름이 다른 열은 복사되지 않습니다."],
-      "links": [{ "label": "MOVE-CORRESPONDING", "site": "cloud", "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/move-corresponding" }]
-    },
-    {
-      "id": "write", "term": "WRITE", "group": "화면·프로그램 실행",
-      "summary": "리포트 프로그램의 목록(출력 화면)에 값을 출력합니다.",
-      "whenToUse": "연습용 프로그램에서 결과를 빠르게 확인할 때.",
-      "syntax": "WRITE 'Hello ABAP'.\nWRITE / lv_count.   \"새 줄에 출력",
-      "notes": ["전통적인 리포트에서 쓰는 문법입니다. 클라우드 ABAP 에서는 사용할 수 없고 대신 콘솔 출력 클래스를 씁니다(과정에 따라 다름).", "공식 링크는 Standard ABAP 문서입니다."],
-      "links": [{ "label": "WRITE", "site": "standard", "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapwrite-.html" }]
-    },
-    {
-      "id": "message", "term": "MESSAGE", "group": "화면·프로그램 실행",
-      "summary": "사용자에게 메시지(성공·경고·오류 등)를 보여 줍니다.",
-      "whenToUse": "입력 오류나 처리 결과를 사용자에게 알릴 때.",
-      "syntax": "MESSAGE 'Saved' TYPE 'S'.\nMESSAGE e001(zmsg) WITH lv_value.",
-      "notes": ["종류(TYPE): S 성공, I 정보, W 경고, E 오류, A 중단, X 종료(런타임 오류).", "e001(zmsg) 는 메시지 클래스 zmsg 의 001번 메시지입니다."],
-      "links": [{ "label": "MESSAGE", "site": "standard", "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapmessage.html" }]
-    },
-    {
-      "id": "parameters-select-options", "term": "PARAMETERS · SELECT-OPTIONS", "group": "화면·프로그램 실행",
-      "summary": "리포트를 실행하기 전에 사용자가 값을 입력하는 선택 화면을 만듭니다. PARAMETERS 는 값 하나, SELECT-OPTIONS 는 범위·여러 값입니다.",
-      "whenToUse": "조회 조건(날짜, 항공사 코드 등)을 사용자에게 입력받고 싶을 때.",
-      "syntax": "PARAMETERS p_carr TYPE s_carr_id.\nSELECT-OPTIONS s_conn FOR sflight-connid.\n\nSTART-OF-SELECTION.\n  SELECT * FROM sflight\n    WHERE carrid = @p_carr AND connid IN @s_conn\n    INTO TABLE @DATA(lt_flights).",
-      "notes": ["SELECT-OPTIONS 는 자동으로 범위를 담는 내부 테이블이 만들어지며 WHERE 에서 IN 으로 씁니다.", "Standard ABAP 의 리포트 화면 기능입니다."],
+      "notes": [
+        "이름이 다른 열은 복사되지 않습니다."
+      ],
       "links": [
-        { "label": "PARAMETERS", "site": "standard", "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapparameters.html" },
-        { "label": "SELECT-OPTIONS", "site": "standard", "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapselect-options.html" }
+        {
+          "label": "MOVE-CORRESPONDING",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/move-corresponding"
+        }
       ]
     },
     {
-      "id": "call-transaction-submit", "term": "CALL TRANSACTION · SUBMIT", "group": "화면·프로그램 실행",
+      "id": "write",
+      "term": "WRITE",
+      "group": "화면·프로그램 실행",
+      "summary": "리포트 프로그램의 목록(출력 화면)에 값을 출력합니다.",
+      "whenToUse": "연습용 프로그램에서 결과를 빠르게 확인할 때.",
+      "syntax": "WRITE 'Hello ABAP'.\nWRITE / lv_count.   \"새 줄에 출력",
+      "notes": [
+        "전통적인 리포트에서 쓰는 문법입니다. 클라우드 ABAP 에서는 사용할 수 없고 대신 콘솔 출력 클래스를 씁니다(과정에 따라 다름).",
+        "공식 링크는 Standard ABAP 문서입니다.",
+        "같은 키워드를 이어 쓰면 콜론(:)으로 묶고 쉼표로 나눕니다: WRITE: / lv_a, / lv_b. (/ 는 줄바꿈)",
+        "문구를 코드 밖에 두는 Text Symbol 은 text-001 처럼 씁니다. 자세한 내용은 \"Text Symbol\" 항목을 보세요."
+      ],
+      "links": [
+        {
+          "label": "WRITE",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapwrite-.html"
+        }
+      ]
+    },
+    {
+      "id": "message",
+      "term": "MESSAGE",
+      "group": "화면·프로그램 실행",
+      "summary": "사용자에게 메시지(성공·경고·오류 등)를 보여 줍니다.",
+      "whenToUse": "입력 오류나 처리 결과를 사용자에게 알릴 때.",
+      "syntax": "MESSAGE 'Saved' TYPE 'S'.\nMESSAGE e001(zmsg) WITH lv_value.",
+      "notes": [
+        "종류(TYPE): S 성공, I 정보, W 경고, E 오류, A 중단, X 종료(런타임 오류).",
+        "e001(zmsg) 는 메시지 클래스 zmsg 의 001번 메시지입니다."
+      ],
+      "links": [
+        {
+          "label": "MESSAGE",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapmessage.html"
+        }
+      ]
+    },
+    {
+      "id": "parameters-select-options",
+      "term": "PARAMETERS · SELECT-OPTIONS",
+      "group": "화면·프로그램 실행",
+      "summary": "리포트를 실행하기 전에 사용자가 값을 입력하는 선택 화면을 만듭니다. PARAMETERS 는 값 하나, SELECT-OPTIONS 는 범위·여러 값입니다.",
+      "whenToUse": "조회 조건(날짜, 항공사 코드 등)을 사용자에게 입력받고 싶을 때.",
+      "syntax": "PARAMETERS p_carr TYPE s_carr_id.\nSELECT-OPTIONS s_conn FOR sflight-connid.\n\nSTART-OF-SELECTION.\n  SELECT * FROM sflight\n    WHERE carrid = @p_carr AND connid IN @s_conn\n    INTO TABLE @DATA(lt_flights).",
+      "notes": [
+        "SELECT-OPTIONS 는 자동으로 범위를 담는 내부 테이블이 만들어지며 WHERE 에서 IN 으로 씁니다.",
+        "Standard ABAP 의 리포트 화면 기능입니다.",
+        "PARAMETERS 의 이름은 최대 8자이고, 처음 값은 DEFAULT 로 넣습니다(DATA 는 VALUE). 소수 기본값은 따옴표로 감쌉니다(예: DEFAULT '3.14').",
+        "이 선택 화면의 기본 화면 번호는 1000 입니다. tcode 를 만들 때 Selection screen 칸에 이 번호를 넣습니다.",
+        "입력칸 제목은 Goto → Text Elements → Selection Texts 에서 바꾸고 활성화합니다."
+      ],
+      "links": [
+        {
+          "label": "PARAMETERS",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapparameters.html"
+        },
+        {
+          "label": "SELECT-OPTIONS",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapselect-options.html"
+        }
+      ]
+    },
+    {
+      "id": "call-transaction-submit",
+      "term": "CALL TRANSACTION · SUBMIT",
+      "group": "화면·프로그램 실행",
       "summary": "CALL TRANSACTION 은 트랜잭션 코드를 실행하고, SUBMIT 은 다른 리포트를 실행합니다.",
       "whenToUse": "다른 화면이나 리포트로 이동하거나 실행 결과를 이어받을 때.",
       "syntax": "CALL TRANSACTION 'SE38'.\nSUBMIT zreport WITH p_carr = 'LH' AND RETURN.",
-      "notes": ["AND RETURN 이 없으면 SUBMIT 한 프로그램이 끝나도 원래 프로그램으로 돌아오지 않습니다."],
+      "notes": [
+        "AND RETURN 이 없으면 SUBMIT 한 프로그램이 끝나도 원래 프로그램으로 돌아오지 않습니다."
+      ],
       "links": [
-        { "label": "CALL TRANSACTION", "site": "standard", "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcall_transaction.html" },
-        { "label": "SUBMIT", "site": "standard", "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapsubmit.html" }
+        {
+          "label": "CALL TRANSACTION",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapcall_transaction.html"
+        },
+        {
+          "label": "SUBMIT",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapsubmit.html"
+        }
+      ]
+    },
+    {
+      "id": "builtin-types-fixed",
+      "term": "내장 타입 · 길이가 정해진 것 (D T I F STRING …)",
+      "group": "선언·데이터",
+      "summary": "날짜(D), 시간(T), 정수(I), 부동소수점(F), 가변 길이 문자열(STRING)처럼 길이를 따로 적지 않는 내장 타입입니다.",
+      "whenToUse": "변수를 만들 때 값의 종류에 맞는 타입을 고를 때.",
+      "syntax": "DATA: gv_date TYPE d VALUE '20261112',   \"YYYYMMDD 8자리\n      gv_time TYPE t VALUE '113602',     \"HHMMSS 6자리\n      gv_int  TYPE i VALUE 30,\n      gv_str  TYPE string VALUE 'Hello'.   \"넣는 만큼 길이가 늘어남",
+      "notes": [
+        "D 는 YYYYMMDD 8자리, T 는 HHMMSS 6자리로 길이가 고정입니다. I 는 4바이트 정수(INT8 은 8바이트), F 는 8바이트 부동소수점입니다.",
+        "STRING 과 XSTRING 은 길이가 변하는 타입이라 LENGTH 를 적지 않습니다.",
+        "DECFLOAT16 / DECFLOAT34 는 지수가 있는 십진 부동소수점입니다.",
+        "정수는 VALUE 30 처럼 따옴표 없이 쓰는 것이 자연스럽습니다."
+      ],
+      "links": [
+        {
+          "label": "Built-In ABAP Types",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/built-in-abap-type"
+        },
+        {
+          "label": "Built-In Data Types",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/built-in-data-types"
+        }
+      ]
+    },
+    {
+      "id": "builtin-types-length",
+      "term": "내장 타입 · 길이를 정하는 것 (C N X P)",
+      "group": "선언·데이터",
+      "summary": "문자(C), 숫자형 문자(N), 바이트(X), 고정소수점 숫자(P)는 LENGTH 로 길이를 직접 정합니다.",
+      "whenToUse": "코드·이름처럼 길이가 정해진 문자, 계산이 필요한 소수 숫자를 담을 때.",
+      "syntax": "DATA: gv_name TYPE c LENGTH 10 VALUE '홍길동',\n      gv_zip  TYPE n LENGTH 5  VALUE '6',            \"00006\n      gv_dec  TYPE p LENGTH 3 DECIMALS 2 VALUE '3.14'.   \"총 5자리, 정수 3자리",
+      "notes": [
+        "LENGTH 를 생략하면 문법 오류는 아니지만 C·N·X 는 길이 1, P 는 8 이 됩니다.",
+        "N 은 숫자처럼 보이지만 문자입니다. 빈자리를 앞에서 0 으로 채우므로 우편번호·코드처럼 계산하지 않는 숫자에 씁니다.",
+        "P 의 LENGTH 는 자릿수가 아니라 바이트 수입니다. 총 자릿수 = LENGTH × 2 − 1, 정수 자릿수 = 총 자릿수 − DECIMALS.",
+        "TYPE p LENGTH 2 DECIMALS 4 는 소수 자릿수(4)가 총 자릿수(3)보다 커서 오류입니다.",
+        "DATA gv_dec(5) TYPE p 처럼 괄호로 길이를 쓰는 방식도 동작하지만 LENGTH 를 쓰는 것이 읽기 쉽습니다."
+      ],
+      "links": [
+        {
+          "label": "Built-In ABAP Types",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/built-in-abap-type"
+        },
+        {
+          "label": "Built-In Data Types",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/built-in-data-types"
+        }
+      ]
+    },
+    {
+      "id": "like-global-type",
+      "term": "Local · Global Type 과 LIKE",
+      "group": "선언·데이터",
+      "summary": "타입은 프로그램 안에서 TYPES 로 만들거나(Local), ABAP Dictionary(SE11)에 등록된 것(Global)을 가져다 씁니다. LIKE 는 이미 있는 변수의 타입을 따릅니다.",
+      "whenToUse": "같은 모양의 변수를 여러 개 만들 때, 또는 테이블 필드에 맞는 타입이 필요할 때.",
+      "syntax": "TYPES tv_char TYPE c LENGTH 10.          \"Local Type: 이 프로그램 안에서만\nDATA: gv_name  TYPE tv_char,\n      gv_name2 TYPE tv_char,\n      gv_carrid TYPE s_carr_id,           \"Global Type(Data Element)\n      gv_copy   LIKE gv_name.             \"gv_name 과 같은 타입",
+      "notes": [
+        "DATA 로 만든 변수에는 값을 넣을 수 있지만 타입에는 넣을 수 없습니다. tv_char = 'A'. 는 문법 오류입니다.",
+        "Global Type 은 Data Element(값 1개), Structure(여러 필드를 묶은 한 줄), Table Type(같은 구조의 여러 줄)이 있고 SE11 에서 봅니다. 코드의 타입 이름을 더블클릭하면 SE11 이 열립니다.",
+        "이름 앞글자는 관례입니다: tv_ 타입, gv_ 변수, gc_ 상수. 문법 규칙은 아닙니다.",
+        "TYPE 은 타입을 참조하고 LIKE 는 이미 있는 변수의 타입을 따릅니다."
+      ],
+      "links": [
+        {
+          "label": "TYPES",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/types"
+        },
+        {
+          "label": "DATA",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/data"
+        }
+      ]
+    },
+    {
+      "id": "initial-default",
+      "term": "Initial value 와 Default value",
+      "group": "선언·데이터",
+      "summary": "Initial value 는 타입마다 정해진 처음값이고, Default value 는 선언할 때 내가 직접 넣은 값입니다.",
+      "whenToUse": "CLEAR 후 값이 왜 20 이 아니라 0 인지 헷갈릴 때.",
+      "syntax": "DATA gv_int TYPE i VALUE 20.   \"Default value 20\nWRITE / gv_int.                \"20\nCLEAR gv_int.\nWRITE / gv_int.                \"0 (Initial value)",
+      "notes": [
+        "VALUE 없이 선언하거나 CLEAR 하면 Initial value 가 됩니다. CLEAR 는 Default 가 아니라 Initial 로 되돌립니다.",
+        "Initial value: i·p·f 는 0, c 는 공백, n 은 길이만큼 0, d 는 00000000, t 는 000000, string 은 빈 문자열.",
+        "DATA 는 VALUE, PARAMETERS 는 DEFAULT 로 처음 값을 넣습니다."
+      ],
+      "links": [
+        {
+          "label": "CLEAR",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/clear"
+        },
+        {
+          "label": "DATA",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/data"
+        }
+      ]
+    },
+    {
+      "id": "text-symbol",
+      "term": "Text Symbol (Text Elements)",
+      "group": "화면·프로그램 실행",
+      "summary": "화면에 보일 문구를 코드 밖에 저장하고, 로그인 언어에 맞는 번역본이 출력되게 합니다.",
+      "whenToUse": "같은 프로그램이 영어·한국어 로그인에 따라 다른 문구를 보여 주어야 할 때.",
+      "syntax": "REPORT zmy_report.\nPARAMETERS pa_name TYPE c LENGTH 10.\nWRITE: pa_name, text-001.          \"Text Symbol 001 의 문구\nWRITE / 'Hello Friend'(gre).        \"GRE 가 있으면 그 문구, 없으면 따옴표 안 문구",
+      "notes": [
+        "에디터의 Text Elements(Goto → Text Elements)에서 Text Symbols, Selection Texts(선택 화면 입력칸 제목), List Headings 탭을 씁니다.",
+        "text-001 은 해당 언어 문구가 없으면 빈칸이 나옵니다. 'Hello Friend'(gre) 는 GRE 가 없으면 따옴표 안의 문구가 나옵니다.",
+        "번역 순서: Text Symbols 에 영어 문구를 넣고 활성화 → Goto → Translation 에서 대상 언어(KO 등)를 고르고 번역 → EN·KO 로 각각 로그인해 실행해 봅니다."
+      ],
+      "links": [
+        {
+          "label": "WRITE",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapwrite-.html"
+        }
+      ]
+    },
+    {
+      "id": "arithmetic-assign",
+      "term": "값 할당과 산술 연산 (= + - * / ** DIV MOD)",
+      "group": "선언·데이터",
+      "summary": "= 로 오른쪽 값을 왼쪽에 넣고, + - * / ** DIV MOD 로 계산하며, strlen( ) 같은 내장 함수를 씁니다.",
+      "whenToUse": "값을 복사하거나 계산한 결과를 변수에 담을 때.",
+      "syntax": "gv_carrid2 = gv_carrid1.             \"MOVE gv_carrid1 TO gv_carrid2. 와 같은 뜻\ngv_count = gv_count + 1.\ngv_rest  = 7 MOD 2.                   \"1\ngv_div   = 7 DIV 2.                   \"3 (몫)\ngv_len   = strlen( gv_string ).       \"괄호 안쪽 양쪽에 한 칸",
+      "notes": [
+        "= 는 오른쪽 값을 왼쪽에 넣습니다. MOVE a TO b 와 b = a 는 같은 뜻이고 방향만 반대로 읽힙니다. MOVE·ADD 는 예전 방식이라 요즘은 = 를 권장합니다.",
+        "결과 변수가 정수(i)면 / 의 결과가 반올림됩니다. 7 / 2 는 4 입니다. 몫만 원하면 DIV, 소수 결과는 p 타입(DECIMALS 지정)에 담으세요. 0 으로 나누면 실행 오류(덤프)가 납니다.",
+        "함수 괄호는 strlen( gv_string ) 처럼 양쪽에 한 칸씩 띄어야 합니다. 붙이면 문법 오류입니다. c 타입의 strlen 은 뒤쪽 공백을 빼고 셉니다.",
+        "P 타입 계산에는 속성의 Fixed point arithmetic 이 켜져 있어야 소수 자릿수가 반영됩니다(기본으로 체크). 끄면 정수처럼 계산되어 결과가 틀어집니다."
+      ],
+      "links": [
+        {
+          "label": "Arithmetic Expression",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenarithmetic_expression_glosry.html"
+        },
+        {
+          "label": "strlen",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/cstring-func-charlen-dbmaxlen-numofchar-strlen"
+        }
+      ]
+    },
+    {
+      "id": "chained-comments",
+      "term": "체인 문장 · 주석 · 단축키",
+      "group": "화면·프로그램 실행",
+      "summary": "같은 키워드를 콜론(:)과 쉼표(,)로 묶어 쓰고, 주석과 편집 단축키로 코드를 다룹니다.",
+      "whenToUse": "코드를 짧게 쓰거나 주석 처리·정리가 필요할 때.",
+      "syntax": "WRITE: 'Your input:', pa_num.     \"WRITE 'Your input:'. WRITE pa_num. 과 같음\n* 한 줄 전체 주석: 별표는 1열(맨 앞)에\nDATA gv_result TYPE i.   \" 코드 옆 주석: 큰따옴표 뒤는 줄 끝까지",
+      "notes": [
+        "모든 문장은 마침표(.)로 끝납니다. 마침표를 빠뜨리거나, 별표(*)가 1열이 아니거나, 쉼표로 여러 개를 쓰면서 콜론을 빠뜨리면 문법 오류입니다.",
+        "문자열은 작은따옴표, 큰따옴표는 주석이라 헷갈리지 않게 주의합니다.",
+        "단축키: Ctrl+< / Ctrl+> 주석 달기·풀기, F1 키워드 도움말, Shift+F1 Pretty Printer(들여쓰기·대소문자 자동 정리, 설정은 Utilities → Settings → ABAP Editor)."
+      ],
+      "links": [
+        {
+          "label": "Chained Statement",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/chained-statement"
+        }
+      ]
+    },
+    {
+      "id": "three-tier",
+      "term": "SAP 3Tier 구조",
+      "group": "개념·환경",
+      "summary": "화면(Presentation), 프로그램 실행(Application), 데이터(Database)를 서로 다른 층에 둔 구조입니다.",
+      "whenToUse": "ABAP 프로그램이 내 PC 가 아니라 어디서 도는지 이해할 때.",
+      "syntax": "Presentation   SAP GUI, 웹 브라우저          화면 표시·입력\nApplication    Dispatcher + Work Process    ABAP 실행\nDatabase       테이블 + Repository          데이터·프로그램 보관",
+      "notes": [
+        "Dispatcher 는 요청을 줄 세워 빈 Work Process 에 나눠 주는 안내원이고, Work Process 는 실제로 ABAP 코드를 실행하는 일꾼입니다.",
+        "Application 서버는 여러 대일 수 있고 서버마다 Dispatcher 가 하나씩 있습니다. DB 는 시스템에 하나입니다.",
+        "프로그램도 Repository 에 저장돼 있다가 실행할 때 Application 서버로 불려 옵니다."
+      ],
+      "links": [
+        {
+          "label": "Describing the Data Structure of an AS ABAP Based SAP System",
+          "site": "learning",
+          "url": "https://learning.sap.com/courses/technical-implementation-and-operation-i-of-sap-s-4hana-and-sap-business-suite/describing-the-data-structure-of-an-as-abap-based-sap-system"
+        }
+      ]
+    },
+    {
+      "id": "run-flow",
+      "term": "프로그램 실행 흐름",
+      "group": "개념·환경",
+      "summary": "입력 화면 → 입력값이 변수에 담김 → 로직 실행 → DB 조회 → 결과 리스트 순서로 진행됩니다.",
+      "whenToUse": "F8 을 눌렀을 때 서버에서 무슨 일이 일어나는지 알고 싶을 때.",
+      "syntax": "1 실행 요청(tcode 또는 SE38)\n2 Repository 에서 프로그램 로드(Application 서버 메모리)\n3 Selection Screen(입력 화면) 전송\n4 입력값이 Data Object(변수)에 담김 → Processing Block 실행\n5 필요하면 DB 에서 조회\n6 결과 리스트를 화면으로 전송",
+      "notes": [
+        "ABAP Runtime System 은 Application 서버에서 ABAP 을 실행하는 엔진입니다(Java 의 JVM 과 비슷한 역할).",
+        "Selection Screen 은 프로그램 시작 전에 입력값을 받는 화면(기본 번호 1000), Data Object 는 프로그램이 쓰는 변수·상수, Processing Block 은 실제 로직 덩어리, Reuse Unit 은 여러 프로그램이 같이 쓰는 모듈입니다."
+      ],
+      "links": [],
+      "basis": "수업 정리노트(교재 BC400) 내용을 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "client",
+      "term": "Client (Cross-Client · Client-Specific)",
+      "group": "개념·환경",
+      "summary": "한 SAP 시스템 안의 독립된 업무 단위입니다. Repository 는 모두 공유하고 회사 데이터는 클라이언트마다 따로입니다.",
+      "whenToUse": "내가 만든 프로그램이 다른 클라이언트에서 보이는지, 데이터가 서로 보이는지 궁금할 때.",
+      "syntax": "Cross-Client      시스템에 1개, 모든 클라이언트가 공유   프로그램·테이블 정의·화면\nClient-Specific   클라이언트마다 따로                   회사 데이터·사용자 계정",
+      "notes": [
+        "한 클라이언트에서 만든 프로그램은 다른 클라이언트에서도 보입니다. 업무 데이터는 보이지 않습니다.",
+        "화면 하단 상태 표시줄에서 지금 로그인한 시스템 ID 와 클라이언트 번호를 볼 수 있습니다.",
+        "이관(Transport)은 시스템과 시스템 사이(DEV → QAS → PRD)의 이동이라서, 같은 시스템 안의 클라이언트 구분과는 다른 이야기입니다."
+      ],
+      "links": [
+        {
+          "label": "Describing the Data Structure of an AS ABAP Based SAP System",
+          "site": "learning",
+          "url": "https://learning.sap.com/courses/technical-implementation-and-operation-i-of-sap-s-4hana-and-sap-business-suite/describing-the-data-structure-of-an-as-abap-based-sap-system"
+        }
+      ]
+    },
+    {
+      "id": "repository-cbo",
+      "term": "Repository 와 CBO (Z · Y 이름)",
+      "group": "개념·환경",
+      "summary": "Repository 는 프로그램·테이블 정의 같은 개발 오브젝트의 창고이고, 직접 만드는 오브젝트(CBO)는 이름이 Z 또는 Y 로 시작해야 합니다.",
+      "whenToUse": "새 프로그램·테이블·tcode 이름을 지을 때.",
+      "syntax": "SAP 기본 오브젝트(Standard)   이름 자유            BC400RCAR, TSTC\n직접 만든 오브젝트(CBO)       Z 또는 Y 로 시작     ZMY_REPORT, YMY_TCODE",
+      "notes": [
+        "Z/Y 는 SAP 이 고객용으로 비워 둔 이름 영역이라 SAP 업데이트가 이 이름의 오브젝트를 덮어쓰지 않습니다.",
+        "CBO 는 Customer Bolt-On 의 약자로, Standard 로 해결되지 않는 테이블·프로그램을 회사 개발자가 직접 만든 것입니다.",
+        "tcode 도 직접 만들면 Z 또는 Y 로 시작해야 합니다. 프로그램은 Z, tcode 는 Y 로 나눠 부르기도 합니다.",
+        "Repository 는 FI, CO, MM, SD 같은 모듈별 서랍처럼 나뉘어 있습니다. SE84 에서 검색합니다."
+      ],
+      "links": [
+        {
+          "label": "Describing the Data Structure of an AS ABAP Based SAP System",
+          "site": "learning",
+          "url": "https://learning.sap.com/courses/technical-implementation-and-operation-i-of-sap-s-4hana-and-sap-business-suite/describing-the-data-structure-of-an-as-abap-based-sap-system"
+        }
+      ]
+    },
+    {
+      "id": "package",
+      "term": "Package 와 $TMP",
+      "group": "개념·환경",
+      "summary": "Package 는 관련된 개발 오브젝트를 묶는 폴더이고, $TMP 는 이관하지 않을 연습용 오브젝트를 넣는 Local Package 입니다.",
+      "whenToUse": "새 프로그램을 만들 때 어느 패키지에 넣을지 정해야 할 때.",
+      "syntax": "Package ZMY_PKG\n  ├─ 프로그램 ZMY_REPORT\n  └─ 테이블 ZMY_TABLE\n\n$TMP  연습용(이관 안 함, CTS 를 묻지 않음)",
+      "notes": [
+        "Package 안에 Sub Package 를 만들 수 있지만 실무에서는 잘 쓰지 않습니다.",
+        "Package 에 넣은 오브젝트는 이관 대상이라 저장할 때 CTS(변경 요청)를 고르라는 창이 뜹니다. $TMP 에 넣으면 묻지 않습니다.",
+        "잘못 고른 패키지는 에디터의 Goto → Object Directory Entry 에서 바꿉니다."
+      ],
+      "links": [
+        {
+          "label": "Describing the Data Structure of an AS ABAP Based SAP System",
+          "site": "learning",
+          "url": "https://learning.sap.com/courses/technical-implementation-and-operation-i-of-sap-s-4hana-and-sap-business-suite/describing-the-data-structure-of-an-as-abap-based-sap-system"
+        }
+      ]
+    },
+    {
+      "id": "cts",
+      "term": "CTS 와 이관",
+      "group": "개념·환경",
+      "summary": "개발 오브젝트를 변경 요청(CTS)에 묶어 릴리즈하고, 개발(DEV) → 테스트(QAS) → 운영(PRD) 순으로 옮깁니다.",
+      "whenToUse": "저장할 때 뜨는 \"Prompt for transportable Workbench request\" 창의 뜻이 궁금할 때.",
+      "syntax": "DEV  개발은 여기서만\n  ↓ 이관(Transport)\nQAS  테스트\n  ↓\nPRD  운영\n\nCTS(Request)  ← 프로젝트 리더 소유\n  ├─ Task  ← 팀원 A\n  └─ Task  ← 팀원 B",
+      "notes": [
+        "순서: PL 이 CTS 생성 → 팀원이 개발(저장하면 자기 Task 에 기록) → 팀원이 Task 릴리즈 → PL 이 CTS 릴리즈(하위 Task 가 모두 릴리즈돼야 함) → Basis 담당자가 STMS 로 Import.",
+        "Workbench Request 는 개발 오브젝트(Cross-Client)를, Customizing Request 는 클라이언트별 설정을 담습니다. 개발자는 대부분 Workbench Request 를 씁니다(관리 tcode: SE09, SE10).",
+        "CTS 의 Short Description 은 회사마다 이름 규칙이 있어 그 규칙에 맞춰 씁니다."
+      ],
+      "links": [
+        {
+          "label": "Change Requests",
+          "site": "help",
+          "url": "https://help.sap.com/saphelp_46c/helpdata/en/57/38e1824eb711d182bf0000e829fbfe/content.htm"
+        }
+      ]
+    },
+    {
+      "id": "program-workflow",
+      "term": "프로그램 만들기와 실행 순서 (Active · Inactive)",
+      "group": "개념·환경",
+      "summary": "SE80 에서 만들고 → 저장 → 문법 체크 → 활성화(Active) → 실행(F8) 순서로 진행합니다. 활성화 전에는 Inactive 입니다.",
+      "whenToUse": "저장했는데 예전 코드가 실행되거나 tcode 가 실행되지 않을 때.",
+      "syntax": "Ctrl+F1  조회 ↔ 편집 모드 전환\nCtrl+S   저장\nCtrl+F2  문법 체크\nCtrl+F3  활성화(Activate)\nF8       실행",
+      "notes": [
+        "저장만 하면 여전히 Inactive 입니다. 활성화해야 실행되는 버전이 바뀝니다. Inactive 상태에서는 다른 사람이나 tcode 가 이 코드를 실행할 수 없습니다.",
+        "SE80 트리에서 프로그램 이름이 파란색이면 Inactive 입니다. 새로 만든 오브젝트가 트리에 안 보이면 Refresh Object List 를 누릅니다.",
+        "프로그램 만들기: 패키지 우클릭 → Create → Program → 이름(Z 시작) → Attributes 에서 Title 과 Type(Executable program) 입력 → 패키지·CTS 지정 → 에디터가 열리고 REPORT 문이 자동으로 들어갑니다.",
+        "Program Title 은 Goto → Attributes 에서 바꿉니다."
+      ],
+      "links": [],
+      "basis": "수업 정리노트(교재 BC400) 내용을 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "easy-access",
+      "term": "SAP Easy Access 와 Command Field",
+      "group": "개념·환경",
+      "summary": "로그인하면 처음 보이는 화면이 Easy Access 이고, 창 하나가 세션(Session)입니다. tcode 는 Command Field 에 입력합니다.",
+      "whenToUse": "화면 어디에 무엇이 있는지, 설정을 어디서 바꾸는지 찾을 때.",
+      "syntax": "Command Field    tcode·명령 입력 칸 (Ctrl+/ 로 커서 이동)\n표준 툴바        저장·뒤로·종료·취소, 새 세션\n작업 영역        내용이 나오는 곳\n상태 표시줄      메시지, 시스템 정보",
+      "notes": [
+        "세션은 창을 여러 개 열어도 로그인은 한 번입니다. 최대 개수는 서버 설정값이라 시스템마다 다릅니다.",
+        "Easy Access 메뉴의 Extras → Settings → Display technical names 를 체크하면 메뉴 이름 옆에 tcode 가 같이 보입니다.",
+        "Favorites 폴더 우클릭 → Insert Transaction 으로 자주 쓰는 tcode 를 즐겨찾기에 넣을 수 있습니다.",
+        "지금 화면의 tcode 는 우측 하단 작은 화살표에서 Transaction 을 고르면 보입니다. 날짜·숫자 형식 같은 내 설정은 System → User Profile → Own Data(SU3)입니다.",
+        "tcode 와 Command Field 명령은 \"tcode 사전\" 구역에서 자세히 볼 수 있습니다."
+      ],
+      "links": [
+        {
+          "label": "Entering a Transaction Code",
+          "site": "help",
+          "url": "https://help.sap.com/saphelp_46c/helpdata/en/73/69ec8d55bb11d189680000e829fbbd/content.htm"
+        }
+      ]
+    },
+    {
+      "id": "tstc",
+      "term": "TSTC 테이블",
+      "group": "개념·환경",
+      "summary": "tcode 와 그 tcode 가 실행하는 프로그램의 연결이 저장되는 테이블입니다. tcode 는 프로그램에 붙인 별명입니다.",
+      "whenToUse": "tcode 가 어떤 프로그램을 실행하는지 확인하거나, tcode 가 어디에 저장되는지 이해할 때.",
+      "syntax": "TCODE   tcode 이름\nPGMNA   실행되는 프로그램 이름\nDYPNO   처음 뜨는 화면 번호",
+      "notes": [
+        "SE11 이나 SE16 에서 TSTC 를 열면 tcode 와 프로그램 이름이 보입니다.",
+        "SE93 이나 SE80 에서 만든 tcode 는 TSTC 에 한 줄로 저장됩니다. SE38 도 내부에서는 프로그램 하나를 실행하는 것뿐입니다."
+      ],
+      "links": [
+        {
+          "label": "Transaction Codes",
+          "site": "help",
+          "url": "https://help.sap.com/saphelp_em92/helpdata/en/4d/6b8ed80f241783e10000000a42189b/content.htm"
+        }
       ]
     }
   ]

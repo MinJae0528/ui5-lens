@@ -11,3 +11,6 @@ reports
 .DS_Store
 Thumbs.db
 *.log
+
+# 수업 서버 고유 이름 점검 목록(로컬 전용)
+data/abap/forbidden.local.txt

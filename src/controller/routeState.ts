@@ -20,6 +20,9 @@ export function modeForProduct(p: Product, lastUi5: string | null | undefined): 
   return (UI5_MODES as readonly string[]).includes(lastUi5 ?? '') ? (lastUi5 as Ui5Mode) : 'name';
 }
 
+export const ABAP_ZONES = ['', 'tcode'] as const;
+export type AbapZone = (typeof ABAP_ZONES)[number];
+
 export interface Route {
   v: string; q: string; api: string | null; tab: string; inh: boolean; mq: string;
   /** 찾는 방법: name 이름·메서드 / feature 기능 추천 / browse API 탐색 / guide 문서 가이드 / abap ABAP 기본 문법 */
@@ -36,8 +39,10 @@ export interface Route {
   ab: string;
   /** ABAP 기본 문법에서 고른 그룹 이름(예: 데이터베이스). 비어 있으면 전체 */
   ag: string;
+  /** ABAP 안의 구역: '' 문법 사전 / 'tcode' tcode 사전. 항목(ab)·그룹(ag)은 두 구역이 같은 변수를 쓴다 */
+  az: AbapZone;
 }
-export const DEFAULT_ROUTE: Route = { v: '', q: '', api: null, tab: 'overview', inh: false, mq: '', m: 'name', kf: 'all', lib: '', mem: '', tp: '', ab: '', ag: '' };
+export const DEFAULT_ROUTE: Route = { v: '', q: '', api: null, tab: 'overview', inh: false, mq: '', m: 'name', kf: 'all', lib: '', mem: '', tp: '', ab: '', ag: '', az: '' };
 
 /**
  * 상위 탭(UI5/ABAP)을 바꿀 때 주소에 적용할 변경. 열려 있던 항목은 닫고 목록으로 돌아간다.
@@ -45,11 +50,14 @@ export const DEFAULT_ROUTE: Route = { v: '', q: '', api: null, tab: 'overview', 
  * 일부러 넘길 때만 keepQuery 로 유지한다.
  */
 export function switchProduct(p: Product, lastUi5: string | null | undefined, opts: { keepQuery?: boolean } = {}): Partial<Route> {
-  const patch: Partial<Route> = { m: modeForProduct(p, lastUi5), api: null, mem: '', mq: '', tab: 'overview', ab: '' };
+  const patch: Partial<Route> = { m: modeForProduct(p, lastUi5), api: null, mem: '', mq: '', tab: 'overview', ab: '', az: '' };
   if (!opts.keepQuery) patch.q = '';
   else patch.ag = ''; // 검색어를 넘길 때는 그룹 필터 때문에 결과가 가려지지 않게 전체 그룹에서 찾는다
   return patch;
 }
+
+/** ABAP 안에서 문법 사전 ↔ tcode 사전을 바꿀 때. 열린 항목과 그룹은 두 구역의 뜻이 달라 비운다. */
+export const switchAbapZone = (az: AbapZone): Partial<Route> => ({ az, ab: '', ag: '' });
 
 // API 이름: 점으로 이어진 이름(sap.m.Button), module:경로(module:sap/base/i18n/ResourceBundle, module:/sap/...),
 // 가끔 있는 #(모듈 내부 이름)과 끝의 제네릭 표기(<T, K>)만 허용한다. 경로 이탈(..)·이중 슬래시·역슬래시·태그는 거부한다.
@@ -77,7 +85,7 @@ export function parse(hash: string): Route {
     v: p.get('v') ?? '', q: p.get('q') ?? '', api: api && isSafeApiName(api) ? api : null, tab: p.get('tab') ?? 'overview',
     inh: p.get('inh') === '1', mq: p.get('mq') ?? '',
     m: oneOf(MODES, p.get('m'), 'name'), kf: oneOf(KIND_FILTERS, p.get('kf'), 'all'),
-    lib: LIB_RE.test(lib) ? lib : '', mem: MEM_RE.test(mem) ? mem : '', tp: TOPIC_RE.test(tp) ? tp : '', ab: ABAP_RE.test(ab) ? ab : '', ag: AG_RE.test(ag) ? ag : '',
+    lib: LIB_RE.test(lib) ? lib : '', mem: MEM_RE.test(mem) ? mem : '', tp: TOPIC_RE.test(tp) ? tp : '', ab: ABAP_RE.test(ab) ? ab : '', ag: AG_RE.test(ag) ? ag : '', az: p.get('az') === 'tcode' ? 'tcode' : '',
   };
 }
 
@@ -89,6 +97,7 @@ export function serialize(r: Route): string {
   if (r.m === 'name' && r.kf !== 'all') p.set('kf', r.kf);
   if (r.m === 'browse' && r.lib) p.set('lib', r.lib);
   if (r.m === 'guide' && r.tp) p.set('tp', r.tp);
+  if (r.m === 'abap' && r.az) p.set('az', r.az);
   if (r.m === 'abap' && r.ab) p.set('ab', r.ab);
   if (r.m === 'abap' && r.ag) p.set('ag', r.ag);
   if (r.api) p.set('api', r.api);

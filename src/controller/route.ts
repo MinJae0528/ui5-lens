@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { DEFAULT_ROUTE as DEFAULT, parse, serialize, type Route } from './routeState';
-export type { Route, Mode, KindFilter, Product, Ui5Mode } from './routeState';
-export { PRODUCTS, UI5_MODES, productOf, modeForProduct, switchProduct } from './routeState';
+export type { Route, Mode, KindFilter, Product, Ui5Mode, AbapZone } from './routeState';
+export { PRODUCTS, UI5_MODES, productOf, modeForProduct, switchProduct, switchAbapZone } from './routeState';
 
 export function useRoute(): [Route, (patch: Partial<Route>, push?: boolean) => void] {
   const [route, setRoute] = useState<Route>(() => ({ ...DEFAULT, ...parse(location.hash) }));

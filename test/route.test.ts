@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parse, serialize, isSafeApiName, DEFAULT_ROUTE, MODES, UI5_MODES, productOf, modeForProduct, switchProduct, type Route } from '../src/controller/routeState.ts';
+import { parse, serialize, isSafeApiName, DEFAULT_ROUTE, MODES, UI5_MODES, productOf, modeForProduct, switchProduct, switchAbapZone, type Route } from '../src/controller/routeState.ts';
 
 test('기본값: 빈 해시는 이름 검색 모드', () => {
   assert.deepEqual(parse(''), DEFAULT_ROUTE);
@@ -120,4 +120,28 @@ test('ABAP 그룹: ABAP 모드가 아니면 주소에 남기지 않고, 검색�
   assert.equal(moved.ag, ''); // 그룹 필터 때문에 넘긴 검색어의 결과가 가려지지 않게
   assert.equal(serialize(moved), '#?m=abap&q=if');
   assert.equal(parse(serialize({ ...DEFAULT_ROUTE, ...switchProduct('abap', null), ag: '제어문' })).ag, '제어문'); // 일반 전환은 그룹을 건드리지 않는다
+});
+
+// ── ABAP 구역(az): 문법 사전 | tcode 사전 ─────────────────────────────
+
+test('ABAP 구역: tcode 사전은 주소에 남고 문법 사전(기본)은 남기지 않는다', () => {
+  const t: Route = { ...DEFAULT_ROUTE, m: 'abap', az: 'tcode', ab: 'se38', ag: '개발 도구' };
+  assert.deepEqual(parse(serialize(t)), t);
+  assert.equal(serialize({ ...DEFAULT_ROUTE, m: 'abap', az: '', ab: 'select' }), '#?m=abap&ab=select'); // 옛 주소 형식 그대로
+  assert.equal(serialize({ ...DEFAULT_ROUTE, m: 'name', az: 'tcode' }), '#'); // ABAP 이 아니면 남기지 않는다
+});
+
+test('ABAP 구역: 직접 고친 주소의 이상한 값은 문법 사전으로 본다', () => {
+  for (const bad of ['hack', '<script>', 'TCODE', '', '../x']) assert.equal(parse('#?m=abap&az=' + encodeURIComponent(bad)).az, '', bad);
+  assert.equal(parse('#?m=abap&az=tcode').az, 'tcode');
+});
+
+test('ABAP 구역 전환: 열린 항목과 그룹은 비우고, 상위 탭 전환은 구역을 문법 사전으로 되돌린다', () => {
+  const before: Route = { ...DEFAULT_ROUTE, m: 'abap', ab: 'select', ag: '데이터베이스' };
+  const toTc = { ...before, ...switchAbapZone('tcode') };
+  assert.equal(serialize(toTc), '#?m=abap&az=tcode');
+  assert.equal(serialize({ ...toTc, ...switchAbapZone('') }), '#?m=abap');
+  const out = { ...toTc, ...switchProduct('ui5', 'name') };
+  assert.equal(out.az, '');
+  assert.equal(serialize({ ...DEFAULT_ROUTE, ...switchProduct('abap', null) }), '#?m=abap'); // UI5 → ABAP 은 문법 사전에서 시작
 });
