@@ -70,8 +70,8 @@ test('자료 구조: 그룹 수, 관련 tcode·개념 항목 연결이 모두 �
 
 test('개념·환경 그룹과 새 문법 항목이 문법 사전에 들어 있다', () => {
   const g = (name: string) => basics.entries.filter((e) => e.group === name).length;
-  assert.equal(g('개념·환경'), 9);
-  for (const id of ['builtin-types-fixed', 'builtin-types-length', 'like-global-type', 'initial-default', 'text-symbol', 'arithmetic-assign', 'chained-comments']) assert.ok(basics.entries.some((e) => e.id === id), id);
+  assert.equal(g('개념·환경'), 10);
+  for (const id of ['builtin-types-fixed', 'builtin-types-length', 'like-global-type', 'initial-default', 'text-symbol', 'arithmetic-assign', 'chained-comments', 'sy-index', 'comparison-operators', 'builtin-functions', 'message-class', 'debugger']) assert.ok(basics.entries.some((e) => e.id === id), id);
 });
 
 test('수업 서버 정보는 자료에 없다 (공개 저장소에 올라가므로)', () => {

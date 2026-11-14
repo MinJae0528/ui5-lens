@@ -569,7 +569,7 @@ await page.context().close();
   check('ABAP 구역 탭 2개, 기본은 문법 사전', (await p.$$eval('.azones [role=tab]', (e) => e.map((x) => `${x.querySelector('.az-label').textContent}:${x.getAttribute('aria-selected')}`).join('|'))) === '문법 사전:true|tcode 사전:false');
   check('ABAP 탭 이름 아래에 문법·tcode 개수 표시', /tcode/.test(await p.textContent('#ptab-abap')));
   await p.click('.gchip:has-text("개념·환경")');
-  check('문법 사전: 개념·환경 그룹 9개', (await p.$$('.member-head')).length === 9);
+  check('문법 사전: 개념·환경 그룹 10개', (await p.$$('.member-head')).length === 10);
   await p.click('.member-head:has-text("TSTC 테이블")');
   await p.waitForSelector('.detail-pane .api-name');
   check('개념 항목 상세에 "관련 tcode" 칩', (await p.$$('.detail-pane .relchip')).length >= 2);
