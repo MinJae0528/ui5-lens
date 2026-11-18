@@ -57,7 +57,7 @@ test('그룹 필터: 그룹 안에서만 찾고, 빈 검색어는 그룹 전체'
 });
 
 test('자료 구조: 그룹 수, 관련 tcode·개념 항목 연결이 모두 실제로 있다', () => {
-  assert.equal(tc.entries.length, 11);
+  assert.equal(tc.entries.length, 15);
   const tids = new Set(tc.entries.map((e) => e.id)), bids = new Set(basics.entries.map((e) => e.id));
   for (const e of tc.entries) {
     assert.ok(tc.groups.includes(e.group), e.id);
@@ -71,7 +71,8 @@ test('자료 구조: 그룹 수, 관련 tcode·개념 항목 연결이 모두 �
 test('개념·환경 그룹과 새 문법 항목이 문법 사전에 들어 있다', () => {
   const g = (name: string) => basics.entries.filter((e) => e.group === name).length;
   assert.equal(g('개념·환경'), 10);
-  for (const id of ['builtin-types-fixed', 'builtin-types-length', 'like-global-type', 'initial-default', 'text-symbol', 'arithmetic-assign', 'chained-comments', 'sy-index', 'comparison-operators', 'builtin-functions', 'message-class', 'debugger']) assert.ok(basics.entries.some((e) => e.id === id), id);
+  assert.equal(g('모듈화'), 6);
+  for (const id of ['builtin-types-fixed', 'builtin-types-length', 'like-global-type', 'initial-default', 'text-symbol', 'arithmetic-assign', 'chained-comments', 'sy-index', 'comparison-operators', 'builtin-functions', 'message-class', 'debugger', 'sy-fields', 'structure-types', 'internal-table-kinds', 'lines-of', 'itab-clear-free', 'modularization-overview', 'subroutine', 'parameter-passing', 'function-module', 'bapi', 'global-class']) assert.ok(basics.entries.some((e) => e.id === id), id);
 });
 
 test('수업 서버 정보는 자료에 없다 (공개 저장소에 올라가므로)', () => {

@@ -5,12 +5,14 @@
     "generator": "AI(Claude) 초안",
     "review": "unreviewed",
     "executed": false,
-    "note": "수업 정리노트(교재 BC400)의 내용을 정리한 AI 초안입니다. SAP 시스템에서 실행해 검증하지 않았고, 수업 서버 정보는 담지 않았습니다. 링크는 노트에 실린 SAP 공식 주소 중 열리는 것만 골랐으며 오래된 판의 문서도 있어 화면이 지금과 다를 수 있습니다.",
-    "linkSource": "수업 정리노트(2026-11-11·11-12)에 실린 SAP Help 주소",
-    "checkedAt": "2026-11-13"
+    "note": "수업 정리노트(교재 BC400)와 수업 노션 필기를 정리한 AI 초안입니다. SAP 시스템에서 실행해 검증하지 않았고, 수업 서버 정보는 담지 않았습니다. 링크는 노트에 실린 SAP 공식 주소와 SAP 공개 저장소에 쓰인 주소 중 열리는 것만 골랐으며 오래된 판의 문서도 있어 화면이 지금과 다를 수 있습니다.",
+    "linkSource": "수업 정리노트(2026-11-11~11-18)에 실린 SAP Help 주소와 SAP 공개 저장소(abap-cheat-sheets)에 쓰인 주소",
+    "checkedAt": "2026-11-19"
   },
   "sites": {
-    "help": "SAP Help Portal (SAP Library) — 오래된 판의 설명 문서. 지금 시스템과 화면이 조금 다를 수 있음"
+    "help": "SAP Help Portal (SAP Library) — 오래된 판의 설명 문서. 지금 시스템과 화면이 조금 다를 수 있음",
+    "cloud": "ABAP Keyword Documentation (ABAP Cloud) — 클라우드 ABAP 에서 쓸 수 있는 문법만 담김",
+    "standard": "ABAP Keyword Documentation (Standard ABAP, 최신판) — WRITE·MESSAGE·화면 같은 전통 문법 포함"
   },
   "groups": [
     "개발 도구",
@@ -602,6 +604,237 @@
           "label": "Entering a Transaction Code",
           "site": "help",
           "url": "https://help.sap.com/saphelp_46c/helpdata/en/73/69ec8d55bb11d189680000e829fbbd/content.htm"
+        }
+      ]
+    },
+    {
+      "id": "se37",
+      "code": "SE37",
+      "name": "Function Builder",
+      "group": "개발 도구",
+      "summary": "펑션 모듈의 속성·파라미터·소스 코드를 보고 만들고 시험합니다.",
+      "keywords": "펑션 모듈 함수 function call 호출 파라미터 예외 raise 펑션 그룹",
+      "does": [
+        "펑션 모듈 이름을 넣고 속성(Attributes)과 파라미터 탭(Import·Export·Changing·Tables·Exceptions)을 확인",
+        "Source code 탭에서 실제 코드를 보고 수정",
+        "F8 로 그 자리에서 바로 실행해 시험"
+      ],
+      "inClass": "거듭제곱·퍼센트 계산 같은 펑션 모듈을 만들고 프로그램에서 CALL FUNCTION 으로 부르는 실습에서 씁니다.",
+      "notes": [
+        "펑션 모듈을 새로 만들 때는 먼저 펑션 그룹이 있어야 하고, SE80 에서 펑션 그룹을 우클릭해 만드는 방법도 있습니다.",
+        "파라미터를 바꾸거나 새로 만든 뒤에는 활성화해야 호출하는 프로그램에서 쓸 수 있습니다."
+      ],
+      "related": [
+        {
+          "id": "se80",
+          "why": "펑션 그룹 만들기"
+        },
+        {
+          "id": "bapi",
+          "why": "BAPI 도 펑션 모듈"
+        }
+      ],
+      "links": [
+        {
+          "label": "펑션 모듈",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/function-module"
+        },
+        {
+          "label": "Transaction Codes (일반 설명)",
+          "site": "help",
+          "url": "https://help.sap.com/saphelp_em92/helpdata/en/4d/6b8ed80f241783e10000000a42189b/content.htm"
+        }
+      ],
+      "concept": {
+        "id": "function-module",
+        "label": "펑션 모듈 · 펑션 그룹"
+      },
+      "routes": [
+        {
+          "input": "se37",
+          "opens": "Function Builder 화면",
+          "when": "SAP Easy Access 첫 화면에서"
+        },
+        {
+          "input": "/nse37",
+          "opens": "Function Builder 화면",
+          "when": "다른 tcode 화면 안에 있을 때"
+        },
+        {
+          "input": "/ose37",
+          "opens": "새 창에서 Function Builder",
+          "when": "하던 작업을 그대로 두고 열 때"
+        }
+      ]
+    },
+    {
+      "id": "se24",
+      "code": "SE24",
+      "name": "Class Builder",
+      "group": "개발 도구",
+      "summary": "글로벌 클래스의 속성·메서드를 보고 만들고 시험합니다.",
+      "keywords": "클래스 class 메서드 method 속성 객체 인스턴스 static public private",
+      "does": [
+        "클래스 이름을 넣고 속성(Attributes)과 메서드(Methods) 목록 확인",
+        "메서드의 파라미터(Parameters)와 Methods 화면을 오가며 보기",
+        "F8 로 그 자리에서 메서드를 바로 시험"
+      ],
+      "inClass": "표준 클래스에 어떤 메서드와 파라미터가 있는지 보고, 호출 코드를 Pattern 버튼으로 만드는 실습에서 씁니다.",
+      "notes": [
+        "SE80 왼쪽 트리에서도 클래스를 조회할 수 있고, 초록 아이콘은 public, 빨간 아이콘은 private 입니다.",
+        "속성을 정의할 때는 타입까지 같이 지정해야 합니다."
+      ],
+      "related": [
+        {
+          "id": "se80",
+          "why": "트리에서 클래스 보기"
+        }
+      ],
+      "links": [
+        {
+          "label": "클래스",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/class-abenclass_glosry"
+        },
+        {
+          "label": "Transaction Codes (일반 설명)",
+          "site": "help",
+          "url": "https://help.sap.com/saphelp_em92/helpdata/en/4d/6b8ed80f241783e10000000a42189b/content.htm"
+        }
+      ],
+      "concept": {
+        "id": "global-class",
+        "label": "글로벌 클래스"
+      },
+      "routes": [
+        {
+          "input": "se24",
+          "opens": "Class Builder 화면",
+          "when": "SAP Easy Access 첫 화면에서"
+        },
+        {
+          "input": "/nse24",
+          "opens": "Class Builder 화면",
+          "when": "다른 tcode 화면 안에 있을 때"
+        },
+        {
+          "input": "/ose24",
+          "opens": "새 창에서 Class Builder",
+          "when": "하던 작업을 그대로 두고 열 때"
+        }
+      ]
+    },
+    {
+      "id": "se91",
+      "code": "SE91",
+      "name": "Message Maintenance",
+      "group": "개발 도구",
+      "summary": "Message Class 를 만들고 번호별 문구를 관리합니다.",
+      "keywords": "메시지 message 문구 메세지 클래스 class 번역 다국어",
+      "does": [
+        "Message Class 이름을 입력해 새로 만들기(처음에는 New 상태)",
+        "Ctrl+S 로 저장하며 패키지와 CTS(요청 번호)를 확인",
+        "Messages 탭에서 000~999 번호별 문구 입력(& 는 WITH 로 넘긴 값이 들어갈 자리)",
+        "번역 메뉴에서 언어별 문구 등록"
+      ],
+      "inClass": "프로그램의 MESSAGE-ID 로 문구함을 지정하고 MESSAGE e001 WITH 값 으로 쓰는 실습, 영어·한국어 다국어 실습에서 씁니다.",
+      "notes": [
+        "문구를 저장한 뒤 SE80 으로 돌아가 프로그램에서 사용합니다.",
+        "Package 안에서도 Message Class 를 만들 수 있습니다."
+      ],
+      "related": [
+        {
+          "id": "se80",
+          "why": "저장 후 프로그램에서 사용"
+        },
+        {
+          "id": "se38",
+          "why": "프로그램 코드"
+        }
+      ],
+      "links": [
+        {
+          "label": "MESSAGE",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapmessage.html"
+        },
+        {
+          "label": "Transaction Codes (일반 설명)",
+          "site": "help",
+          "url": "https://help.sap.com/saphelp_em92/helpdata/en/4d/6b8ed80f241783e10000000a42189b/content.htm"
+        }
+      ],
+      "concept": {
+        "id": "message-class",
+        "label": "Message Class · MESSAGE-ID"
+      },
+      "routes": [
+        {
+          "input": "se91",
+          "opens": "Message Maintenance 화면",
+          "when": "SAP Easy Access 첫 화면에서"
+        },
+        {
+          "input": "/nse91",
+          "opens": "Message Maintenance 화면",
+          "when": "다른 tcode 화면 안에 있을 때"
+        },
+        {
+          "input": "/ose91",
+          "opens": "새 창에서 Message Maintenance",
+          "when": "하던 작업을 그대로 두고 열 때"
+        }
+      ]
+    },
+    {
+      "id": "bapi",
+      "code": "BAPI",
+      "name": "BAPI Explorer",
+      "group": "개발 도구",
+      "summary": "SAP 가 공개한 BAPI 를 비즈니스 오브젝트별 트리로 찾아봅니다.",
+      "keywords": "bapi 비즈니스 오브젝트 bor 표준 함수 외부 호출 rfc",
+      "does": [
+        "왼쪽 트리에서 업무 영역(예: Financials)과 비즈니스 오브젝트를 고르기",
+        "오브젝트의 키 필드와 메서드(= BAPI: Change, CreateFromData, GetList 등) 확인",
+        "오른쪽 Detail 탭의 Function Module 칸에서 실제로 호출할 펑션 모듈 이름 확인(더블클릭하면 SE37 로 이동)"
+      ],
+      "inClass": "“외부에서도 접근할 수 있게 만든 펑션 모듈”이 BAPI 라는 것을 눈으로 확인하는 데 씁니다.",
+      "notes": [
+        "BAPI 는 안에서 결국 DB 를 읽고 쓰지만 호출하는 쪽은 테이블에 직접 접근하지 않고 표준 로직을 거칩니다."
+      ],
+      "related": [
+        {
+          "id": "se37",
+          "why": "호출할 펑션 모듈"
+        }
+      ],
+      "links": [
+        {
+          "label": "Transaction Codes (일반 설명)",
+          "site": "help",
+          "url": "https://help.sap.com/saphelp_em92/helpdata/en/4d/6b8ed80f241783e10000000a42189b/content.htm"
+        }
+      ],
+      "concept": {
+        "id": "bapi",
+        "label": "BAPI · BOR"
+      },
+      "routes": [
+        {
+          "input": "bapi",
+          "opens": "BAPI Explorer 화면",
+          "when": "SAP Easy Access 첫 화면에서"
+        },
+        {
+          "input": "/nbapi",
+          "opens": "BAPI Explorer 화면",
+          "when": "다른 tcode 화면 안에 있을 때"
+        },
+        {
+          "input": "/obapi",
+          "opens": "새 창에서 BAPI Explorer",
+          "when": "하던 작업을 그대로 두고 열 때"
         }
       ]
     }

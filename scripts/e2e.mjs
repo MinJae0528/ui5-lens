@@ -516,7 +516,7 @@ await page.context().close();
   await p.click('#ptab-abap');
   await p.waitForSelector('.gchips');
   check('ABAP: 버전 선택이 없고 "버전 구분 없음" 안내', (await p.$('#ver')) === null && (await p.textContent('.ctx-note')).includes('버전 구분 없음'));
-  check('ABAP: 그룹 칩(전체+8: 개념·환경 포함)과 주소 m=abap', (await p.$$('.gchip')).length === 9 && /m=abap/.test(await hash()));
+  check('ABAP: 그룹 칩(전체+9: 개념·환경·모듈화 포함)과 주소 m=abap', (await p.$$('.gchip')).length === 10 && /m=abap/.test(await hash()));
   await p.click('#ptab-ui5');
   await p.waitForSelector('#ver');
   check('UI5 로 돌아오면 직전에 쓰던 모드(기능으로 추천)가 열림', (await p.getAttribute('#mode-feature', 'aria-selected')) === 'true');
@@ -576,7 +576,7 @@ await page.context().close();
   await p.click('.detail-pane .relchip:has-text("SE93")');
   await p.waitForSelector('.hops');
   check('관련 tcode 칩 → tcode 사전의 SE93 상세, 주소에 az=tcode&ab=se93', (await p.textContent('.detail-pane .api-name')).startsWith('SE93') && /az=tcode/.test(await hash()) && /ab=se93/.test(await hash()));
-  check('tcode 사전: 그룹 칩(전체+3)과 목록 11개', (await p.$$('.gchip')).length === 4 && (await p.$$('.member-head')).length === 11);
+  check('tcode 사전: 그룹 칩(전체+3)과 목록 15개', (await p.$$('.gchip')).length === 4 && (await p.$$('.member-head')).length === 15);
   // 검색: 이름·하고 싶은 일·명령
   await p.fill('#tcode-q', '테이블 보기');
   check('"테이블 보기" → SE11·SE16·SE84', (await p.$$eval('.member-head .m-name', (e) => e.map((x) => x.textContent).sort().join(','))) === 'SE11,SE16,SE84');
