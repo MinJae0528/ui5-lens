@@ -10,34 +10,40 @@
   이미지 만들기: npm run docs:shots (개발 서버 불필요)
 -->
 <style>
-  :root { --ink:#1f2937; --mute:#6b7280; --line:#cbd5e1; --bg:#f8fafc; --box:#fff; --accent:#2563eb; --abap:#0f766e; --warn:#fef3c7; }
+  :root { --ink:#1f2937; --mute:#6b7280; --line:#cbd5e1; --bg:#f8fafc; --box:#fff; --accent:#2563eb; --abap:#0f766e; --warn:#fef3c7; --warn-line:#f59e0b; --chrome:#e2e8f0; --page:#e5e7eb; --capbg:#1f2937; --capink:#fff; --on:#fff; --ann-bg:#fff7ed; --ann-line:#fb923c; --ann-ink:#9a3412; }
+  :root[data-theme="dark"] { --ink:#e8ecf3; --mute:#9aa6ba; --line:#2c3544; --bg:#11151c; --box:#1a202b; --accent:#6fb0ff; --abap:#5fd1c8; --warn:#3a2a10; --warn-line:#ffbf70; --chrome:#0e1218; --page:#07090d; --capbg:#2c3544; --capink:#e8ecf3; --on:#0a1220; --ann-bg:#2a1d12; --ann-line:#a3622d; --ann-ink:#ffbf70; }
   * { box-sizing:border-box; }
-  body { margin:0; padding:24px; background:#e5e7eb; color:var(--ink); font:14px/1.5 system-ui,"Malgun Gothic",sans-serif; }
+  body { margin:0; padding:24px; background:var(--page); color:var(--ink); font:14px/1.5 system-ui,"Malgun Gothic",sans-serif; }
   h1 { font-size:18px; margin:0 0 16px; }
   .screen { width:1000px; margin:0 auto 28px; background:var(--bg); border:2px solid var(--ink); border-radius:6px; overflow:hidden; }
-  .cap { background:var(--ink); color:#fff; padding:6px 12px; font-size:13px; }
-  .bar { display:flex; gap:12px; align-items:center; padding:8px 14px; background:#e2e8f0; border-bottom:1px solid var(--line); }
+  .cap { background:var(--capbg); color:var(--capink); padding:6px 12px; font-size:13px; }
+  .bar { display:flex; gap:12px; align-items:center; padding:8px 14px; background:var(--chrome); border-bottom:1px solid var(--line); }
   .logo { font-weight:700; }
-  .tab { padding:6px 14px; border:1px solid var(--line); border-bottom:none; border-radius:6px 6px 0 0; background:#fff; color:var(--mute); }
+  .tab { padding:6px 14px; border:1px solid var(--line); border-bottom:none; border-radius:6px 6px 0 0; background:var(--box); color:var(--mute); }
   .tab.on { color:var(--accent); border-color:var(--accent); font-weight:700; }
   .tab.on.abap { color:var(--abap); border-color:var(--abap); }
-  .sub { display:flex; gap:10px; padding:8px 14px; background:#fff; border-bottom:1px solid var(--line); }
-  .chip { padding:2px 10px; border:1px solid var(--line); border-radius:999px; background:#fff; font-size:12px; }
-  .chip.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .sub { display:flex; gap:10px; padding:8px 14px; background:var(--box); border-bottom:1px solid var(--line); }
+  .chip { padding:2px 10px; border:1px solid var(--line); border-radius:999px; background:var(--box); font-size:12px; }
+  .chip.on { background:var(--accent); color:var(--on); border-color:var(--accent); }
   .chip.on.abap { background:var(--abap); border-color:var(--abap); }
   .cols { display:grid; grid-template-columns:340px 1fr; min-height:360px; }
-  .left { padding:12px; border-right:1px solid var(--line); background:#fff; }
+  .left { padding:12px; border-right:1px solid var(--line); background:var(--box); }
   .right { padding:14px 18px; }
-  .input { border:2px solid var(--accent); border-radius:6px; padding:8px 10px; color:var(--mute); background:#fff; margin-bottom:10px; }
-  .card { border:1px solid var(--line); border-radius:6px; padding:8px 10px; margin-bottom:8px; background:#fff; }
+  .input { border:2px solid var(--accent); border-radius:6px; padding:8px 10px; color:var(--mute); background:var(--box); margin-bottom:10px; }
+  .card { border:1px solid var(--line); border-radius:6px; padding:8px 10px; margin-bottom:8px; background:var(--box); }
   .card.sel { border:2px solid var(--accent); }
   .card b { display:block; }
   .tag { display:inline-block; font-size:11px; padding:0 6px; border:1px solid var(--line); border-radius:999px; color:var(--mute); margin-right:4px; }
   h2 { font-size:16px; margin:10px 0 4px; }
   .lbl { font-weight:700; margin-top:10px; }
   .code { background:#111827; color:#e5e7eb; padding:8px 12px; border-radius:6px; font:12px/1.5 Consolas,monospace; white-space:pre; }
-  .note { background:var(--warn); border:1px solid #f59e0b; border-radius:6px; padding:6px 10px; font-size:12px; margin:8px 0; }
-  .ann { margin:0; padding:8px 14px; background:#fff7ed; border-top:1px dashed #fb923c; font-size:12px; color:#9a3412; }
+  .note { background:var(--warn); border:1px solid var(--warn-line); border-radius:6px; padding:6px 10px; font-size:12px; margin:8px 0; }
+  .ann { margin:0; padding:8px 14px; background:var(--ann-bg); border-top:1px dashed var(--ann-line); font-size:12px; color:var(--ann-ink); }
+  .muted { color:var(--mute); }
+  .theme { margin-left:auto; padding:3px 12px; border:1px solid var(--line); border-radius:999px; background:var(--box); font-size:12px; }
+  .theme.hl { border:2px solid var(--accent); font-weight:700; }
+  .states { display:flex; gap:16px; padding:16px 18px; flex-wrap:wrap; }
+  .st { border:1px solid var(--line); border-radius:8px; padding:10px 14px; background:var(--box); min-width:260px; flex:1; }
 </style>
 </head>
 <body>
@@ -45,7 +51,7 @@
 
 <section class="screen" id="m1">
   <div class="cap">1. 첫 화면 · UI5 탭 · 이름·메서드 검색</div>
-  <div class="bar"><span class="logo">ERP Lens</span><span class="tab on">UI5 · 한국어 API 탐색</span><span class="tab abap">ABAP · 기본 문법 · tcode</span></div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab on">UI5 · 한국어 API 탐색</span><span class="tab abap">ABAP · 기본 문법 · tcode</span><span class="theme hl">테마: 시스템 ▾</span></div>
   <div class="sub"><span class="chip">UI5 버전 ▼ 1.154</span><span class="chip on">이름·메서드 검색</span><span class="chip">기능으로 추천</span><span class="chip">API 탐색</span><span class="chip">문서 가이드</span></div>
   <div class="cols">
     <div class="left"><div class="input">클래스·메서드 이름 (예: Table, setText)</div></div>
@@ -62,7 +68,7 @@
 
 <section class="screen" id="m2">
   <div class="cap">2. 검색 결과 + API 상세 (왼쪽 후보, 오른쪽 상세)</div>
-  <div class="bar"><span class="logo">ERP Lens</span><span class="tab on">UI5</span><span class="tab abap">ABAP</span></div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab on">UI5</span><span class="tab abap">ABAP</span><span class="theme hl">테마: 시스템 ▾</span></div>
   <div class="sub"><span class="chip on">전체 227</span><span class="chip">클래스 153</span><span class="chip">메서드 31</span><span class="chip">속성 31</span><span class="chip">이벤트 5</span></div>
   <div class="cols">
     <div class="left">
@@ -83,14 +89,14 @@
 
 <section class="screen" id="m3">
   <div class="cap">3. ABAP 탭 · 문법 사전</div>
-  <div class="bar"><span class="logo">ERP Lens</span><span class="tab">UI5</span><span class="tab on abap">ABAP · 65개+15개</span></div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab">UI5</span><span class="tab on abap">ABAP · 65개+15개</span><span class="theme hl">테마: 시스템 ▾</span></div>
   <div class="sub"><span class="chip on abap">문법 사전 · 65개</span><span class="chip">tcode 사전 · 15개</span><span class="chip">버전 구분 없음</span></div>
   <div class="sub"><span class="chip on abap">전체 65</span><span class="chip">선언·데이터</span><span class="chip">제어문</span><span class="chip">내부 테이블</span><span class="chip">모듈화</span><span class="chip">…</span></div>
   <div class="cols">
     <div class="left">
       <div class="note">AI 초안 · 미검토 · 실행 검증 안 함</div>
-      <div class="input" style="border-color:#0f766e">키워드 검색 (예: SELECT, 반복)</div>
-      <div class="card sel" style="border-color:#0f766e"><b>DATA</b>변수를 선언합니다.</div>
+      <div class="input" style="border-color:var(--abap)">키워드 검색 (예: SELECT, 반복)</div>
+      <div class="card sel" style="border-color:var(--abap)"><b>DATA</b>변수를 선언합니다.</div>
       <div class="card"><b>TYPES</b>자료형을 정의합니다.</div>
     </div>
     <div class="right">
@@ -107,12 +113,12 @@ DATA lv_name  TYPE string VALUE 'Kim'.</div>
 
 <section class="screen" id="m4">
   <div class="cap">4. ABAP 탭 · tcode 사전 (하고 싶은 일 또는 /n 명령으로 검색)</div>
-  <div class="bar"><span class="logo">ERP Lens</span><span class="tab">UI5</span><span class="tab on abap">ABAP</span></div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab">UI5</span><span class="tab on abap">ABAP</span><span class="theme hl">테마: 시스템 ▾</span></div>
   <div class="sub"><span class="chip">문법 사전</span><span class="chip on abap">tcode 사전 · 15개</span></div>
   <div class="cols">
     <div class="left">
-      <div class="input" style="border-color:#0f766e">tcode 또는 하고 싶은 일 (예: 테이블 보기, /nse38)</div>
-      <div class="card sel" style="border-color:#0f766e"><b>SE38 · ABAP Editor</b>프로그램을 작성하고 실행합니다.</div>
+      <div class="input" style="border-color:var(--abap)">tcode 또는 하고 싶은 일 (예: 테이블 보기, /nse38)</div>
+      <div class="card sel" style="border-color:var(--abap)"><b>SE38 · ABAP Editor</b>프로그램을 작성하고 실행합니다.</div>
       <div class="card"><b>SE37 · Function Builder</b>펑션 모듈을 만들고 테스트합니다.</div>
     </div>
     <div class="right">
@@ -122,6 +128,20 @@ DATA lv_name  TYPE string VALUE 'Kim'.</div>
     </div>
   </div>
   <p class="ann">설계 의도: "/nse38" 처럼 명령을 붙여 쓰면 명령(/n)과 tcode(SE38)로 나누어 설명한다.</p>
+</section>
+<section class="screen" id="m5">
+  <div class="cap">5. 테마 선택 (새 기능) · 상단 바 오른쪽 버튼 하나, 누를 때마다 순서대로 바뀜</div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab on">UI5</span><span class="tab abap">ABAP</span><span class="theme hl">테마: 시스템 ▾</span></div>
+  <div class="states">
+    <div class="st"><b>① 시스템 (기본값)</b><div>버튼 글자: <span class="chip">테마: 시스템</span></div><div class="muted">내 컴퓨터가 다크면 다크, 라이트면 라이트로 보입니다. 저장된 선택이 없을 때의 상태입니다.</div></div>
+    <div class="st"><b>② 라이트</b><div>버튼 글자: <span class="chip">테마: 라이트</span></div><div class="muted">시스템 설정과 상관없이 항상 밝게 보입니다.</div></div>
+    <div class="st"><b>③ 다크</b><div>버튼 글자: <span class="chip">테마: 다크</span></div><div class="muted">시스템 설정과 상관없이 항상 어둡게 보입니다. 다음 클릭은 ①로 돌아갑니다.</div></div>
+  </div>
+  <div class="states">
+    <div class="st"><b>동작 규칙</b><div class="muted">· 선택은 이 브라우저에만 저장(서버·계정 없음)<br>· 저장이 막힌 환경에서도 화면은 정상, 선택만 유지 안 됨<br>· 버튼은 색이 아니라 글자로 현재 상태를 알림<br>· 키보드(Tab → Enter)로 조작 가능</div></div>
+    <div class="st"><b>화면에 영향 없는 곳</b><div class="muted">예제 실행 창(격리된 iframe)과 보안 설정은 그대로입니다. 색 팔레트도 지금 다크 색을 그대로 씁니다.</div></div>
+  </div>
+  <p class="ann">설계 의도: 버튼을 하나만 두어 상단 바가 복잡해지지 않게 하고, 시스템을 따르는 기본 동작을 잃지 않게 한다.</p>
 </section>
 </body>
 </html>
