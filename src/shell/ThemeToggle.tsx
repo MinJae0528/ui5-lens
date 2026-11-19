@@ -12,13 +12,17 @@ const Moon = () => (
   </svg>
 );
 
-/** 낮/밤 버튼 2개. 눌린 버튼이 지금 보이는 모드이고, 상태는 aria-pressed 로도 알린다. */
+/** 낮/밤 버튼 2개. 눌린 버튼이 지금 보이는 모드이고, 상태는 aria-pressed 로도 알린다. 직접 고른 상태에서 시스템과 같은 모드 버튼을 누르면 시스템 설정 따르기로 돌아간다. */
 export function ThemeToggle() {
-  const { theme, choose } = useTheme();
+  const { theme, choose, pinned, system } = useTheme();
+  const label = (t: 'light' | 'dark') => {
+    const name = t === 'light' ? '라이트 모드' : '다크 모드';
+    return pinned && t === system ? `${name} (누르면 컴퓨터 설정을 따라감)` : name;
+  };
   return (
     <div className="theme-toggle" role="group" aria-label="화면 모드">
-      <button type="button" className="tt-btn" id="theme-light" aria-pressed={theme === 'light'} aria-label="라이트 모드" title="라이트 모드" onClick={() => choose('light')}><Sun /></button>
-      <button type="button" className="tt-btn" id="theme-dark" aria-pressed={theme === 'dark'} aria-label="다크 모드" title="다크 모드" onClick={() => choose('dark')}><Moon /></button>
+      <button type="button" className="tt-btn" id="theme-light" aria-pressed={theme === 'light'} aria-label={label('light')} title={label('light')} onClick={() => choose('light')}><Sun /></button>
+      <button type="button" className="tt-btn" id="theme-dark" aria-pressed={theme === 'dark'} aria-label={label('dark')} title={label('dark')} onClick={() => choose('dark')}><Moon /></button>
     </div>
   );
 }

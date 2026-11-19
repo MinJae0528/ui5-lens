@@ -652,6 +652,15 @@ await page.context().close();
   check('테마: 새로고침해도 고른 라이트 유지(시스템은 다크)', (await th(p)) === 'light' && (await pressed(p)) === 'true,false');
   await p.emulateMedia({ colorScheme: 'light' }); await p.emulateMedia({ colorScheme: 'dark' });
   check('테마: 고른 뒤에는 시스템 설정이 바뀌어도 고른 값이 우선', (await th(p)) === 'light');
+  await p.hover('#theme-dark');
+  check('테마: 직접 고른 상태에서는 시스템과 같은 모드 버튼에 되돌림 안내가 붙음', (await p.getAttribute('#theme-dark', 'aria-label')) === '다크 모드 (누르면 컴퓨터 설정을 따라감)' && (await p.getAttribute('#theme-light', 'aria-label')) === '라이트 모드');
+  await p.click('#theme-dark');
+  check('테마: 시스템과 같은 모드(다크) 버튼 → 저장이 지워지고 시스템 설정 따르기로 복귀', (await th(p)) === 'dark' && (await p.evaluate(() => localStorage.getItem('ui5lens.theme'))) === null && (await p.getAttribute('#theme-dark', 'aria-label')) === '다크 모드');
+  await p.emulateMedia({ colorScheme: 'light' });
+  await p.waitForFunction(() => document.documentElement.dataset.theme === 'light', null, { timeout: 3000 });
+  check('테마: 복귀한 뒤에는 시스템 설정 변화를 다시 따라감', (await th(p)) === 'light');
+  await p.reload(); await p.waitForSelector('#q');
+  check('테마: 복귀 상태가 새로고침 후에도 유지(저장값 없음, 시스템 라이트)', (await th(p)) === 'light' && (await p.evaluate(() => localStorage.getItem('ui5lens.theme'))) === null);
   await p.context().close();
 
   p = await mk('light');

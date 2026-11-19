@@ -9,3 +9,9 @@ export const parseTheme = (v: unknown): Theme | null => (v === 'light' || v === 
 
 /** 고른 값이 있으면 그것, 없으면 시스템 설정을 따른다. */
 export const resolveTheme = (stored: Theme | null, systemDark: boolean): Theme => stored ?? (systemDark ? 'dark' : 'light');
+
+/**
+ * 버튼을 눌렀을 때 저장할 값. 시스템과 다른 모드를 고르면 그 값을 저장하고(고정),
+ * 지금 시스템과 같은 모드를 고르면 null(저장 삭제 = 시스템 설정 따르기로 되돌림).
+ */
+export const nextStored = (choice: Theme, systemDark: boolean): Theme | null => (choice === (systemDark ? 'dark' : 'light') ? null : choice);

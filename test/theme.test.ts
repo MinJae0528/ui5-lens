@@ -19,3 +19,11 @@ test('저장 키는 다른 저장값(버전)과 겹치지 않는다', () => {
   assert.equal(THEME_KEY, 'ui5lens.theme');
   assert.notEqual(THEME_KEY, 'ui5lens.version');
 });
+
+test('저장할 값: 시스템과 다른 모드는 고정, 시스템과 같은 모드는 저장 삭제(시스템 따르기로 복귀)', async () => {
+  const { nextStored } = await import('../src/domain/theme.ts');
+  assert.equal(nextStored('light', true), 'light');  // 시스템 다크에서 라이트 → 고정
+  assert.equal(nextStored('dark', false), 'dark');   // 시스템 라이트에서 다크 → 고정
+  assert.equal(nextStored('dark', true), null);      // 시스템과 같음 → 복귀
+  assert.equal(nextStored('light', false), null);
+});
