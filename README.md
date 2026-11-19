@@ -4,9 +4,9 @@
 
 **바로 써 보기: https://ui5-lens-ten.vercel.app/** (설치 없이 브라우저에서 열림)
 
-> 학생 프로젝트입니다. 한국어 설명은 AI 가 만든 **초안**이라 틀릴 수 있고, 화면에 그 표시가 붙어 있습니다. 항목마다 공식 원문 링크가 있으니 확인하며 쓰세요.
+> 화면은 컴퓨터의 라이트·다크 설정을 따라가고, 오른쪽 위 해·달 버튼으로 직접 바꿀 수 있습니다. 학생 프로젝트입니다. 한국어 설명은 AI 가 만든 **초안**이라 틀릴 수 있고, 화면에 그 표시가 붙어 있습니다. 항목마다 공식 원문 링크가 있으니 확인하며 쓰세요.
 
-![첫 화면](docs/assets/screens/01-home.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/screens/01-home-dark.png"><img alt="첫 화면" src="docs/assets/screens/01-home.png"></picture>
 
 ## 무엇을 할 수 있나
 
@@ -16,13 +16,13 @@
 | **ABAP · 문법 사전** | ABAP 기본 문법 65개를 한 줄 설명, 예제, 주의점, 공식 링크로 봅니다 | `DATA`, `LOOP AT`, 내부 테이블 |
 | **ABAP · tcode 사전** | "테이블 보기" 같은 하고 싶은 일이나 `/nse38` 같은 명령으로 tcode 15개를 찾습니다 | `SE38`, `SE37`, `SE91` |
 
-![검색 결과와 상세](docs/assets/screens/03-detail.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/screens/03-detail-dark.png"><img alt="검색 결과와 상세" src="docs/assets/screens/03-detail.png"></picture>
 
-![ABAP 문법 사전](docs/assets/screens/04-abap-syntax.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/screens/04-abap-syntax-dark.png"><img alt="ABAP 문법 사전" src="docs/assets/screens/04-abap-syntax.png"></picture>
 
 ## 어떻게 만들었나
 
-기획 → TO DO → 설계(목업) → 코드 순서를 지키고, 단위 테스트(107개)와 브라우저 자동 시험(E2E 145개)으로 확인합니다. 모두 무료 도구로 내 PC에서 돌리며 비용은 0원입니다.
+기획 → TO DO → 설계(목업) → 코드 순서를 지키고, 단위 테스트(110개)와 브라우저 자동 시험(E2E 157개)으로 확인합니다. 모두 무료 도구로 내 PC에서 돌리며 비용은 0원입니다.
 
 - 설계·목업·개발 흐름 보기: [docs/development-process.md](docs/development-process.md)
 - 테스트와 E2E를 왜, 어디서, 얼마에 쓰는지: [docs/testing.md](docs/testing.md)

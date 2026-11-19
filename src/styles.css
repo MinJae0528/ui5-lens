@@ -4,11 +4,20 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --ui5: #0a62c9; --abap: #0b7a75; --abap-bg: #e1f4f2; --chrome: #e4e8ee; --on-accent: #fff;
 }
+/* 다크 색. 아래 두 규칙은 같은 값이다: 스크립트가 data-theme 을 달기 전(첫 로딩)에는 시스템 설정을, 달린 뒤에는 data-theme 을 따른다. */
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #11151c; --panel: #1a202b; --ink: #e8ecf3; --muted: #9aa6ba; --line: #2c3544; --accent: #6fb0ff; --accent-bg: #172a45;
+  :root:not([data-theme]) { color-scheme: dark; --bg: #11151c; --panel: #1a202b; --ink: #e8ecf3; --muted: #9aa6ba; --line: #2c3544; --accent: #6fb0ff; --accent-bg: #172a45;
     --ok: #6fd392; --ok-bg: #12301f; --warn: #ffbf70; --warn-bg: #3a2a10; --dep: #ff9aa2; --dep-bg: #3b1a1e; --code-bg: #0a0e14;
     --ui5: #6fb0ff; --abap: #5fd1c8; --abap-bg: #123430; --chrome: #0e1218; --on-accent: #0a1220; }
 }
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; --bg: #11151c; --panel: #1a202b; --ink: #e8ecf3; --muted: #9aa6ba; --line: #2c3544; --accent: #6fb0ff; --accent-bg: #172a45;
+  --ok: #6fd392; --ok-bg: #12301f; --warn: #ffbf70; --warn-bg: #3a2a10; --dep: #ff9aa2; --dep-bg: #3b1a1e; --code-bg: #0a0e14;
+  --ui5: #6fb0ff; --abap: #5fd1c8; --abap-bg: #123430; --chrome: #0e1218; --on-accent: #0a1220; }
+.theme-toggle { margin-left: auto; display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+.tt-btn { width: 30px; height: 30px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.tt-btn:hover { color: var(--ink); }
+.tt-btn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", "Malgun Gothic", sans-serif; }

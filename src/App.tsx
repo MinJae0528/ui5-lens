@@ -13,6 +13,7 @@ import { AbapDetail, AbapGroups, AbapList, AbapZones, TcodeDetail, TcodeList, ab
 import { NameResults } from './shell/NameResults';
 import { FEATURE_QUICK } from './shell/quick';
 import { Scope } from './shell/Scope';
+import { ThemeToggle } from './shell/ThemeToggle';
 
 const LS_KEY = 'ui5lens.version';
 const lsGet = () => { try { return localStorage.getItem(LS_KEY) ?? ''; } catch { return ''; } };
@@ -101,6 +102,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
     <div className={`app ${hasDetail ? 'has-detail' : ''}`} data-product={product}>
       <header className="top">
         <div className="brand"><span className="logo">ERP Lens</span><span className="tag">한국어 UI5 API 탐색 · ABAP 기본</span></div>
+        <ThemeToggle />
       </header>
       <ProductTabs product={product} onProduct={onProduct} abapCount={abap.doc?.entries.length} tcodeCount={tcodes.doc?.entries.length} />
       <section className="ctx" id="ctx" role="tabpanel" aria-labelledby={`ptab-${product}`}>

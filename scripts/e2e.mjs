@@ -629,6 +629,59 @@ await page.context().close();
   await ctx2.close();
 }
 
+// ---- 19d. 화면 모드(라이트·다크): 첫 방문은 시스템 설정, 버튼 2개로 선택, 선택은 저장
+{
+  const mk = async (colorScheme, init) => {
+    const ctx = await browser.newContext({ viewport: { width: 1400, height: 900 }, colorScheme });
+    if (init) await ctx.addInitScript(init);
+    const p = await ctx.newPage();
+    await p.goto(URL_); await p.waitForSelector('#q');
+    return p;
+  };
+  const th = (p) => p.evaluate(() => document.documentElement.dataset.theme);
+  const bg = (p) => p.evaluate(() => getComputedStyle(document.body).backgroundColor);
+  const pressed = (p) => p.$$eval('.theme-toggle .tt-btn', (b) => b.map((x) => x.getAttribute('aria-pressed')).join(','));
+
+  let p = await mk('dark');
+  check('테마: 시스템이 다크면 첫 방문은 다크, 달 버튼이 눌림', (await th(p)) === 'dark' && (await pressed(p)) === 'false,true', `${await th(p)} ${await pressed(p)}`);
+  const darkBg = await bg(p);
+  check('테마: 버튼 2개(라이트·다크)에 이름과 안내 글자가 있음', (await p.$$eval('.theme-toggle .tt-btn', (b) => b.map((x) => `${x.getAttribute('aria-label')}/${x.title}`).join('|'))) === '라이트 모드/라이트 모드|다크 모드/다크 모드');
+  await p.click('#theme-light');
+  check('테마: 다크 시스템에서 라이트 버튼 → 라이트로 바뀌고 배경색이 달라짐', (await th(p)) === 'light' && (await pressed(p)) === 'true,false' && (await bg(p)) !== darkBg);
+  await p.reload(); await p.waitForSelector('#q');
+  check('테마: 새로고침해도 고른 라이트 유지(시스템은 다크)', (await th(p)) === 'light' && (await pressed(p)) === 'true,false');
+  await p.emulateMedia({ colorScheme: 'light' }); await p.emulateMedia({ colorScheme: 'dark' });
+  check('테마: 고른 뒤에는 시스템 설정이 바뀌어도 고른 값이 우선', (await th(p)) === 'light');
+  await p.context().close();
+
+  p = await mk('light');
+  check('테마: 시스템이 라이트면 첫 방문은 라이트, 해 버튼이 눌림', (await th(p)) === 'light' && (await pressed(p)) === 'true,false');
+  await p.emulateMedia({ colorScheme: 'dark' });
+  await p.waitForFunction(() => document.documentElement.dataset.theme === 'dark', null, { timeout: 3000 });
+  check('테마: 고르기 전에는 시스템 설정 변화를 따라감', (await th(p)) === 'dark' && (await pressed(p)) === 'false,true');
+  await p.emulateMedia({ colorScheme: 'light' });
+  await p.waitForFunction(() => document.documentElement.dataset.theme === 'light', null, { timeout: 3000 });
+  await p.focus('#theme-dark'); await p.keyboard.press('Enter');
+  check('테마: 키보드(Enter)로 다크 선택, 저장값 dark', (await th(p)) === 'dark' && (await p.evaluate(() => localStorage.getItem('ui5lens.theme'))) === 'dark');
+  await p.context().close();
+
+  p = await mk('light', () => { Object.defineProperty(window, 'localStorage', { get() { throw new Error('blocked'); } }); });
+  check('테마: 저장소가 막혀도 화면이 정상(시스템 설정으로 시작)', (await th(p)) === 'light' && (await p.$('#q')) !== null);
+  await p.click('#theme-dark');
+  check('테마: 저장소가 막혀도 이번 방문에서는 버튼이 동작', (await th(p)) === 'dark');
+  await p.context().close();
+
+  p = await mk('light', () => { try { localStorage.setItem('ui5lens.theme', 'purple'); } catch { /* 무시 */ } });
+  check('테마: 손상된 저장값은 무시하고 시스템 설정을 따름', (await th(p)) === 'light');
+  await p.context().close();
+
+  const ctxM = await browser.newContext({ viewport: { width: 390, height: 800 }, colorScheme: 'dark' });
+  const mp = await ctxM.newPage(); await mp.goto(URL_); await mp.waitForSelector('#q');
+  const tb = await mp.$eval('.theme-toggle', (e) => { const r = e.getBoundingClientRect(); return { l: r.left, r: r.right }; });
+  check('테마(모바일): 버튼이 화면 안에 보이고 가로 스크롤 없음', tb.l >= 0 && tb.r <= 391 && await mp.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), `${tb.l}~${tb.r}`);
+  await ctxM.close();
+}
+
 // ---- 20. 보안: CSP 가 적용된 빌드(preview)에서 위반이 없어야 한다
 {
   const p = await fresh();

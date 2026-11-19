@@ -29,31 +29,37 @@
 
 **1. 첫 화면 (UI5 탭)**
 
-![첫 화면 목업](assets/mockups/01-home.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/mockups/01-home-dark.png"><img alt="첫 화면 목업" src="assets/mockups/01-home.png"></picture>
 
 **2. 검색 결과와 API 상세**
 
-![상세 목업](assets/mockups/02-detail.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/mockups/02-detail-dark.png"><img alt="상세 목업" src="assets/mockups/02-detail.png"></picture>
 
 **3. ABAP 문법 사전**
 
-![ABAP 문법 목업](assets/mockups/03-abap-syntax.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/mockups/03-abap-syntax-dark.png"><img alt="ABAP 문법 목업" src="assets/mockups/03-abap-syntax.png"></picture>
 
 **4. tcode 사전**
 
-![tcode 목업](assets/mockups/04-abap-tcode.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/mockups/04-abap-tcode-dark.png"><img alt="tcode 목업" src="assets/mockups/04-abap-tcode.png"></picture>
+
+**5. 화면 모드 선택 (라이트·다크)**
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/mockups/05-theme-toggle-dark.png"><img alt="화면 모드 목업" src="assets/mockups/05-theme-toggle.png"></picture>
+
+이 기능은 L08 순서(기획 → TO DO → 목업 → 코드)로 만든 첫 사례입니다. 목업을 세 번 고친 뒤(콤보박스 → 체크박스+아이콘 → 아이콘 2개) 코드를 썼습니다. 목업 수정 이력은 커밋 기록에 있습니다.
 
 ## 3. 실제로 만들어진 화면
 
-같은 화면을 구현한 결과입니다 (2026-11-19 캡처, `npm run docs:screens`). 목업보다 정보가 많습니다. 구조와 흐름이 목업과 같은지 비교해 보세요.
+같은 화면을 구현한 결과입니다 (2026-11-19 캡처, `npm run docs:screens`, 보는 사람의 라이트·다크 모드에 맞춰 이미지가 바뀝니다). 목업보다 정보가 많습니다. 구조와 흐름이 목업과 같은지 비교해 보세요.
 
-![첫 화면](assets/screens/01-home.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screens/01-home-dark.png"><img alt="첫 화면" src="assets/screens/01-home.png"></picture>
 
-![검색 결과와 상세](assets/screens/03-detail.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screens/03-detail-dark.png"><img alt="검색 결과와 상세" src="assets/screens/03-detail.png"></picture>
 
-![ABAP 문법 사전](assets/screens/04-abap-syntax.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screens/04-abap-syntax-dark.png"><img alt="ABAP 문법 사전" src="assets/screens/04-abap-syntax.png"></picture>
 
-![ABAP tcode 사전](assets/screens/05-abap-tcode.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/screens/05-abap-tcode-dark.png"><img alt="ABAP tcode 사전" src="assets/screens/05-abap-tcode.png"></picture>
 
 ## 4. 코드 개발 흐름
 
@@ -69,8 +75,9 @@
 | 11-10 | 6. ABAP 추가 | ABAP 기본 탭(문법 사전 33개), 이름 검색에서 ABAP 항목 안내, 앱 이름을 ERP Lens로 변경 |
 | 11-13 | 7. 구조 개편 | 상단 탭(UI5 / ABAP), tcode 사전, 개념·환경 그룹 |
 | 11-14~19 | 8. ABAP 보강 | 수업 노트 기반으로 문법 65개, tcode 15개로 확장, 모듈화 그룹, 보안 점검 강화 |
+| 11-19 | 9. 화면 모드 | 라이트·다크 선택 버튼(첫 방문은 시스템 설정), 문서 이미지를 라이트·다크 두 벌로 교체. 기획 → TO DO → 목업 → 코드 순서로 진행한 첫 기능 |
 
-검증 숫자 (2026-11-19): 타입 검사 통과, 단위 테스트 107개 통과, E2E 145개 통과, ABAP 항목·링크 점검 80개 통과.
+검증 숫자 (2026-11-19): 타입 검사 통과, 단위 테스트 110개 통과, E2E 157개 통과, ABAP 항목·링크 점검 80개 통과.
 
 ## 5. 앞으로의 개발 순서
 
