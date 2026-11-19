@@ -11,6 +11,8 @@
     "build": "npm run build:data && npm run typecheck && npm test && vite build",
     "preview": "vite preview",
     "test:e2e": "node scripts/e2e.mjs",
+    "docs:screens": "node scripts/capture-docs.mjs",
+    "docs:mockups": "node scripts/capture-mockups.mjs",
     "ko:stamp": "node scripts/ko-stamp.mjs",
     "verify:examples": "node scripts/verify-examples.mjs",
     "discover:versions": "node scripts/discover-versions.mjs",

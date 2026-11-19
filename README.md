@@ -1,13 +1,37 @@
-# ERP Lens — 한국어 UI5 API 탐색 · ABAP 기본 문법
+# ERP Lens
 
-키워드 검색 → API 후보 목록 → 후보 선택 → 한국어로 구조·사용 조건·예제 확인.
-ui5.sap.com 이 호스팅하는 **모든 UI5 버전(31개)** 의 공식 API 자료를 담고, 회사가 쓰는 버전을 골라 볼 수 있다.
+**SAP 개발을 처음 배우는 사람을 위한 한국어 설명 사이트.** 영어로만 된 SAPUI5 공식 API 자료를 한국어로 찾아보고, ABAP 기본 문법과 자주 쓰는 tcode(SAP 화면 명령)를 한곳에서 확인합니다.
 
-- **UI5 API**: 한국어 설명이 없는 항목은 공식 설명 첫 문장의 **AI 자동 번역(초안·미검토)** 을 보여 주고, 자주 쓰는 API 65개에는 직접 정리한 한국어 설명이 있다.
-- **ABAP 기본**: 기본 문법 약 30개의 한국어 사전(AI 초안·미검토·실행 검증 안 함). 항목마다 SAP 공식 문서 링크가 있다.
-- 모든 한국어는 AI 가 만든 초안이며 틀릴 수 있다. 화면에 그 표시가 붙고, 항목마다 공식 원문 링크가 있다.
+**바로 써 보기: https://ui5-lens-ten.vercel.app/** (설치 없이 브라우저에서 열림)
 
-프로젝트 문서(요구사항, MVC 역할 설계, 시스템 아키텍처, 설계서, 구현 현황)는 [docs/](docs/README.md) 에 있다.
+> 학생 프로젝트입니다. 한국어 설명은 AI 가 만든 **초안**이라 틀릴 수 있고, 화면에 그 표시가 붙어 있습니다. 항목마다 공식 원문 링크가 있으니 확인하며 쓰세요.
+
+![첫 화면](docs/assets/screens/01-home.png)
+
+## 무엇을 할 수 있나
+
+| 탭 | 하는 일 | 예 |
+|---|---|---|
+| **UI5** | 클래스·메서드 이름이나 "하고 싶은 일"로 API 를 찾고, 구조·사용 조건·예제를 한국어로 봅니다. UI5 31개 버전을 고를 수 있습니다 | `Table` 입력 → `sap.m.Table` 상세 |
+| **ABAP · 문법 사전** | ABAP 기본 문법 65개를 한 줄 설명, 예제, 주의점, 공식 링크로 봅니다 | `DATA`, `LOOP AT`, 내부 테이블 |
+| **ABAP · tcode 사전** | "테이블 보기" 같은 하고 싶은 일이나 `/nse38` 같은 명령으로 tcode 15개를 찾습니다 | `SE38`, `SE37`, `SE91` |
+
+![검색 결과와 상세](docs/assets/screens/03-detail.png)
+
+![ABAP 문법 사전](docs/assets/screens/04-abap-syntax.png)
+
+## 어떻게 만들었나
+
+기획 → TO DO → 설계(목업) → 코드 순서를 지키고, 단위 테스트(107개)와 브라우저 자동 시험(E2E 145개)으로 확인합니다. 모두 무료 도구로 내 PC에서 돌리며 비용은 0원입니다.
+
+- 설계·목업·개발 흐름 보기: [docs/development-process.md](docs/development-process.md)
+- 테스트와 E2E를 왜, 어디서, 얼마에 쓰는지: [docs/testing.md](docs/testing.md)
+- 요구사항·구조·설계서 전체: [docs/](docs/README.md)
+- 보안 설계와 알려진 한계: [SECURITY.md](SECURITY.md)
+
+---
+
+## 개발자용: 실행과 구조
 
 ## 실행
 
@@ -45,6 +69,8 @@ npm test                    # 도메인 단위 테스트(브라우저 불필요,
 npm run test:e2e            # (Edge + 서버 필요) 사용자 흐름 시험. 개발 서버 또는 vite preview 주소를 인자로
 node scripts/test-sanitize.mjs   # (개발 서버 필요) HTML 정화기 공격 페이로드 30종
 npm run verify:examples     # 예제를 실제 UI5 1.154.0 에서 실행(인터넷 필요) → data/verification.json
+npm run docs:mockups        # docs/mockups/screens.html → docs/assets/mockups/*.png (서버 불필요)
+npm run docs:screens        # (개발 서버 필요) 실제 화면을 docs/assets/screens/ 에 캡처
 ```
 
 ## 버전 범위

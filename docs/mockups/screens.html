@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ERP Lens 화면 목업</title>
+<!--
+  화면 설계 목업(와이어프레임). 이 파일 하나만 고치면 화면 구조 논의를 끝낼 수 있다.
+  새 기능은 코드를 쓰기 전에 이 파일에서 먼저 그리고 승인받는다.
+  이미지 만들기: npm run docs:shots (개발 서버 불필요)
+-->
+<style>
+  :root { --ink:#1f2937; --mute:#6b7280; --line:#cbd5e1; --bg:#f8fafc; --box:#fff; --accent:#2563eb; --abap:#0f766e; --warn:#fef3c7; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:24px; background:#e5e7eb; color:var(--ink); font:14px/1.5 system-ui,"Malgun Gothic",sans-serif; }
+  h1 { font-size:18px; margin:0 0 16px; }
+  .screen { width:1000px; margin:0 auto 28px; background:var(--bg); border:2px solid var(--ink); border-radius:6px; overflow:hidden; }
+  .cap { background:var(--ink); color:#fff; padding:6px 12px; font-size:13px; }
+  .bar { display:flex; gap:12px; align-items:center; padding:8px 14px; background:#e2e8f0; border-bottom:1px solid var(--line); }
+  .logo { font-weight:700; }
+  .tab { padding:6px 14px; border:1px solid var(--line); border-bottom:none; border-radius:6px 6px 0 0; background:#fff; color:var(--mute); }
+  .tab.on { color:var(--accent); border-color:var(--accent); font-weight:700; }
+  .tab.on.abap { color:var(--abap); border-color:var(--abap); }
+  .sub { display:flex; gap:10px; padding:8px 14px; background:#fff; border-bottom:1px solid var(--line); }
+  .chip { padding:2px 10px; border:1px solid var(--line); border-radius:999px; background:#fff; font-size:12px; }
+  .chip.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .chip.on.abap { background:var(--abap); border-color:var(--abap); }
+  .cols { display:grid; grid-template-columns:340px 1fr; min-height:360px; }
+  .left { padding:12px; border-right:1px solid var(--line); background:#fff; }
+  .right { padding:14px 18px; }
+  .input { border:2px solid var(--accent); border-radius:6px; padding:8px 10px; color:var(--mute); background:#fff; margin-bottom:10px; }
+  .card { border:1px solid var(--line); border-radius:6px; padding:8px 10px; margin-bottom:8px; background:#fff; }
+  .card.sel { border:2px solid var(--accent); }
+  .card b { display:block; }
+  .tag { display:inline-block; font-size:11px; padding:0 6px; border:1px solid var(--line); border-radius:999px; color:var(--mute); margin-right:4px; }
+  h2 { font-size:16px; margin:10px 0 4px; }
+  .lbl { font-weight:700; margin-top:10px; }
+  .code { background:#111827; color:#e5e7eb; padding:8px 12px; border-radius:6px; font:12px/1.5 Consolas,monospace; white-space:pre; }
+  .note { background:var(--warn); border:1px solid #f59e0b; border-radius:6px; padding:6px 10px; font-size:12px; margin:8px 0; }
+  .ann { margin:0; padding:8px 14px; background:#fff7ed; border-top:1px dashed #fb923c; font-size:12px; color:#9a3412; }
+</style>
+</head>
+<body>
+<h1>ERP Lens 화면 목업 (와이어프레임)</h1>
+
+<section class="screen" id="m1">
+  <div class="cap">1. 첫 화면 · UI5 탭 · 이름·메서드 검색</div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab on">UI5 · 한국어 API 탐색</span><span class="tab abap">ABAP · 기본 문법 · tcode</span></div>
+  <div class="sub"><span class="chip">UI5 버전 ▼ 1.154</span><span class="chip on">이름·메서드 검색</span><span class="chip">기능으로 추천</span><span class="chip">API 탐색</span><span class="chip">문서 가이드</span></div>
+  <div class="cols">
+    <div class="left"><div class="input">클래스·메서드 이름 (예: Table, setText)</div></div>
+    <div class="right">
+      <h2>알고 있는 이름으로 찾기</h2>
+      <div>한 줄 안내: 이름을 적으면 어디에 있는지와 어떻게 쓰는지를 보여 줍니다.</div>
+      <div class="lbl">메서드·속성·이벤트 이름으로</div><div><span class="chip">setText</span> <span class="chip">bindRows</span> <span class="chip">attachPress</span></div>
+      <div class="lbl">클래스 이름으로</div><div><span class="chip">Table</span> <span class="chip">Dialog</span> <span class="chip">표</span> <span class="chip">팝업</span></div>
+      <div class="lbl">많이 쓰는 API 바로가기 (분류별)</div><div><span class="chip">Input 한</span> <span class="chip">ComboBox 한</span> <span class="chip">DatePicker 한</span></div>
+    </div>
+  </div>
+  <p class="ann">설계 의도: 처음 온 사람이 무엇을 입력할지 몰라도 눌러 볼 칩을 바로 보여 준다. 버전은 UI5 탭 안에서만 고른다.</p>
+</section>
+
+<section class="screen" id="m2">
+  <div class="cap">2. 검색 결과 + API 상세 (왼쪽 후보, 오른쪽 상세)</div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab on">UI5</span><span class="tab abap">ABAP</span></div>
+  <div class="sub"><span class="chip on">전체 227</span><span class="chip">클래스 153</span><span class="chip">메서드 31</span><span class="chip">속성 31</span><span class="chip">이벤트 5</span></div>
+  <div class="cols">
+    <div class="left">
+      <div class="input">Table</div>
+      <div class="card sel"><b>sap.m.Table</b><span class="tag">sap.m</span><span class="tag">class</span><span class="tag">한국어 · AI 초안</span><div>화면 폭에 맞춰 열을 접어 보여 주는 반응형 테이블.</div></div>
+      <div class="card"><b>sap.ui.table.Table</b><span class="tag">class</span><div>많은 양의 데이터를 보여 주는 그리드형 테이블.</div></div>
+    </div>
+    <div class="right">
+      <h2>sap.m.Table</h2>
+      <div><span class="tag">UI5 1.154.0</span><span class="tag">공식 원문 ↗</span></div>
+      <div class="note">버전 사용 가능 표시줄: 1.38부터 지금까지 칸마다 있음/deprecated/없음</div>
+      <div><span class="chip on">개요·구조</span> <span class="chip">생성자</span> <span class="chip">속성</span> <span class="chip">구성 요소</span> <span class="chip">이벤트</span> <span class="chip">예제</span></div>
+      <div class="lbl">한 줄 설명 / 언제 사용하나요</div><div>한국어 설명 + 근거(공식 문장) + "AI 초안·미검토" 표시</div>
+    </div>
+  </div>
+  <p class="ann">설계 의도: 후보를 고르면 같은 이름의 다른 클래스(sap.m.Table / sap.ui.table.Table)를 섞지 않고 각각 보여 준다. 한국어는 항상 AI 초안임을 표시한다.</p>
+</section>
+
+<section class="screen" id="m3">
+  <div class="cap">3. ABAP 탭 · 문법 사전</div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab">UI5</span><span class="tab on abap">ABAP · 65개+15개</span></div>
+  <div class="sub"><span class="chip on abap">문법 사전 · 65개</span><span class="chip">tcode 사전 · 15개</span><span class="chip">버전 구분 없음</span></div>
+  <div class="sub"><span class="chip on abap">전체 65</span><span class="chip">선언·데이터</span><span class="chip">제어문</span><span class="chip">내부 테이블</span><span class="chip">모듈화</span><span class="chip">…</span></div>
+  <div class="cols">
+    <div class="left">
+      <div class="note">AI 초안 · 미검토 · 실행 검증 안 함</div>
+      <div class="input" style="border-color:#0f766e">키워드 검색 (예: SELECT, 반복)</div>
+      <div class="card sel" style="border-color:#0f766e"><b>DATA</b>변수를 선언합니다.</div>
+      <div class="card"><b>TYPES</b>자료형을 정의합니다.</div>
+    </div>
+    <div class="right">
+      <h2>DATA</h2>
+      <div class="lbl">한 줄 설명 · 언제 사용하나요</div>
+      <div class="lbl">예제 (설명용 · 실행 검증 안 함)</div>
+      <div class="code">DATA lv_count TYPE i.
+DATA lv_name  TYPE string VALUE 'Kim'.</div>
+      <div class="lbl">주의할 점 · 공식 링크 · 관련 tcode</div>
+    </div>
+  </div>
+  <p class="ann">설계 의도: UI5와 달리 버전이 없어 그룹 칩으로 좁힌다. 공식 링크가 없는 항목은 "근거" 문구를 대신 보여 준다.</p>
+</section>
+
+<section class="screen" id="m4">
+  <div class="cap">4. ABAP 탭 · tcode 사전 (하고 싶은 일 또는 /n 명령으로 검색)</div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab">UI5</span><span class="tab on abap">ABAP</span></div>
+  <div class="sub"><span class="chip">문법 사전</span><span class="chip on abap">tcode 사전 · 15개</span></div>
+  <div class="cols">
+    <div class="left">
+      <div class="input" style="border-color:#0f766e">tcode 또는 하고 싶은 일 (예: 테이블 보기, /nse38)</div>
+      <div class="card sel" style="border-color:#0f766e"><b>SE38 · ABAP Editor</b>프로그램을 작성하고 실행합니다.</div>
+      <div class="card"><b>SE37 · Function Builder</b>펑션 모듈을 만들고 테스트합니다.</div>
+    </div>
+    <div class="right">
+      <h2>SE38 · ABAP Editor</h2>
+      <div class="lbl">어디로 가면 열리나요 (경로)</div><div>입력 → 열리는 화면을 단계로 표시</div>
+      <div class="lbl">하는 일 · 수업에서는 · 관련 tcode · 개념 항목 연결</div>
+    </div>
+  </div>
+  <p class="ann">설계 의도: "/nse38" 처럼 명령을 붙여 쓰면 명령(/n)과 tcode(SE38)로 나누어 설명한다.</p>
+</section>
+</body>
+</html>
