@@ -5,9 +5,9 @@
     "generator": "AI(Claude) 초안",
     "review": "unreviewed",
     "executed": false,
-    "note": "설명과 예제는 AI 가 직접 쓴 초안이고 ABAP 시스템에서 실행해 검증하지 않았다. 공식 링크는 SAP 가 공개한 SAP-samples/abap-cheat-sheets (Apache-2.0) 안에 실제로 쓰인 주소만 골랐다. 2026-11-13 에 추가한 항목(개념·환경 그룹 등)은 수업 정리노트를 바탕으로 한 AI 요약이고, 링크는 노트에 실린 SAP 공식 주소 중 열리는 것만 골랐다. 2026-11-14 에 수업 노트(11/11~11/13)를 바탕으로 sy-index, 비교 연산자, 내장 함수, Message Class, 디버거 항목을 더했고 기존 항목의 주의점을 보강했다. 디버거는 연결할 공식 링크를 확인하지 못해 근거 문구만 둔다. 2026-11-19 에 수업 노트(11/16~11/18)와 수업 노션 필기를 바탕으로 모듈화(서브루틴·펑션 모듈·BAPI·글로벌 클래스) 그룹, 시스템 필드, 구조체, 내부 테이블 종류·LINES OF·비우기 항목을 더했다. BAPI 는 연결할 공식 링크를 확인하지 못해 근거 문구만 둔다.",
+    "note": "설명과 예제는 AI 가 직접 쓴 초안이고 ABAP 시스템에서 실행해 검증하지 않았다. 공식 링크는 SAP 가 공개한 SAP-samples/abap-cheat-sheets (Apache-2.0) 안에 실제로 쓰인 주소만 골랐다. 2026-11-13 에 추가한 항목(개념·환경 그룹 등)은 수업 정리노트를 바탕으로 한 AI 요약이고, 링크는 노트에 실린 SAP 공식 주소 중 열리는 것만 골랐다. 2026-11-14 에 수업 노트(11/11~11/13)를 바탕으로 sy-index, 비교 연산자, 내장 함수, Message Class, 디버거 항목을 더했고 기존 항목의 주의점을 보강했다. 디버거는 연결할 공식 링크를 확인하지 못해 근거 문구만 둔다. 2026-11-19 에 수업 노트(11/16~11/18)와 수업 노션 필기를 바탕으로 모듈화(서브루틴·펑션 모듈·BAPI·글로벌 클래스) 그룹, 시스템 필드, 구조체, 내부 테이블 종류·LINES OF·비우기 항목을 더했다. BAPI 는 연결할 공식 링크를 확인하지 못해 근거 문구만 둔다. 2026-11-23 에 수업 노트(11/19~11/23)와 수업 노션 필기(23~25일차)를 바탕으로 SELECT 읽기 방식·INTO 변형·정렬/DISTINCT·집계·WHERE 연산자·PACKAGE SIZE·JOIN, Open SQL/DB Interface, 이벤트, SELECT-OPTIONS 조건 테이블, WRITE 위치, Header Line, 클래스 메서드 호출, P 타입 LENGTH, ABAP Dictionary 그룹(개요·Domain/Data Element·Structure/Table Type·CURR 참조)을 더했다. 이 항목의 코드 예제는 수업 시스템 이름을 쓰지 않은 설명용 예시이며 실행해 검증하지 않았다.",
     "linkSource": "https://github.com/SAP-samples/abap-cheat-sheets",
-    "checkedAt": "2026-11-19"
+    "checkedAt": "2026-11-23"
   },
   "sites": {
     "cloud": "ABAP Keyword Documentation (ABAP Cloud) — 클라우드 ABAP 에서 쓸 수 있는 문법만 담김",
@@ -276,7 +276,9 @@
         "sy-tabix 는 현재 줄 번호입니다.",
         "반복 중에 같은 테이블에 줄을 추가·삭제하면 동작이 복잡해집니다.",
         "WHERE 말고 줄 번호 범위로도 거를 수 있습니다: LOOP AT itab INTO wa FROM 1 TO 2.",
-        "Hashed 테이블은 인덱스가 없어서 LOOP 안에서 sy-tabix 가 항상 0 입니다. 줄 번호를 보고 싶으면 WRITE:/(3) sy-tabix 처럼 폭을 지정해 짧게 출력할 수 있습니다."
+        "Hashed 테이블은 인덱스가 없어서 LOOP 안에서 sy-tabix 가 항상 0 입니다. 줄 번호를 보고 싶으면 WRITE:/(3) sy-tabix 처럼 폭을 지정해 짧게 출력할 수 있습니다.",
+        "LOOP 안에서 READ TABLE 을 하면 읽은 줄의 번호가 sy-tabix 에 들어가 5, 10 처럼 갑자기 바뀝니다. LOOP 시작 직후 lv_tabix = sy-tabix. 로 보관해 두고 MODIFY 때 INDEX lv_tabix 를 씁니다. 필드 심볼(ASSIGNING FIELD-SYMBOL)은 줄을 복사하지 않고 원본을 직접 가리켜 MODIFY 가 필요 없지만 아직 수업에서 배우지 않은 미리보기입니다.",
+        "LOOP AT ... INTO wa 는 줄을 복사해 오므로 바꾼 값은 MODIFY 로 다시 써 넣어야 반영됩니다. MODIFY 의 TRANSPORTING 자리에는 wa- 없이 컬럼 이름만 씁니다."
       ],
       "links": [
         {
@@ -397,7 +399,8 @@
       "syntax": "SORT lt_flights BY carrid ASCENDING price DESCENDING.",
       "notes": [
         "표준 테이블에서만 의미가 큽니다. 정렬 테이블(SORTED)은 항상 키 순서로 유지됩니다.",
-        "SORT itab BY f1 ASCENDING f2 DESCENDING 은 f1 오름차순으로 정렬하고 f1 이 같은 줄끼리는 f2 내림차순으로 정렬합니다. 방향을 안 쓰면 ASCENDING 입니다."
+        "SORT itab BY f1 ASCENDING f2 DESCENDING 은 f1 오름차순으로 정렬하고 f1 이 같은 줄끼리는 f2 내림차순으로 정렬합니다. 방향을 안 쓰면 ASCENDING 입니다.",
+        "DELETE ADJACENT DUPLICATES FROM itab COMPARING 필드 로 이웃한 같은 값 줄을 지울 수 있고, 먼저 SORT 로 같은 값이 이웃하게 해야 합니다. 다만 DB 에서 DISTINCT 로 거르는 쪽이 데이터가 많을 때 더 빠릅니다."
       ],
       "links": [
         {
@@ -418,7 +421,8 @@
         "최신 문법에서는 프로그램 변수 앞에 @ 를 붙이고 열 이름은 쉼표로 구분합니다.",
         "결과가 없으면 sy-subrc 가 0 이 아닙니다.",
         "SELECT SINGLE 은 조건에 맞는 첫 줄 하나만 읽습니다.",
-        "WHERE 없이 큰 테이블을 통째로 읽으면 느려집니다."
+        "WHERE 없이 큰 테이블을 통째로 읽으면 느려집니다.",
+        "읽는 방식(SINGLE·루프·Array Fetch), INTO 변형, 정렬·중복 제거, 집계, WHERE 연산자, PACKAGE SIZE, JOIN 은 각각 별도 항목에 정리했습니다."
       ],
       "links": [
         {
@@ -510,7 +514,8 @@
       "whenToUse": "0으로 나누기, 존재하지 않는 값 접근처럼 잡을 수 있는 오류가 예상될 때.",
       "syntax": "TRY.\n    DATA(lv_result) = 10 / lv_divisor.\n  CATCH cx_sy_zerodivide INTO DATA(lx_error).\n    DATA(lv_text) = lx_error->get_text( ).\nENDTRY.",
       "notes": [
-        "잡을 수 없는 오류(런타임 오류, 쇼트 덤프)도 있습니다."
+        "잡을 수 없는 오류(런타임 오류, 쇼트 덤프)도 있습니다.",
+        "메서드가 예외를 여러 개 선언했다면 모두 CATCH 해야 합니다. 하나만 잡으면 “exception ... is not caught” 경고가 나고 실행 중 덤프가 날 수 있습니다(“클래스 메서드 호출” 항목)."
       ],
       "links": [
         {
@@ -605,7 +610,8 @@
       "whenToUse": "구조 모양이 비슷한 두 변수 사이에 값을 한 번에 옮길 때.",
       "syntax": "MOVE-CORRESPONDING ls_source TO ls_target.\nls_target = CORRESPONDING #( ls_source ).   \"같은 의미의 최신 표기",
       "notes": [
-        "이름이 다른 열은 복사되지 않습니다."
+        "이름이 다른 열은 복사되지 않습니다.",
+        "내부 테이블끼리 MOVE-CORRESPONDING 을 하면 받는 쪽의 기존 줄이 지워집니다. KEEPING TARGET LINES 를 붙이면 기존 줄을 두고 뒤에 덧붙입니다(MOVE-CORRESPONDING gt_flight TO gt_list KEEPING TARGET LINES.). 두 방식 모두 이름이 같은 필드끼리만 옮겨집니다."
       ],
       "links": [
         {
@@ -628,7 +634,8 @@
         "같은 키워드를 이어 쓰면 콜론(:)으로 묶고 쉼표로 나눕니다: WRITE: / lv_a, / lv_b. (/ 는 줄바꿈)",
         "문구를 코드 밖에 두는 Text Symbol 은 text-001 처럼 씁니다. 자세한 내용은 \"Text Symbol\" 항목을 보세요.",
         "WRITE:/10(2) 변수 는 화면의 10번째 칸부터 2자리를 써서 값을 출력합니다. WRITE 앞에 붙인 숫자는 출력 자릿수입니다.",
-        "ULINE 은 가로줄을 긋고 NEW-LINE 은 줄바꿈을 합니다. 구구단 실습에서는 DO 9 TIMES 안에서 sy-index 를 곱해 출력하고 줄마다 NEW-LINE 을 썼습니다."
+        "ULINE 은 가로줄을 긋고 NEW-LINE 은 줄바꿈을 합니다. 구구단 실습에서는 DO 9 TIMES 안에서 sy-index 를 곱해 출력하고 줄마다 NEW-LINE 을 썼습니다.",
+        "출력 위치·너비 지정(22(15) 값), ULINE, SKIP, NO-ZERO 는 “WRITE 위치(길이)” 항목을 보세요."
       ],
       "links": [
         {
@@ -673,7 +680,9 @@
         "PARAMETERS 의 이름은 최대 8자이고, 처음 값은 DEFAULT 로 넣습니다(DATA 는 VALUE). 소수 기본값은 따옴표로 감쌉니다(예: DEFAULT '3.14').",
         "이 선택 화면의 기본 화면 번호는 1000 입니다. tcode 를 만들 때 Selection screen 칸에 이 번호를 넣습니다.",
         "입력칸 제목은 Goto → Text Elements → Selection Texts 에서 바꾸고 활성화합니다.",
-        "AS CHECKBOX 는 체크하면 'X', 해제하면 빈 값(' ')이 들어갑니다. IF pa_check = 'X'. 로 확인합니다."
+        "AS CHECKBOX 는 체크하면 'X', 해제하면 빈 값(' ')이 들어갑니다. IF pa_check = 'X'. 로 확인합니다.",
+        "SELECT-OPTIONS 가 만드는 조건 테이블 so_con(Header)과 so_con[](Body)의 차이, sign·option·low·high 는 “SELECT-OPTIONS 조건 테이블” 항목을, 이벤트로 기본값을 넣고 입력을 검증하는 법은 “ABAP Events” 항목을 보세요.",
+        "PARAMETERS 의 TYPE 에는 구조체의 필드(sflight-carrid)나 Dictionary 의 Data Element(s_carr_id)를 줄 수 있습니다. Dictionary 타입을 주면 라벨·F1·F4 같은 의미 정보도 따라옵니다."
       ],
       "links": [
         {
@@ -1171,7 +1180,8 @@
         "디버거가 반복문 종료를 DO 줄에 표시할 때가 있습니다. 화살표 위치 하나보다 다음 F5 에서 어디로 가고 값이 어떻게 바뀌는지로 판단하세요.",
         "F5(Single Step)는 한 줄씩, F6(Execute)은 코드 블록(서브루틴·펑션 모듈 호출)을 한 줄처럼 실행하고 안으로 들어가지 않습니다. 안에서 실행은 되므로 결과는 확인할 수 있습니다. F7(Return)은 블록 안에서 끝까지 실행해 호출한 줄 다음으로 나오고, F8(Continue)은 다음 브레이크포인트로 갑니다.",
         "디버거의 노란 화살표는 “바라보고 있는 줄”이고 그 줄은 아직 실행되기 전입니다(바로 위 줄까지 실행된 상태). 디버거에서 바꾼 값은 그 디버깅 실행에서만 바뀌고 원본 데이터는 바뀌지 않습니다.",
-        "“서브루틴”, “펑션 모듈” 항목의 F6·F7 설명도 보세요."
+        "“서브루틴”, “펑션 모듈” 항목의 F6·F7 설명도 보세요.",
+        "내부 테이블은 변수 이름을 더블클릭하면 Row 번호와 필드 값이 표로 보이고 Attributes 에 Standard [30x6(44)] 처럼 종류와 줄 수가 나옵니다. Header Line 이 있는 옛 방식 내부 테이블은 모자 아이콘이 Header, 그 아래가 Body 입니다."
       ],
       "links": [],
       "basis": "수업 정리노트(교재 BC400, 2026-11-13 오후) 내용을 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
@@ -1277,7 +1287,9 @@
         "FROM n 은 n번째 줄부터, TO m 은 m번째 줄까지이고 생략하면 각각 처음·끝입니다. 앞의 TO 2 는 범위이고 뒤의 TO gt_data2 는 목적지라서 TO 가 두 번 나와도 정상입니다.",
         "APPEND 는 목적지 앞에 TO, INSERT 는 INTO 를 씁니다. “INSERT LINES OF ~ TO”는 틀린 표기입니다.",
         "INSERT ... INTO TABLE 은 Standard 면 맨 뒤, Sorted 면 키 순서에 맞는 자리에 들어갑니다. 수업 예제에서는 직후에 sy-subrc = 0 으로 성공을 확인한 뒤 LOOP 로 출력했습니다.",
-        "MOVE-CORRESPONDING 은 내부 테이블끼리도 쓸 수 있고, 이름이 같은 필드끼리 줄 단위로 복사합니다."
+        "MOVE-CORRESPONDING 은 내부 테이블끼리도 쓸 수 있고, 이름이 같은 필드끼리 줄 단위로 복사합니다.",
+        "itab2 = itab1. 은 itab2 의 기존 내용을 지우고 통째로 복사하므로 “추가”와 뜻이 다릅니다. 기존 데이터를 유지하려면 APPEND LINES OF(맨 뒤, 한 줄씩 LOOP + APPEND 보다 빠름), INSERT LINES OF ... INDEX 1(맨 앞)을 씁니다. APPEND 는 TO, INSERT 는 INTO 입니다.",
+        "LOOP AT itab1 INTO itab2 처럼 INTO 뒤에 내부 테이블을 쓰면 타입 불일치 문법 오류입니다. INTO 뒤에는 한 줄짜리 work area 가 와야 합니다."
       ],
       "links": [
         {
@@ -1302,7 +1314,8 @@
       "notes": [
         "CLEAR 는 변수를 그 타입의 초기값(Initial value)으로 되돌립니다. 선언할 때 넣은 값(Default value)이 아닙니다.",
         "FREE 는 다시 쓰지 않을 큰 테이블에 씁니다.",
-        "내부 테이블의 줄을 지워도 DB 테이블에는 영향이 없습니다. 내부 테이블은 변수이기 때문입니다."
+        "내부 테이블의 줄을 지워도 DB 테이블에는 영향이 없습니다. 내부 테이블은 변수이기 때문입니다.",
+        "Header Line 이 있는 옛 방식 내부 테이블에서는 CLEAR itab 이 Header 만 지웁니다. Body 를 비우려면 CLEAR itab[] 를 씁니다(“WITH HEADER LINE” 항목)."
       ],
       "links": [
         {
@@ -1508,6 +1521,538 @@
           "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/call-method-static-method-call-obsolete"
         }
       ]
+    },
+    {
+      "id": "select-three-forms",
+      "term": "SELECT 3가지 방식 (SINGLE · 루프 · Array Fetch)",
+      "group": "데이터베이스",
+      "summary": "DB 테이블에서 읽을 때 건수와 담는 곳에 따라 세 가지로 씁니다. 딱 한 건이면 SELECT SINGLE, 여러 건을 한 줄씩 꺼내 반복하면 SELECT ~ ENDSELECT, 한 번에 내부 테이블로 받으면 INTO TABLE(Array Fetch)입니다.",
+      "whenToUse": "조회 결과가 한 건인지 여러 건인지, 한 줄씩 가공할지 통째로 받을지에 따라 방식을 고를 때.",
+      "syntax": "\"1) 한 건 -> 구조체(또는 변수)\nSELECT SINGLE carrid connid cityfrom\n  FROM spfli INTO ls_conn\n  WHERE carrid = 'AA' AND connid = '0017'.\n\n\"2) 여러 건을 한 줄씩 -> 구조체 (ENDSELECT 필요, 반복)\nSELECT carrid connid fldate\n  FROM sflight INTO ls_flight\n  WHERE carrid = 'AA'.\n  APPEND ls_flight TO lt_flights.\nENDSELECT.\n\n\"3) 여러 건을 한 번에 -> 내부 테이블 (반복 아님, ENDSELECT 없음)\nSELECT carrid connid fldate\n  FROM sflight INTO TABLE lt_flights\n  WHERE carrid = 'AA'.",
+      "notes": [
+        "세 방식 모두 직후 sy-subrc 가 0 이면 읽었고 4 이면 조건에 맞는 데이터가 없는 것입니다.",
+        "SELECT SINGLE 은 조건에 맞는 줄이 여러 개여도 그중 하나만 줍니다. 어떤 줄인지는 보장되지 않으므로 키 필드를 모두 지정할 때 쓰는 것이 원칙입니다.",
+        "SELECT ~ ENDSELECT 는 “단일 건 조회”가 아닙니다. 여러 건을 읽되 담는 곳이 한 줄짜리라 한 줄씩 덮어쓰며 반복합니다. 딱 1건은 SELECT SINGLE 입니다. 반복 중에는 sy-dbcnt 에 읽은 건수가 들어갑니다.",
+        "INTO TABLE 은 “Array Fetch” 입니다(필기에서 Array Patch 라고 적은 것은 Fetch 가 정확한 이름). 루프가 아니고 DB 왕복이 적어 여러 건을 읽을 때 보통 권장되는 방식입니다.",
+        "SELECT * 는 필요 없는 열까지 가져오므로 필요한 필드를 SELECT 옆에 직접 나열하는 쪽이 더 좋은 코드라고 수업에서 설명했습니다.",
+        "오류 예: SELECT 마지막에 마침표를 찍으면 WHERE 가 떨어져 나가 문법 오류가 납니다. 마침표는 문장 맨 끝에 한 번만 찍습니다."
+      ],
+      "links": [
+        {
+          "label": "SELECT SINGLE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-single"
+        },
+        {
+          "label": "SELECT INTO 대상",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-into-target"
+        },
+        {
+          "label": "SELECT",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select"
+        }
+      ]
+    },
+    {
+      "id": "select-into-variants",
+      "term": "SELECT INTO · CORRESPONDING FIELDS · APPENDING · INTO (a, b) · @",
+      "group": "데이터베이스",
+      "summary": "SELECT 한 필드가 받는 변수의 어느 칸에 들어갈지 정하는 방법들입니다. 기본 INTO 는 왼쪽 칸부터 순서대로, CORRESPONDING FIELDS OF 는 이름이 같은 칸에, APPENDING TABLE 은 기존 줄 뒤에 붙입니다.",
+      "whenToUse": "조회한 필드와 받는 구조체의 모양이 다를 때, 또는 여러 번 조회한 결과를 한 내부 테이블에 모을 때.",
+      "syntax": "\"순서대로: SELECT 필드 순서 = 받는 구조의 칸 순서\nSELECT carrid connid countryfr cityfrom\n  FROM spfli INTO TABLE lt_connects WHERE carrid = pa_car.\n\n\"이름이 같은 칸에 (순서가 달라도 됨)\nSELECT carrid connid FROM spfli\n  INTO CORRESPONDING FIELDS OF TABLE lt_connects.\n\n\"기존 줄은 두고 아래에 붙이기\nSELECT carrid connid FROM spfli\n  APPENDING TABLE lt_connects WHERE carrid = 'LH'.\n\n\"필드별로 각각의 변수에 (괄호 안, SELECT 순서대로)\nSELECT SINGLE carrid connid\n  INTO (gv_carrid, gv_connid)\n  FROM spfli WHERE carrid = 'AA'.\n\n\"새 문법: 쉼표를 쓰면 모든 ABAP 변수 앞에 @\nSELECT carrid, connid FROM sflight\n  WHERE carrid = @pa_car\n  INTO TABLE @lt_flight.",
+      "notes": [
+        "INTO 는 이름이 아니라 순서로 채웁니다. 구조의 첫 칸이 MANDT 인 곳에 SELECT * 를 담으면 값이 한 칸씩 밀려 타입 불일치 오류가 나거나, 오류 없이 엉뚱한 칸에 들어가는 논리 오류가 됩니다.",
+        "값이 원하는 칸에 안 들어가면 ① 조회 필드와 같은 모양의 구조를 TYPES 로 만들어 순서를 맞추거나 ② INTO CORRESPONDING FIELDS OF 를 씁니다.",
+        "INTO TABLE 은 받는 내부 테이블의 기존 내용을 지우고 채웁니다. APPENDING TABLE 은 기존 줄을 두고 그 밑에 붙입니다.",
+        "Open SQL 에 새 문법 요소(쉼표로 필드 구분, FIELDS, 인라인 DATA( ) 등)가 하나라도 있으면 그 SELECT 전체가 엄격(Strict) 모드가 되어 모든 ABAP 변수에 @ 가 필요합니다. 빠뜨리면 “must be escaped using @” 오류가 납니다. 구 문법(쉼표 없음)으로 통일하면 @ 없이도 됩니다. 섞어 쓰지 않습니다.",
+        "Open SQL 은 로그인한 클라이언트(MANDT)로 자동 조회하므로 WHERE 에 mandt 를 쓰지 않습니다. 다른 클라이언트를 읽어야 할 때만 CLIENT SPECIFIED 를 쓰는데 값이 꼬일 수 있어 권장하지 않습니다."
+      ],
+      "links": [
+        {
+          "label": "SELECT INTO 대상",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-into-target"
+        },
+        {
+          "label": "INTO APPENDING",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-into-appending"
+        },
+        {
+          "label": "CLIENT SPECIFIED",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapselect_client.html"
+        }
+      ]
+    },
+    {
+      "id": "select-order-distinct",
+      "term": "ORDER BY · DISTINCT · UP TO n ROWS",
+      "group": "데이터베이스",
+      "summary": "조회 결과를 DB에서 정렬하고(ORDER BY), 같은 값 줄을 하나로 줄이고(DISTINCT), 최대 몇 건까지만 읽습니다(UP TO n ROWS).",
+      "whenToUse": "ABAP 에서 다시 SORT·DELETE ADJACENT DUPLICATES 하지 않고 DB 가 정리해서 필요한 만큼만 가져오게 할 때.",
+      "syntax": "\"정렬: WHERE 뒤에 쓴다\nSELECT * INTO TABLE gt_flight FROM sflight\n  WHERE carrid = 'AA'\n  ORDER BY PRIMARY KEY.\n\nSELECT * INTO TABLE gt_flight FROM sflight\n  WHERE carrid = 'AZ'\n  ORDER BY seatsmax ASCENDING seatsocc DESCENDING.\n\n\"중복 제거 + 정렬\nSELECT DISTINCT carrid connid\n  INTO CORRESPONDING FIELDS OF TABLE gt_flight\n  FROM sflight WHERE carrid = 'AZ'\n  ORDER BY carrid connid.\n\n\"최대 10건\nSELECT * FROM sflight INTO TABLE itab1 UP TO 10 ROWS\n  WHERE carrid = 'AA' AND connid = '0017'.",
+      "notes": [
+        "ORDER BY 는 WHERE 뒤에 씁니다. 필드를 쓴 순서가 정렬 우선순위이고, 필드마다 ASCENDING(생략 시 기본)·DESCENDING 을 줍니다. 정렬 필드는 SELECT 목록에 있어야 합니다.",
+        "ORDER BY PRIMARY KEY 는 기본 키 오름차순입니다. 필드를 골라 조회하면서 이 방식을 쓸 때는 MANDT 를 포함한 모든 키 필드가 SELECT 목록에 있어야 한다고 교재가 설명합니다.",
+        "DISTINCT 는 조회한 필드 값이 모두 같은 줄만 하나로 합칩니다. 조회 필드를 많이 쓸수록 중복으로 보는 기준이 엄격해집니다. 예: WHERE seatsocc > 200 으로 거른 뒤 DISTINCT carrid connid 면 8건이 3건이 됩니다(교재 예시).",
+        "DISTINCT 를 쓰면서 INTO 로 구조체에 순서대로 담으면 위치가 밀려 타입 불일치가 나기 쉬우니 INTO CORRESPONDING FIELDS OF 를 쓰거나 TYPES 로 모양을 맞춥니다.",
+        "전부 읽어 온 뒤 SORT 와 DELETE ADJACENT DUPLICATES 로 정리하는 것은 동작은 하지만 필요 없는 줄까지 DB 에서 가져오므로 데이터가 많으면 느립니다.",
+        "UP TO n ROWS 는 최대 n건까지만 읽습니다. 조건에 맞는 줄이 n건보다 적으면 있는 만큼만 옵니다."
+      ],
+      "links": [
+        {
+          "label": "ORDER BY",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-order-by"
+        },
+        {
+          "label": "SELECT 절",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-select-clause"
+        },
+        {
+          "label": "UP TO",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-up-to-offset"
+        }
+      ]
+    },
+    {
+      "id": "select-aggregate",
+      "term": "집계 함수 · GROUP BY · HAVING",
+      "group": "데이터베이스",
+      "summary": "DB 가 줄 수·최솟값·최댓값·합계·평균을 직접 계산해 줍니다. GROUP BY 는 같은 값끼리 묶어 그룹마다 한 줄을, HAVING 은 묶은 뒤 집계 결과로 그룹을 거릅니다.",
+      "whenToUse": "항공사·노선별 합계처럼 부분 합계나 건수를 구할 때, 가져온 뒤 ABAP 에서 반복문으로 더하지 않고 DB 에서 구할 때.",
+      "syntax": "\"집계만 -> 결과 한 줄\nSELECT COUNT( * ) MIN( seatsocc ) MAX( seatsocc ) SUM( seatsocc )\n  FROM sflight INTO gs_flightocc.\n\n\"그룹마다 한 줄\nSELECT carrid connid SUM( seatsocc )\n  FROM sflight INTO TABLE gt_flightocc\n  GROUP BY carrid connid.\n\n\"그룹을 만든 뒤 집계 결과로 거르기\nSELECT carrid connid SUM( seatsocc )\n  FROM sflight INTO TABLE gt_flightocc\n  WHERE fldate > '20090101'\n  GROUP BY carrid connid\n  HAVING SUM( seatsocc ) < 500.\n\n\"서로 다른 항공사 수\nSELECT COUNT( DISTINCT carrid ) FROM sflight INTO gv_cnt.",
+      "notes": [
+        "함수: MIN·MAX(열과 같은 타입), SUM·AVG(숫자만, AVG 는 Float), COUNT( * )(줄 수, Integer). 함수 안에도 DISTINCT 를 쓸 수 있습니다(COUNT( DISTINCT 열 )).",
+        "WHERE 는 그룹을 만들기 전 줄 단위로, HAVING 은 그룹을 만든 뒤 집계 결과 단위로 거릅니다. 둘은 보통 GROUP BY 와 세트로 나옵니다.",
+        "GROUP BY 를 쓰면 SELECT 목록의 일반 필드는 모두 GROUP BY 에도 써야 합니다.",
+        "집계 결과 열이 여러 개면 그 개수와 맞는 필드를 가진 구조체(또는 내부 테이블)로 받습니다. 결과 열에 이름을 붙이려면 SUM( seatsocc ) AS sumocc 처럼 AS 를 씁니다."
+      ],
+      "links": [
+        {
+          "label": "집계 함수",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/aggregate-function"
+        },
+        {
+          "label": "GROUP BY",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-group-by"
+        },
+        {
+          "label": "HAVING",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-having"
+        }
+      ]
+    },
+    {
+      "id": "where-operators",
+      "term": "WHERE 조건 연산자 (IN · BETWEEN · LIKE · IS NULL · IN seltab)",
+      "group": "데이터베이스",
+      "summary": "SELECT 의 WHERE 에서 조건을 거는 연산자들입니다. 왼쪽에는 조회하는 DB 테이블의 필드, 오른쪽에는 비교할 값을 씁니다.",
+      "whenToUse": "DB 에서 조건에 맞는 줄만 가져오고 싶을 때(ABAP 에서 가져온 뒤 지우는 것보다 DB 에서 거르는 쪽이 빠릅니다).",
+      "syntax": "SELECT * INTO TABLE gt_sflight FROM sflight\n  WHERE seatsmax BETWEEN 200 AND 400     \"양 끝 포함\n    AND currency IN ( 'USD', 'EUR' )      \"여러 값 중 하나\n    AND connid LIKE '%9%'                \"9 를 포함\n    AND carrid <> 'AA'                   \"같지 않다\n    AND connid IN so_con.                \"SELECT-OPTIONS 조건 전체\n\n\"같은 테이블의 두 필드끼리 비교: 오른쪽에 테이블~필드\nSELECT * FROM spfli INTO TABLE gt_spfli\n  WHERE countryfr = spfli~countryto.",
+      "notes": [
+        "비교 기호 대신 EQ NE LT GT LE GE 약자를 써도 결과가 같습니다.",
+        "BETWEEN A AND B 는 A 이상 B 이하(양 끝 포함)입니다.",
+        "LIKE 의 _ 는 아무 글자 딱 1개, % 는 글자 수 상관없이 아무 글자입니다. '09__' 는 09 로 시작하는 4자리, '%9' 는 9 로 끝나는 값, '9%' 는 9 로 시작하는 값, '%9%' 는 9 를 포함하는 값입니다.",
+        "IN seltab 은 SELECT-OPTIONS 로 만든 조건 테이블 전체를 조건으로 씁니다. 그 테이블이 비어 있으면 조건이 없는 것이라 전체를 조회합니다.",
+        "같은 테이블의 다른 필드와 비교하려면 오른쪽에 테이블~필드(예: spfli~countryto)를 씁니다. ~ 없이 countryto 만 쓰면 DB 필드가 아니라 ABAP 변수로 읽힙니다. 물결(~)은 SQL 안의 테이블 필드, 하이픈(-)은 ABAP 구조체 필드입니다.",
+        "IS [NOT] NULL 은 DB 값이 아예 없는지 봅니다. 빈칸이나 0 과 다르고, SAP 테이블은 보통 초기값이 들어 있어 NULL 인 경우가 드뭅니다.",
+        "AND 가 OR 보다 먼저 계산되므로 헷갈리면 괄호로 묶습니다. 수업에서는 실무에서 AND 를 주로 쓰고 OR 는 잘 안 쓴다고 했습니다.",
+        "비슷한 개념: UI5 필터(FilterOperator)와 역할이 같습니다. UI5 는 화면에 받은 데이터를, ABAP 은 DB 에서 가져올 데이터를 거릅니다."
+      ],
+      "links": [
+        {
+          "label": "WHERE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-where"
+        },
+        {
+          "label": "SELECT-OPTIONS",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapselect-options.html"
+        }
+      ]
+    },
+    {
+      "id": "package-size",
+      "term": "PACKAGE SIZE (n건씩 나눠 읽기)",
+      "group": "데이터베이스",
+      "summary": "SELECT 결과를 n건씩 나눠 가져오는 루프입니다. ENDSELECT 가 필요하고, INTO TABLE 로 받으면 묶음마다 내부 테이블이 새 n건으로 바뀝니다.",
+      "whenToUse": "데이터가 매우 많아 한꺼번에 메모리에 올리기 부담될 때, 묶음마다 거르고 필요한 것만 모을 때.",
+      "syntax": "\"묶음마다 거르고 다른 itab 에 모은다 (권장)\nSELECT s~carrid s~connid s~fldate s~seatsocc f~cityfrom\n  INTO TABLE lt_pkg\n  PACKAGE SIZE 100\n  FROM sflight AS s INNER JOIN spfli AS f ON s~carrid = f~carrid\n  WHERE s~fldate >= '20260101'.\n  DELETE lt_pkg WHERE seatsocc < 100.   \"이번 100건 중에서 지움\n  APPEND LINES OF lt_pkg TO lt_flight.  \"남은 것만 누적\nENDSELECT.\n\nIF lt_flight IS NOT INITIAL.\n  cl_demo_output=>display( lt_flight ).\nENDIF.",
+      "notes": [
+        "PACKAGE SIZE 는 루프입니다. 250건을 INTO TABLE ... PACKAGE SIZE 100 으로 읽으면 100 → 100 → 50건 순서로 itab 이 교체되어, ENDSELECT 뒤에는 마지막 50건만 남습니다(논리 오류).",
+        "모으는 방법 두 가지: ① 루프 안에서 처리하고 다른 itab 에 APPEND LINES OF ② INTO 대신 APPENDING TABLE. ②는 이전 묶음이 남고 뒤에 붙어서 결과는 같지만 결국 전부 메모리에 올린 뒤 지우는 셈이라 PACKAGE SIZE 를 쓴 의미가 약해집니다.",
+        "내부 테이블 줄을 DELETE 한 직후의 sy-subrc 는 SELECT 결과가 아니라 DELETE 결과입니다. 지울 줄이 없으면 4 라서 데이터가 있어도 IF sy-subrc = 0 이 거짓이 됩니다. IF itab IS NOT INITIAL. 로 확인합니다.",
+        "수업에서는 실무에서 WHERE 에 조건을 바로 쓰는 것이 가장 빠르다고 했고, 이 실습은 내부 테이블 다루기를 연습하려고 일부러 itab 에서 지우게 한 것입니다.",
+        "SELECT ~ ENDSELECT 는 기본이 한 건씩 구조체로 받지만 PACKAGE SIZE 를 붙이면 n건씩이라 그때부터는 내부 테이블로 받습니다."
+      ],
+      "links": [
+        {
+          "label": "SELECT INTO 대상",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-into-target"
+        },
+        {
+          "label": "SELECT",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select"
+        }
+      ]
+    },
+    {
+      "id": "join-select",
+      "term": "JOIN (INNER · LEFT OUTER)",
+      "group": "데이터베이스",
+      "summary": "두 테이블을 조건(ON)으로 붙여 한 번에 읽습니다. INNER JOIN 은 양쪽에 다 있는 것만, LEFT OUTER JOIN 은 왼쪽 테이블은 전부 가져오고 오른쪽은 있으면 붙입니다.",
+      "whenToUse": "항공사(SCARR)와 노선(SPFLI)처럼 관련된 테이블의 열을 함께 보고 싶을 때.",
+      "syntax": "\"INNER: 항공사와 노선이 둘 다 있는 것만\nSELECT scarr~carrid scarr~carrname spfli~connid spfli~cityfrom\n  INTO TABLE lt_flight\n  FROM scarr INNER JOIN spfli ON scarr~carrid = spfli~carrid\n  WHERE scarr~carrid BETWEEN 'AA' AND 'AZ'.\n\n\"LEFT OUTER: 항공사는 전부 (노선이 없으면 오른쪽 열은 빈 값)\nSELECT scarr~carrid scarr~carrname spfli~connid\n  INTO TABLE lt_flight\n  FROM scarr LEFT OUTER JOIN spfli ON scarr~carrid = spfli~carrid.\n\n\"별칭(alias): 정하면 그 SELECT 안에서는 별칭으로만 쓴다\nSELECT sc~carrid sc~carrname sp~connid\n  INTO TABLE lt_flight\n  FROM scarr AS sc INNER JOIN spfli AS sp ON sc~carrid = sp~carrid.",
+      "notes": [
+        "JOIN 에 필요한 것: ① 붙일 테이블 ② 붙이는 조건(ON) ③ 가져올 열. ON 은 무엇을 기준으로 붙일지, WHERE 는 붙인 뒤 무엇을 거를지입니다.",
+        "ABAP 에서는 INNER JOIN 과 LEFT OUTER JOIN 이 거의 전부라고 수업에서 설명했습니다.",
+        "SQL 안에서 테이블 필드는 테이블~필드(sc~carrid) 로 씁니다. sc.carrid 가 아닙니다. ABAP 구조체 필드는 gs-필드 입니다.",
+        "SELECT * 는 두 테이블에 이름이 같은 열(connid 등)이 있으면 모호하므로 열을 직접 지정하는 쪽이 낫습니다.",
+        "JOIN 을 구현하는 방법은 둘입니다: ① Dictionary 에 Database View 를 만들고 SELECT ... FROM 뷰이름 ② 프로그램에서 INNER JOIN ... ON. 수업에서는 ①을 더 많이 쓴다고 했고 DDIC View 는 이후 수업에서 다시 다룬다고 했습니다.",
+        "SELECT 는 조회지만 INSERT·UPDATE·DELETE·MODIFY 는 실제 DB 테이블을 바꾸므로 조심해서 씁니다."
+      ],
+      "links": [
+        {
+          "label": "JOIN",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/join"
+        },
+        {
+          "label": "SELECT FROM JOIN",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/select-from-join"
+        }
+      ]
+    },
+    {
+      "id": "open-sql-db-interface",
+      "term": "Open SQL · DB Interface · Index · Table Buffer",
+      "group": "개념·환경",
+      "summary": "ABAP 은 DB 제품마다 다른 Native SQL 대신 Open SQL 을 씁니다. DB Interface 가 문법을 확인하고 쓰는 DB 의 Native SQL 로 바꾸며, 버퍼링을 켠 테이블은 같은 요청을 DB 에 가지 않고 버퍼에서 돌려줍니다.",
+      "whenToUse": "DB 가 바뀌어도 코드를 고치지 않으려는 이유를 이해할 때, 조회가 느릴 때 Index 와 Buffer 를 떠올릴 때.",
+      "syntax": "ABAP 프로그램 (Open SQL)\n   |\nDB Interface  ① Open SQL 문법 체크\n              ② 쓰는 DB 의 Native SQL 로 변환\n              ③ 결과를 테이블 버퍼에 저장 (버퍼링을 켠 테이블만)\n   |\nDB\n\n\"Index 확인: SE11 > 테이블 > Indexes 탭\n\"버퍼 설정: SE11 > 테이블 > Technical Settings > Buffering",
+      "notes": [
+        "Open SQL 은 문법이 ABAP 하나이고 DB 가 바뀌어도 코드가 그대로이며 문법 체크와 버퍼를 지원합니다. Native SQL 은 DB 제품마다 다르고 특수한 경우에만 씁니다.",
+        "직접 SELECT 외에도 Global Class 메서드, BAPI, 펑션 모듈, Logical DB 로 DB 에 접근할 수 있습니다(만들어진 부품 재사용).",
+        "Primary Index 는 키 필드용으로 테이블을 만들 때 자동으로 생깁니다. 키 필드로 조회하면 데이터가 한 덩어리로 모여 있어 빠릅니다. Secondary Index 는 일반 필드용으로 필요하면 SE11 의 Indexes 에서 만듭니다. Index 가 없으면 데이터가 흩어져 있어 전부 훑으므로 느립니다.",
+        "Binary Search(이진 검색)는 정렬된 데이터를 반으로 나눠 위쪽인지 아래쪽인지 판별하고 남은 쪽을 다시 반으로 나누는 것을 반복합니다. Index 가 정렬된 목차 역할을 합니다.",
+        "Table Buffer 는 처음 SELECT 한 결과를 애플리케이션 서버에 저장해 두고 같은 요청은 네트워크·DB 를 거치지 않고 버퍼에서 돌려줍니다. 자주 읽고 거의 안 바뀌는 테이블에 쓰며 SE11 의 Technical Settings 에서 켠 테이블만 해당합니다.",
+        "교육용 항공 테이블 SPFLI 는 출발·도착 도시 조회용 Secondary Index 가 있고 Buffering 이 켜져 있다고 수업에서 확인했습니다."
+      ],
+      "links": [
+        {
+          "label": "ABAP Dictionary",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/abap-dictionary"
+        },
+        {
+          "label": "DB 테이블",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/ddic-database-table"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-23)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "report-events",
+      "term": "ABAP Events (INITIALIZATION · AT SELECTION-SCREEN · START-OF-SELECTION)",
+      "group": "화면·프로그램 실행",
+      "summary": "리포트 프로그램에는 정해진 시점에 런타임이 실행하는 이벤트가 있습니다. 이벤트 키워드부터 다음 이벤트 키워드 전까지가 그 이벤트의 블록입니다.",
+      "whenToUse": "“어디서 초기화하고, 어디서 입력을 검증하고, 메인은 어디서 시작하나”를 코드 구조로 나누고 싶을 때.",
+      "syntax": "REPORT zdemo_events.\nDATA: gt_flight TYPE TABLE OF sflight.\nPARAMETERS: pa_car TYPE sflight-carrid,\n            pa_chk TYPE char01 AS CHECKBOX DEFAULT 'X'.\n\nINITIALIZATION.                      \"선택 화면이 뜨기 직전: 기본값\n  pa_car = 'LH'.\n\nAT SELECTION-SCREEN.                 \"Enter · F8 을 누른 뒤: 입력 검증\n  IF pa_chk = 'X' AND pa_car IS INITIAL.\n    MESSAGE 'Carrid 를 입력하세요' TYPE 'E'.   \"선택 화면으로 되돌아감\n  ENDIF.\n\nSTART-OF-SELECTION.                  \"검증 통과 후: 메인\n  SELECT * INTO TABLE gt_flight FROM sflight WHERE carrid = pa_car.",
+      "notes": [
+        "실행 순서: LOAD-OF-PROGRAM(프로그램이 메모리에 올라올 때, 모든 프로그램 타입의 생성자 역할) → INITIALIZATION(리포트 전용, 선택 화면 직전 기본값) → AT SELECTION-SCREEN(입력 검증) → START-OF-SELECTION(메인) → END-OF-SELECTION(메인이 끝난 뒤 후처리). 리스트에는 TOP-OF-PAGE·END-OF-PAGE 도 있습니다.",
+        "이벤트는 쓰지 않아도 됩니다(옵션). 쓰는 순서는 상관없지만 실행 순서는 런타임이 정하므로 가독성을 위해 실행 순서대로 씁니다.",
+        "이벤트 키워드 없이 REPORT 바로 아래에 쓴 실행문은 기본 이벤트인 START-OF-SELECTION 에 들어갑니다. 반대로 다른 이벤트 블록 뒤에 쓴 코드는 그 블록에 붙습니다. 예를 들어 AT SELECTION-SCREEN 블록 바로 뒤에 SELECT 를 쓰면 그 SELECT 가 입력 검증 단계에서 실행되어 Enter 만 눌러도 매번 조회됩니다(문법 오류가 아니라 놓치기 쉽습니다). 메인 앞에 START-OF-SELECTION. 을 씁니다.",
+        "AT SELECTION-SCREEN 은 한 번만 쓸 수 있습니다. 다른 이벤트도 한 번만 쓰는 것이 원칙입니다(여러 번 쓰면 확장 검사 경고).",
+        "AT SELECTION-SCREEN 에서 E 메시지를 만나면 메인으로 가지 않고 선택 화면으로 돌아옵니다(다른 곳의 E 메시지는 에러를 보여 주고 프로그램이 끝나는 등 동작이 다릅니다). 그래서 START-OF-SELECTION 은 실행되지 않습니다.",
+        "기본값을 LOAD-OF-PROGRAM 이 아니라 INITIALIZATION 에서 넣는 이유: SAP 문서 기준으로 PARAMETERS·SELECT-OPTIONS 의 시작값은 LOAD-OF-PROGRAM 다음에 세팅되어서, 거기서 넣은 값은 덮어써질 수 있습니다. INITIALIZATION 은 그 바로 다음이고 선택 화면 처리 직전이라 값이 화면에 그대로 보입니다.",
+        "START-OF-SELECTION 은 쓰지 않아도 내부적으로 정의돼 있어서 이벤트 없이 짠 코드도 정상 동작합니다.",
+        "교재 예시: PARAMETERS pa_date TYPE sy-datum. 을 INITIALIZATION 에서 pa_date = sy-datum + 7. 로 세팅하면 선택 화면에 일주일 뒤 날짜가 기본값으로 뜹니다."
+      ],
+      "links": [
+        {
+          "label": "이벤트 블록(용어)",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abenevent_block_glosry.html"
+        },
+        {
+          "label": "선택 화면",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapselection-screen.html"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-23)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "select-options-table",
+      "term": "SELECT-OPTIONS 조건 테이블 (so_con 과 so_con[])",
+      "group": "화면·프로그램 실행",
+      "summary": "SELECT-OPTIONS 는 sign·option·low·high 네 필드를 가진 조건 테이블(Header Line 있는 내부 테이블)을 자동으로 만듭니다. so_con 은 한 줄 작업 칸(Header), so_con[] 은 조건 테이블 전체(Body)입니다.",
+      "whenToUse": "조건을 코드로 직접 채우거나, 조건 전체를 메서드·펑션 모듈에 넘기거나, 비울 때.",
+      "syntax": "SELECT-OPTIONS so_con FOR gs_flight-connid.\n\nINITIALIZATION.\n  so_con-sign   = 'I'.        \"I 포함 / E 제외\n  so_con-option = 'EQ'.       \"EQ BT GT LE ...\n  so_con-low    = '0400'.\n  APPEND so_con.             \"Header -> 조건 테이블에 한 줄 추가\n  CLEAR so_con.              \"Header 만 비움 (다음 줄 채우기 전에 꼭)\n\n  so_con-sign = 'I'. so_con-option = 'BT'.\n  so_con-low = '2402'. so_con-high = '2407'.\n  APPEND so_con.\n  CLEAR so_con.\n\n\"조건 테이블 전체가 필요한 곳에는 []\nlo_obj->get_flights( it_connid = so_con[] ).\nCLEAR so_con[].              \"조건 전체 비우기",
+      "notes": [
+        "sign: I(포함)/E(제외), option: EQ·BT·GT·LE 등 오퍼레이터, low: FROM 값(단일 값이면 여기만), high: TO 값입니다. 화면에서 low 에만 넣으면 option 이 EQ 인 단일 조건이 되지만 코드로 직접 넣을 때는 option 을 꼭 지정합니다.",
+        "위 코드의 조건 2줄은 “connid 가 0400 이거나(I EQ) 2402~2407 사이(I BT)”입니다. 포함(I) 조건끼리는 OR 로 합쳐집니다. SE16 에서 포함 조건끼리 걸면 둘 다 나오는 것도 같은 이유이고, 빼려면 Exclude 탭에 넣습니다.",
+        "so_con 만 쓰면 Header Line(한 줄 구조체)이 넘어갑니다. 범위 테이블 파라미터에는 so_con[] 을 넘깁니다. 헤더 라인 테이블에서 “테이블 자체”가 필요한 곳(넘기기·출력·CLEAR·IS INITIAL·대입)에는 []가 필요하고, LOOP AT·READ TABLE·APPEND TO·SORT·DELETE WHERE 는 없어도 테이블로 처리합니다.",
+        "WHERE connid IN so_con 에서는 IN 뒤에서 자동으로 조건 테이블 전체가 쓰입니다. 조건 테이블이 비어 있으면 조건이 없는 것이라 전체를 조회합니다(PARAMETERS 는 비면 빈 값을 조회해 결과가 안 나올 수 있습니다).",
+        "NUMC 타입 필드(connid 는 NUMC 4)에 low = '17' 을 넣으면 0017 로 채워집니다.",
+        "선택 화면에서 조건이 2줄 이상이면 첫 칸에는 첫 값만 보이고 오른쪽 Multiple Selection 버튼이 초록색으로 바뀝니다. 눌러 보면 Select Single Values 와 Select Ranges 탭에 나뉘어 있습니다.",
+        "입력칸 제목에 Data Element 의 라벨을 쓰려면 Goto → Text Elements → Selection Texts 에서 Dictionary Ref. 를 체크합니다. Dictionary 에서 라벨을 바꾸고 활성화하면 화면 라벨도 같이 바뀌고, 로그온 언어별 번역도 따라옵니다.",
+        "조건 테이블의 이름은 보통 so_ 로 시작합니다(Select-Options 약자). PARAMETERS 는 pa_ 를 많이 씁니다."
+      ],
+      "links": [
+        {
+          "label": "SELECT-OPTIONS",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapselect-options.html"
+        },
+        {
+          "label": "선택 화면",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapselection-screen.html"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-23)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "write-position-options",
+      "term": "WRITE 위치(길이) · ULINE · NO-ZERO",
+      "group": "화면·프로그램 실행",
+      "summary": "WRITE 로 리스트를 찍을 때 줄바꿈·시작 칸·너비를 정해 열을 맞춥니다. 앞자리 0 을 지우거나 왼쪽 정렬 같은 출력 옵션도 WRITE 옆에 붙입니다.",
+      "whenToUse": "여러 값을 표처럼 줄 맞춰 보여 주고 싶을 때, NUMC 값의 앞자리 0 을 감추고 싶을 때.",
+      "syntax": "WRITE: / 'First Name',  20 ':', 22(30) pa_fname,   \"20번째 칸에 :, 22번째 칸부터 30칸 너비\n       / 'Last Name',   20 ':', 22(30) pa_lname.\nULINE.                                              \"가로줄\nWRITE: / 'Assets',      20 ':', 22(15) pa_activ.\nSKIP.                                               \"빈 줄\nWRITE gs_name-class NO-ZERO.                        \"앞자리 0 을 공백으로",
+      "notes": [
+        "/ 는 줄바꿈, 숫자는 시작 칸, 괄호 안 숫자는 출력 너비입니다. ULINE 은 가로줄, SKIP 은 빈 줄입니다.",
+        "숫자는 기본이 오른쪽 정렬이고, 왼쪽에 붙이려면 LEFT-JUSTIFIED 를 씁니다.",
+        "NUMC 같은 숫자형 문자 필드는 5 를 넣으면 0000000005 처럼 앞이 0 으로 채워집니다. NO-ZERO 를 붙이면 앞자리 0 이 공백이 되어 5 만 보입니다(값이 전부 0 이면 아무것도 안 보입니다).",
+        "수업에서는 WRITE 옆에 이런 추가 옵션을 붙일 수 있다는 참고용으로만 다뤘습니다."
+      ],
+      "links": [
+        {
+          "label": "WRITE 출력 옵션",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapwrite_ext_options.html"
+        },
+        {
+          "label": "WRITE 형식 옵션",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapwrite_int_options.html"
+        }
+      ]
+    },
+    {
+      "id": "header-line",
+      "term": "WITH HEADER LINE (옛 방식)",
+      "group": "내부 테이블",
+      "summary": "WITH HEADER LINE 을 붙이면 내부 테이블과 같은 이름의 한 줄짜리 Header Line 이 자동으로 생깁니다. 새 코드에서는 쓰지 않지만 옛날 프로그램을 읽기 위해 알아야 합니다.",
+      "whenToUse": "옛 프로그램의 itab 한 개가 한 줄(Header)과 테이블(Body)을 모두 가리키는 것을 읽어 해석할 때.",
+      "syntax": "\"옛 방식: itab = Header Line(한 줄), itab[] = Body(테이블)\nDATA itab TYPE TABLE OF scarr WITH HEADER LINE.\nSELECT * FROM scarr INTO TABLE itab.\nLOOP AT itab.                       \"INTO 생략\n  WRITE:/ itab-carrid, itab-carrname.\nENDLOOP.\nCLEAR itab.                         \"Header 만 지워짐 (Body 는 그대로)\nCLEAR itab[].                       \"Body 를 비움\n\n\"권장 방식: 테이블과 Work Area 를 따로\nDATA: gt_scarr TYPE TABLE OF scarr,\n      gs_scarr TYPE scarr.\nSELECT * FROM scarr INTO TABLE gt_scarr.\nLOOP AT gt_scarr INTO gs_scarr.\n  WRITE:/ gs_scarr-carrid, gs_scarr-carrname.\nENDLOOP.",
+      "notes": [
+        "SAP 공식 문서에서도 obsolete(쓰지 말 것)로 분류합니다. 클래스 안에서는 쓸 수 없습니다.",
+        "itab 이라는 이름 하나가 상황에 따라 Header 를 가리키기도 Body 를 가리키기도 해서 헷갈립니다. 테이블 전체가 필요한 곳(메서드·펑션 모듈에 넘기기, CLEAR, 대입)에는 itab[] 로 Body 를 분명히 지정합니다.",
+        "CLEAR itab 만 쓰면 Header 만 지워지고 Body 는 남는 것은 문법 오류가 없어 실행해 봐야 아는 논리 오류입니다.",
+        "REFRESH itab 은 Body 를 비우고, FREE 는 Body 와 메모리까지 돌려줍니다. 디버거에서는 모자 아이콘이 Header, 그 아래가 Body 입니다.",
+        "SELECT-OPTIONS 가 만드는 조건 테이블도 Header Line 이 있는 내부 테이블입니다(“SELECT-OPTIONS 조건 테이블” 항목).",
+        "메서드가 결과를 내보내는 파라미터에 Header Line itab 을 넘길 때는 itab[] 를 씁니다."
+      ],
+      "links": [
+        {
+          "label": "내부 테이블",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/internal-table"
+        },
+        {
+          "label": "CLEAR",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/clear"
+        }
+      ]
+    },
+    {
+      "id": "class-method-call",
+      "term": "클래스 메서드 호출 (CALL METHOD · EXPORTING · IMPORTING)",
+      "group": "모듈화",
+      "summary": "만들어진 글로벌 클래스의 정적(static) 메서드는 클래스=>메서드 로 호출합니다. 값을 넘기는 방향은 호출하는 내 프로그램 기준으로 EXPORTING(내보냄), IMPORTING(받음)입니다.",
+      "whenToUse": "SAP 가 만든 클래스 메서드(권한 체크·계산 로직 포함)를 재사용해 데이터를 가져올 때.",
+      "syntax": "\"클래식 호출\nTRY.\n    CALL METHOD cl_demo_flightmodel=>get_flights_range\n      EXPORTING\n        iv_carrid  = pa_car          \"메서드가 정한 파라미터 이름 = 내 변수\n        it_connid  = so_con[]        \"조건 테이블 전체는 []\n      IMPORTING\n        et_flights = gt_flight.\n  CATCH cx_demo_no_data cx_demo_no_auth.   \"선언된 예외는 모두\n    MESSAGE '조회할 수 없습니다' TYPE 'S' DISPLAY LIKE 'E'.\n    RETURN.\nENDTRY.\n\n\"함수형 호출 (7.40 이상)\ncl_demo_flightmodel=>get_flights_range(\n  EXPORTING iv_carrid = pa_car it_connid = so_con[]\n  IMPORTING et_flights = gt_flight ).",
+      "notes": [
+        "위 클래스·예외 이름은 설명용 예시입니다. 실제 이름과 파라미터는 에디터의 Pattern(Ctrl+F6) → ABAP Object Patterns → Call Method 로 자동 생성하거나, SE24 에서 메서드의 Parameters·Exceptions 를 보고 확인합니다.",
+        "정적 메서드를 클래스 이름 없이 CALL METHOD get_flights_range 로 부르면 이 프로그램 안에서 메서드를 찾다가 실패합니다. 반드시 클래스=>메서드 로 부릅니다.",
+        "호출의 = 는 대입이 아니라 연결입니다. 왼쪽은 메서드가 정한 파라미터 이름, 오른쪽은 내 변수이고 방향은 EXPORTING/IMPORTING 이 정합니다.",
+        "메서드가 선언한 예외(NO_DATA, NO_AUTH 등)를 하나만 CATCH 하면 “exception ... is not caught” 경고가 나고, 실제로 그 예외가 발생하면 덤프가 납니다. 선언된 예외는 모두 CATCH 하거나 한 줄에 같이 씁니다.",
+        "메서드 호출은 sy-subrc 를 세팅하지 않습니다. 실패는 TRY/CATCH 로, 결과는 받은 내부 테이블의 IF itab IS NOT INITIAL. 로 확인합니다.",
+        "START-OF-SELECTION 안에서 E 메시지를 내면 처리가 그 자리에서 끊깁니다. CATCH 안에서는 MESSAGE ... TYPE 'S' DISPLAY LIKE 'E' 로 보이고 RETURN 으로 나갑니다.",
+        "조회 조건(so_con[])과 조회 결과(gt_flight)는 역할과 타입이 달라 서로 대신 쓸 수 없습니다.",
+        "비슷한 결과를 직접 SELECT 로 얻을 수도 있지만 메서드 안의 권한 체크·계산(예: 좌석 점유율) 같은 로직이 빠집니다."
+      ],
+      "links": [
+        {
+          "label": "메서드 파라미터",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/methods-importing-exporting-changing-raising"
+        },
+        {
+          "label": "CATCH",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/catch"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-23)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "p-type-length",
+      "term": "P 타입 LENGTH (패킹 숫자의 자릿수)",
+      "group": "선언·데이터",
+      "summary": "P(패킹 숫자) 타입의 LENGTH 는 자릿수가 아니라 바이트 수입니다. 담을 수 있는 자릿수는 LENGTH × 2 − 1 입니다.",
+      "whenToUse": "소수가 있는 금액·수량 변수를 선언할 때, Dictionary 의 DEC 타입과 같은 크기로 맞출 때.",
+      "syntax": "DATA a TYPE p LENGTH 6  DECIMALS 2.   \"11자리 (정수 9 + 소수 2)\nDATA b TYPE p LENGTH 10 DECIMALS 2.   \"19자리 (정수 17 + 소수 2)\nDATA c TYPE zassets.                   \"Dictionary 타입(예: DEC 10, 소수 2)과 같은 속성",
+      "notes": [
+        "1바이트에 숫자 2개가 들어가고 마지막 반 바이트는 부호이므로 자릿수 = LENGTH × 2 − 1 입니다. LENGTH 10 을 10자리로 생각하기 쉽지만 실제로는 19자리입니다.",
+        "Dictionary 의 DEC 10(소수 2)과 같은 그릇은 P LENGTH 6 DECIMALS 2(11자리, 정수부 9)로 매핑됩니다. 가장 확실하게 맞추는 방법은 DATA lv TYPE 데이터엘리먼트 로 Dictionary 타입을 그대로 쓰는 것입니다.",
+        "더 큰 P 타입은 결과가 10자리를 넘을 수 있는 계산(큰 자산 − 음수 부채)에서 오버플로를 막아 줍니다. 대신 “Dictionary 와 같은 타입”은 아닙니다.",
+        "Dictionary 타입 대신 TYPE c LENGTH 30 LOWER CASE, TYPE p LENGTH 6 DECIMALS 2 처럼 직접 지정하면 동작은 하지만 화면 라벨·F1 도움말이 따라오지 않고 길이를 바꾸려면 프로그램마다 고쳐야 합니다."
+      ],
+      "links": [
+        {
+          "label": "packed number",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/packed-number"
+        },
+        {
+          "label": "Dictionary 타입 매핑",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/mapping-of-dictionary-to-abap-types"
+        }
+      ]
+    },
+    {
+      "id": "ddic-overview",
+      "term": "ABAP Dictionary 개요 (SE11)",
+      "group": "ABAP Dictionary",
+      "summary": "ABAP Dictionary 는 여러 프로그램이 함께 쓰는 글로벌 타입과 테이블을 정의하는 곳입니다. Transparent Table 을 만들고 활성화하면 실제 DB 테이블이 자동으로 생기고, F1(도움말)·F4(입력 도움)도 여기서 만듭니다.",
+      "whenToUse": "테이블·타입을 새로 정의하거나 이미 있는 SPFLI·S_CARR_ID 가 어떤 구조인지 SE11 에서 볼 때.",
+      "syntax": "SE11 첫 화면 (라디오 버튼 하나 선택 -> Display / Change / Create)\n  Database table   DB 테이블 조회·변경·삭제·추가\n  View             뷰\n  Data type        Data Element · Structure · Table Type 세 가지\n  Type Group       타입 여러 개를 묶은 그룹\n  Domain           기술 속성을 일괄 관리\n  Search help      입력칸에 들어갈 값을 보여 주는 팝업(F4)\n  Lock object      편집 중 다른 사람이 동시에 못 고치게 거는 락\n\n\"프로그램에서 TYPE 으로 쓰면\nDATA gv_carrid TYPE s_carr_id.       \"Data Element -> 변수 하나\nDATA gs_spfli  TYPE spfli.           \"Transparent Table -> 구조체(한 줄)\nDATA gs_flight TYPE bc400_s_flight.  \"Structure -> 구조체(한 줄)\nDATA gt_flight TYPE bc400_t_flights. \"Table Type -> 내부 테이블(여러 줄)",
+      "notes": [
+        "Dictionary 에는 정의만, DB 에는 데이터가 있습니다. Transparent Table 은 Dictionary 정의와 DB 의 실제 테이블이 1:1 입니다. Structure 는 타입만 있고 DB 테이블이 없으며 키도 없습니다. Table Type 은 내부 테이블 모양만 정의합니다.",
+        "계층 구조: Field(CITYTO) → Data Element(S_TO_CITY, 의미) → Domain(CHAR 20, 기술 속성). 테이블의 칸은 Field, Structure 의 칸은 Component 라고 부릅니다.",
+        "Structure 와 Transparent Table 은 둘 다 한 줄 구조라서 그 라인 타입으로 Table Type 을 만들 수 있습니다.",
+        "오브젝트 상태: New(새로 만드는 중) → 저장하면 Inactive → 활성화하면 Active(프로그램에서 사용 가능). 만들 때 이름은 Z 나 Y 로 시작합니다(고객 개발 영역).",
+        "패키지를 잘못 골랐으면 SE11 에서 오브젝트 Display → Goto → Object Directory Entry → Change → Package 변경 → 저장(transportable 패키지면 리퀘스트 선택). 여러 개는 SE80 에서 우클릭 → More Functions → Change Package Assignment. 다른 리퀘스트에 잠겨 있으면 막힐 수 있습니다.",
+        "편집 창이 열려 있으면 패키지를 바꿀 때 “이미 편집 중” 잠금이 걸립니다. 편집 창을 닫고 다시 바꿉니다.",
+        "세부는 “Domain 과 Data Element”, “Structure 와 Table Type” 항목을 보세요."
+      ],
+      "links": [
+        {
+          "label": "ABAP Dictionary",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/abap-dictionary"
+        },
+        {
+          "label": "DDIC 타입",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/ddic-data-types"
+        },
+        {
+          "label": "DB 테이블",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/ddic-database-table"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-23)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "domain-data-element",
+      "term": "Domain 과 Data Element",
+      "group": "ABAP Dictionary",
+      "summary": "Domain 은 필드의 기술 속성(타입·길이·소수·부호·소문자 허용)을, Data Element 는 의미(설명·필드 라벨·F1 문서)를 정합니다. 여러 Data Element 가 Domain 하나를 공유합니다(N:1).",
+      "whenToUse": "같은 타입의 필드를 여러 개 만들 때 타입을 한 곳에서 관리하려고, 또는 화면 라벨·F1 도움말을 필드마다 붙이려고.",
+      "syntax": "\"SE11 > Domain\nZDO_10NUM   DEC 10, 소수 2, Sign 체크(음수 허용), Output Length 14\nZDO_30CHAR  CHAR 30, Lower Case 체크(소문자 허용)\n\n\"SE11 > Data type > Data element  (Data Type 탭에서 Domain 지정, Field Label 탭 입력)\nZFIRSTNAME  Domain = ZDO_30CHAR   Label: First Name\nZASSETS     Domain = ZDO_10NUM    Label: Assets / Assets / Total Assets / Assets\n\n\"프로그램에서\nPARAMETERS pa_fname TYPE zfirstname.   \"라벨·F1·길이가 따라온다",
+      "notes": [
+        "Data Element 는 의미(학생 이름/강사 이름/강아지 이름처럼 필드마다 다른 설명), Domain 은 기술 속성(CHAR 10 처럼 공통)입니다. Domain 을 바꾸고 활성화하면 그 Domain 을 쓰는 모든 Data Element 에 일괄 적용됩니다.",
+        "Data Element 하나는 Domain 을 딱 하나만 가집니다. Data Element 와 Domain 의 이름이 같아도 상관없습니다. 이름은 Z·Y 로 시작합니다.",
+        "Data Element 의 타입 지정은 Domain 또는 Built-in Type 중 고릅니다. Domain 은 공유·일괄 변경이 되고, Built-in Type 은 Data Element 안에 직접 지정하며 공유되지 않습니다(그 Data Element 는 Domain 변경의 영향을 받지 않습니다).",
+        "활성화 순서: Domain 먼저 → Data Element. 활성화해야 프로그램에서 쓸 수 있고 여러 프로그램이 같이 쓰는 글로벌 타입이 됩니다. Data Type 탭에서 아직 없는 Domain 이름을 쓰고 더블클릭하면 Domain 만들기로 바로 이동합니다.",
+        "Lower Case 를 체크하지 않으면 입력값이 자동으로 대문자로 바뀝니다. 숫자 Domain 에는 Sign(음수 허용), 문자 Domain 에는 Lower Case 가 활성화됩니다. Sign 을 체크하지 않으면 음수를 쓸 수 없습니다.",
+        "Output Length: DEC 10(소수 2)의 기본은 13(숫자 10 + 소수점 1 + 천 단위 구분 기호 2)이고 Sign 을 체크하면 부호 1자리가 더해져 14 입니다. INT4 는 숫자 10자리에 부호까지 11 입니다.",
+        "Field Label 은 Short 10자 · Medium 20자 · Long 40자 · Heading 55자까지입니다(예: Liabilities 는 11자라 Short 에 안 들어갑니다). 라벨 4종은 출력 화면에서 필드가 차지하는 칸 크기에 맞춰 자동으로 골라집니다. Heading 은 리스트·ALV 열 제목입니다. Short Description 은 연습 번호보다 Assets 처럼 의미가 드러나게 씁니다.",
+        "변수 타입은 웬만하면 Data Element 로 씁니다. 프로그램에서 이 타입을 쓰면 라벨·F1·길이가 따라오고, 길이를 바꿔야 할 때 Dictionary 한 곳만 고치면 됩니다."
+      ],
+      "links": [
+        {
+          "label": "Data Element",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/ddic-data-element"
+        },
+        {
+          "label": "Data Element 의미 속성",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/ddic-semantic-properties-of-data-elements"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-23)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "ddic-structure-table-type",
+      "term": "Structure 와 Table Type (글로벌 타입 만들기)",
+      "group": "ABAP Dictionary",
+      "summary": "Structure 는 Component(칸)마다 Data Element 를 지정해 만드는 한 줄 구조 타입이고, Table Type 은 Line Type(한 줄의 모양)과 키를 지정해 만드는 글로벌 내부 테이블 타입입니다.",
+      "whenToUse": "여러 프로그램이 같은 한 줄 모양이나 내부 테이블 모양을 공유할 때.",
+      "syntax": "\"Structure (SE11 > Data type > Structure)\nZST_SCARR   Component  Component Type\n            CARRID     S_CARR_ID\n            CARRNAME   S_CARRNAME\n            CITYFROM   S_FROM_CIT\n\n\"Table Type (SE11 > Data type > Table type)\nZTT_SCARR   Line Type   = ZST_SCARR\n            Access      = Standard Table\n            Primary Key = Key components -> CARRID\n\n\"프로그램에서\nDATA gt_scarr TYPE ztt_scarr.   \"내부 테이블 (CARRID 가 키인 Standard)\nDATA gs_scarr TYPE zst_scarr.   \"구조체 (한 줄)",
+      "notes": [
+        "Structure 의 Component Type 에 다른 Structure 나 Transparent Table 을 넣으면 그 구조가 통째로 들어간 중첩(Nested) Structure 가 됩니다. 필드를 펼쳐 같은 레벨에 넣으려면 .INCLUDE 를 쓰고, Table Type 을 넣으면 컴포넌트 하나가 내부 테이블인 깊은(Deep) Structure 가 됩니다.",
+        "Table Type 의 Line Type 에는 Structure · Data Element · Transparent Table 이 올 수 있습니다. Data Element 를 넣으면 필드 1개짜리 내부 테이블(같은 필드 값을 여러 건 담을 때)이 되지만 실제로 만들 일은 많지 않습니다. Domain 은 Data Element 에 기술 속성을 주는 오브젝트라 프로그램에서 TYPE 으로 직접 쓰는 타입이 아니므로 Line Type 이 될 수 없습니다.",
+        "Table Type 의 Initialization and Access 탭 기본은 Standard Table, Primary Key 탭 기본은 Standard Key 이고 Key components 를 고르면 지정한 필드가 키가 됩니다.",
+        "Structure 는 키를 설정하지 않습니다. Structure 종류는 이후 수업에서 더 다룹니다.",
+        "코드 입력 중 gs_name- 다음에 Ctrl+Space 를 누르면 만든 Structure 의 Component 목록이 뜹니다.",
+        "Component 이름과 타입만 입력하면 나머지는 자동으로 채워집니다. 활성화에 실패하면 먼저 Component Type 으로 쓴 Data Element 가 모두 활성화(Active)됐는지 봅니다."
+      ],
+      "links": [
+        {
+          "label": "Structure",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/ddic-structure"
+        },
+        {
+          "label": "Table Type",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/ddic-table-type"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-23)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "ddic-curr-cuky",
+      "term": "금액(CURR)·수량(QUAN) 필드의 참조 필드 (CUKY · UNIT)",
+      "group": "ABAP Dictionary",
+      "summary": "금액(CURR) 타입 컴포넌트는 어떤 통화인지 알려 줄 통화 키(CUKY) 필드를, 수량(QUAN) 타입은 단위(UNIT) 필드를 참조로 연결해야 활성화됩니다.",
+      "whenToUse": "Structure 나 테이블에 금액·수량 필드를 넣었더니 활성화 오류가 날 때.",
+      "syntax": "\"오류: ZSTRUCT-PAYMENTSUM (specify reference table AND reference field)\n\"해결\n1) 통화 키 컴포넌트 추가   CURRENCY   Component Type: 통화 키(CUKY) 타입 Data Element\n2) Currency/Quantity Fields 탭에서 PAYMENTSUM 줄에\n     Reference table = 이 구조의 이름, Reference field = CURRENCY\n3) 저장 -> 활성화",
+      "notes": [
+        "필드 타입과 짝으로 필요한 참조 필드: CURR(금액) ↔ CUKY(통화 키), QUAN(수량) ↔ UNIT(단위)입니다.",
+        "수업 실습에서는 강사님 지시로 해당 금액 줄을 삭제하고 활성화했고, 그 이유는 다음 수업에서 다룬다고 했습니다. 위 해결 방법은 원인을 미리 짚어 본 참고 내용입니다.",
+        "활성화 오류 메시지는 “... was not activated” 뒤에 어느 컴포넌트가 문제인지 함께 나옵니다."
+      ],
+      "links": [
+        {
+          "label": "DDIC 데이터 타입",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/ddic-data-types"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-23)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
     }
   ]
 }

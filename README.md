@@ -13,7 +13,7 @@
 | 탭 | 하는 일 | 예 |
 |---|---|---|
 | **UI5** | 클래스·메서드 이름이나 "하고 싶은 일"로 API 를 찾고, 구조·사용 조건·예제를 한국어로 봅니다. UI5 31개 버전을 고를 수 있습니다 | `Table` 입력 → `sap.m.Table` 상세 |
-| **ABAP · 문법 사전** | ABAP 기본 문법 65개를 한 줄 설명, 예제, 주의점, 공식 링크로 봅니다 | `DATA`, `LOOP AT`, 내부 테이블 |
+| **ABAP · 문법 사전** | ABAP 기본 문법 83개를 한 줄 설명, 예제, 주의점, 공식 링크로 봅니다 | `DATA`, `LOOP AT`, 내부 테이블 |
 | **ABAP · tcode 사전** | "테이블 보기" 같은 하고 싶은 일이나 `/nse38` 같은 명령으로 tcode 15개를 찾습니다 | `SE38`, `SE37`, `SE91` |
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/screens/03-detail-dark.png"><img alt="검색 결과와 상세" src="docs/assets/screens/03-detail.png"></picture>
