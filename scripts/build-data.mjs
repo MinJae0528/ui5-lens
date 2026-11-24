@@ -324,6 +324,7 @@ if (existsSync('data/abap/basics.json')) {
   mkdirSync(`${OUT}/abap`, { recursive: true });
   writeFileSync(`${OUT}/abap/basics.json`, readFileSync('data/abap/basics.json'));
   if (existsSync('data/abap/tcodes.json')) writeFileSync(`${OUT}/abap/tcodes.json`, readFileSync('data/abap/tcodes.json'));
+  if (existsSync('data/abap/compare.json')) writeFileSync(`${OUT}/abap/compare.json`, readFileSync('data/abap/compare.json'));
 }
 
 // ---------- 레시피 (data/recipes.json): 정답 API 가 기준 버전 공식 자료에 실제로 있는지 검증 ----------

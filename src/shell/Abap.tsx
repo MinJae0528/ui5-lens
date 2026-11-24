@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { loadAbap, loadTcodes } from '../data';
+import { loadAbap, loadCompare, loadTcodes } from '../data';
 import { cmdExplain, searchTcodes } from '../controller/tcodeSearch';
-import type { AbapDoc, AbapEntry, Tcode, TcodeDoc } from '../types';
+import type { AbapDoc, AbapEntry, CompareDoc, CompareEntry, Tcode, TcodeDoc } from '../types';
 import { Code } from '../ui';
 
 /** ABAP 기본 문법 자료를 불러온다. 실패와 "없음"을 구분한다. */
@@ -23,6 +23,18 @@ export function useTcodes(on: boolean): { doc: TcodeDoc | null; loading: boolean
     if (!on || st.done) return;
     let live = true;
     loadTcodes().then((doc) => live && setSt({ doc, error: false, done: true })).catch(() => live && setSt({ doc: null, error: true, done: true }));
+    return () => { live = false; };
+  }, [on, st.done]);
+  return { doc: st.doc, loading: on && !st.done, error: st.error };
+}
+
+/** 헷갈리는 짝 자료를 불러온다. 실패와 "없음"을 구분한다. */
+export function useCompare(on: boolean): { doc: CompareDoc | null; loading: boolean; error: boolean } {
+  const [st, setSt] = useState<{ doc: CompareDoc | null; error: boolean; done: boolean }>({ doc: null, error: false, done: false });
+  useEffect(() => {
+    if (!on || st.done) return;
+    let live = true;
+    loadCompare().then((doc) => live && setSt({ doc, error: false, done: true })).catch(() => live && setSt({ doc: null, error: true, done: true }));
     return () => { live = false; };
   }, [on, st.done]);
   return { doc: st.doc, loading: on && !st.done, error: st.error };
@@ -54,11 +66,13 @@ export function tcodeGroupCounts(doc: TcodeDoc | null): [string, number][] {
   return doc.groups.map((g): [string, number] => [g, doc.entries.filter((e) => e.group === g).length]);
 }
 
-/** ABAP 구역 탭: 문법 사전 | tcode 사전. 주소의 az 로 정해진다. */
-export function AbapZones({ zone, onZone, syntaxCount, tcodeCount }: { zone: 'syntax' | 'tcode'; onZone: (z: 'syntax' | 'tcode') => void; syntaxCount?: number; tcodeCount?: number }) {
+/** ABAP 구역 탭: 문법 사전 | tcode 사전 | 헷갈리는 짝. 주소의 az 로 정해진다. */
+export type AbapZoneId = 'syntax' | 'tcode' | 'compare';
+export function AbapZones({ zone, onZone, syntaxCount, tcodeCount, compareCount }: { zone: AbapZoneId; onZone: (z: AbapZoneId) => void; syntaxCount?: number; tcodeCount?: number; compareCount?: number }) {
   const items = [
     { id: 'syntax' as const, label: '문법 사전', sub: '명령문·타입·개념', n: syntaxCount },
     { id: 'tcode' as const, label: 'tcode 사전', sub: '어디로 가서 무엇을 하나', n: tcodeCount },
+    { id: 'compare' as const, label: '헷갈리는 짝', sub: '나란히 비교', n: compareCount },
   ];
   const onKey = (e: React.KeyboardEvent, i: number) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
@@ -129,9 +143,10 @@ export function AbapList({ res, ab, group, onPick }: { res: ReturnType<typeof us
 }
 
 /** 오른쪽: 선택한 ABAP 항목의 설명 */
-export function AbapDetail({ res, ab, onBack, tcodes, onTcode }: { res: ReturnType<typeof useAbap>; ab: string; onBack: () => void; tcodes?: TcodeDoc | null; onTcode?: (id: string) => void }) {
+export function AbapDetail({ res, ab, onBack, tcodes, onTcode, compares, onCompare }: { res: ReturnType<typeof useAbap>; ab: string; onBack: () => void; tcodes?: TcodeDoc | null; onTcode?: (id: string) => void; compares?: CompareDoc | null; onCompare?: (id: string) => void }) {
   const e = res.doc?.entries.find((x) => x.id === ab);
   const relTc = e && tcodes ? tcodes.entries.filter((t) => t.concept?.id === e.id) : [];
+  const relCmp = e && compares ? compares.entries.filter((c) => c.related.some(([id]) => id === e.id)) : [];
   if (!e || !res.doc) {
     return (
       <div className="detail-empty stack">
@@ -157,6 +172,12 @@ export function AbapDetail({ res, ab, onBack, tcodes, onTcode }: { res: ReturnTy
         <section>
           <h3>관련 tcode</h3>
           <div className="relchips">{relTc.map((t) => <button key={t.id} className="relchip" onClick={() => onTcode(t.id)}><b>{t.code}</b><small>{t.name}</small></button>)}</div>
+        </section>
+      )}
+      {relCmp.length > 0 && onCompare && (
+        <section>
+          <h3>이 항목과 헷갈리는 짝</h3>
+          <div className="relchips">{relCmp.map((c) => <button key={c.id} className="relchip" onClick={() => onCompare(c.id)}>{c.title} →</button>)}</div>
         </section>
       )}
       <section>
@@ -276,6 +297,79 @@ export function TcodeDetail({ res, ab, onBack, onTcode, onConcept, syntax }: { r
           {e.links.map((l) => <li key={l.url}><a href={l.url} target="_blank" rel="noreferrer noopener">{l.label} ↗</a> <span className="muted small">{doc.sites[l.site]}</span></li>)}
         </ul>
         <p className="muted small">이 사전의 설명은 공식 문서를 번역한 것이 아니라 AI 가 쓴 요약입니다. 정확한 동작은 공식 문서와 시스템 화면이 기준입니다.</p>
+      </section>
+    </div>
+  );
+}
+
+export function matchCompare(c: CompareEntry, q: string): boolean {
+  const t = q.trim().toLowerCase();
+  return !t || [c.title, c.tagline, c.diff, c.id, ...c.heads].some((x) => x.toLowerCase().includes(t));
+}
+
+/** 헷갈리는 짝의 왼쪽: 비교 목록과 검색. */
+export function CompareList({ res, ab, onPick }: { res: ReturnType<typeof useCompare>; ab: string; onPick: (id: string) => void }) {
+  const [q, setQ] = useState('');
+  const entries = useMemo(() => res.doc?.entries ?? [], [res.doc]);
+  const list = useMemo(() => entries.filter((c) => matchCompare(c, q)), [entries, q]);
+  return (
+    <div className="stack pad">
+      <div className="notice">헷갈리는 짝 · <b>AI 초안 · 미검토 · 실행 검증 안 함</b>. 문법 사전의 내용에서 차이만 골라 나란히 놓은 것입니다.</div>
+      <label className="sr-only" htmlFor="compare-q">헷갈리는 짝 검색</label>
+      <input id="compare-q" type="search" className="inline-search" placeholder="검색 (예: INTO TABLE, 헤더 라인, Domain)" value={q} onChange={(e) => setQ(e.target.value)} autoComplete="off" spellCheck={false} />
+      {res.loading && <p className="muted" role="status">불러오는 중…</p>}
+      {res.error && <div className="notice warn" role="alert">비교 자료를 불러오지 못했습니다. “항목 없음”이 아니라 조회 실패입니다.</div>}
+      {res.doc && <p className="muted small">{list.length} / {entries.length}개</p>}
+      {res.doc && list.length === 0 && <div className="empty">“{q}” 와 맞는 비교가 없습니다. 비교는 아직 {entries.length}개뿐이라 “문법 사전”에서 찾아 보세요.</div>}
+      <ul className="members cmp-list">
+        {list.map((c) => (
+          <li key={c.id} className={`member ${ab === c.id ? 'open' : ''}`}>
+            <button className="member-head" aria-current={ab === c.id} onClick={() => onPick(c.id)}>
+              <span className="m-name">{c.title}</span>
+              <span className="m-sum">{c.tagline}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** 헷갈리는 짝의 오른쪽: 한 줄 차이, 나란히 보기 표, 문법 항목으로 이동. */
+export function CompareDetail({ res, ab, onBack, onSyntax, syntax }: { res: ReturnType<typeof useCompare>; ab: string; onBack: () => void; onSyntax: (id: string) => void; syntax?: AbapDoc | null }) {
+  const c = res.doc?.entries.find((x) => x.id === ab);
+  if (!c || !res.doc) {
+    return (
+      <div className="detail-empty stack">
+        <h2>헷갈리는 짝</h2>
+        <p className="muted">왼쪽에서 비교를 고르면 “한 줄 차이”와 나란히 놓은 표, 관련 문법 항목으로 가는 링크를 보여 줍니다.</p>
+        {res.doc && <div className="notice">{res.doc.provenance.note}</div>}
+      </div>
+    );
+  }
+  const known = new Set(syntax?.entries.map((e) => e.id) ?? []);
+  return (
+    <div className="stack">
+      <button className="btn small only-narrow" onClick={onBack}>← 목록</button>
+      <header className="detail-head">
+        <div className="eyebrow">ABAP · 헷갈리는 짝</div>
+        <h2 className="api-name">{c.title}</h2>
+        <div className="badges"><span className="badge b-draft">AI 초안 · 미검토 · 실행 검증 안 함</span></div>
+      </header>
+      <section><h3>한 줄 차이</h3><p className="lead">{c.diff}</p></section>
+      <section>
+        <h3>나란히 보기</h3>
+        <div className="tbl-wrap">
+          <table className="tbl cmp-tbl">
+            <thead><tr><th scope="col"><span className="sr-only">항목</span></th>{c.heads.map((h) => <th key={h} scope="col">{h}</th>)}</tr></thead>
+            <tbody>{c.rows.map((r) => <tr key={r[0]}><th scope="row">{r[0]}</th>{r.slice(1).map((cell, i) => <td key={i}>{cell}</td>)}</tr>)}</tbody>
+          </table>
+        </div>
+      </section>
+      <section>
+        <h3>자세히 보기 <small className="muted">(문법 사전의 해당 항목)</small></h3>
+        <div className="relchips">{c.related.filter(([id]) => !syntax || known.has(id)).map(([id, label]) => <button key={id} className="relchip" onClick={() => onSyntax(id)}>{label} →</button>)}</div>
+        <p className="muted small">이 비교는 공식 문서를 번역한 것이 아니라 AI 가 문법 사전의 내용에서 차이만 모은 요약입니다. 정확한 내용은 문법 사전 항목의 공식 문서 링크와 시스템 화면이 기준입니다.</p>
       </section>
     </div>
   );

@@ -9,7 +9,7 @@ import { Guide, GuidePage } from './shell/Guide';
 import { Landing } from './shell/Landing';
 import { ModeTabs } from './shell/ModeTabs';
 import { ProductTabs } from './shell/ProductTabs';
-import { AbapDetail, AbapGroups, AbapList, AbapZones, TcodeDetail, TcodeList, abapGroupCounts, abapNameHits, tcodeGroupCounts, useAbap, useTcodes } from './shell/Abap';
+import { AbapDetail, AbapGroups, AbapList, AbapZones, CompareDetail, CompareList, TcodeDetail, TcodeList, abapGroupCounts, abapNameHits, tcodeGroupCounts, useAbap, useCompare, useTcodes, type AbapZoneId } from './shell/Abap';
 import { NameResults } from './shell/NameResults';
 import { FEATURE_QUICK } from './shell/quick';
 import { Scope } from './shell/Scope';
@@ -76,6 +76,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   const hybridReady = !!c.hybrid;
   const abap = useAbap(mode === 'abap' || (mode === 'name' && !!q));
   const tcodes = useTcodes(mode === 'abap');
+  const compares = useCompare(mode === 'abap');
   const abapHits = mode === 'name' && q && abap.doc ? abapNameHits(abap.doc.entries, q) : [];
   // 상위 구분(UI5 | ABAP). 주소의 모드에서 계산하고, UI5 로 돌아올 때를 위해 직전 UI5 모드를 기억한다.
   const product = productOf(mode);
@@ -83,9 +84,9 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
   useEffect(() => { if (product === 'ui5') lastUi5.current = mode as Ui5Mode; }, [product, mode]);
   const onProduct = (p: Product) => { if (p !== product) setRoute(switchProduct(p, lastUi5.current), true); };
   const abapGroups = useMemo(() => abapGroupCounts(abap.doc?.entries ?? []), [abap.doc]);
-  const zone = route.az === 'tcode' ? 'tcode' : 'syntax'; // ABAP 안의 구역(문법 사전 | tcode 사전)
+  const zone: AbapZoneId = route.az === 'tcode' ? 'tcode' : route.az === 'compare' ? 'compare' : 'syntax'; // ABAP 안의 구역(문법 사전 | tcode 사전 | 헷갈리는 짝)
   const tcodeGroups = useMemo(() => tcodeGroupCounts(tcodes.doc), [tcodes.doc]);
-  const zoneGroups = zone === 'tcode' ? tcodeGroups : abapGroups;
+  const zoneGroups = zone === 'tcode' ? tcodeGroups : zone === 'compare' ? [] : abapGroups; // 헷갈리는 짝은 그룹 칩이 없다
   const abapGroup = zoneGroups.some(([name]) => name === route.ag) ? route.ag : ''; // 알 수 없는 그룹 이름(직접 고친 주소)은 전체로
   const hasDetail = !!route.api || (mode === 'guide' && !!route.tp) || (mode === 'abap' && !!route.ab);
   const landing = <Landing vd={vd} g={g} mode={mode} onQuick={c.quick} onMode={c.setMode} onLib={(lib) => setRoute({ m: 'browse', lib, api: null }, true)} onPick={c.select} />;
@@ -128,7 +129,7 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
         ) : (
           <>
             <div className="ctx-row"><span className="ctx-note">버전 구분 없음 · 기본 문법</span></div>
-            <AbapZones zone={zone} onZone={(z) => setRoute(switchAbapZone(z === 'tcode' ? 'tcode' : ''), true)} syntaxCount={abap.doc?.entries.length} tcodeCount={tcodes.doc?.entries.length} />
+            <AbapZones zone={zone} onZone={(z) => setRoute(switchAbapZone(z === 'tcode' ? 'tcode' : z === 'compare' ? 'compare' : ''), true)} syntaxCount={abap.doc?.entries.length} tcodeCount={tcodes.doc?.entries.length} compareCount={compares.doc?.entries.length} />
             <AbapGroups groups={zoneGroups} total={zone === 'tcode' ? tcodes.doc?.entries.length ?? 0 : abap.doc?.entries.length ?? 0} active={abapGroup} onPick={(ag) => setRoute({ ag, ab: '' })} />
           </>
         )}
@@ -196,6 +197,8 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
           {mode === 'browse' && <div className="cands"><Browse index={c.searchable} lib={route.lib} selected={route.api} onLib={(lib) => setRoute({ lib })} onPick={c.select} /></div>}
           {mode === 'abap' && <div className="cands">{zone === 'tcode'
             ? <TcodeList res={tcodes} ab={route.ab} group={abapGroup} onPick={(ab) => setRoute({ ab }, true)} />
+            : zone === 'compare'
+            ? <CompareList res={compares} ab={route.ab} onPick={(ab) => setRoute({ ab }, true)} />
             : <AbapList res={abap} ab={route.ab} group={abapGroup} onPick={(ab) => setRoute({ ab }, true)} />}</div>}
           {mode === 'guide' && <div className="cands"><Guide minor={meta.minor} hasTopics={!!meta.counts.topics} tp={route.tp} onTopic={(tp) => setRoute({ tp, api: null }, true)} /></div>}
         </section>
@@ -210,7 +213,9 @@ function Shell({ g, vd, route, setRoute, onVersion }: { g: Global; vd: VersionDa
           ) : mode === 'abap' ? (
             <div className="detail-empty guide-wrap">{zone === 'tcode'
               ? <TcodeDetail res={tcodes} ab={route.ab} syntax={abap.doc} onBack={() => setRoute({ ab: '' }, true)} onTcode={(ab) => setRoute({ ab }, true)} onConcept={(ab) => setRoute({ az: '', ab, ag: '' }, true)} />
-              : <AbapDetail res={abap} ab={route.ab} tcodes={tcodes.doc} onTcode={(ab) => setRoute({ az: 'tcode', ab, ag: '' }, true)} onBack={() => setRoute({ ab: '' }, true)} />}</div>
+              : zone === 'compare'
+              ? <CompareDetail res={compares} ab={route.ab} syntax={abap.doc} onBack={() => setRoute({ ab: '' }, true)} onSyntax={(ab) => setRoute({ az: '', ab, ag: '' }, true)} />
+              : <AbapDetail res={abap} ab={route.ab} tcodes={tcodes.doc} compares={compares.doc} onCompare={(ab) => setRoute({ az: 'compare', ab, ag: '' }, true)} onTcode={(ab) => setRoute({ az: 'tcode', ab, ag: '' }, true)} onBack={() => setRoute({ ab: '' }, true)} />}</div>
           ) : mode === 'guide' ? (
             <div className="detail-empty guide-wrap"><GuidePage minor={meta.minor} hasTopics={!!meta.counts.topics} docBase={meta.docBase} tp={route.tp} onTopic={(tp) => setRoute({ tp }, true)} onBack={() => setRoute({ tp: '' }, true)} /></div>
           ) : (

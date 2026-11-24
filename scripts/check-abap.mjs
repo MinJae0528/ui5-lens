@@ -17,6 +17,14 @@ for (const f of files) {
   for (const e of d.entries) {
     n++;
     if (ids.has(e.id)) errs.push(`${f}: id 중복 ${e.id}`); ids.add(e.id);
+    if (f === 'compare.json') { // 헷갈리는 짝: 비교표 모양과 연결된 문법 항목만 본다(공식 링크 없이 문법 항목으로 이어짐)
+      if (!/^[a-z0-9-]{1,40}$/.test(e.id)) errs.push(`compare/${e.id}: 주소에 쓸 수 없는 id`);
+      for (const k of ['title', 'tagline', 'diff']) if (!e[k]) errs.push(`compare/${e.id}: ${k} 없음`);
+      if (!Array.isArray(e.heads) || e.heads.length < 2 || e.heads.length > 3) errs.push(`compare/${e.id}: heads 는 2~3개`);
+      if (!e.rows?.length || e.rows.some((r) => r.length !== (e.heads?.length ?? 0) + 1 || r.some((c) => !c))) errs.push(`compare/${e.id}: rows 의 칸 수가 heads+1 과 다르거나 빈 칸`);
+      if ((e.related || []).length < 1) errs.push(`compare/${e.id}: 연결된 문법 항목이 없음`);
+      continue;
+    }
     const req = f === 'tcodes.json' ? ['code', 'name', 'group', 'summary'] : ['term', 'group', 'summary', 'whenToUse', 'syntax'];
     for (const k of req) if (!e[k]) errs.push(`${f}/${e.id}: ${k} 없음`);
     if (!e.links?.length && !e.basis) errs.push(`${f}/${e.id}: 공식 링크도 근거(basis) 문구도 없음`);
@@ -24,6 +32,10 @@ for (const f of files) {
   }
 }
 const tc = docs['tcodes.json'], basics = docs['basics.json'];
+if (docs['compare.json'] && docs['basics.json']) {
+  const bids = new Set(docs['basics.json'].entries.map((e) => e.id));
+  for (const e of docs['compare.json'].entries) for (const [id] of e.related || []) if (!bids.has(id)) errs.push(`compare/${e.id}: 없는 문법 항목 ${id}`);
+}
 if (tc && basics) {
   const tids = new Set(tc.entries.map((e) => e.id)), bids = new Set(basics.entries.map((e) => e.id));
   for (const e of tc.entries) {

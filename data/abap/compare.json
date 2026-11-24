@@ -1,0 +1,410 @@
+{
+  "category": "compare",
+  "title": "ABAP 헷갈리는 짝",
+  "provenance": {
+    "generator": "AI(Claude) 초안",
+    "review": "unreviewed",
+    "executed": false,
+    "note": "비슷해서 헷갈리는 개념을 나란히 비교한 AI 초안입니다. 문법 사전의 해당 항목(수업 정리노트 기반 AI 요약)에서 차이만 골라 모은 것이라 공식 문서로 직접 확인한 문장이 아니고 ABAP 시스템에서 실행해 검증하지 않았습니다.",
+    "checkedAt": "2026-11-24"
+  },
+  "entries": [
+    {
+      "id": "into-vs-appending",
+      "title": "INTO TABLE vs APPENDING TABLE",
+      "tagline": "덮어쓰기와 이어 붙이기",
+      "diff": "INTO TABLE 은 받는 내부 테이블을 비우고 새로 채우고, APPENDING TABLE 은 기존 줄 밑에 이어 붙입니다.",
+      "rows": [
+        [
+          "기존 내용",
+          "지우고 채움",
+          "그대로 두고 뒤에 붙임"
+        ],
+        [
+          "PACKAGE SIZE 와 함께",
+          "묶음마다 itab 이 새 n건으로 교체됨",
+          "계속 쌓임 (결국 메모리에 다 올라감)"
+        ],
+        [
+          "언제 쓰나",
+          "한 번 읽어 처리할 때",
+          "여러 번 읽은 결과를 모을 때"
+        ]
+      ],
+      "related": [
+        [
+          "select-into-variants",
+          "SELECT … INTO 변형"
+        ],
+        [
+          "package-size",
+          "PACKAGE SIZE"
+        ]
+      ],
+      "heads": [
+        "INTO TABLE",
+        "APPENDING TABLE"
+      ]
+    },
+    {
+      "id": "parameters-vs-select-options",
+      "title": "PARAMETERS vs SELECT-OPTIONS",
+      "tagline": "값 1개와 조건 테이블",
+      "diff": "PARAMETERS 는 선택 화면에 값 하나를 받고, SELECT-OPTIONS 는 범위·여러 값을 조건 테이블로 받습니다.",
+      "rows": [
+        [
+          "받는 값",
+          "TYPE 으로 정한 값 1개",
+          "FOR 변수-필드, 범위·여러 값 (조건 테이블)"
+        ],
+        [
+          "이름 관례",
+          "pa_ 로 시작",
+          "so_ 로 시작"
+        ],
+        [
+          "WHERE 에서",
+          "carrid = pa_car",
+          "connid IN so_con"
+        ],
+        [
+          "비워 두면",
+          "빈 값으로 조회",
+          "조건이 없는 것이라 전체 조회"
+        ]
+      ],
+      "related": [
+        [
+          "parameters-select-options",
+          "PARAMETERS · SELECT-OPTIONS"
+        ],
+        [
+          "select-options-table",
+          "SELECT-OPTIONS 조건 테이블"
+        ]
+      ],
+      "heads": [
+        "PARAMETERS",
+        "SELECT-OPTIONS"
+      ]
+    },
+    {
+      "id": "load-of-program-vs-initialization",
+      "title": "LOAD-OF-PROGRAM vs INITIALIZATION",
+      "tagline": "프로그램 로드 시 vs 선택 화면 직전",
+      "diff": "LOAD-OF-PROGRAM 은 프로그램이 메모리에 올라올 때, INITIALIZATION 은 선택 화면이 뜨기 직전에 실행됩니다.",
+      "rows": [
+        [
+          "대상",
+          "모든 프로그램 타입",
+          "리포트 전용"
+        ],
+        [
+          "실행 시점",
+          "프로그램이 메모리에 올라올 때 (가장 먼저)",
+          "선택 화면이 뜨기 직전"
+        ],
+        [
+          "쓰는 곳",
+          "전역 초기화 (생성자 역할)",
+          "선택 화면 기본값 넣기"
+        ]
+      ],
+      "related": [
+        [
+          "report-events",
+          "ABAP Events"
+        ]
+      ],
+      "heads": [
+        "LOAD-OF-PROGRAM",
+        "INITIALIZATION"
+      ]
+    },
+    {
+      "id": "exporting-vs-importing",
+      "title": "EXPORTING vs IMPORTING",
+      "tagline": "내보내는 값과 받는 값 (내 쪽 기준)",
+      "diff": "호출하는 내 프로그램 입장에서, EXPORTING 은 메서드·펑션 모듈로 내보내는 값이고 IMPORTING 은 돌려받는 값입니다.",
+      "rows": [
+        [
+          "방향",
+          "내 프로그램 → 메서드·펑션 모듈",
+          "메서드·펑션 모듈 → 내 프로그램"
+        ],
+        [
+          "펑션 모듈 쪽 이름",
+          "그쪽의 Import 로 들어감",
+          "그쪽의 Export 가 돌아옴"
+        ],
+        [
+          "호출문의 =",
+          "대입이 아니라 연결 (왼쪽이 파라미터 이름, 오른쪽이 내 변수)",
+          "같음"
+        ]
+      ],
+      "related": [
+        [
+          "class-method-call",
+          "클래스 메서드 호출"
+        ],
+        [
+          "function-module",
+          "펑션 모듈 · CALL FUNCTION"
+        ]
+      ],
+      "heads": [
+        "EXPORTING",
+        "IMPORTING"
+      ]
+    },
+    {
+      "id": "domain-vs-data-element",
+      "title": "Domain vs Data Element",
+      "tagline": "기술 속성과 의미",
+      "diff": "Domain 은 타입·길이 같은 기술 속성을, Data Element 는 그 필드가 무슨 뜻인지(라벨·F1 설명)를 담습니다.",
+      "rows": [
+        [
+          "담는 것",
+          "기술 속성: 타입 · 길이 · 소수 · Sign · Lower Case",
+          "의미: 짧은 설명 · 필드 라벨 · F1 도움말"
+        ],
+        [
+          "관계",
+          "하나를 여러 Data Element 가 공유 (1)",
+          "Domain 을 딱 하나만 가짐 (N)"
+        ],
+        [
+          "바꾸면",
+          "공유하는 Data Element 모두 따라 바뀜",
+          "그 의미 하나만 바뀜"
+        ],
+        [
+          "프로그램에서",
+          "TYPE 으로 직접 쓰지 않음",
+          "TYPE 으로 씀 (라벨·길이가 따라옴)"
+        ],
+        [
+          "활성화 순서",
+          "먼저",
+          "그다음"
+        ]
+      ],
+      "related": [
+        [
+          "domain-data-element",
+          "Domain 과 Data Element"
+        ],
+        [
+          "ddic-overview",
+          "ABAP Dictionary 개요"
+        ]
+      ],
+      "heads": [
+        "Domain",
+        "Data Element"
+      ]
+    },
+    {
+      "id": "where-vs-having",
+      "title": "WHERE vs HAVING",
+      "tagline": "그룹 전 줄 단위 vs 그룹 후 집계 단위",
+      "diff": "WHERE 는 그룹을 만들기 전에 줄 하나하나를 거르고, HAVING 은 그룹을 만든 뒤 집계 결과로 그룹을 거릅니다.",
+      "rows": [
+        [
+          "거르는 시점",
+          "GROUP BY 로 묶기 전",
+          "묶은 뒤"
+        ],
+        [
+          "거르는 단위",
+          "줄 하나",
+          "그룹 하나 (집계 결과)"
+        ],
+        [
+          "집계 함수 조건",
+          "쓸 수 없음 (예: COUNT( * ) > 5 는 HAVING)",
+          "쓸 수 있음"
+        ]
+      ],
+      "related": [
+        [
+          "select-aggregate",
+          "집계 함수 · GROUP BY · HAVING"
+        ],
+        [
+          "where-operators",
+          "WHERE 조건 연산자"
+        ]
+      ],
+      "heads": [
+        "WHERE",
+        "HAVING"
+      ]
+    },
+    {
+      "id": "nested-vs-include",
+      "title": "Nested Structure vs .INCLUDE",
+      "tagline": "하이픈 두 번 vs 한 번",
+      "diff": "이름을 붙여 넣으면 Nested(구조 안의 구조)라 하이픈을 두 번 쓰고, .INCLUDE 로 넣으면 필드가 같은 레벨로 펼쳐져 한 번만 씁니다.",
+      "rows": [
+        [
+          "Component 칸",
+          "NAME · ADDR 같은 이름 + 구조 타입",
+          ".INCLUDE + 구조 타입"
+        ],
+        [
+          "접근",
+          "gs_person-name-fname (하이픈 두 번)",
+          "gs_person-fname (하이픈 한 번)"
+        ],
+        [
+          "필드 이름 충돌",
+          "소속 이름이 달라 문제 없음",
+          "같은 이름이 있으면 활성화 오류, 접미사로 구분"
+        ]
+      ],
+      "related": [
+        [
+          "nested-include-structure",
+          "Nested Structure 와 .INCLUDE"
+        ]
+      ],
+      "heads": [
+        "Nested",
+        ".INCLUDE"
+      ]
+    },
+    {
+      "id": "nested-vs-deep",
+      "title": "Nested vs Deep Structure",
+      "tagline": "구조 안의 구조 vs 구조 안의 테이블",
+      "diff": "Nested 는 구조 안에 구조가 들어 있고, Deep 은 구조 안에 내부 테이블(Table Type 컴포넌트)이 들어 있습니다.",
+      "rows": [
+        [
+          "컴포넌트 타입",
+          "다른 Structure",
+          "Table Type"
+        ],
+        [
+          "담는 데이터",
+          "한 건의 하위 정보 (이름 · 주소)",
+          "여러 건의 목록 (전화번호 N개)"
+        ],
+        [
+          "값 넣기",
+          "gs-name-fname = 'Hong'.",
+          "INSERT wa INTO TABLE gs-phone. (itab 문법 그대로)"
+        ],
+        [
+          "출력",
+          "WRITE 로 필드를 바로",
+          "LOOP AT gs-phone INTO wa."
+        ]
+      ],
+      "related": [
+        [
+          "nested-include-structure",
+          "Nested Structure 와 .INCLUDE"
+        ],
+        [
+          "deep-structure",
+          "Deep Structure"
+        ]
+      ],
+      "heads": [
+        "Nested",
+        "Deep"
+      ]
+    },
+    {
+      "id": "header-vs-body",
+      "title": "so_con vs so_con[]",
+      "tagline": "Header Line 한 줄 vs Body 테이블 전체",
+      "diff": "이름만 쓰면 한 줄짜리 Header Line, 뒤에 [] 를 붙이면 조건 테이블 전체(Body)를 가리킵니다.",
+      "rows": [
+        [
+          "가리키는 것",
+          "Header Line (작업용 한 줄 구조체)",
+          "Body (조건 테이블 전체)"
+        ],
+        [
+          "APPEND · CLEAR",
+          "APPEND so_con. 은 헤더 값을 표에 추가, CLEAR so_con. 은 헤더만 비움",
+          "CLEAR so_con[]. 은 표 전체 비움"
+        ],
+        [
+          "메서드에 넘길 때",
+          "한 줄만 넘어가 타입이 안 맞음",
+          "테이블 전체가 넘어감 (이쪽을 씀)"
+        ],
+        [
+          "WHERE … IN",
+          "—",
+          "IN so_con 이면 자동으로 테이블 전체가 쓰임"
+        ]
+      ],
+      "related": [
+        [
+          "select-options-table",
+          "SELECT-OPTIONS 조건 테이블"
+        ],
+        [
+          "header-line",
+          "WITH HEADER LINE"
+        ]
+      ],
+      "heads": [
+        "so_con",
+        "so_con[]"
+      ]
+    },
+    {
+      "id": "standard-sorted-hashed",
+      "title": "Standard vs Sorted vs Hashed 테이블",
+      "tagline": "내부 테이블 세 종류",
+      "diff": "Standard 는 줄 순서대로, Sorted 는 키 순서로 자동 정렬, Hashed 는 키로만 찾는 내부 테이블입니다.",
+      "rows": [
+        [
+          "접근 방법",
+          "인덱스·키 모두",
+          "인덱스·키 모두",
+          "키로만 (INDEX 로 읽으면 오류)"
+        ],
+        [
+          "키 종류",
+          "NON-UNIQUE 만 (중복 허용)",
+          "UNIQUE · NON-UNIQUE 모두",
+          "UNIQUE 만"
+        ],
+        [
+          "줄 순서",
+          "넣은 순서",
+          "키 순서로 자동 정렬",
+          "순서 개념 없음 (키로 찾음)"
+        ],
+        [
+          "키로 찾을 때",
+          "처음부터 훑음 (선형 검색)",
+          "빠름",
+          "빠름"
+        ]
+      ],
+      "related": [
+        [
+          "internal-table-kinds",
+          "내부 테이블 종류와 선언"
+        ],
+        [
+          "read-table",
+          "READ TABLE"
+        ]
+      ],
+      "heads": [
+        "Standard",
+        "Sorted",
+        "Hashed"
+      ]
+    }
+  ]
+}

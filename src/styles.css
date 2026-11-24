@@ -304,3 +304,10 @@ tr.cur td { background: var(--accent-bg); }
   .hop { grid-template-columns: minmax(0, 1fr); }
   .hop-ar { text-align: left; }
 }
+
+/* 헷갈리는 짝: 비교표. 좁은 화면에서도 가로 스크롤 없이 칸 안에서 줄바꿈 */
+.cmp-tbl { max-width: 100%; table-layout: fixed; }
+.cmp-tbl th, .cmp-tbl td { overflow-wrap: anywhere; word-break: keep-all; }
+.cmp-tbl thead th { color: var(--abap); }
+.cmp-tbl tbody th { font-weight: 600; width: 22%; color: var(--ink); }
+.cmp-list .m-name { overflow-wrap: break-word; word-break: normal; }

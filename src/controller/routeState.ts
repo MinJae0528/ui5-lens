@@ -20,7 +20,7 @@ export function modeForProduct(p: Product, lastUi5: string | null | undefined): 
   return (UI5_MODES as readonly string[]).includes(lastUi5 ?? '') ? (lastUi5 as Ui5Mode) : 'name';
 }
 
-export const ABAP_ZONES = ['', 'tcode'] as const;
+export const ABAP_ZONES = ['', 'tcode', 'compare'] as const;
 export type AbapZone = (typeof ABAP_ZONES)[number];
 
 export interface Route {
@@ -39,7 +39,7 @@ export interface Route {
   ab: string;
   /** ABAP 기본 문법에서 고른 그룹 이름(예: 데이터베이스). 비어 있으면 전체 */
   ag: string;
-  /** ABAP 안의 구역: '' 문법 사전 / 'tcode' tcode 사전. 항목(ab)·그룹(ag)은 두 구역이 같은 변수를 쓴다 */
+  /** ABAP 안의 구역: '' 문법 사전 / 'tcode' tcode 사전 / 'compare' 헷갈리는 짝. 항목(ab)·그룹(ag)은 두 구역이 같은 변수를 쓴다 */
   az: AbapZone;
 }
 export const DEFAULT_ROUTE: Route = { v: '', q: '', api: null, tab: 'overview', inh: false, mq: '', m: 'name', kf: 'all', lib: '', mem: '', tp: '', ab: '', ag: '', az: '' };
@@ -85,7 +85,7 @@ export function parse(hash: string): Route {
     v: p.get('v') ?? '', q: p.get('q') ?? '', api: api && isSafeApiName(api) ? api : null, tab: p.get('tab') ?? 'overview',
     inh: p.get('inh') === '1', mq: p.get('mq') ?? '',
     m: oneOf(MODES, p.get('m'), 'name'), kf: oneOf(KIND_FILTERS, p.get('kf'), 'all'),
-    lib: LIB_RE.test(lib) ? lib : '', mem: MEM_RE.test(mem) ? mem : '', tp: TOPIC_RE.test(tp) ? tp : '', ab: ABAP_RE.test(ab) ? ab : '', ag: AG_RE.test(ag) ? ag : '', az: p.get('az') === 'tcode' ? 'tcode' : '',
+    lib: LIB_RE.test(lib) ? lib : '', mem: MEM_RE.test(mem) ? mem : '', tp: TOPIC_RE.test(tp) ? tp : '', ab: ABAP_RE.test(ab) ? ab : '', ag: AG_RE.test(ag) ? ag : '', az: oneOf(ABAP_ZONES, p.get('az'), ''),
   };
 }
 

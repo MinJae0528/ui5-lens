@@ -7,7 +7,7 @@ import { resolve } from 'node:path';
 const OUT = 'docs/assets/mockups';
 mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
-const names = { m1: '01-home', m2: '02-detail', m3: '03-abap-syntax', m4: '04-abap-tcode', m5: '05-theme-toggle' };
+const names = { m1: '01-home', m2: '02-detail', m3: '03-abap-syntax', m4: '04-abap-tcode', m5: '05-theme-toggle', m6: '06-compare-list', m7: '07-compare-link', m8: '08-compare-states' };
 for (const theme of ['light', 'dark']) {
   const page = await browser.newPage({ viewport: { width: 1100, height: 900 } });
   await page.goto(pathToFileURL(resolve('docs/mockups/screens.html')).href);

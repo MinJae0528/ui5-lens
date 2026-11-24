@@ -44,6 +44,9 @@ export interface Tcode {
   routes: TcodeRoute[]; does: string[]; inClass: string; notes: string[]; related: { id: string; why: string }[];
   concept?: { id: string; label: string }; commands?: TcodeCommand[]; links: AbapLink[];
 }
+/** 헷갈리는 짝: 비슷한 두세 개념을 나란히 비교. rows 의 각 줄은 [항목, ...heads 마다 한 칸] */
+export interface CompareEntry { id: string; title: string; tagline: string; diff: string; heads: string[]; rows: string[][]; related: [string, string][] }
+export interface CompareDoc { category: string; title: string; provenance: { generator: string; review: string; executed: boolean; note: string; checkedAt: string }; entries: CompareEntry[] }
 export interface TcodeDoc { category: string; title: string; provenance: AbapDoc['provenance']; sites: Record<string, string>; groups: string[]; entries: Tcode[] }
 /** 문서 가이드 목차: [key, 제목, 하위 목록 | 0] */
 export type TopicNode = [string, string, TopicNode[] | 0];

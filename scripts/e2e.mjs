@@ -566,7 +566,7 @@ await page.context().close();
   let p = await fresh();
   const hash = () => p.evaluate(() => decodeURIComponent(location.hash));
   await p.goto(URL_ + '#?m=abap'); await p.waitForSelector('.azones');
-  check('ABAP 구역 탭 2개, 기본은 문법 사전', (await p.$$eval('.azones [role=tab]', (e) => e.map((x) => `${x.querySelector('.az-label').textContent}:${x.getAttribute('aria-selected')}`).join('|'))) === '문법 사전:true|tcode 사전:false');
+  check('ABAP 구역 탭 3개, 기본은 문법 사전', (await p.$$eval('.azones [role=tab]', (e) => e.map((x) => `${x.querySelector('.az-label').textContent}:${x.getAttribute('aria-selected')}`).join('|'))) === '문법 사전:true|tcode 사전:false|헷갈리는 짝:false');
   check('ABAP 탭 이름 아래에 문법·tcode 개수 표시', /tcode/.test(await p.textContent('#ptab-abap')));
   await p.click('.gchip:has-text("개념·환경")');
   check('문법 사전: 개념·환경 그룹 11개', (await p.$$('.member-head')).length === 11);
@@ -627,6 +627,40 @@ await page.context().close();
   await mp2.goto(URL_ + '#?m=abap&az=tcode&ab=cmd'); await mp2.waitForSelector('.tbl');
   check('모바일(Command Field 표): 페이지 가로 스크롤 없음', await mp2.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
   await ctx2.close();
+}
+
+// ---- 19d. ABAP 헷갈리는 짝(구역 3번째): 목록·비교표·문법 항목과의 왕복, 주소 복원
+{
+  let p = await fresh();
+  const hash = () => p.evaluate(() => decodeURIComponent(location.hash));
+  await p.goto(URL_ + '#?m=abap'); await p.waitForSelector('.azones');
+  await p.click('#az-compare'); await p.waitForSelector('#compare-q');
+  check('헷갈리는 짝: 목록 10개, 그룹 칩 없음, 주소 az=compare', (await p.$$('.member-head')).length === 10 && (await p.$$('.gchip')).length === 0 && /az=compare/.test(await hash()));
+  await p.click('.member-head:has-text("INTO TABLE vs APPENDING TABLE")'); await p.waitForSelector('.cmp-tbl');
+  check('비교 상세: 한 줄 차이와 표(머리 2칸+항목 3행)', (await p.textContent('.detail-pane .lead')).includes('APPENDING') && (await p.$$('.cmp-tbl tbody tr')).length === 3 && (await p.$$('.cmp-tbl thead th')).length === 3);
+  await p.click('.detail-pane .relchip:has-text("PACKAGE SIZE")'); await p.waitForSelector('.detail-pane .api-name:has-text("PACKAGE SIZE")');
+  check('"자세히 보기" 칩 → 문법 사전의 PACKAGE SIZE 상세(az 사라짐)', (await p.getAttribute('#az-syntax', 'aria-selected')) === 'true' && !/az=compare/.test(await hash()) && /ab=package-size/.test(await hash()));
+  check('문법 상세 아래 "이 항목과 헷갈리는 짝" 칩', (await p.textContent('.detail-pane')).includes('이 항목과 헷갈리는 짝'));
+  await p.click('.detail-pane .relchip:has-text("INTO TABLE vs APPENDING TABLE")'); await p.waitForSelector('.cmp-tbl');
+  check('짝 칩 → 비교 화면으로 이동, 주소에 az=compare&ab=into-vs-appending', /az=compare/.test(await hash()) && /ab=into-vs-appending/.test(await hash()));
+  await p.reload(); await p.waitForSelector('.cmp-tbl');
+  check('새로고침해도 같은 비교 유지', (await p.textContent('.detail-pane .api-name')).startsWith('INTO TABLE'));
+  await p.click('.member-head:has-text("Standard vs Sorted vs Hashed")'); await p.waitForSelector('.cmp-tbl');
+  check('3열 비교(Standard·Sorted·Hashed): 머리 4칸', (await p.$$('.cmp-tbl thead th')).length === 4);
+  await p.fill('#compare-q', 'xyzxyz');
+  check('검색 결과 없음 안내', (await p.textContent('.empty')).includes('맞는 비교가 없습니다'));
+  await p.fill('#compare-q', 'Domain');
+  check('"Domain" 검색 → Domain vs Data Element 하나', (await p.$$('.member-head')).length === 1);
+  await p.goto(URL_ + '#?m=abap&ab=select'); await p.waitForSelector('.detail-pane .api-name');
+  check('옛 주소(#?m=abap&ab=select)는 그대로 문법 사전의 SELECT', (await p.textContent('.detail-pane .api-name')) === 'SELECT');
+  await p.focus('#az-tcode'); await p.keyboard.press('ArrowRight'); await p.waitForSelector('#compare-q');
+  check('구역 탭: tcode 에서 오른쪽 화살표로 헷갈리는 짝 이동, 포커스가 따라감', (await p.evaluate(() => document.activeElement?.id)) === 'az-compare');
+  check('헷갈리는 짝 중 페이지 오류 없음', p.errs.length === 0, p.errs.join(' | '));
+  await p.context().close();
+  const mp3 = await (await browser.newContext({ viewport: { width: 390, height: 800 } })).newPage();
+  await mp3.goto(URL_ + '#?m=abap&az=compare&ab=standard-sorted-hashed'); await mp3.waitForSelector('.cmp-tbl');
+  check('모바일(헷갈리는 짝, 3열 표): 가로 스크롤 없음', await mp3.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1));
+  await mp3.context().close();
 }
 
 // ---- 19d. 화면 모드(라이트·다크): 첫 방문은 시스템 설정, 버튼 2개로 선택, 선택은 저장

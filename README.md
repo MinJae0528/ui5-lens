@@ -14,6 +14,7 @@
 |---|---|---|
 | **UI5** | 클래스·메서드 이름이나 "하고 싶은 일"로 API 를 찾고, 구조·사용 조건·예제를 한국어로 봅니다. UI5 31개 버전을 고를 수 있습니다 | `Table` 입력 → `sap.m.Table` 상세 |
 | **ABAP · 문법 사전** | ABAP 기본 문법 87개를 한 줄 설명, 예제, 주의점, 공식 링크로 봅니다 | `DATA`, `LOOP AT`, 내부 테이블 |
+| **ABAP · 헷갈리는 짝** | `INTO TABLE` vs `APPENDING TABLE`, Domain vs Data Element처럼 비슷해서 헷갈리는 개념 10쌍을 나란히 놓은 표로 비교합니다 | `PARAMETERS` vs `SELECT-OPTIONS` |
 | **ABAP · tcode 사전** | "테이블 보기" 같은 하고 싶은 일이나 `/nse38` 같은 명령으로 tcode 15개를 찾습니다 | `SE38`, `SE37`, `SE91` |
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/screens/03-detail-dark.png"><img alt="검색 결과와 상세" src="docs/assets/screens/03-detail.png"></picture>
@@ -22,7 +23,7 @@
 
 ## 어떻게 만들었나
 
-기획 → TO DO → 설계(목업) → 코드 순서를 지키고, 단위 테스트(111개)와 브라우저 자동 시험(E2E 161개)으로 확인합니다. 모두 무료 도구로 내 PC에서 돌리며 비용은 0원입니다.
+기획 → TO DO → 설계(목업) → 코드 순서를 지키고, 단위 테스트(113개)와 브라우저 자동 시험(E2E 174개)으로 확인합니다. 모두 무료 도구로 내 PC에서 돌리며 비용은 0원입니다.
 
 - 설계·목업·개발 흐름 보기: [docs/development-process.md](docs/development-process.md)
 - 테스트와 E2E를 왜, 어디서, 얼마에 쓰는지: [docs/testing.md](docs/testing.md)
