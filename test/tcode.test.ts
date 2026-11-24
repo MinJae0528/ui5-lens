@@ -72,8 +72,8 @@ test('개념·환경 그룹과 새 문법 항목이 문법 사전에 들어 있�
   const g = (name: string) => basics.entries.filter((e) => e.group === name).length;
   assert.equal(g('개념·환경'), 11);
   assert.equal(g('모듈화'), 7);
-  assert.equal(g('ABAP Dictionary'), 4);
-  for (const id of ['builtin-types-fixed', 'builtin-types-length', 'like-global-type', 'initial-default', 'text-symbol', 'arithmetic-assign', 'chained-comments', 'sy-index', 'comparison-operators', 'builtin-functions', 'message-class', 'debugger', 'sy-fields', 'structure-types', 'internal-table-kinds', 'lines-of', 'itab-clear-free', 'modularization-overview', 'subroutine', 'parameter-passing', 'function-module', 'bapi', 'global-class', 'select-three-forms', 'select-into-variants', 'select-order-distinct', 'select-aggregate', 'where-operators', 'package-size', 'join-select', 'open-sql-db-interface', 'report-events', 'select-options-table', 'write-position-options', 'header-line', 'class-method-call', 'p-type-length', 'ddic-overview', 'domain-data-element', 'ddic-structure-table-type', 'ddic-curr-cuky']) assert.ok(basics.entries.some((e) => e.id === id), id);
+  assert.equal(g('ABAP Dictionary'), 7);
+  for (const id of ['builtin-types-fixed', 'builtin-types-length', 'like-global-type', 'initial-default', 'text-symbol', 'arithmetic-assign', 'chained-comments', 'sy-index', 'comparison-operators', 'builtin-functions', 'message-class', 'debugger', 'sy-fields', 'structure-types', 'internal-table-kinds', 'lines-of', 'itab-clear-free', 'modularization-overview', 'subroutine', 'parameter-passing', 'function-module', 'bapi', 'global-class', 'select-three-forms', 'select-into-variants', 'select-order-distinct', 'select-aggregate', 'where-operators', 'package-size', 'join-select', 'open-sql-db-interface', 'report-events', 'select-options-table', 'write-position-options', 'header-line', 'class-method-call', 'p-type-length', 'ddic-overview', 'domain-data-element', 'ddic-structure-table-type', 'ddic-curr-cuky', 'nested-include-structure', 'deep-structure', 'type-group', 'loop-select-pattern']) assert.ok(basics.entries.some((e) => e.id === id), id);
 });
 
 test('수업 서버 정보는 자료에 없다 (공개 저장소에 올라가므로)', () => {

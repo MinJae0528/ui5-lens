@@ -2015,9 +2015,10 @@
         "Structure 의 Component Type 에 다른 Structure 나 Transparent Table 을 넣으면 그 구조가 통째로 들어간 중첩(Nested) Structure 가 됩니다. 필드를 펼쳐 같은 레벨에 넣으려면 .INCLUDE 를 쓰고, Table Type 을 넣으면 컴포넌트 하나가 내부 테이블인 깊은(Deep) Structure 가 됩니다.",
         "Table Type 의 Line Type 에는 Structure · Data Element · Transparent Table 이 올 수 있습니다. Data Element 를 넣으면 필드 1개짜리 내부 테이블(같은 필드 값을 여러 건 담을 때)이 되지만 실제로 만들 일은 많지 않습니다. Domain 은 Data Element 에 기술 속성을 주는 오브젝트라 프로그램에서 TYPE 으로 직접 쓰는 타입이 아니므로 Line Type 이 될 수 없습니다.",
         "Table Type 의 Initialization and Access 탭 기본은 Standard Table, Primary Key 탭 기본은 Standard Key 이고 Key components 를 고르면 지정한 필드가 키가 됩니다.",
-        "Structure 는 키를 설정하지 않습니다. Structure 종류는 이후 수업에서 더 다룹니다.",
+        "Structure 는 키를 설정하지 않습니다. 종류는 Simple(필드만) · Nested(구조 안에 구조) · Deep(구조 안에 테이블) 세 가지이고 세부는 “Nested Structure 와 .INCLUDE”, “Deep Structure” 항목을 보세요.",
         "코드 입력 중 gs_name- 다음에 Ctrl+Space 를 누르면 만든 Structure 의 Component 목록이 뜹니다.",
-        "Component 이름과 타입만 입력하면 나머지는 자동으로 채워집니다. 활성화에 실패하면 먼저 Component Type 으로 쓴 Data Element 가 모두 활성화(Active)됐는지 봅니다."
+        "Component 이름과 타입만 입력하면 나머지는 자동으로 채워집니다. 활성화에 실패하면 먼저 Component Type 으로 쓴 Data Element 가 모두 활성화(Active)됐는지 봅니다.",
+        "Table Type 을 만든 뒤 SE11 에서 조회하고 라인 타입을 더블클릭하면 구조를 볼 수 있습니다."
       ],
       "links": [
         {
@@ -2042,8 +2043,11 @@
       "syntax": "\"오류: ZSTRUCT-PAYMENTSUM (specify reference table AND reference field)\n\"해결\n1) 통화 키 컴포넌트 추가   CURRENCY   Component Type: 통화 키(CUKY) 타입 Data Element\n2) Currency/Quantity Fields 탭에서 PAYMENTSUM 줄에\n     Reference table = 이 구조의 이름, Reference field = CURRENCY\n3) 저장 -> 활성화",
       "notes": [
         "필드 타입과 짝으로 필요한 참조 필드: CURR(금액) ↔ CUKY(통화 키), QUAN(수량) ↔ UNIT(단위)입니다.",
-        "수업 실습에서는 강사님 지시로 해당 금액 줄을 삭제하고 활성화했고, 그 이유는 다음 수업에서 다룬다고 했습니다. 위 해결 방법은 원인을 미리 짚어 본 참고 내용입니다.",
-        "활성화 오류 메시지는 “... was not activated” 뒤에 어느 컴포넌트가 문제인지 함께 나옵니다."
+        "수업 25일차에는 강사님 지시로 해당 금액 줄을 삭제하고 활성화했고, 26일차에 그 이유(참조를 아직 안 배워서)가 설명됐습니다.",
+        "활성화 오류 메시지는 “... was not activated” 뒤에 어느 컴포넌트가 문제인지 함께 나옵니다.",
+        "Reference field 에 넣는 CURR 은 타입 이름이 아니라 CUKY 타입으로 만든 통화 키 컴포넌트의 이름입니다. 내 Structure 의 통화 키 필드 이름이 CURRENCY 이면 CURRENCY 를 입력합니다(AI 보충).",
+        "출력할 때는 WRITE gs-amount CURRENCY gs-curr. 처럼 통화 키를 같이 줍니다. KRW 처럼 소수 자리가 0인 통화는 내부 저장 방식 때문에 15000 을 넣으면 1,500,000 처럼 100배로 보일 수 있습니다(AI 보충).",
+        "실습에서 통화 코드(KRW·USD·EUR)는 금액 필드가 아니라 금액이 참조하는 CUKY 필드에 넣고, 금액은 따옴표 없이 숫자로 넣습니다(amount = 150)."
       ],
       "links": [
         {
@@ -2052,7 +2056,122 @@
           "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/ddic-data-types"
         }
       ],
-      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-23)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+      "basis": "수업 정리노트(교재 BC400·BC430·TAW10, 2026-11-19~11-24)와 수업 노션 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "nested-include-structure",
+      "group": "ABAP Dictionary",
+      "term": "Nested Structure 와 .INCLUDE (컴포넌트 접근 방식 차이)",
+      "summary": "Structure 안에 다른 Structure 를 넣는 방법은 두 가지입니다. 이름을 붙여 넣으면 Nested(구조 안의 구조)가 되어 하이픈을 두 번 쓰고, .INCLUDE 로 넣으면 필드가 같은 레벨로 펼쳐져 하이픈을 한 번만 씁니다.",
+      "whenToUse": "이름·주소처럼 이미 만든 Structure 를 재사용해 더 큰 Structure 를 만들 때, 프로그램에서 값을 어떻게 접근할지 정할 때.",
+      "syntax": "\"SE11 Structure ZPERSON (예: 이미 만든 ZSTNAME, ZADDRESS 를 재사용)\n  Component   Component Type\n  NAME        ZSTNAME      <- 이름을 붙여 넣음: Nested\n  ADDR        ZADDRESS\n\nDATA gs_person TYPE zperson.\ngs_person-name-fname = 'Hong'.     \"하이픈 두 번: name 까지가 Structure, 한 번 더 들어가야 필드\ngs_person-addr-city  = 'Seoul'.\n\n\"Component 칸에 NAME·ADDR 대신 .INCLUDE 를 쓰면\n  .INCLUDE    ZSTNAME      <- 필드가 내 컴포넌트처럼 같은 레벨로 들어옴\n  .INCLUDE    ZADDRESS\ngs_person-fname = 'Hong'.          \"하이픈 한 번\ngs_person-city  = 'Seoul'.",
+      "notes": [
+        "구조 컴포넌트를 쓰는 곳에서 오른쪽에 Structure 아이콘이 표시되면 Nested 로 들어간 것입니다. 두 Structure 를 .INCLUDE 한 뒤에는 펼치기 버튼으로 포함된 필드를 확인합니다.",
+        "활성화는 아래에서 위로 합니다: Domain → Data Element → Structure. 상태는 New/Inactive → Active 로 바뀝니다. 아직 없는 Data Element 는 저장 후 더블클릭해서 만들고, 그 Domain 도 같은 방식으로 만듭니다.",
+        ".INCLUDE 한 두 Structure 에 같은 이름의 필드가 있으면 활성화 오류가 납니다(AI 보충). 접미사(Suffix)를 붙여 구분합니다.",
+        "하이픈을 한 번 덜 쓰는 것이 .INCLUDE 의 장점이고, 필드의 소속이 이름으로 드러나는 것이 Nested 의 장점입니다.",
+        "Simple Structure 는 공식 용어로는 Flat Structure 라고도 부릅니다(AI 보충)."
+      ],
+      "links": [
+        {
+          "label": "Nested Structure",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/nested-structure"
+        },
+        {
+          "label": "Flat Structure",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/flat-structure"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC430, 2026-11-24)와 수업 노션 26일차 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "deep-structure",
+      "group": "ABAP Dictionary",
+      "term": "Deep Structure (구조 안의 내부 테이블)",
+      "summary": "Structure 의 컴포넌트 하나가 Table Type 이면 Deep Structure 입니다. 한 건의 정보 안에 여러 줄의 목록(예: 사람 한 명에 전화번호 여러 개)을 담을 수 있습니다.",
+      "whenToUse": "한 객체에 개수 제한 없이 목록을 붙여야 할 때(직원 1명 – 전화번호 N개, 주문 1건 – 품목 N개).",
+      "syntax": "\"SE11: 한 줄 모양(STR_PHONE) → 그걸 라인 타입으로 Table Type(ZTT_PHONE) 활성화 →\n\"      Structure ZPERSON 의 PHONE 컴포넌트 타입을 ZTT_PHONE 으로 바꾸고 활성화\n\nDATA: wa_person TYPE zperson,\n      wa_phone  TYPE str_phone.\n\nwa_phone-p_type   = 'P'.\nwa_phone-p_number = '010-0000-0000'.\nINSERT wa_phone INTO TABLE wa_person-phone.   \"구조 안의 itab 에도 itab 문법 그대로\nCLEAR wa_phone.\n\nLOOP AT wa_person-phone INTO wa_phone.\n  WRITE: / wa_phone-p_type, wa_phone-p_number.\nENDLOOP.",
+      "notes": [
+        "구분: Nested = 구조 안에 구조, Deep = 구조 안에 테이블. 테이블 타입 컴포넌트가 하나라도 있으면 Deep 입니다.",
+        "디버거에서 보면 ls_person TYPE zperson 은 deep structure, lt_phone LIKE ls_person-phone 은 내부 테이블, ls_phone LIKE LINE OF ls_person-phone 은 구조(워크 에어리어)입니다.",
+        "타입만 만들면 값을 담지 못하고, 프로그램에서 DATA gt TYPE 테이블타입. 으로 쓰는 순간 변수(itab)가 됩니다. 이때 TABLE OF 를 또 붙이면 테이블의 테이블이 되니 주의합니다.",
+        "구조 안 itab 에 줄을 넣을 때: Standard 는 APPEND wa TO gs-테이블, Sorted·Hashed 는 INSERT wa INTO TABLE gs-테이블(키 순서 자리에 들어감). 하나 넣은 뒤에는 워크 에어리어를 CLEAR 하고 다시 씁니다.",
+        "비유: 맛집 앱에서 가게 1개(객체) 안에 메뉴 목록(배열)이 여러 개 들어간 모양입니다."
+      ],
+      "links": [
+        {
+          "label": "Deep Structure",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/deep-structure"
+        },
+        {
+          "label": "Nested Structure",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/nested-structure"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC430, 2026-11-24)와 수업 노션 26일차 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "type-group",
+      "group": "ABAP Dictionary",
+      "term": "Type Group (TYPE-POOLS · COL · ICON)",
+      "summary": "Type Group 은 타입과 상수를 한 묶음으로 관리하는 Dictionary 오브젝트입니다. 직접 만들 일은 거의 없고, SAP 가 만들어 둔 COL(색)·ICON(아이콘) 상수를 쓰는 용도가 대부분입니다.",
+      "whenToUse": "WRITE 에 색을 입히거나 리스트에 아이콘을 찍을 때.",
+      "syntax": "TYPE-POOLS: col, icon.          \"REPORT 바로 아래 맨 위. 최신 시스템은 생략해도 자동으로 불러옴\n\nWRITE 'Text' COLOR col_negative.        \"이름으로 색 지정\nWRITE 'Text' COLOR 6.                   \"숫자로도 가능\nWRITE icon_green_light AS ICON.         \"이름으로 아이콘\nWRITE '@08@' AS ICON.                   \"ID 로도 가능 (문자열이 아니라 아이콘이라는 표시가 AS ICON)",
+      "notes": [
+        "만드는 곳: SE11 → Type Group. 이름은 최대 5자, Z 나 Y 로 시작해야 합니다. 안의 TYPES·CONSTANTS 이름은 Type Group 이름 + _ 로 시작해야 하고(그룹 이름이 ZTE 이면 zte_...) 다른 접두어를 쓰면 문법 오류입니다.",
+        "COLOR 숫자: 0 BACKGROUND · 1 HEADING · 2 NORMAL · 3 TOTAL(노랑) · 4 KEY · 5 POSITIVE(초록) · 6 NEGATIVE(빨강) · 7 GROUP.",
+        "아이콘은 코드만 보고 모양을 알 수 없으니 명령 필드에 /o ICON 처럼 입력해 ICON 트랜잭션을 새 창으로 열어 확인합니다.",
+        "TYPE-POOLS 문장은 7.0 EhP2 이후에는 없어도 자동으로 불러오므로 obsolete 로 표시됩니다(AI 보충). 수업에서는 쓰는 것을 기준으로 했습니다."
+      ],
+      "links": [
+        {
+          "label": "Type Pool",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/type-pool"
+        },
+        {
+          "label": "WRITE 출력 옵션",
+          "site": "standard",
+          "url": "https://help.sap.com/doc/abapdocu_latest_index_htm/latest/en-US/abapwrite_ext_options.html"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC430, 2026-11-24)와 수업 노션 26일차 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
+    },
+    {
+      "id": "loop-select-pattern",
+      "group": "내부 테이블",
+      "term": "LOOP 안에서 SELECT 하지 않기 (미리 담고 READ TABLE)",
+      "summary": "반복문 안에서 줄마다 SELECT 를 하면 DB 를 수십·수백 번 부르게 되어 느립니다. 필요한 데이터를 LOOP 전에 내부 테이블에 한 번에 담고, LOOP 안에서는 READ TABLE 로 찾아 채웁니다.",
+      "whenToUse": "결과 내부 테이블의 각 줄에 다른 테이블 정보(예: 노선의 출발·도착 도시)를 채워 넣을 때.",
+      "syntax": "TYPES: BEGIN OF ty_spfli,\n         carrid   TYPE s_carr_id,\n         connid   TYPE s_conn_id,\n         cityfrom TYPE s_from_cit,\n         cityto   TYPE s_to_city,\n       END OF ty_spfli.\nDATA: gs_spfli TYPE ty_spfli, gt_spfli TYPE TABLE OF ty_spfli.\n\n\"LOOP 전에 필요한 4개 필드만 한 번에\nSELECT carrid connid cityfrom cityto FROM spfli INTO TABLE gt_spfli WHERE carrid = pa_car.\n\nLOOP AT gt_result INTO gs_result.\n  READ TABLE gt_spfli INTO gs_spfli WITH KEY carrid = gs_result-carrid connid = gs_result-connid.\n  IF sy-subrc = 0.\n    gs_result-cityfrom = gs_spfli-cityfrom.\n  ENDIF.\n  MODIFY gt_result FROM gs_result.      \"지금 줄을 테이블에 반영\nENDLOOP.",
+      "notes": [
+        "LOOP AT gt INTO gs 는 한 줄씩 복사, MODIFY gt FROM gs 는 지금 줄 고치기(내부 테이블의 UPDATE), READ TABLE ... WITH KEY 는 조건에 맞는 한 줄 찾기(엑셀의 VLOOKUP 비슷)이고 sy-subrc 0 이면 찾은 것입니다.",
+        "모든 줄에서 같은 값(예: 항공사 이름)은 LOOP 밖에서 한 번만 SELECT SINGLE 로 가져오고, 줄마다 달라지는 값(노선별 도시)만 줄마다 찾습니다.",
+        "처음 읽는 SELECT 가 아니면 SELECT * 는 지양하고 필요한 필드만 가져옵니다(수업 실습 규칙).",
+        "Selection Screen 라벨은 직접 타이핑하는 것이 아니라 Goto → Text Elements → Selection Texts 에서 Dictionary Ref. 를 체크하면 Data Element 의 라벨이 쓰입니다."
+      ],
+      "links": [
+        {
+          "label": "READ TABLE",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/read-table-itab"
+        },
+        {
+          "label": "LOOP AT itab",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/loop-at-itab"
+        },
+        {
+          "label": "MODIFY itab",
+          "site": "cloud",
+          "url": "https://help.sap.com/docs/abap-cloud/abap-keyword/modify-itab"
+        }
+      ],
+      "basis": "수업 정리노트(교재 BC430, 2026-11-24)와 수업 노션 26일차 필기를 정리한 것입니다. 공식 문서로 직접 확인한 문장이 아니라 AI 요약입니다."
     }
   ]
 }
