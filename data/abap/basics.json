@@ -46,7 +46,8 @@
       "syntax": "DATA(lv_sum) = 1 + 2.\nSELECT * FROM sflight INTO TABLE @DATA(lt_flights).\nLOOP AT lt_flights INTO DATA(ls_flight).\n  ...\nENDLOOP.",
       "notes": [
         "같은 이름이 이미 있으면 선언이 아니라 다른 의미로 해석될 수 있습니다.",
-        "오래된 시스템(7.40 미만)에서는 쓸 수 없습니다."
+        "오래된 시스템(7.40 미만)에서는 쓸 수 없습니다.",
+        "계산 결과의 타입을 맞추고 싶으면 DATA(lv_result) = CONV zassets( pa_activ - pa_liabs ). 처럼 CONV 로 Data Element 타입을 지정할 수 있습니다. 수업 범위 밖이라 참고용입니다(정리노트 11-23 기준 AI 보충)."
       ],
       "links": [
         {
@@ -1811,7 +1812,8 @@
         "NUMC 타입 필드(connid 는 NUMC 4)에 low = '17' 을 넣으면 0017 로 채워집니다.",
         "선택 화면에서 조건이 2줄 이상이면 첫 칸에는 첫 값만 보이고 오른쪽 Multiple Selection 버튼이 초록색으로 바뀝니다. 눌러 보면 Select Single Values 와 Select Ranges 탭에 나뉘어 있습니다.",
         "입력칸 제목에 Data Element 의 라벨을 쓰려면 Goto → Text Elements → Selection Texts 에서 Dictionary Ref. 를 체크합니다. Dictionary 에서 라벨을 바꾸고 활성화하면 화면 라벨도 같이 바뀌고, 로그온 언어별 번역도 따라옵니다.",
-        "조건 테이블의 이름은 보통 so_ 로 시작합니다(Select-Options 약자). PARAMETERS 는 pa_ 를 많이 씁니다."
+        "조건 테이블의 이름은 보통 so_ 로 시작합니다(Select-Options 약자). PARAMETERS 는 pa_ 를 많이 씁니다.",
+        "새 문법으로는 한 번에 채울 수 있습니다: so_con[] = VALUE #( ( sign = 'I' option = 'EQ' low = '0400' ) ( sign = 'I' option = 'BT' low = '2402' high = '2407' ) ). APPEND·CLEAR 를 줄인 것이고 수업 범위 밖이라 참고용입니다(정리노트 11-23 기준 AI 보충). CLEAR 를 빼먹으면 이전 줄의 low 등이 남아 다음 조건에 섞입니다."
       ],
       "links": [
         {
