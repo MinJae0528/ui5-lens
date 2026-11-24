@@ -150,5 +150,76 @@ DATA lv_name  TYPE string VALUE 'Kim'.</div>
   </div>
   <p class="ann">설계 의도: 첫 방문은 시스템 설정 그대로, 바꾸고 싶을 때만 아이콘 2개 중 하나를 누른다. 단계가 둘뿐이라 설명 없이 쓸 수 있다.</p>
 </section>
+
+<section class="screen" id="m6">
+  <div class="cap">6. ABAP 탭 · 헷갈리는 짝 (새 기능, 목업 대기) · 구역 칩에 "헷갈리는 짝" 추가</div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab">UI5</span><span class="tab on abap">ABAP</span><span class="tctl hl"><span class="ibtn l" title="라이트 모드">☀</span><span class="ibtn d" title="다크 모드">🌙</span></span></div>
+  <div class="sub"><span class="chip">문법 사전 · 87개</span><span class="chip">tcode 사전 · 15개</span><span class="chip on abap" style="outline:2px dashed var(--warn-line)">헷갈리는 짝 · 10개 (새로 생김)</span></div>
+  <div class="cols">
+    <div class="left">
+      <div class="note">AI 초안 · 미검토 · 실행 검증 안 함</div>
+      <div class="input" style="border-color:var(--abap)">검색 (예: INTO TABLE, 헤더 라인, Domain)</div>
+      <p class="muted" style="margin:0 0 6px">10 / 10개</p>
+      <div class="card sel" style="border-color:var(--abap)"><b>INTO TABLE vs APPENDING TABLE</b>덮어쓰기와 이어 붙이기</div>
+      <div class="card"><b>PARAMETERS vs SELECT-OPTIONS</b>값 1개와 조건 테이블</div>
+      <div class="card"><b>LOAD-OF-PROGRAM vs INITIALIZATION</b>프로그램 로드 시 vs 선택 화면 직전</div>
+      <div class="card"><b>Domain vs Data Element</b>기술 속성과 의미</div>
+      <div class="card"><b>Nested vs Deep Structure</b>구조 안의 구조 vs 구조 안의 테이블</div>
+      <div class="muted">… 아래로 5개 더</div>
+    </div>
+    <div class="right">
+      <h2>INTO TABLE vs APPENDING TABLE</h2>
+      <div class="note">AI 초안 · 미검토 · 실행 검증 안 함</div>
+      <div class="lbl">한 줄 차이</div>
+      <div>INTO TABLE 은 받는 내부 테이블을 비우고 새로 채우고, APPENDING TABLE 은 기존 줄 밑에 이어 붙입니다.</div>
+      <div class="lbl">나란히 보기</div>
+      <table style="border-collapse:collapse;width:100%;font-size:13px">
+        <tr><th style="text-align:left;border-bottom:1px solid var(--line);padding:6px"></th><th style="text-align:left;border-bottom:1px solid var(--line);padding:6px;color:var(--abap)">INTO TABLE</th><th style="text-align:left;border-bottom:1px solid var(--line);padding:6px;color:var(--abap)">APPENDING TABLE</th></tr>
+        <tr><td style="padding:6px;border-bottom:1px solid var(--line)">기존 내용</td><td style="padding:6px;border-bottom:1px solid var(--line)">지우고 채움</td><td style="padding:6px;border-bottom:1px solid var(--line)">그대로 두고 뒤에 붙임</td></tr>
+        <tr><td style="padding:6px;border-bottom:1px solid var(--line)">PACKAGE SIZE 와 함께</td><td style="padding:6px;border-bottom:1px solid var(--line)">묶음마다 itab 이 새 n건으로 교체</td><td style="padding:6px;border-bottom:1px solid var(--line)">계속 쌓임(메모리에 다 올라감)</td></tr>
+        <tr><td style="padding:6px">언제 쓰나</td><td style="padding:6px">한 번 읽어 처리할 때</td><td style="padding:6px">여러 번 읽은 결과를 모을 때</td></tr>
+      </table>
+      <div class="lbl">자세히 보기 (각 항목으로 이동)</div>
+      <div><span class="chip">SELECT … INTO 변형 →</span> <span class="chip">PACKAGE SIZE →</span></div>
+      <div class="lbl">공식 문서 ↗ (기존 항목과 같은 방식)</div>
+    </div>
+  </div>
+  <p class="ann">설계 의도: 구역 칩이 이미 "문법 사전 | tcode 사전"이라 같은 줄에 하나 더한다(새 구조 없음). 목록은 검색 가능, 오른쪽은 표 하나로 "무엇이 다른가"를 한눈에. 아래 "자세히 보기"는 기존 문법 항목으로 이어진다.</p>
+</section>
+
+<section class="screen" id="m7">
+  <div class="cap">7. ABAP 문법 사전 · 상세 화면 아래에 "헷갈리는 짝" 링크 추가 (보던 자리에서 바로 이어짐)</div>
+  <div class="bar"><span class="logo">ERP Lens</span><span class="tab">UI5</span><span class="tab on abap">ABAP</span><span class="tctl hl"><span class="ibtn l" title="라이트 모드">☀</span><span class="ibtn d" title="다크 모드">🌙</span></span></div>
+  <div class="sub"><span class="chip on abap">문법 사전 · 87개</span><span class="chip">tcode 사전 · 15개</span><span class="chip">헷갈리는 짝 · 10개</span></div>
+  <div class="cols">
+    <div class="left">
+      <div class="card"><b>PACKAGE SIZE</b>n건씩 나눠 읽는 루프</div>
+      <div class="card sel" style="border-color:var(--abap)"><b>SELECT … INTO 변형</b>INTO 를 채우는 방식</div>
+    </div>
+    <div class="right">
+      <h2>SELECT … INTO 변형</h2>
+      <div class="lbl">한 줄 설명 · 언제 사용하나요 · 예제 · 주의할 점</div>
+      <div class="lbl">관련 tcode <span class="muted">(기존)</span></div>
+      <div class="lbl" style="outline:2px dashed var(--warn-line);padding:4px">이 항목과 헷갈리는 짝 (새로 생김, 해당 항목에만 표시)</div>
+      <div><span class="chip">INTO TABLE vs APPENDING TABLE →</span></div>
+      <div class="lbl">공식 문서 ↗</div>
+    </div>
+  </div>
+  <p class="ann">설계 의도: 짝에 들어 있는 항목의 상세에만 칩이 보인다(없으면 칸 자체가 없음). 칩을 누르면 6번 화면의 해당 비교로 열리고, 뒤로 가기로 돌아온다.</p>
+</section>
+
+<section class="screen" id="m8">
+  <div class="cap">8. 헷갈리는 짝 · 상태와 규칙</div>
+  <div class="states">
+    <div class="st"><b>① 검색 결과 없음</b><div class="muted">“xyz” 와 맞는 비교가 없습니다. 비교는 아직 10개뿐이라 문법 사전에서 찾아 보세요(문법 사전 칩 안내).</div></div>
+    <div class="st"><b>② 자료 불러오기 실패</b><div class="muted">기존과 같게 “항목 없음이 아니라 조회 실패입니다” 경고를 보여 줍니다.</div></div>
+    <div class="st"><b>③ 모바일(좁은 화면)</b><div class="muted">목록 → 비교 순서로 한 화면씩, 상단 “← 목록” 버튼(기존 방식). 표는 가로 스크롤 없이 칸 안에서 줄바꿈.</div></div>
+  </div>
+  <div class="states">
+    <div class="st"><b>규칙</b><div class="muted">· 비교는 항목 모두 일반 개념만(개인 실수담·수업 서버 정보 없음)<br>· 짝마다 문법 항목 2개 이상과 연결, 연결 id 는 점검 스크립트가 존재 여부 확인<br>· 주소에 비교 id 를 넣어 공유·새로고침 가능, 옛 주소는 그대로 동작<br>· 서버·DB·새 라이브러리 없음, 데이터는 data/abap/compare.json 한 파일</div></div>
+  </div>
+  <p class="ann">설계 의도: 기존 두 사전과 같은 틀(경고 문구·불러오기 실패·좁은 화면)을 그대로 재사용해 새로 배울 것이 없게 한다.</p>
+</section>
+
 </body>
 </html>
